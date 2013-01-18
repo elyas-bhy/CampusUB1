@@ -1,0 +1,82 @@
+\documentclass [12pt] {report}
+\usepackage [utf8]{inputenc}
+\usepackage [french] {babel}
+\usepackage{indentfirst}
+\usepackage[T1]{fontenc} 
+\usepackage{amsfonts}
+\usepackage{natbib,hyperref}
+
+
+\bibliographystyle{unsrt}
+\begin {document}
+
+
+\title{Projet de Programmation \\ Campus UB1}
+\author{Ben Hadj Yahia Elyas\\Maribon-Ferret Paul\\Mijatovic Stefan\\Rocher Tatiana\\Herbert Ryan\\\\\\
+  \vspace{5cm}{\em Université de Bordeaux 1 Science et Technologie}}
+
+
+
+\maketitle
+\newpage
+
+\begin{abstract}
+Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Écoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilités d'ajouter aux contacts du téléphone) sélectionnés.
+\end{abstract}
+
+
+\vspace{2cm}
+\tableofcontents
+\newpage 
+
+\chapter{Étude de l'existant}
+\section{R\'ef\'erences}
+
+
+\subsection{Android Application Development}
+L'ouvrage \emph{Android Application Development}~\cite{AndroidBook} est considéré comme l'une des références majeures dans le domaine du développement des applications sur Android.
+Il présente notamment l'architecture du système d'opération Android, ainsi que les différentes phases de développement des applications utilisateurs.
+
+\subsection{Site officiel de la SDK Android}
+Le site officiel de la SDK Android~\cite{AndroidSDK} met à disposition des développeurs une panoplie d'outils et de références.
+Ce site présente ses divers services, notamment les API d'Android et autres services de Google. On y trouve aussi plusieurs domaines d'application utilisés aujourd'hui qu'on peut intégrer dans notre application.
+
+\subsection{Article sur les applications mobiles des universités}
+Cet article sur les applications mobiles des universités~\cite{Article} décrit les différentes contraintes liées au développement des applications mobiles d'universités. Étant donné que les étudiants sont de plus en plus équipés de smartphones, il devient intéressant de mettre en place une application mobile qui offre divers services utiles et faciles d'accès.
+
+
+\section{Applications existantes}
+
+\subsection{uMontréal}
+Cette application propriétaire de l'université de Montréal~\cite{uMontreal} met à disposition de ses étudiants de nombreux services, tels que des flux d'actualités, un annuaire, un calendrier, et le plan du campus.
+
+\subsection{Plateforme Blackboard}
+Cette plateforme de développement est utilisée par la majorité des applications campus mobiles aux Etats-Unis~\cite{Blackboard}. On considère par exemple iStandford~\cite{iStanford}, application Android qui présente de nombreux services (internes et externes), dans la même philosophie que l'application uMontréal.
+
+\subsection{gReader, lecteur de flux RSS}
+Ce lecteur de flux RSS~\cite{gReader} offre une interface sobre et pratique pour gérer les abonnements aux flux RSS. Notre développement de l'interface graphique pourra s'inspirer du système des onglets et des toolbars de cette application.
+
+\subsection{Lecteurs de flux RSS open-source}
+Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\cite{Feedgoal} et Android-RSS~\cite{Android-RSS}. les deux étant sous license GNU GPL (v2 et v3, respectivement). On pourra étudier s'il est rentable de reprendre quelques modules, ou de repartir sur notre propre base.
+
+
+
+\chapter{L'Application CampusUB1}
+\section{Aperçu de l'application}
+
+\subsection{Les flux RSS}
+Une des fonctionalités principales de l'application est la récupération, affichage et enregistrement des événements dans le calendrier de l'utilisateur. 
+Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
+
+\subsection{Annuaire}
+Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
+Afin d'implémenter l'annuaire au sein de notre application Android, il est évident qu'il faut exploiter les annuaires de Bordeaux 1~\cite{AnnuaireBdx1} et du Labri. Vu que les accès aux bases de données ne peuvent pas nous être communiqués, nous pensons intégrer l'annuaire à travers des requêtes GET, dans le but de parser les résultats obtenus. Pour le moment ceci semble être la meilleure solution envisageable.
+
+\subsection{Utilitaires}
+Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, potentiellement intégré à l'application Maps du smartphone.
+Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
+
+
+\bibliography{biblio}
+\end{document}
+ 
