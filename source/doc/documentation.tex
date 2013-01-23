@@ -19,6 +19,7 @@
 
 \begin{abstract}
 Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Écoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilités d'ajouter aux contacts du téléphone) sélectionnés.
+L'idée est donc de rendre les informations liées aux établissements choisis plus faciles d'accès via un smartphone android, afin de répondre à un besoin en déplacement, en donnant la possibilité d'enregistrer les informations importantes; et de les intégrer aux applications natives du téléphone, pour permettre une utilité de l'application lorsqu'une connexion internet n'est pas disponible.
 \end{abstract}
 
 
@@ -57,6 +58,24 @@ Ce lecteur de flux RSS~\cite{gReader} offre une interface sobre et pratique pour
 Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\cite{Feedgoal} et Android-RSS~\cite{Android-RSS}. les deux étant sous license GNU GPL (v2 et v3, respectivement). On pourra étudier s'il est rentable de reprendre quelques modules, ou de repartir sur notre propre base.
 
 
+\section{Ressources existantes}
+
+\subsection{LDAP}
+Le LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocol conçu uniquement pour les annuaires, et l'annuaire du LaBri s'avère être conforme aux normes LDAP.
+Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBri.
+
+\subsection{HTTP/HTML}
+Une alternative au protocol LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
+Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\'% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable.
+
+\subsection{Analyse textuelle}
+Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes :
+\begin{itemize}
+  \item Le texte peut faire référence à une évènement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
+  \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs évènements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs évènements, ou encore d'extraire la date pertinente à l'évènement.
+  \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelleconque.
+\end{itemize}
+
 
 \chapter{L'Application CampusUB1}
 \section{Aperçu de l'application}
@@ -72,6 +91,10 @@ Afin d'implémenter l'annuaire au sein de notre application Android, il est évi
 \subsection{Utilitaires}
 Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, potentiellement intégré à l'application Maps du smartphone.
 Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
+
+\subsection{Mises à jour}
+Notre application pouvant fonctionner hors connexion, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton "refresh" pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermmédiaire, où l'application effectue des mise à jour régulière lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G.
+
 
 
 \bibliography{biblio}
