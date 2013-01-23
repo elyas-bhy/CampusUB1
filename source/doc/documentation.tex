@@ -18,7 +18,7 @@
 \newpage
 
 \begin{abstract}
-Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Écoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilités d'ajouter aux contacts du téléphone) sélectionnés.
+Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Ecoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilités d'ajouter aux contacts du téléphone) sélectionnés.
 L'idée est donc de rendre les informations liées aux établissements choisis plus faciles d'accès via un smartphone android, afin de répondre à un besoin en déplacement, en donnant la possibilité d'enregistrer les informations importantes; et de les intégrer aux applications natives du téléphone, pour permettre une utilité de l'application lorsqu'une connexion internet n'est pas disponible.
 \end{abstract}
 
@@ -27,7 +27,7 @@ L'idée est donc de rendre les informations liées aux établissements choisis p
 \tableofcontents
 \newpage 
 
-\chapter{Étude de l'existant}
+\chapter{Etude de l'existant}
 \section{R\'ef\'erences}
 
 
@@ -40,7 +40,7 @@ Le site officiel de la SDK Android~\cite{AndroidSDK} met à disposition des dév
 Ce site présente ses divers services, notamment les API d'Android et autres services de Google. On y trouve aussi plusieurs domaines d'application utilisés aujourd'hui qu'on peut intégrer dans notre application.
 
 \subsection{Article sur les applications mobiles des universités}
-Cet article sur les applications mobiles des universités~\cite{Article} décrit les différentes contraintes liées au développement des applications mobiles d'universités. Étant donné que les étudiants sont de plus en plus équipés de smartphones, il devient intéressant de mettre en place une application mobile qui offre divers services utiles et faciles d'accès.
+Cet article sur les applications mobiles des universités~\cite{Article} décrit les différentes contraintes liées au développement des applications mobiles d'universités. Etant donné que les étudiants sont de plus en plus équipés de smartphones, il devient intéressant de mettre en place une application mobile qui offre divers services utiles et faciles d'accès.
 
 
 \section{Applications existantes}
@@ -97,6 +97,23 @@ Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, a
 \subsection{Mises à jour}
 Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton "refresh" pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermmédiaire, où l'application effectue des mise à jour régulière lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \linebreak
 Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement de l'argent au client.
+
+\chapter{Besoins fonctionnels et non fonctionnels}
+\section{Besoins non fonctionnels}
+
+\subsection{Besoins de performance}
+L'application CampusUB1 est destinée à toutes les personnes étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et poura éxécuter ces services de manière assez rapide même sur les smartphones moins performants.   
+
+\subsection{Besoins de fiabilité}
+Etant donné que les différent services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du Labri recherche depuis notre application le numéro de la salle où à lieu sa conférence, il a tout intérêt à récupérer une information correcte. Campus UB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courrantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que Campus UB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas.
+
+\subsection{Besoins d'intégrité de données}
+Campus UB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. 
+
+
+\subsection{Facilité d'utilisation}
+Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application.
+
 
 
 
