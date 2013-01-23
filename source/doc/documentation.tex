@@ -63,10 +63,11 @@ Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\
 \subsection{LDAP}
 Le LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocol conçu uniquement pour les annuaires, et l'annuaire du LaBri s'avère être conforme aux normes LDAP.
 Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBri.
+\linebreak Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une pas d'aide sur un forum du LaBri\cite{labriForum} qui pourrait donner une solution éventuelle.
 
 \subsection{HTTP/HTML}
 Une alternative au protocol LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
-Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\'% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable.
+Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'insipirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML
 
 \subsection{Analyse textuelle}
 Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes :
@@ -75,6 +76,7 @@ Au cours de l'implémentation de cette application, nous pourrions être amenés
   \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs évènements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs évènements, ou encore d'extraire la date pertinente à l'évènement.
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelleconque.
 \end{itemize}
+Ce sujet étant relativement complexe, il ne nous sera surement pas possible d'implémenter nos propres solutions algorithmiques, il existe plusieurs livres à ce sujet que nous comptons parcourir à la recherche d'une solution viable. Nous comptons également consulter nos professeurs de Web Sémantique afin de nous éclairer sur les meilleurs livres à consulter.
 
 
 \chapter{L'Application CampusUB1}
@@ -93,7 +95,8 @@ Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, p
 Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
 
 \subsection{Mises à jour}
-Notre application pouvant fonctionner hors connexion, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton "refresh" pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermmédiaire, où l'application effectue des mise à jour régulière lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G.
+Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton "refresh" pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermmédiaire, où l'application effectue des mise à jour régulière lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \linebreak
+Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement de l'argent au client.
 
 
 
