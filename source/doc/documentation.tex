@@ -2,12 +2,13 @@
 \usepackage [utf8]{inputenc}
 \usepackage [french] {babel}
 \usepackage[pdftex]{graphicx}
+\usepackage{sidecap}
+\usepackage{float}
+\usepackage{natbib,hyperref}
 \usepackage{indentfirst}
 \usepackage[T1]{fontenc} 
 \usepackage{amsfonts}
-\usepackage{natbib,hyperref}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-
 
 \bibliographystyle{unsrt}
 \begin {document}
@@ -61,17 +62,18 @@ Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\
 \section{Ressources existantes}
 
 \subsection{LDAP}
-Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocol conçu uniquement pour les annuaires, et l'annuaire du LaBRI s'avère être conforme aux normes LDAP.
+Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocole conçu uniquement pour les annuaires, et l'annuaire du LaBRI s'avère être conforme aux normes LDAP.
 Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBRI.\\
 Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une pas d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
 
 \subsection{HTTP/HTML}
-Une alternative au protocol LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
+Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
 Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'insipirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
 
 \subsection{Analyse textuelle}
 Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
 \begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
   \item Le texte peut faire référence à une événement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
   \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs événements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs événements, ou encore d'extraire la date pertinente à l'événement.
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
@@ -103,20 +105,34 @@ Une des autres fonctionnalités des mise à jour sera de retenir les derniers é
 
 \section{Besoins fonctionnels}
 \subsection{Fonctionnalités principales}
+\subsubsection{Choix de l'établissement}
+Etant donné que l'application présentera des services pour deux établissements différents, l'utilisateur doit pouvoir naviguer entre les établissements, s'il souhaite accéder à leurs services et informations [Fig.~\ref{fig:01}]. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 5/5.
+\item Difficultés techniques: mise à jour des URLs si les adresses des établissements sont modifiées.
+\item Validation: S'assurer que les séléctions et les changements d'établissements s'effectuent correctement.
+\end{itemize}
+
 \subsubsection{Gestion des actualités}
-En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement. L'utilisateur doit pouvoir lire l'annonce de ces événements, et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées, et demandera la validation de l'utilisateur.
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées, et demandera la validation de l'utilisateur.
 
 \subsubsection{Accès à l'annuaire}
 L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
 \begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
 \item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
 \item Visualiser les informations d'un contact.
 \item Rajouter un contact à la liste des contacts de l'utilisateur (créer un nouveau contact ou éditer existant).
 \end{itemize}
 
-\subsubsection{Choix de l'établissement}
-Etant donné que l'application présentera des services pour deux établissements différents, l'utilisateur doit pouvoir naviguer entre les établissements, s'il souhaite accéder à leurs services et informations.
-
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: x/5.
+\item Difficultés techniques: TODO
+\item Validation: TODO
+\end{itemize}
 
 \subsection{Fonctionnalités secondaires}
 Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
@@ -124,9 +140,28 @@ Dans un deuxième temps, nous comptons implémenter quelques optionalités suppl
 \subsubsection{Emploi du temps}
 L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer son groupe, et éventuellement ses cours et ses groupes.
 
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: x/5.
+\item Difficultés techniques: TODO
+\item Validation: TODO
+\end{itemize}
+
 \subsubsection{Plan du campus}
 L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'utilisateur disposera des pointeurs vers les bâtiments principaux du campus. 
 
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: x/5.
+\item Difficultés techniques: TODO
+\item Validation: TODO
+\end{itemize}
+
+% Quantification, risques (alternatives/parades), faisabilité.
+% Tests systeme, tests de validation de quantification, tests de validation des proprietes
+
+% Utilisation de l'API Android (documentation, maintenance)
+% Besoins non-fonctionnels: organisationnels
 
 
 \section{Besoins non fonctionnels}
@@ -145,6 +180,81 @@ Etant donné que les utilisateurs visés ne sont pas forcément familiers avec l
 \subsection{Portabilité}
 La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces.
 
+
+
+\chapter{Exemple d'utilisation}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/01}
+  \caption{Caption text}
+  \label{fig:01}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/02}
+  \caption{Caption text}
+  \label{fig:02}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/03}
+  \caption{Caption text}
+  \label{fig:03}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/04}
+  \caption{Caption text}
+  \label{fig:04}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/05}
+  \caption{Caption text}
+  \label{fig:05}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/06}
+  \caption{Caption text}
+  \label{fig:06}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/07}
+  \caption{Caption text}
+  \label{fig:07}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/08}
+  \caption{Caption text}
+  \label{fig:08}
+\end{SCfigure}
+
+\begin{SCfigure}[\sidecaptionrelwidth][h]
+  \centering
+  \includegraphics[width=0.75\textwidth]
+    {resources/ui_preview/09}
+  \caption{Caption text}
+  \label{fig:09}
+\end{SCfigure}
 
 \bibliography{biblio}
 \end{document}
