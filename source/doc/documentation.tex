@@ -18,8 +18,8 @@
 \newpage
 
 \begin{abstract}
-Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Ecoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilités d'ajouter aux contacts du téléphone) sélectionnés.
-L'idée est donc de rendre les informations liées aux établissements choisis plus faciles d'accès via un smartphone android, afin de répondre à un besoin en déplacement, en donnant la possibilité d'enregistrer les informations importantes; et de les intégrer aux applications natives du téléphone, pour permettre une utilité de l'application lorsqu'une connexion internet n'est pas disponible.
+Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Ecoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilité d'ajouter aux contacts du téléphone) sélectionnés.
+L'idée est donc de rendre les informations liées aux établissements choisis plus faciles d'accès via un smartphone Android, afin de répondre à un besoin en déplacement, en donnant la possibilité d'enregistrer les informations importantes, et de les intégrer aux applications natives du téléphone, pour permettre une utilité de l'application lorsqu'une connexion internet n'est pas disponible.
 \end{abstract}
 
 
@@ -28,7 +28,7 @@ L'idée est donc de rendre les informations liées aux établissements choisis p
 \newpage 
 
 \chapter{Etude de l'existant}
-\section{R\'ef\'erences}
+\section{Références}
 
 
 \subsection{Android Application Development}
@@ -61,20 +61,20 @@ Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\
 \section{Ressources existantes}
 
 \subsection{LDAP}
-Le LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocol conçu uniquement pour les annuaires, et l'annuaire du LaBri s'avère être conforme aux normes LDAP.
-Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBri.
-\linebreak Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une pas d'aide sur un forum du LaBri\cite{labriForum} qui pourrait donner une solution éventuelle.
+Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocol conçu uniquement pour les annuaires, et l'annuaire du LaBRI s'avère être conforme aux normes LDAP.
+Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBRI.\\
+Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une pas d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
 
 \subsection{HTTP/HTML}
 Une alternative au protocol LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
-Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'insipirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML
+Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'insipirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
 
 \subsection{Analyse textuelle}
-Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes :
+Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
 \begin{itemize}
-  \item Le texte peut faire référence à une évènement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
-  \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs évènements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs évènements, ou encore d'extraire la date pertinente à l'évènement.
-  \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelleconque.
+  \item Le texte peut faire référence à une événement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
+  \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs événements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs événements, ou encore d'extraire la date pertinente à l'événement.
+  \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
 \end{itemize}
 Ce sujet étant relativement complexe, il ne nous sera surement pas possible d'implémenter nos propres solutions algorithmiques, il existe plusieurs livres à ce sujet que nous comptons parcourir à la recherche d'une solution viable. Nous comptons également consulter nos professeurs de Web Sémantique afin de nous éclairer sur les meilleurs livres à consulter.
 
@@ -88,36 +88,62 @@ Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'unive
 
 \subsection{Annuaire}
 Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
-Afin d'implémenter l'annuaire au sein de notre application Android, il est évident qu'il faut exploiter les annuaires de Bordeaux 1~\cite{AnnuaireBdx1} et du Labri. Vu que les accès aux bases de données ne peuvent pas nous être communiqués, nous pensons intégrer l'annuaire à travers des requêtes GET, dans le but de parser les résultats obtenus. Pour le moment ceci semble être la meilleure solution envisageable.
+Afin d'implémenter l'annuaire au sein de notre application Android, il est évident qu'il faut exploiter les annuaires de Bordeaux 1~\cite{AnnuaireBdx1} et du LaBRI. Vu que les accès aux bases de données ne peuvent pas nous être communiqués, nous pensons intégrer l'annuaire à travers des requêtes GET, dans le but de parser les résultats obtenus. Pour le moment ceci semble être la meilleure solution envisageable.
 
 \subsection{Utilitaires}
 Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, potentiellement intégré à l'application Maps du smartphone.
 Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
 
 \subsection{Mises à jour}
-Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton "refresh" pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermmédiaire, où l'application effectue des mise à jour régulière lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \linebreak
-Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement de l'argent au client.
+Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
+Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit de l'utilisateur.
 
-\chapter{Besoins fonctionnels et non fonctionnels}
+
+\chapter{Analyse des besoins}
+
+\section{Besoins fonctionnels}
+\subsection{Fonctionnalités principales}
+\subsubsection{Gestion des actualités}
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement. L'utilisateur doit pouvoir lire l'annonce de ces événements, et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées, et demandera la validation de l'utilisateur.
+
+\subsubsection{Accès à l'annuaire}
+L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
+\begin{itemize}
+\item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
+\item Visualiser les informations d'un contact.
+\item Rajouter un contact à la liste des contacts de l'utilisateur (créer un nouveau contact ou éditer existant).
+\end{itemize}
+
+\subsubsection{Choix de l'établissement}
+Etant donné que l'application présentera des services pour deux établissements différents, l'utilisateur doit pouvoir naviguer entre les établissements, s'il souhaite accéder à leurs services et informations.
+
+
+\subsection{Fonctionnalités secondaires}
+Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
+
+\subsubsection{Emploi du temps}
+L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer son groupe, et éventuellement ses cours et ses groupes.
+
+\subsubsection{Plan du campus}
+L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'utilisateur disposera des pointeurs vers les bâtiments principaux du campus. 
+
+
+
 \section{Besoins non fonctionnels}
-
 \subsection{Besoins de performance}
-L'application CampusUB1 est destinée à toutes les personnes étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et poura éxécuter ces services de manière assez rapide même sur les smartphones moins performants.   
+L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra éxécuter ces services de manière assez rapide même sur les smartphones moins performants.   
 
 \subsection{Besoins de fiabilité}
-Etant donné que les différent services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du Labri recherche depuis notre application le numéro de la salle où à lieu sa conférence, il a tout intérêt à récupérer une information correcte. Campus UB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courrantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que Campus UB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas.
+Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas.
 
 \subsection{Besoins d'intégrité de données}
 Campus UB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. 
 
-
 \subsection{Facilité d'utilisation}
-Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait donc avoir aucun problème pour utiliser les fonctionnalitées de l'application.  
+Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait donc avoir aucun problème pour utiliser les fonctionnalités de l'application.  
 
 \subsection{Portabilité}
-La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version 4.0 d'Android(Ice Cream Sandwich) vu que celle-ci comporte une nouveauté essentielle à la réalisation d'une des fonctionalités de notre application: la nouvelle API pour le calendrier Android. Celle-ci est indispensable vu qu'elle introduit la possibilité pour les applications d'ajouter des événements au calendrier local du smartphone avec l'accord de l'utilisateur, et les synchronyse avec Google Calendar.
-
-
+La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces.
 
 
 \bibliography{biblio}
