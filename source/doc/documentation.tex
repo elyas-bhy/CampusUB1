@@ -78,7 +78,7 @@ Au cours de l'implémentation de cette application, nous pourrions être amenés
   \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs événements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs événements, ou encore d'extraire la date pertinente à l'événement.
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
 \end{itemize}
-Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
+Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
 Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, notamment JFlex/CUP. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Cependant, on peut se poser la question sur la possibilité de les utiliser au sein d'un téléphone Android. Dans le cas contraire, nous pensons également explorer l'utilisation des librairies Android de correction automatique, afin de trouver une solution plus native aux téléphones.
 
 
@@ -108,18 +108,18 @@ Etant donné que l'application présentera des services pour deux établissement
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5.
+\item Priorité: 5/5
 \item Faisabilité: 5/5
 \item Risques: mise à jour des URLs si les adresses des établissements sont modifiées.
 \item Validation: s'assurer que les séléctions et les changements d'établissements s'effectuent correctement.
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
-En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées, et demandera la validation de l'utilisateur.
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5.
+\item Priorité: 5/5
 \item Faisabilité: 3.5/5
 \item Difficultés techniques: extraction des informations pertinentes.
 \item Risques: changement de structure du contenu à parser (flux RSS et pages HTML).
@@ -136,13 +136,12 @@ L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
 \item Envoyer un mail au contact.
 \item Appeler la personne (si un numéro de téléphone est disponible).
 \end{itemize}
-
-% FIXME: separate lists
+Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de création d'un nouveau contact, dans laquelle les champs pertinents seront pré-remplis, en fonction des informations collectées. L'utilisateur pourra donc modifier, valider ou annuler la procédure.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5.
-\item Faisabilité: 4/5.
+\item Priorité: 5/5
+\item Faisabilité: 4/5
 \item Difficultés techniques:
 \begin{itemize}
 \item Avec LDAP: mise en place du protocole.
@@ -152,15 +151,14 @@ L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
 \item Validation: assurer l'intégrité des informations extraites.
 \end{itemize}
 
-
 \subsubsection{Mises à jour}
 Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
 L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5.
-\item Faisabilité: 3.5/5.
+\item Priorité: 5/5
+\item Faisabilité: 3.5/5
 \item Risques: mauvaise gestion de mémoire.
 \item Difficultés techniques: éviter de télécharger de nouveau des informations déja collectées.
 \item Validation: vérifier l'intégration des nouvelles informations.
@@ -175,8 +173,8 @@ L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 1.5/5.
-\item Faisabilité: 2.5/5.
+\item Priorité: 1.5/5
+\item Faisabilité: 2.5/5
 \item Difficultés techniques: extraction des informations en fonction du choix de l'utilisateur.
 \item Risques: changement du format de l'emploi du temps.
 \item Validation: assurer l'intégrité des données extraites.
@@ -187,37 +185,76 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 1/5.
-\item Faisabilité: 2.5/5.
+\item Priorité: 1/5
+\item Faisabilité: 2.5/5
 \item Difficultés techniques: maîtriser l'API de Google Maps.
 \end{itemize}
 
-% Quantification
-
 % Requetes GET dans la section HTTP
-% Compléter ch.2
 % Analyse textuelle: détection de l'heure des événements
-% Intégration des diagrammes
-% Utilisation de l'API Android (documentation, maintenance)
-% Spécification des besoins non-fonctionnels
-% Besoins non-fonctionnels: organisationnels
+
+% IEEE, gParted
+
 
 
 \section{Besoins non fonctionnels}
 \subsection{Besoins de performance}
-L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra éxécuter ces services de manière assez rapide même sur les smartphones moins performants.   
+L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra éxécuter ces services de manière assez rapide même sur les smartphones moins performants. 
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 3/5
+\item Faisabilité: 5/5
+\item Difficultés techniques: bonne gestion de l'espace mémoire et de l'actualisation.
+\item Risques: implémention complexe et potentiellement longue.
+\item Validation: vérification que l'utilisation reste assez fluide et ne consomme pas beaucoup de ressources (à préciser un seuil de consommation de RAM).
+\end{itemize}  
 
 \subsection{Besoins de fiabilité}
 Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas.
 
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 4.5/5
+\item Faisabilité: 3.5/5
+\item Difficultés techniques: fiabilité de l'algorithme d'analyse textuelle pour détecter les dates des événements.
+\item Risques: création d'un événement avec des données érronées.
+\item Validation: simulation de l'algorithme d'analyse textuelle sur suffisamment de données pour avoir un taux de réussite acceptable (à détérminer).
+\end{itemize}  
+
 \subsection{Besoins d'intégrité de données}
-Campus UB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. 
+CampusUB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. 
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 4.5/5
+\item Faisabilité: 4.5/5
+\item Risques: perte des informations existantes sur le smartphone.
+\item Validation: monitoring du comportement de l'application.
+\end{itemize} 
 
 \subsection{Facilité d'utilisation}
 Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait donc avoir aucun problème pour utiliser les fonctionnalités de l'application.  
 
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 4/5
+\item Faisabilité: 4/5
+\item Difficultés techniques: élaboration d'une interface graphique ergonomique.
+\item Risques: la conception de l'interface graphique peut demander beaucoup de temps.
+\item Validation: validation auprès des clients.
+\end{itemize} 
+
 \subsection{Portabilité}
 La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces.
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 4/5
+\item Faisabilité: 5/5
+\item Difficultés techniques: utilisation de l'API 14 d'Android.
+\item Validation: vérification du bon fonctionnement de l'application sur divers smartphones différents.
+\end{itemize} 
 
 
 \chapter{Diagrammes de fonctionnement}
@@ -231,7 +268,7 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \newpage
 Ce diagramme présente toutes les actions réalisables par l'utilisateur et leurs enchaînements.
-Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès du quel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc sautée lors des futurs démarages de l'application. Une option existera tout de même pour modifier cette selection si nécessaire. Depuis l'écran d'acceuil, l'utilisateur pourra alors accéder aux services de son choix et poura à tout moment revenir en arrière facilement.
+Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès du quel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc omise lors des futurs démarrages de l'application. Une option existera tout de même pour modifier cette selection si nécessaire. Depuis l'écran d'acceuil, l'utilisateur pourra alors accéder aux services de son choix et pourra à tout moment revenir en arrière facilement.
 
 \section{Diagramme de mises à jour}
 
