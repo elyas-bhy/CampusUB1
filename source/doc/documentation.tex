@@ -85,9 +85,10 @@ Il existe plusieurs outils utiles à l'implémentation d'une solution à ce prob
 \chapter{L'Application CampusUB1}
 \section{Aperçu de l'application}
 
-\subsection{Les flux RSS}
+\subsection{Actualités}
 Une des fonctionalités principales de l'application est la récupération, affichage et enregistrement des événements dans le calendrier de l'utilisateur. 
 Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
+En ce qui concerne le site du LaBRI, il n'y à aucun flux RSS et il faudra donc parser directement du HTML.
 
 \subsection{Annuaire}
 Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
@@ -154,7 +155,7 @@ L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
 
 \subsubsection{Mises à jour}
 Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur.
+L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -217,6 +218,35 @@ Etant donné que les utilisateurs visés ne sont pas forcément familiers avec l
 
 \subsection{Portabilité}
 La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces.
+
+
+\chapter{Diagrammes de fonctionnement}
+
+\section{Diagramme de cas d'utilisation}
+
+\begin{figure}[h]
+  \center
+  \includegraphics[width=0.8\textwidth]{resources/useCases.jpg}
+\end{figure}
+
+\newpage
+Ce diagramme présente toutes les actions réalisables par l'utilisateur et leurs enchaînements.
+Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès du quel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc sautée lors des futurs démarages de l'application. Une option existera tout de même pour modifier cette selection si nécessaire. Depuis l'écran d'acceuil, l'utilisateur pourra alors accéder aux services de son choix et poura à tout moment revenir en arrière facilement.
+
+\section{Diagramme de mises à jour}
+
+\begin{figure}[h]
+  \center
+  \includegraphics[width=0.6\textwidth]{resources/state_diagram.jpg}
+\end{figure}
+
+Le diagramme de mises à jour représente les différents modes de connection dans lesquels on peut se trouver lorsqu'on accède aux événements. Il y a trois modes possibles gérés par le téléphone :\\
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+ \item Hors Ligne : pas d'accès à internet.
+ \item 3G :  accès au réseau de données mobiles (lent).
+ \item WiFi : accès à un réseau sans-fil (rapide).
+\end{itemize}
 
 
 
