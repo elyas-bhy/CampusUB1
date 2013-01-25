@@ -115,7 +115,7 @@ Etant donné que l'application présentera des services pour deux établissement
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
-En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure.
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -136,7 +136,7 @@ L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
 \item Envoyer un mail au contact.
 \item Appeler la personne (si un numéro de téléphone est disponible).
 \end{itemize}
-Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de création d'un nouveau contact, dans laquelle les champs pertinents seront pré-remplis, en fonction des informations collectées. L'utilisateur pourra donc modifier, valider ou annuler la procédure.
+Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de création d'un nouveau contact, dans laquelle les champs pertinents seront pré-remplis, en fonction des informations collectées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -153,7 +153,7 @@ Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de créa
 
 \subsubsection{Mises à jour}
 Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur.
+L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -169,7 +169,7 @@ L'application devra garder en mémoire les derniers éléments téléchargés pe
 Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
 
 \subsubsection{Emploi du temps}
-L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer son groupe, et éventuellement ses cours et ses groupes.
+L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer son groupe, et éventuellement ses cours et ses groupes. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -181,7 +181,7 @@ L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre
 \end{itemize}
 
 \subsubsection{Plan du campus}
-L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'utilisateur disposera des pointeurs vers les bâtiments principaux du campus. 
+L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'utilisateur disposera des pointeurs vers les bâtiments principaux du campus. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -190,16 +190,11 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 \item Difficultés techniques: maîtriser l'API de Google Maps.
 \end{itemize}
 
-% Requetes GET dans la section HTTP
-% Analyse textuelle: détection de l'heure des événements
-
-% IEEE, gParted
-
 
 
 \section{Besoins non fonctionnels}
 \subsection{Besoins de performance}
-L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra éxécuter ces services de manière assez rapide même sur les smartphones moins performants. 
+L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra éxécuter ces services de manière assez rapide même sur les smartphones moins performants. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -211,7 +206,7 @@ L'application CampusUB1 est destinée à toute personne étudiant ou travaillant
 \end{itemize}  
 
 \subsection{Besoins de fiabilité}
-Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas.
+Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -223,7 +218,7 @@ Etant donné que les différents services mis à disposition par CampusUB1 à se
 \end{itemize}  
 
 \subsection{Besoins d'intégrité de données}
-CampusUB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. 
+CampusUB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -234,7 +229,7 @@ CampusUB1 doit accéder à certaines ressources personnelles du client pour pouv
 \end{itemize} 
 
 \subsection{Facilité d'utilisation}
-Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait donc avoir aucun problème pour utiliser les fonctionnalités de l'application.  
+Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait donc avoir aucun problème pour utiliser les fonctionnalités de l'application. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -246,7 +241,7 @@ Etant donné que les utilisateurs visés ne sont pas forcément familiers avec l
 \end{itemize} 
 
 \subsection{Portabilité}
-La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces.
+La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -318,8 +313,9 @@ Les initiales représentent :\\
 \item TM : Tout le monde
 \item E : Elyas \textsc{Ben Hadj Yahia}
 \item R : Ryan \textsc{Herbert}
-\item T : Tatiana \textsc{Rocher}
+\item P : Paul \textsc{Maribon-Ferret}
 \item S : Stefan \textsc{Mijatovic}
+\item T : Tatiana \textsc{Rocher}
 \end{itemize}
 
 \chapter{Exemple d'utilisation}
@@ -329,13 +325,13 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
 \begin{figure}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/01}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/01}
     \caption{Lors du premier lancement de l'application, l'utilisateur doit choisir son établissement. Une fois son choix effectué, il est enregistré et ne sera plus demandé. L'établissement est modifiable via les préférences.}
     \label{fig:01}
   \end{minipage}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/02}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/02}
     \caption{Bordeaux 1}
     \label{fig:02}
   \end{minipage}
@@ -345,13 +341,13 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
 \begin{figure}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/03}
-    \caption{Evénements. Pour lire la news et arriver sur l'écran de la figure 4.4, il suffit de toucher la news correspondante.}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/03}
+    \caption{Evénements. Pour lire la news et arriver sur l'écran de la figure~\ref{fig:04}, il suffit de toucher la news correspondante.}
     \label{fig:03}
   \end{minipage}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/04}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/04}
     \caption{Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
     \label{fig:04}
   \end{minipage}
@@ -361,13 +357,13 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
 \begin{figure}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/05}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/05}
     \caption{Annuaire}
     \label{fig:05}
   \end{minipage}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/06}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/06}
     \caption{Annuaire}
     \label{fig:06}
   \end{minipage}
@@ -377,13 +373,13 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
 \begin{figure}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/07}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/07}
     \caption{Export de l'emploi du temps. L'application demande la promotion seulement la première fois et il faudra aller dans les paramètres pour la modifier ultérieurement. }
     \label{fig:07}
   \end{minipage}
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/08}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/08}
     \caption{Sélection des groupes pour l'export de l'emploi du temps.}
     \label{fig:08}
   \end{minipage}
@@ -394,8 +390,8 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \centering
   \begin{minipage}[t]{8cm}
     \centering
-    \includegraphics[width=0.9\textwidth]{resources/ui_preview/09}
-    \caption{Labri}
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/09}
+    \caption{LaBRI}
     \label{fig:09}
   \end{minipage}
 \end{figure}
