@@ -78,7 +78,8 @@ Au cours de l'implémentation de cette application, nous pourrions être amenés
   \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs événements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs événements, ou encore d'extraire la date pertinente à l'événement.
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
 \end{itemize}
-Ce sujet étant relativement complexe, il ne nous sera surement pas possible d'implémenter nos propres solutions algorithmiques, il existe plusieurs livres à ce sujet que nous comptons parcourir à la recherche d'une solution viable. Nous comptons également consulter nos professeurs de Web Sémantique afin de nous éclairer sur les meilleurs livres à consulter.
+Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
+Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, dont JFlex/CUP. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Cependant, on peut se poser la question sur la possibilité de les utiliser au sein d'un téléphone Android. Dans le cas contraire, nous pensons également explorer l'utilisation des librairies Android de correction automatique, afin de trouver une solution plus native aux téléphones.
 
 
 \chapter{L'Application CampusUB1}
