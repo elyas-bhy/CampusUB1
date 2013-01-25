@@ -79,7 +79,7 @@ Au cours de l'implémentation de cette application, nous pourrions être amenés
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
 \end{itemize}
 Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
-Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, dont JFlex/CUP. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Cependant, on peut se poser la question sur la possibilité de les utiliser au sein d'un téléphone Android. Dans le cas contraire, nous pensons également explorer l'utilisation des librairies Android de correction automatique, afin de trouver une solution plus native aux téléphones.
+Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, notamment JFlex/CUP. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Cependant, on peut se poser la question sur la possibilité de les utiliser au sein d'un téléphone Android. Dans le cas contraire, nous pensons également explorer l'utilisation des librairies Android de correction automatique, afin de trouver une solution plus native aux téléphones.
 
 
 \chapter{L'Application CampusUB1}
@@ -97,10 +97,6 @@ Afin d'implémenter l'annuaire au sein de notre application Android, il est évi
 Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, potentiellement intégré à l'application Maps du smartphone.
 Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
 
-\subsection{Mises à jour}
-Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit de l'utilisateur.
-
 
 \chapter{Analyse des besoins}
 
@@ -112,12 +108,22 @@ Etant donné que l'application présentera des services pour deux établissement
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: 5/5.
-\item Difficultés techniques: mise à jour des URLs si les adresses des établissements sont modifiées.
-\item Validation: S'assurer que les séléctions et les changements d'établissements s'effectuent correctement.
+\item Faisabilité: 5/5
+\item Risques: mise à jour des URLs si les adresses des établissements sont modifiées.
+\item Validation: s'assurer que les séléctions et les changements d'établissements s'effectuent correctement.
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
 En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées, et demandera la validation de l'utilisateur.
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 5/5.
+\item Faisabilité: 3.5/5
+\item Difficultés techniques: extraction des informations pertinentes.
+\item Risques: changement de structure du contenu à parser (flux RSS et pages HTML).
+\item Validation: assurer l'intégrité des informations extraites.
+\end{itemize}
 
 \subsubsection{Accès à l'annuaire}
 L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
@@ -126,14 +132,39 @@ L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
 \item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
 \item Visualiser les informations d'un contact.
 \item Rajouter un contact à la liste des contacts de l'utilisateur (créer un nouveau contact ou éditer existant).
+\item Envoyer un mail au contact.
+\item Appeler la personne (si un numéro de téléphone est disponible).
 \end{itemize}
+
+% FIXME: separate lists
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: x/5.
-\item Difficultés techniques: TODO
-\item Validation: TODO
+\item Priorité: 5/5.
+\item Faisabilité: 4/5.
+\item Difficultés techniques:
+\begin{itemize}
+\item Avec LDAP: mise en place du protocole.
+\item Sans LDAP: parsage des informations.
+\end{itemize} 
+\item Risques: changement de structure du contenu à parser.
+\item Validation: assurer l'intégrité des informations extraites.
 \end{itemize}
+
+
+\subsubsection{Mises à jour}
+Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
+Une des autres fonctionnalités des mise à jour sera de retenir les derniers éléments téléchargés afin d'éviter de télécharger de nouveau l'intégralité des flux RSS à chaque mise à jour. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur.
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: 5/5.
+\item Faisabilité: 3.5/5.
+\item Risques: mauvaise gestion de mémoire.
+\item Difficultés techniques: éviter de télécharger de nouveau des informations déja collectées.
+\item Validation: vérifier l'intégration des nouvelles informations.
+\end{itemize}
+
 
 \subsection{Fonctionnalités secondaires}
 Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
@@ -143,9 +174,11 @@ L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: x/5.
-\item Difficultés techniques: TODO
-\item Validation: TODO
+\item Priorité: 1.5/5.
+\item Faisabilité: 2.5/5.
+\item Difficultés techniques: extraction des informations en fonction du choix de l'utilisateur.
+\item Risques: changement du format de l'emploi du temps.
+\item Validation: assurer l'intégrité des données extraites.
 \end{itemize}
 
 \subsubsection{Plan du campus}
@@ -153,15 +186,19 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: x/5.
-\item Difficultés techniques: TODO
-\item Validation: TODO
+\item Priorité: 1/5.
+\item Faisabilité: 2.5/5.
+\item Difficultés techniques: maîtriser l'API de Google Maps.
 \end{itemize}
 
-% Quantification, risques (alternatives/parades), faisabilité.
-% Tests systeme, tests de validation de quantification, tests de validation des proprietes
+% Quantification
 
+% Requetes GET dans la section HTTP
+% Compléter ch.2
+% Analyse textuelle: détection de l'heure des événements
+% Intégration des diagrammes
 % Utilisation de l'API Android (documentation, maintenance)
+% Spécification des besoins non-fonctionnels
 % Besoins non-fonctionnels: organisationnels
 
 
@@ -187,15 +224,15 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/01}
-  \caption{Caption text}
+  \caption{Lors du premier lancement de l'application, l'utilisateur doit choisir son établissement. Une fois son choix effectué, il est enregistré et ne sera plus demandé. L'établissement est modifiable via les préférences.}
   \label{fig:01}
 \end{SCfigure}
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/02}
   \caption{Caption text}
   \label{fig:02}
@@ -203,7 +240,7 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/03}
   \caption{Caption text}
   \label{fig:03}
@@ -211,15 +248,15 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/04}
-  \caption{Caption text}
+  \caption{Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
   \label{fig:04}
 \end{SCfigure}
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/05}
   \caption{Caption text}
   \label{fig:05}
@@ -227,7 +264,7 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/06}
   \caption{Caption text}
   \label{fig:06}
@@ -235,7 +272,7 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/07}
   \caption{Caption text}
   \label{fig:07}
@@ -243,7 +280,7 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/08}
   \caption{Caption text}
   \label{fig:08}
@@ -251,7 +288,7 @@ La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version And
 
 \begin{SCfigure}[\sidecaptionrelwidth][h]
   \centering
-  \includegraphics[width=0.75\textwidth]
+  \includegraphics[width=0.4\textwidth]
     {resources/ui_preview/09}
   \caption{Caption text}
   \label{fig:09}
