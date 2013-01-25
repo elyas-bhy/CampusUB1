@@ -127,7 +127,7 @@ En accédant au menu des actualités, l'utilisateur disposera d'une interface à
 \end{itemize}
 
 \subsubsection{Accès à l'annuaire}
-L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
+L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
@@ -285,7 +285,34 @@ Le diagramme de mises à jour représente les différents modes de connection da
  \item WiFi : accès à un réseau sans-fil (rapide).
 \end{itemize}
 
-
+\section{Diagramme de Gantt}
+\begin{table}[h!]
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Tâches/semaines                       & 1             & 2       & 3       & 4       & 5       & 6      & 7       & 8      & 9    & 10   \\ \hline
+        Connexion a un site Web               & TM & E   & ~       & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Parsage de flux RSS                   & ~             & R    & R    & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Interaction annuaire (LDAP)    & ~             & T & T & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Interaction annuaire (HTML)    & ~             & ~       & R    & R    & R    & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Interface Graphique                   & ~             & P    & P    & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Intégration des données  & ~             & ~       & S  & S  & S  & S & ~       & ~      & ~    & ~    \\ \hline
+        Gestion des mises a jour              & ~             & ~       & E   & E   & E   & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Analyse textuelle                     & ~             & ~       & ~       & T & T & ~      & ~       & ~      & ~    & ~    \\ \hline
+        Elaboration des tests                 & E         & R    & T & S  & P    & E  & T & S & R & P \\ \hline
+        Fonction de recherche annuaire & ~             & ~       & ~       & ~       & R    & R   & ~       & ~      & ~    & ~    \\ \hline
+        Elaboration du rapport                & TM & TM & TM & TM & TM & TM & TM & TM & TM & TM    \\ \hline
+        Finalisation des tâches               & TM & TM & TM & TM & TM & TM & TM & TM & TM & TM    \\
+        \hline
+    \end{tabular}
+\end{table}
+Ici les initiales représentent :
+\begin{itemize}
+\item TM : Tout le monde
+\item E : Elyas \textsc{Ben Hadj Yahia}
+\item R : Ryan \textsc{Herbert}
+\item T : Tatiana \textsc{Rocher}
+\item S : Stefan \textsc{Mijatovic}
+\end{itemize}
 
 \chapter{Exemple d'utilisation}
 
