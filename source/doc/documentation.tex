@@ -67,7 +67,7 @@ Ce sera donc une des technologies importantes à explorer afin de réaliser une 
 Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une pas d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
 
 \subsection{HTTP/HTML}
-Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP (dans ce cas, ce seront des requetes GET car il ne s'agit que de demander des informations, et non de les modifier), afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
+Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
 Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'insipirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
 
 \subsection{Analyse textuelle}
@@ -87,8 +87,8 @@ Il existe plusieurs outils utiles à l'implémentation d'une solution à ce prob
 
 \subsection{Actualités}
 Une des fonctionalités principales de l'application est la récupération, affichage et enregistrement des événements dans le calendrier de l'utilisateur. 
-Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités). Cependant il n'existe pas de reels flux RSS pour le site du LaBRI. Nous devons donc nous tourner vers des methodes alternatives pour extraire les informations de ce site.
-
+Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
+En ce qui concerne le site du LaBRI, il n'y à aucun flux RSS et il faudra donc parser directement du HTML.
 
 \subsection{Annuaire}
 Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
@@ -219,7 +219,6 @@ Etant donné que les utilisateurs visés ne sont pas forcément familiers avec l
 \subsection{Portabilité}
 La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces.
 
-<<<<<<< Updated upstream
 
 \chapter{Diagrammes de fonctionnement}
 
@@ -249,100 +248,83 @@ Le diagramme de mises à jour représente les différents modes de connection da
  \item WiFi : accès à un réseau sans-fil (rapide).
 \end{itemize}
 
-\subsection{Diagram de Gantt}
-\begin{table}
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-        \hline
-        Taches/semaines                       & 1             & 2       & 3       & 4       & 5       & 6      & 7       & 8      & 9    & 10   \\ \hline
-        Connexion a un site Web               & TM & E   & ~       & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Parsage de flux RSS                   & ~             & R    & R    & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Interaction annuaire (LDAP)    & ~             & T & T & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Interaction annuaire (HTML)    & ~             & ~       & R    & R    & R    & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Interface Graphique                   & ~             & P    & P    & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Integration des donnees  & ~             & ~       & S  & S  & S  & S & ~       & ~      & ~    & ~    \\ \hline
-        Gestion des mises a jour              & ~             & ~       & E   & E   & E   & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Analyse textuelle                     & ~             & ~       & ~       & T & T & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Elaboration des tests                 & E         & R    & T & S  & P    & E  & T & S & R & P \\ \hline
-        Fonction de recherche annuaire & ~             & ~       & ~       & ~       & R    & R   & ~       & ~      & ~    & ~    \\ \hline
-        Elaboration du rapport                & TM & TM & TM & TM & TM & TM & TM & TM & TM & TM    \\ \hline
-        Finalisation des taches               & TM & TM & TM & TM & TM & TM & TM & TM & TM & TM    \\
-        \hline
-    \end{tabular}
-\end{table}
+
 
 \chapter{Exemple d'utilisation}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/01}
-  \caption{Lors du premier lancement de l'application, l'utilisateur doit choisir son établissement. Une fois son choix effectué, il est enregistré et ne sera plus demandé. L'établissement est modifiable via les préférences.}
-  \label{fig:01}
-\end{SCfigure}
+\begin{figure}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/01}
+    \caption{Lors du premier lancement de l'application, l'utilisateur doit choisir son établissement. Une fois son choix effectué, il est enregistré et ne sera plus demandé. L'établissement est modifiable via les préférences.}
+    \label{fig:01}
+  \end{minipage}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/02}
+    \caption{Bordeaux 1}
+    \label{fig:02}
+  \end{minipage}
+\end{figure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/02}
-  \caption{Caption text}
-  \label{fig:02}
-\end{SCfigure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/03}
-  \caption{Caption text}
-  \label{fig:03}
-\end{SCfigure}
+\begin{figure}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/03}
+    \caption{Evénements. Pour lire la news et arriver sur l'écran de la figure 4.4, il suffit de toucher la news correspondante.}
+    \label{fig:03}
+  \end{minipage}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/04}
+    \caption{Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
+    \label{fig:04}
+  \end{minipage}
+\end{figure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/04}
-  \caption{Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
-  \label{fig:04}
-\end{SCfigure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/05}
-  \caption{Caption text}
-  \label{fig:05}
-\end{SCfigure}
+\begin{figure}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/05}
+    \caption{Annuaire}
+    \label{fig:05}
+  \end{minipage}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/06}
+    \caption{Annuaire}
+    \label{fig:06}
+  \end{minipage}
+\end{figure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/06}
-  \caption{Caption text}
-  \label{fig:06}
-\end{SCfigure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/07}
-  \caption{Caption text}
-  \label{fig:07}
-\end{SCfigure}
+\begin{figure}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/07}
+    \caption{Export de l'emploi du temps. L'application demande la promotion seulement la première fois et il faudra aller dans les paramètres pour la modifier ultérieurement. }
+    \label{fig:07}
+  \end{minipage}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/08}
+    \caption{Sélection des groupes pour l'export de l'emploi du temps.}
+    \label{fig:08}
+  \end{minipage}
+\end{figure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
-  \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/08}
-  \caption{Caption text}
-  \label{fig:08}
-\end{SCfigure}
 
-\begin{SCfigure}[\sidecaptionrelwidth][h]
+\begin{figure}
   \centering
-  \includegraphics[width=0.4\textwidth]
-    {resources/ui_preview/09}
-  \caption{Caption text}
-  \label{fig:09}
-\end{SCfigure}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.9\textwidth]{resources/ui_preview/09}
+    \caption{Labri}
+    \label{fig:09}
+  \end{minipage}
+\end{figure}
 
 \bibliography{biblio}
 \end{document}
