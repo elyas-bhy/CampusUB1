@@ -19,7 +19,7 @@
 \newpage
 
 \begin{abstract}
-Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Ecoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilité d'ajouter aux contacts du téléphone) sélectionnés.
+Ce document décrit le travail réalisé dans le contexte de notre projet de programmation. Le but de ce projet est de réaliser une application Android permettant d'accéder aux informations pertinentes des différents établissements du campus (Laboratoires, Universités, Ecoles). L'utilisateur choisit les établissements pour lesquels il veut accéder aux informations (dans un premier temps il n'y aura que Bordeaux 1 et LaBRI). L'application permet ensuite d'accéder aux annonces d'événements (en offrant la possibilité des les ajouter à l'agenda) et aux annuaires (en offrant la possibilité d'ajouter aux contacts du téléphone) sélectionnés. \\
 L'idée est donc de rendre les informations liées aux établissements choisis plus faciles d'accès via un smartphone Android, afin de répondre à un besoin en déplacement, en donnant la possibilité d'enregistrer les informations importantes, et de les intégrer aux applications natives du téléphone, pour permettre une utilité de l'application lorsqu'une connexion internet n'est pas disponible.
 \end{abstract}
 
@@ -68,7 +68,11 @@ Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de 
 
 \subsection{HTTP/HTML}
 Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour des balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
+<<<<<<< Updated upstream
 Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'inspirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
+=======
+Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de s'inspirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
+>>>>>>> Stashed changes
 
 \subsection{Analyse textuelle}
 Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
@@ -87,8 +91,13 @@ Il existe plusieurs outils utiles à l'implémentation d'une solution à ce prob
 
 \subsection{Actualités}
 Une des fonctionalités principales de l'application est la récupération, l'affichage et l'enregistrement des événements dans le calendrier de l'utilisateur. 
+<<<<<<< Updated upstream
 Pour cela, nous prévoyons de récupérer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
 En ce qui concerne le site du LaBRI, il n'y à aucun flux RSS et il faudra donc parser directement du HTML.
+=======
+Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
+En ce qui concerne le site du LaBRI, il n'y a aucun flux RSS et il faudra donc parser directement du HTML.
+>>>>>>> Stashed changes
 
 \subsection{Annuaire}
 Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
@@ -291,32 +300,34 @@ Le diagramme de Gantt suivant présente une première estimation de la répartit
 \begin{table}[h!]
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
-        Tâches/semaines                       & 1             & 2       & 3       & 4       & 5       & 6      & 7       & 8      & 9    & 10   \\ \hline
-        Connexion a un site Web               & TM & E   & ~       & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Parsage de flux RSS                   & ~             & R    & R    & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Interaction annuaire (LDAP)    & ~             & T & T & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Interaction annuaire (HTML)    & ~             & ~       & R    & R    & R    & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Interface Graphique                   & ~             & P    & P    & ~       & ~       & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Intégration des données  & ~             & ~       & S  & S  & S  & S & ~       & ~      & ~    & ~    \\ \hline
-        Gestion des mises a jour              & ~             & ~       & E   & E   & E   & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Analyse textuelle                     & ~             & ~       & ~       & T & T & ~      & ~       & ~      & ~    & ~    \\ \hline
-        Elaboration des tests                 & E         & R    & T & S  & P    & E  & T & S & R & P \\ \hline
-        Fonction de recherche annuaire & ~             & ~       & ~       & ~       & R    & R   & ~       & ~      & ~    & ~    \\ \hline
-        Elaboration du rapport                & TM & TM & TM & TM & TM & TM & TM & TM & TM & TM    \\ \hline
-        Finalisation des tâches               & TM & TM & TM & TM & TM & TM & TM & TM & TM & TM    \\
+        Tâches/semaines                       & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+        Connexion aux sites Web               & S & ~ & ~ & ~ & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Architecture de l'application         & E & E & ~ & ~ & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Parsage de flux RSS                   & ~ & T & T & ~ & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Interaction annuaire (LDAP)    		  & ~ & R & R & ~ & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Interaction annuaire (HTML)			  & ~ & ~ & R & R & R & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Interface Graphique                   & ~ & P & P & P & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Intégration des données				  & ~ & ~ & S & S & S & S & ~ & ~ & ~ & ~ \\ \hline
+        Gestion des mises à jour              & ~ & ~ & E & E & E & ~ & ~ & ~ & ~ & ~ \\ \hline
+        Analyse textuelle                     & ~ & ~ & ~ & T & T & T & T & ~ & ~ & ~ \\ \hline
+        Fonction de recherche annuaire 		  & ~ & ~ & ~ & ~ & P & P & ~ & ~ & ~ & ~ \\ \hline
+        Elaboration des tests                 & R & P & T & S & R & E & T & S & P & E \\ \hline
+        Elaboration du rapport                & A & A & A & A & A & A & A & A & A & A \\ \hline
+        Finalisation des tâches               & A & A & A & A & A & A & A & A & A & A \\
         \hline
     \end{tabular}
 \end{table}
 Chaque ligne est destinée à la répartition d'une tâche, et les colonnes représentent chacune une semaine du projet.\\
 Les initiales représentent :\\
 \begin{itemize}
-\item TM : Tout le monde
+\item A : Tout le monde
 \item E : Elyas \textsc{Ben Hadj Yahia}
 \item R : Ryan \textsc{Herbert}
 \item P : Paul \textsc{Maribon-Ferret}
 \item S : Stefan \textsc{Mijatovic}
 \item T : Tatiana \textsc{Rocher}
 \end{itemize}
+
 
 \chapter{Exemple d'utilisation}
 
@@ -333,7 +344,7 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/02}
-    \caption{Vue d'accueil pour Bordeaux 1}
+    \caption{Vue d'accueil pour Bordeaux~1}
     \label{fig:02}
   \end{minipage}
   \hspace{-60pt}
