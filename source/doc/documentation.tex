@@ -64,17 +64,17 @@ Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\
 \subsection{LDAP}
 Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocole conçu uniquement pour les annuaires, et l'annuaire du LaBRI s'avère être conforme aux normes LDAP.
 Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBRI.\\
-Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une pas d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
+Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une page d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
 
 \subsection{HTTP/HTML}
-Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour de balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
-Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'insipirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
+Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour des balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
+Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de d'inspirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
 
 \subsection{Analyse textuelle}
 Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-  \item Le texte peut faire référence à une événement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
+  \item Le texte peut faire référence à un événement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
   \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs événements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs événements, ou encore d'extraire la date pertinente à l'événement.
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
 \end{itemize}
@@ -86,8 +86,8 @@ Il existe plusieurs outils utiles à l'implémentation d'une solution à ce prob
 \section{Aperçu de l'application}
 
 \subsection{Actualités}
-Une des fonctionalités principales de l'application est la récupération, affichage et enregistrement des événements dans le calendrier de l'utilisateur. 
-Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
+Une des fonctionalités principales de l'application est la récupération, l'affichage et l'enregistrement des événements dans le calendrier de l'utilisateur. 
+Pour cela, nous prévoyons de récupérer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
 En ce qui concerne le site du LaBRI, il n'y à aucun flux RSS et il faudra donc parser directement du HTML.
 
 \subsection{Annuaire}
@@ -111,7 +111,7 @@ Etant donné que l'application présentera des services pour deux établissement
 \item Priorité: 5/5
 \item Faisabilité: 5/5
 \item Risques: mise à jour des URLs si les adresses des établissements sont modifiées.
-\item Validation: s'assurer que les séléctions et les changements d'établissements s'effectuent correctement.
+\item Validation: s'assurer que les sélections et les changements d'établissements s'effectuent correctement.
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
@@ -127,7 +127,7 @@ En accédant au menu des actualités, l'utilisateur disposera d'une interface à
 \end{itemize}
 
 \subsubsection{Accès à l'annuaire}
-L'utilisateur doit pouvoir effectuer facilement les taches suivantes:
+L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
@@ -152,14 +152,14 @@ Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de créa
 \end{itemize}
 
 \subsubsection{Mises à jour}
-Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Ou encore nous pourrions proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
+Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Nous pourrions également proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
+L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: 5/5
 \item Faisabilité: 3.5/5
-\item Risques: mauvaise gestion de mémoire.
+\item Risques: mauvaise gestion de la mémoire.
 \item Difficultés techniques: éviter de télécharger de nouveau des informations déja collectées.
 \item Validation: vérifier l'intégration des nouvelles informations.
 \end{itemize}
@@ -169,7 +169,7 @@ L'application devra garder en mémoire les derniers éléments téléchargés pe
 Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
 
 \subsubsection{Emploi du temps}
-L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer son groupe, et éventuellement ses cours et ses groupes. \\
+L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer sa filière, et éventuellement ses cours et ses groupes. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -194,7 +194,7 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 
 \section{Besoins non fonctionnels}
 \subsection{Besoins de performance}
-L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra éxécuter ces services de manière assez rapide même sur les smartphones moins performants. \\
+L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra exécuter ces services de manière assez rapide même sur les smartphones moins performants. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -206,19 +206,19 @@ L'application CampusUB1 est destinée à toute personne étudiant ou travaillant
 \end{itemize}  
 
 \subsection{Besoins de fiabilité}
-Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnsaissance de textes qui peuvent eux-mêmes être érronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécéssite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité de données ne se pose pas. \\
+Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnaissance de textes qui peuvent eux-mêmes être erronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécessite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité des données ne se pose pas. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: 4.5/5
 \item Faisabilité: 3.5/5
 \item Difficultés techniques: fiabilité de l'algorithme d'analyse textuelle pour détecter les dates des événements.
-\item Risques: création d'un événement avec des données érronées.
-\item Validation: simulation de l'algorithme d'analyse textuelle sur suffisamment de données pour avoir un taux de réussite acceptable (à détérminer).
+\item Risques: création d'un événement avec des données erronées.
+\item Validation: simulation de l'algorithme d'analyse textuelle sur suffisamment de données pour avoir un taux de réussite acceptable (à déterminer).
 \end{itemize}  
 
 \subsection{Besoins d'intégrité de données}
-CampusUB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection de données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute éventuelle perte de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application, l'erreur humaine étant évidemment toujours possible. Toute éventuelle  modification de données privées de l'utilisateur se fera donc impérativement avec son avis. \\
+CampusUB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection des données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute perte éventuelle de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application. L'erreur humaine étant évidemment toujours possible. Toute modification éventuelle de données privées de l'utilisateur se fera donc impérativement avec son avis. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -229,7 +229,7 @@ CampusUB1 doit accéder à certaines ressources personnelles du client pour pouv
 \end{itemize} 
 
 \subsection{Facilité d'utilisation}
-Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et est très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait donc avoir aucun problème pour utiliser les fonctionnalités de l'application. \\
+Etant donné que les utilisateurs visés ne sont pas forcément familiers avec le domaine informatique et sont généralement des étudiants ou chercheurs provenant de différentes filières, l'application est volontairement très simple d'un point de vue visuel, et très facile à prendre en main. L'interface graphique est très ``user-friendly'' et l'écran d'accueil contient simplement une liste de boutons permettant à l'utilisateur d'accéder aux différents services de l'application. Quel que soit le type d'utilisateur, il ne devrait rencontrer aucun problème pour utiliser les fonctionnalités de l'application. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -241,25 +241,25 @@ Etant donné que les utilisateurs visés ne sont pas forcément familiers avec l
 \end{itemize} 
 
 \subsection{Portabilité}
-La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieures nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces. \\
+La seule contrainte imposée par CampusUB1 est d'avoir au minimum la version Android 4.0 (Ice Cream Sandwich), vu que celle-ci est déjà très répandue, et qu'elle offre plusieurs nouveautés pour les développeurs, notamment une meilleure gestion des layouts des interfaces. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: 4/5
 \item Faisabilité: 5/5
 \item Difficultés techniques: utilisation de l'API 14 d'Android.
-\item Validation: vérification du bon fonctionnement de l'application sur divers smartphones différents.
+\item Validation: vérification du bon fonctionnement de l'application sur différents smartphones.
 \end{itemize} 
 
 \subsection{Besoins organisationnels}
-Etant donné que nous travaillerons sur la plateforme Android, le language Java nous est imposé vu que l'API Android est fournie en Java.
+Etant donné que nous travaillerons sur la plateforme Android, le langage Java nous est imposé vu que l'API Android est fournie en Java.
 L'IDE dans lequel nous avons choisi d'implémenter notre application est Eclipse pour de nombreuses questions pratiques. Les développeurs d'Android possédent un plugin pour Eclipse officiel, qui facilite la vie du développeur en lui fournissant une panoplie d'outils tels que les différentes perspectives dont celle de débogage qui nous sera très utile. Ce plugin comporte également un émulateur d'appareils Android, ce qui nous permettra de facilement tester l'application sur une multitude d'appareils. De plus, l'API Android est très documentée et souvent maintenue.
 
 
 
 \chapter{Diagrammes de fonctionnement}
 
-\section{Diagramme de cas d'utilisation}
+\section{Diagramme des cas d'utilisation}
 
 \begin{figure}[h]
   \center
@@ -268,9 +268,9 @@ L'IDE dans lequel nous avons choisi d'implémenter notre application est Eclipse
 
 \newpage
 Ce diagramme présente toutes les actions réalisables par l'utilisateur et leurs enchaînements.
-Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès du quel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc omise lors des futurs démarrages de l'application. Une option existera tout de même pour modifier cette selection si nécessaire. Depuis l'écran d'acceuil, l'utilisateur pourra alors accéder aux services de son choix et pourra à tout moment revenir en arrière facilement.
+Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès duquel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc omise lors des futurs démarrages de l'application. Une option existera tout de même pour modifier cette sélection si nécessaire. Depuis l'écran d'accueil, l'utilisateur pourra alors accéder aux services de son choix et pourra à tout moment revenir en arrière facilement.
 
-\section{Diagramme de mises à jour}
+\section{Diagramme des mises à jour}
 
 \begin{figure}[h]
   \center
@@ -286,7 +286,7 @@ Le diagramme de mises à jour représente les différents modes de connection da
 \end{itemize}
 
 \section{Diagramme de Gantt}
-Le diagramme de Gantt suivant pésente une première estimation de la répartition des tâches sur le déroulement du projet.
+Le diagramme de Gantt suivant présente une première estimation de la répartition des tâches sur le déroulement du projet.
 
 \begin{table}[h!]
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
@@ -307,7 +307,7 @@ Le diagramme de Gantt suivant pésente une première estimation de la répartiti
         \hline
     \end{tabular}
 \end{table}
-Chaque ligne est déstinée à la répartition d'une tâche, et les colonnes représentent chacune une semaine du projet.\\
+Chaque ligne est destinée à la répartition d'une tâche, et les colonnes représentent chacune une semaine du projet.\\
 Les initiales représentent :\\
 \begin{itemize}
 \item TM : Tout le monde
@@ -329,12 +329,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
     \caption{Lors du premier lancement de l'application, l'utilisateur doit choisir son établissement. Une fois son choix effectué, il est enregistré et ne sera plus demandé. L'établissement est modifiable via les préférences.}
     \label{fig:01}
   \end{minipage}
+  \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/02}
-    \caption{Bordeaux 1}
+    \caption{Vue d'accueil pour Bordeaux 1}
     \label{fig:02}
   \end{minipage}
+  \hspace{-60pt}
 \end{figure}
 
 
@@ -345,12 +347,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
     \caption{Evénements. Pour lire la news et arriver sur l'écran de la figure~\ref{fig:04}, il suffit de toucher la news correspondante.}
     \label{fig:03}
   \end{minipage}
+  \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/04}
     \caption{Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
     \label{fig:04}
   \end{minipage}
+  \hspace{-60pt}
 \end{figure}
 
 
@@ -358,15 +362,17 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/05}
-    \caption{Annuaire}
+    \caption{Vue de l'annuaire.}
     \label{fig:05}
   \end{minipage}
+  \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/06}
-    \caption{Annuaire}
+    \caption{Vue des résultats de l'annuaire.}
     \label{fig:06}
   \end{minipage}
+  \hspace{-60pt}
 \end{figure}
 
 
@@ -377,12 +383,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
     \caption{Export de l'emploi du temps. L'application demande la promotion seulement la première fois et il faudra aller dans les paramètres pour la modifier ultérieurement. }
     \label{fig:07}
   \end{minipage}
+  \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/08}
     \caption{Sélection des groupes pour l'export de l'emploi du temps.}
     \label{fig:08}
   \end{minipage}
+  \hspace{-60pt}
 \end{figure}
 
 
@@ -391,7 +399,7 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/09}
-    \caption{LaBRI}
+    \caption{Vue d'accueil pour LaBRI}
     \label{fig:09}
   \end{minipage}
 \end{figure}
