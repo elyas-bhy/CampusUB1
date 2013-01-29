@@ -8,6 +8,33 @@
 \usepackage{indentfirst}
 \usepackage[T1]{fontenc} 
 \usepackage{amsfonts}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}
+}
+
+\def\wl{\par \vspace{\baselineskip}}
+\renewcommand{\lstlistingname}{Code}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 \bibliographystyle{unsrt}
@@ -70,6 +97,7 @@ Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de 
 Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour des balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
 Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de s'inspirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
 
+
 \subsection{Analyse textuelle}
 Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
 \begin{itemize}
@@ -78,10 +106,31 @@ Au cours de l'implémentation de cette application, nous pourrions être amenés
   \item Le texte peut contenir plusieurs dates, faisant référence à plusieurs événements passés, présents, ou futurs et il sera donc difficile d'exploiter les informations et de découper le texte en plusieurs événements, ou encore d'extraire la date pertinente à l'événement.
   \item Le texte peut ne contenir aucune date, n'étant simplement qu'une information quelconque.
 \end{itemize}
-Les évènements isncrits dans les flux RSS du site de Bordeaux 1 possèdent une balise pubDate, qui devrait faire reference à la date de publication des articles, mais nous avons remarque que pour la plupart des articles (notamment pour toutes les soutenances), cette date a éte modifiée pour correspondre à la date de la soutenance. Cependant, ce n'est pas toujours le cas pour l'horaire. certains articles possèdent des horaires qui correspondent à celle de l'évènement (comme pour les soutenances, par exemple), mais d'autres ont une horaire qui ne correspond pas avec l'horaire de l'évènement. Nous avons donc tire la conclusion que l'horaire correspond parfois à l'horaire de publication de l'article.\\
-Il sera donc possible de comparer les dates et horaires extraites par analyse textuelles avec les informations contenues dans la balise pubDate afin d'augmenter le taux de reussite de la proposition de date au moment de l'ajout dans l'agenda du telephone.\\
-Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, notamment JFlex/CUP. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Cependant, on peut se poser la question sur la possibilité de les utiliser au sein d'un téléphone Android. Dans le cas contraire, nous pensons également explorer l'utilisation des librairies Android de correction automatique, afin de trouver une solution plus native aux téléphones.\\
-Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
+\wl Les événements inscrits dans les flux RSS du site de Bordeaux 1 possèdent une balise \emph{pubDate}, qui devrait faire référence à la date de publication des articles, mais nous avons remarqué que pour la plupart des articles (notamment pour toutes les soutenances), cette date a été modifiée pour correspondre à la date de la soutenance. Cependant, ce n'est pas toujours le cas pour l'horaire. Certains articles possèdent des horaires qui correspondent à celle de l'événement (comme pour les soutenances, par exemple), mais d'autres ont un horaire qui ne correspond pas avec l'horaire de l'événement. Nous avons donc tiré la conclusion que l'horaire correspond parfois à l'horaire de publication de l'article. \\
+Il sera donc possible de comparer les dates et horaires extraites par analyse textuelle avec les informations contenues dans la balise \emph{pubDate} afin d'augmenter le taux de réussite de la proposition de date au moment de l'ajout dans l'agenda du smartphone. \\
+
+\lstset{language=XML}
+\begin{lstlisting}[frame=single, caption=Extrait d'un flux RSS de Bordeaux1, label=amb]
+<item>
+  <title>Trophees du sport</title>
+  <link>...</link>
+  <description>
+	Pour la 3e annee consecutive...
+  </description>
+  <content:encoded>
+    <![CDATA[
+      Ils seront recompenses a l occasion des Trophees du sport
+      le jeudi 31 janvier 2013 a 18h dans l Atrium...
+    ]]>
+  </content:encoded>	
+  <pubDate>Thu, 31 Jan 2013 15:08:00 +0100</pubDate>
+</item>
+\end{lstlisting}
+
+\wl Sur cet exemple, l'heure qui apparait dans la balise \emph{pubDate} ne correspond pas à celle de l'événement; il va donc falloir analyser la description pour essayer de trouver l'horaire correspondant (ici 18h). \\
+
+Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, notamment JFlex/CUP. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Cependant, on peut se poser la question sur la possibilité de les utiliser au sein d'un téléphone Android. Dans le cas contraire, nous pensons également explorer l'utilisation des librairies Android de correction automatique, afin de trouver une solution plus native aux téléphones. \\
+Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda). \\
 
 
 
@@ -323,6 +372,40 @@ Les initiales représentent :\\
 \end{itemize}
 
 
+\chapter{Tests et Validation}
+  \section{Connexion}
+    \subsection{Téléchargements}
+      Lors de l'execution de l'application, il y aura souvent des données à télécharger. Il faudra donc s'assurer de l'intégrité de ces données, par exemple en cas de déconnexion pendant le téléchargement de ces dernières, afin d'éviter toute corruption au sein de l'application, ou encore simplement de ne pas afficher des articles incomplets. Ceci pourra être realise au travers d'un buffer qui ne seront vidés que si nous savons que les informations sont complètes.
+
+    \subsection{Requêtes}
+      Lors de l'envoi de requêtes il y a toujours la possibilité qu'elles ne parviennent pas à destination, ou alors que le serveur soit trop occupé pour répondre. Il faudra s'assurer de relancer les requêtes en cas d'absence d'une réponse du serveur. Les serveur répondent parfois avec des codes d'erreur, il est impératif que l'application puisse gérer les codes d'erreur correctement.
+
+    \subsection{Ruptures de Connexion}
+      Il sera important d'effectuer des tentatives de reconnexion si jamais la connexion est perdue en cours de telechargement, ou d'envoi de requetes, dans le but d'essayer de reparer la situation sans avoir a en faire part a l'utilisateur.
+
+  \section{Annuaire}
+    \subsection{Informations}
+      Les solutions trouvées lors de recherches doivent etre les mêmes que lorsqu'on cherche sur le site. Il doit y avoir le même nombre de résultats et les mêmes informations doivent apparaitre.
+
+  \section{Gestion de la Mémoire}
+    \subsection{Actualités stockées}
+      L'application a pour rôle de stocker dans la mémoire du téléphone les derniers élements téléchargés depuis les sites de Bordeaux 1  et du LaBRI, afin de rendre ces informations accessibles hors ligne. Cependant il ne sera pas nécessaire de garder les anciennes informations qui risquent d'encombrer la mémoire du téléphone. Nous devons donc assurer que les anciennes données soient écrasées par les nouvelles.
+
+    \subsection{Mémoire vive}
+      Etant donne que nous comptons utiliser un buffer lors du téléchargement de données, il faudra s'assurer de le vider apres chaque élément téléchargé, afin de ne pas remplir la mémoire vive du téléphone avec un buffer trop chargé.
+
+  \section{Agenda}
+    \subsection{Intégrité des données}
+      Lors de l'ajout d'un évenement dans l'agenda il faut s'assurer du maintient de l'intégrité des données existentes. C'est-à-dire que l'ajout d'un évenement en provenance de l'application n'affecte en aucun cas les évenements existants. L'API de l'agenda Android pour la version 4.0 semble déja s'occuper de ce problème.
+
+  \section{Analyse textuelle}
+    \subsection{Détection}
+      Il faut s'assurer que notre algorithme de détection de dates repère un maximum de formats différents.
+
+    \subsection{Extraction}
+      Au cours de l'extraction des dates il faudra parfois effectuer un changement de format de ces dernières afin de les proposer au cours de la création d'un évenement dans l'agenda. Il faudra s'assurer que les conversion s'effectuent correctement.
+    
+
 \chapter{Exemple d'utilisation}
 
 Les images suivantes représentent un premier aperçu de l'interface graphique de l'application. Nous imaginons donc un scénario d'utilisation qui montre le déroulement d'un usage typique. 
@@ -408,40 +491,6 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
     \label{fig:09}
   \end{minipage}
 \end{figure}
-
-\chapter{Tests et Validation}
-  \section{Connexion}
-    \subsection{Téléchargements}
-      Lors de l'execution de l'application, il y aura souvent des données à télécharger. Il faudra donc s'assurer de l'intégrité de ces données, par exemple en cas de déconnexion pendant le téléchargement de ces dernières, afin d'éviter toute corruption au sein de l'application, ou encore simplement de ne pas afficher des articles incomplets. Ceci pourra être realise au travers d'un buffer qui ne seront vidés que si nous savons que les informations sont complètes.
-
-    \subsection{Requêtes}
-      Lors de l'envoi de requêtes il y a toujours la possibilité qu'elles ne parviennent pas à destination, ou alors que le serveur soit trop occupé pour répondre. Il faudra s'assurer de relancer les requêtes en cas d'absence d'une réponse du serveur. Les serveur répondent parfois avec des codes d'erreur, il est impératif que l'application puisse gérer les codes d'erreur correctement.
-
-    \subsection{Ruptures de Connexion}
-      Il sera important d'effectuer des tentatives de reconnexion si jamais la connexion est perdue en cours de telechargement, ou d'envoi de requetes, dans le but d'essayer de reparer la situation sans avoir a en faire part a l'utilisateur.
-
-  \section{Annuaire}
-    \subsection{Informations}
-      Les solutions trouvées lors de recherches doivent etre les mêmes que lorsqu'on cherche sur le site. Il doit y avoir le même nombre de résultats et les mêmes informations doivent apparaitre.
-
-  \section{Gestion de la Mémoire}
-    \subsection{Actualités stockées}
-      L'application a pour rôle de stocker dans la mémoire du téléphone les derniers élements téléchargés depuis les sites de Bordeaux 1  et du LaBRI, afin de rendre ces informations accessibles hors ligne. Cependant il ne sera pas nécessaire de garder les anciennes informations qui risquent d'encombrer la mémoire du téléphone. Nous devons donc assurer que les anciennes données soient écrasées par les nouvelles.
-
-    \subsection{Mémoire vive}
-      Etant donne que nous comptons utiliser un buffer lors du téléchargement de données, il faudra s'assurer de le vider apres chaque élément téléchargé, afin de ne pas remplir la mémoire vive du téléphone avec un buffer trop chargé.
-
-  \section{Agenda}
-    \subsection{Intégrité des données}
-      Lors de l'ajout d'un évenement dans l'agenda il faut s'assurer du maintient de l'intégrité des données existentes. C'est-à-dire que l'ajout d'un évenement en provenance de l'application n'affecte en aucun cas les évenements existants. L'API de l'agenda Android pour la version 4.0 semble déja s'occuper de ce problème.
-
-  \section{Analyse textuelle}
-    \subsection{Détection}
-      Il faut s'assurer que notre algorithme de détection de dates repère un maximum de formats différents.
-
-    \subsection{Extraction}
-      Au cours de l'extraction des dates il faudra parfois effectuer un changement de format de ces dernières afin de les proposer au cours de la création d'un évenement dans l'agenda. Il faudra s'assurer que les conversion s'effectuent correctement.
-    
 
 \bibliography{biblio}
 \end{document}
