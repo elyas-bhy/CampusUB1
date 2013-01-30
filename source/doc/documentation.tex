@@ -373,37 +373,20 @@ Les initiales représentent :\\
 
 
 \chapter{Tests et Validation}
-  \section{Connexion}
-    \subsection{Téléchargements}
-      Lors de l'execution de l'application, il y aura souvent des données à télécharger. Il faudra donc s'assurer de l'intégrité de ces données, par exemple en cas de déconnexion pendant le téléchargement de ces dernières, afin d'éviter toute corruption au sein de l'application, ou encore simplement de ne pas afficher des articles incomplets. Ceci pourra être realise au travers d'un buffer qui ne seront vidés que si nous savons que les informations sont complètes.
+  
+  \section{Choix de l'Etablissement}
+    \subsection{Bordeaux 1}
+      Après la sélection de l'établissement Bordeaux 1, l'application devrait rediriger l'utilisateur vers le menu adapté pour la partie Bordeaux 1~\ref{fig:02}. Au prochain démarrage de l'application, l'utilisateur devrait arriver sur ce menu automatiquement.
 
-    \subsection{Requêtes}
-      Lors de l'envoi de requêtes il y a toujours la possibilité qu'elles ne parviennent pas à destination, ou alors que le serveur soit trop occupé pour répondre. Il faudra s'assurer de relancer les requêtes en cas d'absence d'une réponse du serveur. Les serveur répondent parfois avec des codes d'erreur, il est impératif que l'application puisse gérer les codes d'erreur correctement.
+    \subsection{LaBRI}
+      La sélection de l'établissement LaBRI doit se comporter comme pour le choix de l'établissement Bordeaux 1, mais en redirigeant vers le menu LaBRI~\ref{fig:09}.
 
-    \subsection{Ruptures de Connexion}
-      Il sera important d'effectuer des tentatives de reconnexion si jamais la connexion est perdue en cours de telechargement, ou d'envoi de requetes, dans le but d'essayer de reparer la situation sans avoir a en faire part a l'utilisateur.
+  \section{Evènements}  
+    \subsection{Connecté}
+      L'application est connectée à internet, alors elle télécharge les derniers évènements propres à l'établissement choisit (celles qui n'ont pas encore été téléchargées) et les affiche~\ref{fig:03}. Un petit toast s'affiche pour indiquer la date de la dernière mise à jour.
 
-  \section{Annuaire}
-    \subsection{Informations}
-      Les solutions trouvées lors de recherches doivent etre les mêmes que lorsqu'on cherche sur le site. Il doit y avoir le même nombre de résultats et les mêmes informations doivent apparaitre.
-
-  \section{Gestion de la Mémoire}
-    \subsection{Actualités stockées}
-      L'application a pour rôle de stocker dans la mémoire du téléphone les derniers élements téléchargés depuis les sites de Bordeaux 1  et du LaBRI, afin de rendre ces informations accessibles hors ligne. Cependant il ne sera pas nécessaire de garder les anciennes informations qui risquent d'encombrer la mémoire du téléphone. Nous devons donc assurer que les anciennes données soient écrasées par les nouvelles.
-
-    \subsection{Mémoire vive}
-      Etant donne que nous comptons utiliser un buffer lors du téléchargement de données, il faudra s'assurer de le vider apres chaque élément téléchargé, afin de ne pas remplir la mémoire vive du téléphone avec un buffer trop chargé.
-
-  \section{Agenda}
-    \subsection{Intégrité des données}
-      Lors de l'ajout d'un évenement dans l'agenda il faut s'assurer du maintient de l'intégrité des données existentes. C'est-à-dire que l'ajout d'un évenement en provenance de l'application n'affecte en aucun cas les évenements existants. L'API de l'agenda Android pour la version 4.0 semble déja s'occuper de ce problème.
-
-  \section{Analyse textuelle}
-    \subsection{Détection}
-      Il faut s'assurer que notre algorithme de détection de dates repère un maximum de formats différents.
-
-    \subsection{Extraction}
-      Au cours de l'extraction des dates il faudra parfois effectuer un changement de format de ces dernières afin de les proposer au cours de la création d'un évenement dans l'agenda. Il faudra s'assurer que les conversion s'effectuent correctement.
+    \subsection{Non Connecté}
+      L'application affiche les évènements contenus dans la mémoire du téléphone qui correspondent à l'établissement choisit~\ref{fig:03}. Un toast affiche la date de la dernière mise à jour.
     
 
 \chapter{Exemple d'utilisation}
