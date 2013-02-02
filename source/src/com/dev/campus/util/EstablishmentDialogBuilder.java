@@ -1,5 +1,6 @@
 package com.dev.campus.util;
 
+import com.dev.campus.LabriActivity;
 import com.dev.campus.UB1Activity;
 import com.dev.campus.R;
 
@@ -20,9 +21,14 @@ public class EstablishmentDialogBuilder extends AlertDialog.Builder {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				Intent intent;
 				switch(which) {
-				case 0: 
-					Intent intent = new Intent(mContext, UB1Activity.class);
+				case 0: //UB1
+					intent = new Intent(mContext, UB1Activity.class);
+					mContext.startActivity(intent);
+					break;
+				case 1: //LaBRI
+					intent = new Intent(mContext, LabriActivity.class);
 					mContext.startActivity(intent);
 					break;
 				default:
