@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array  name="establishments_array">
+        <item>@string/ub1</item>
+        <item>@string/labri</item>
+    </string-array>
+    
+</resources>

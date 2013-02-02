@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="menu_settings">Settings</string>
+    
+    <!-- Establishments -->
+    <string name="ub1">University of Bordeaux 1</string>
+    
+</resources>
