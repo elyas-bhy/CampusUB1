@@ -18,7 +18,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		mEstablishmentDialogBuilder = new EstablishmentDialogBuilder(this);
 		mEstablishmentDialogBuilder.show();
-		
 	}
 
     @Override

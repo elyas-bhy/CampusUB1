@@ -9,18 +9,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 public class EstablishmentDialogBuilder extends AlertDialog.Builder {
+	
+	private Context mContext;
 
 	public EstablishmentDialogBuilder(Context context) {
 		super(context);
-		setTitle("Select your desired establishment");
+		mContext = context;
+		setTitle(R.string.selectEst);
 		setItems(R.array.establishments_array, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				switch(which) {
 				case 0: 
-					Intent intent = new Intent(getContext(), UB1Activity.class);
-					getContext().startActivity(intent);
+					Intent intent = new Intent(mContext, UB1Activity.class);
+					mContext.startActivity(intent);
+					break;
+				default:
+					break;
 				}
 				
 			}

@@ -4,6 +4,7 @@ import com.dev.campus.R;
 
 import android.os.Bundle;
 import android.app.ListActivity;
+import android.content.res.Resources;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,16 +12,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class UB1Activity extends ListActivity {
-
-	public static final String EVENTS = "Events";
-	public static final String DIRECTORY = "Directory";
-	public static final String SCHEDULE = "Export Schedule";
-	public static final String MAP = "Campus Map";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String[] values = new String[] { EVENTS, DIRECTORY, SCHEDULE, MAP};
+        Resources res = getResources();
+        String[] values = new String[] { res.getString(R.string.events), 
+        								 res.getString(R.string.directory),
+        								 res.getString(R.string.schedule),
+        								 res.getString(R.string.map)};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
     }
