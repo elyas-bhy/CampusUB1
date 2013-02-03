@@ -17,7 +17,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mEstablishmentDialogBuilder = new EstablishmentDialogBuilder(this);
-		mEstablishmentDialogBuilder.show();
 	}
 
     @Override
@@ -25,6 +24,12 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+		mEstablishmentDialogBuilder.show();
     }
     
 }
