@@ -353,18 +353,61 @@ Les initiales représentent :\\
 \chapter{Tests et Validation}
   
   \section{Choix de l'Etablissement}
+    Lors du premier lancement de l'application, un ecran propose le choix entre les etablissements disponibles~[Fig.~\ref{fig:01}]. Cet ecran est aussi disponible lorsque on a deja choisi un etablissement, il suffit, depuis l'ecran d'accueil~[Fig.~\ref{fig:02}], d'appuyer sur le logo de Bordeaux en haut a droite de l'ecran.
+
     \subsection{Bordeaux 1}
-      Après la sélection de l'établissement Bordeaux 1, l'application devrait rediriger l'utilisateur vers le menu adapté pour la partie Bordeaux 1~[Fig.~\ref{fig:02}]. Au prochain démarrage de l'application, l'utilisateur devrait arriver sur ce menu automatiquement.
+      Appuyez sur le bouton "Bordeaux 1", l'application devrait vous rediriger vers le menu adapté pour la partie Bordeaux 1~[Fig.~\ref{fig:02}]. Au prochain démarrage de l'application, vous devriez arriver sur ce menu automatiquement.
 
     \subsection{LaBRI}
-      La sélection de l'établissement LaBRI doit se comporter comme pour le choix de l'établissement Bordeaux 1, mais en redirigeant vers le menu LaBRI~[Fig.~\ref{fig:09}].
+      Appuyez sur le bouton "LaBRI". La sélection de l'établissement LaBRI doit se comporter comme pour le choix de l'établissement Bordeaux 1, mais en redirigeant vers le menu LaBRI~[Fig.~\ref{fig:09}]. Au prochain demarrage de l'application, vous devriez etre redirige sur ce menu.
 
-  \section{Evénements}  
+      \subsection{Sauvegarde du choix d'etablissement}
+      Apres avoir fais votre choix, fermez l'application puis ouvrez-la de nouveux, vous devriez vous retrouver sur l'ecran d'accueil de l'etablissement que vous avez choisi.
+
+  \section{Evénements (Bordeaux1 et LaBRI)}  
+
+    Depuis l'ecran d'accueil de votre etablissement, appuyez sur le bouton "evenement". Vous arrivez sur une liste d'evenements propre a votre etablissement.
+
     \subsection{Etat Connecté}
       L'application est connectée à Internet, alors elle télécharge les derniers évènements propres à l'établissement choisit (celles qui n'ont pas encore été téléchargées) et les affiche~[Fig.~\ref{fig:03}]. Un petit toast s'affiche pour indiquer la date de la dernière mise à jour.
 
     \subsection{Etat Non Connecté}
       L'application affiche les événements contenus dans la mémoire du téléphone qui correspondent à l'établissement choisit~[Fig.~\ref{fig:03}]. Un toast affiche la date de la dernière mise à jour.
+
+    \subsection{Affichage en détail}
+      Depuis la liste des evenements~[Fig.~\ref{fig:03}], effectuez un "slide" vers la gauche sur le résumé d'un évenement pour afficher le contenu complet de l'évenement choisi~[Fig.~\ref{fig:04}].
+
+    \subsection{Ajout dans l'agenda depuis le detail de l'evenement}
+      Depuis l'ecran de details de l'evenement appuyer un moment au milieu de la page et un menu apparaitra. Celui-ci sera plus ou moins rempli en fonction des details fournis dans le texte. Vous pouvez rentrer les informations manquantes (par exemple changer de titre qui sera le titre de l'evenement, ...) puis valider. Vous pouvez, a partir de ce moment, aller regarder dans l'agenda du smartphone, l'evenement devrait etre ajoute aux horaires choisis.
+
+    \subsection{Ajout dans l'agenda depuis la liste des evenements}
+      Depuis la liste des evenements~[Fig.~\ref{fig:03}], appuyer un moment sur l'evenement que vous voulez ajouter dans l'agenda et un menu apparaitra. Celui-ci sera le meme que precedement et les memes actions devront etre faites. Vous pourrez de nouveau aller dans l'agenda du smartphone, l'evenement sera present aux horaires entres.
+
+  \section{Contacts (Bordeaux1 et LaBRI)}
+
+  Depuis l'ecran d'accueil de votre etablissement, appuyez sur le bouton "annuaire". Vous arrivez sur une page contenant une barre de recherche~[Fig.~\ref{fig:06}].
+
+    \subsection{Recherche d'un contact}
+      Si vous n'avez pas d'acces a internet, auncun nom ne s'affiche et un toast vous indique que vous n'etes pas connecte.
+      Dans le cas contraire, les premiers noms de l'annuaire de l'etablissement apparaissent. Dans la barre de recherche entrez le nom ou le prenom de la personne souhaitee. L'application cherche dans l'annuaire de l'etablissement et vous propose les personnes correspondantes.    
+
+    \subsection{Ajout dans l'annuaire du smartphone}
+      Apres avoir trouve le contact recherche (voir section precedente), appuyez sur ce contact et un menu s'ouvre. Celui-ci propose soit d'ajouter les informations a un contact existant, soit d'en creer un nouveau. Dans les deux cas, l'application doit faire des propositions dans les champs appropriés. La différence étant que si l'on ajoute des informations a un contact existant, on ne proposera pas de nouvelle entree pour le nom.
+
+    \subsection{Appeler ou envoyer un mail a un contact}
+    Apres avoir trouve votre contact (voir paragraphe precedent), appuyez sur son nom et un menu apparaitra. Celui-ci vous proposera\\ 
+    appel.... \\
+    envoyer mail...\\
+    raaaaah, rage quit ...
+
+
+  \section{Export d'emploi du temps (Bordeaux1)}
+
+  \section{Carte de Bordeaux 1}
+
+
+
+
     
 
 \chapter{Exemple d'utilisation}
