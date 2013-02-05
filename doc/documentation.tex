@@ -153,6 +153,8 @@ Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, a
 
 \chapter{Analyse des besoins}
 
+Nous allons analyser dans ce chapitre les différents besoins fonctionnels et non-fonctionnels de notre application.\\
+Nous allons donc utiliser un système de points pour évaluer la priorité et la faisabilité des tâches. On se basera sur une séquence de Fibonacci arrondie (1, 2, 3, 5, 8, 13, 20, 40, 60, 100), avec 100 reflétant un besoin de priorité maximale, et d'une grande faisabilité.
 \section{Besoins fonctionnels}
 \subsection{Fonctionnalités principales}
 \subsubsection{Choix de l'établissement}
@@ -160,8 +162,8 @@ Etant donné que l'application présentera des services pour deux établissement
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5
-\item Faisabilité: 5/5
+\item Priorité: 100/100
+\item Faisabilité: 100/100
 \item Risques: mise à jour des URLs si les adresses des établissements sont modifiées.
 \item Validation: s'assurer que les sélections et les changements d'établissements s'effectuent correctement.
 \end{itemize}
@@ -171,8 +173,8 @@ En accédant au menu des actualités, l'utilisateur disposera d'une interface à
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5
-\item Faisabilité: 3.5/5
+\item Priorité: 100/100
+\item Faisabilité: 60/100
 \item Difficultés techniques: extraction des informations pertinentes.
 \item Risques: changement de structure du contenu à parser (flux RSS et pages HTML).
 \item Validation: assurer l'intégrité des informations extraites.
@@ -192,8 +194,8 @@ Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de créa
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5
-\item Faisabilité: 4/5
+\item Priorité: 100/100
+\item Faisabilité: 60/100
 \item Difficultés techniques:
 \begin{itemize}
 \item Avec LDAP: mise en place du protocole.
@@ -209,8 +211,8 @@ L'application devra garder en mémoire les derniers éléments téléchargés pe
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 5/5
-\item Faisabilité: 3.5/5
+\item Priorité: 100/100
+\item Faisabilité: 60/100
 \item Risques: mauvaise gestion de la mémoire.
 \item Difficultés techniques: éviter de télécharger de nouveau des informations déja collectées.
 \item Validation: vérifier l'intégration des nouvelles informations.
@@ -225,8 +227,8 @@ L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 1.5/5
-\item Faisabilité: 2.5/5à
+\item Priorité: 1/100
+\item Faisabilité: 40/100
 \item Difficultés techniques: extraction des informations en fonction du choix de l'utilisateur.
 \item Risques: changement du format de l'emploi du temps.
 \item Validation: assurer l'intégrité des données extraites.
@@ -237,8 +239,8 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 1/5
-\item Faisabilité: 2.5/5
+\item Priorité: 1/100
+\item Faisabilité: 40/100
 \item Difficultés techniques: maîtriser l'API de Google Maps.
 \end{itemize}
 
@@ -246,12 +248,13 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 
 \section{Besoins non fonctionnels}
 \subsection{Besoins de performance}
-L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra exécuter ces services de manière assez rapide même sur les smartphones moins performants. \\
+L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra exécuter ces services de manière assez rapide même sur les smartphones moins performants.\\
+Nous testerons l'application sur les appareils suivants: LG Optimus 2X (P990), Sony Xperia S, Samsung Galaxy S2.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 3/5
-\item Faisabilité: 5/5
+\item Priorité: 20/100
+\item Faisabilité: 60/100
 \item Difficultés techniques: bonne gestion de l'espace mémoire et de l'actualisation.
 \item Risques: implémention complexe et potentiellement longue.
 \item Validation: vérification que l'utilisation reste assez fluide et ne consomme pas beaucoup de ressources (à préciser un seuil de consommation de RAM).
@@ -262,8 +265,8 @@ Etant donné que les différents services mis à disposition par CampusUB1 à se
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 4.5/5
-\item Faisabilité: 3.5/5
+\item Priorité: 60/100
+\item Faisabilité: 20/100
 \item Difficultés techniques: fiabilité de l'algorithme d'analyse textuelle pour détecter les dates des événements.
 \item Risques: création d'un événement avec des données erronées.
 \item Validation: simulation de l'algorithme d'analyse textuelle sur suffisamment de données pour avoir un taux de réussite acceptable (à déterminer).
@@ -274,8 +277,8 @@ CampusUB1 doit accéder à certaines ressources personnelles du client pour pouv
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 4.5/5
-\item Faisabilité: 4.5/5
+\item Priorité: 60/100
+\item Faisabilité: 60/100
 \item Risques: perte des informations existantes sur le smartphone.
 \item Validation: monitoring du comportement de l'application.
 \end{itemize} 
