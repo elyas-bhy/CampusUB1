@@ -353,73 +353,75 @@ Les initiales représentent :\\
 \chapter{Tests et Validation}
   
   \section{Choix de l'Etablissement}
-    Lors du premier lancement de l'application, un ecran propose le choix entre les etablissements disponibles~[Fig.~\ref{fig:01}]. Cet ecran est aussi disponible lorsque on a deja choisi un etablissement, il suffit, depuis l'ecran d'accueil~[Fig.~\ref{fig:02}], d'appuyer sur le logo de Bordeaux en haut a droite de l'ecran.
+    Lors du premier lancement de l'application, un écran propose le choix entre les établissements disponibles~[Fig.~\ref{fig:01}]. Cet écran est aussi disponible lorsque on a déjà choisi un établissement, il suffit, depuis l'écran d'accueil~[Fig.~\ref{fig:02}], d'appuyer sur le logo de l'application en haut à gauche de l'écran.
 
     \subsection{Bordeaux 1}
-      Appuyez sur le bouton "Bordeaux 1", l'application devrait vous rediriger vers le menu adapté pour la partie Bordeaux 1~[Fig.~\ref{fig:02}]. Au prochain démarrage de l'application, vous devriez arriver sur ce menu automatiquement.
+      Sélectionnez \emph{Bordeaux 1}, l'application devrait vous rediriger vers le menu adapté pour la partie Bordeaux 1~[Fig.~\ref{fig:02}]. Au prochain démarrage de l'application, vous devriez arriver sur ce menu automatiquement.
 
     \subsection{LaBRI}
-      Appuyez sur le bouton "LaBRI". La sélection de l'établissement LaBRI doit se comporter comme pour le choix de l'établissement Bordeaux 1, mais en redirigeant vers le menu LaBRI~[Fig.~\ref{fig:09}]. Au prochain demarrage de l'application, vous devriez etre redirige sur ce menu.
+      Sélectionnez \emph{LaBRI}. La sélection de l'établissement LaBRI doit se comporter comme pour le choix de l'établissement Bordeaux 1, mais en redirigeant vers le menu LaBRI~[Fig.~\ref{fig:09}]. Au prochain démarrage de l'application, vous devriez être redirigés sur ce menu.
 
-      \subsection{Sauvegarde du choix d'etablissement}
-      Apres avoir fais votre choix, fermez l'application puis ouvrez-la de nouveux, vous devriez vous retrouver sur l'ecran d'accueil de l'etablissement que vous avez choisi.
+    \subsection{Sauvegarde du choix d'établissement}
+      Après avoir fais votre choix, fermez l'application puis ouvrez-la de nouveau, vous devriez vous retrouver sur l'écran d'accueil de l'établissement que vous avez choisi.
+
 
   \section{Evénements (Bordeaux1 et LaBRI)}  
+    Depuis l'écran d'accueil de votre établissement, appuyez sur le bouton \emph{Evénements}. Vous arrivez sur une liste d'événements propre à votre établissement.
 
-    Depuis l'ecran d'accueil de votre etablissement, appuyez sur le bouton "evenement". Vous arrivez sur une liste d'evenements propre a votre etablissement.
+    \subsection{Situation en ligne}
+      L'application étant connectée à Internet, elle télécharge les derniers événements propres à l'établissement choisi (ceux qui n'ont pas encore été téléchargés) et les affiche~[Fig.~\ref{fig:03}]. Un toast s'affiche pour indiquer la date de la dernière mise à jour effectuée.
 
-    \subsection{Etat Connecté}
-      L'application est connectée à Internet, alors elle télécharge les derniers évènements propres à l'établissement choisit (celles qui n'ont pas encore été téléchargées) et les affiche~[Fig.~\ref{fig:03}]. Un petit toast s'affiche pour indiquer la date de la dernière mise à jour.
-
-    \subsection{Etat Non Connecté}
-      L'application affiche les événements contenus dans la mémoire du téléphone qui correspondent à l'établissement choisit~[Fig.~\ref{fig:03}]. Un toast affiche la date de la dernière mise à jour.
+    \subsection{Situation hors ligne}
+      L'application affiche l'historique des événements enregistrés de l'établissement choisi~[Fig.~\ref{fig:03}]. Un toast affiche la date de la dernière mise à jour effectuée.
 
     \subsection{Affichage en détail}
-      Depuis la liste des evenements~[Fig.~\ref{fig:03}], effectuez un "slide" vers la gauche sur le résumé d'un évenement pour afficher le contenu complet de l'évenement choisi~[Fig.~\ref{fig:04}].
+      Depuis la liste des événements~[Fig.~\ref{fig:03}], effectuez un \emph{slide} vers la gauche sur le résumé d'un événement pour afficher le contenu complet de l'événement choisi~[Fig.~\ref{fig:04}].
 
-    \subsection{Ajout dans l'agenda depuis le detail de l'evenement}
-      Depuis l'ecran de details de l'evenement appuyer un moment au milieu de la page et un menu apparaitra. Celui-ci sera plus ou moins rempli en fonction des details fournis dans le texte. Vous pouvez rentrer les informations manquantes (par exemple changer de titre qui sera le titre de l'evenement, ...) puis valider. Vous pouvez, a partir de ce moment, aller regarder dans l'agenda du smartphone, l'evenement devrait etre ajoute aux horaires choisis.
+    \subsection{Ajout dans l'agenda depuis la vue détaillé de l'événement} %WTF
+      Depuis l'écran des détails de l'événement, appuyez un moment au milieu de la page et un menu apparaîtra. Celui-ci sera plus ou moins rempli en fonction des détails fournis dans le texte. Vous pouvez rentrer les informations manquantes (par exemple changer de titre qui sera le titre de l'événement, ...) puis valider. Vous pouvez, à partir de ce moment, aller regarder dans l'agenda du smartphone, l'événement devrait être ajouté aux horaires choisis.
 
-    \subsection{Ajout dans l'agenda depuis la liste des evenements}
-      Depuis la liste des evenements~[Fig.~\ref{fig:03}], appuyer un moment sur l'evenement que vous voulez ajouter dans l'agenda et un menu apparaitra. Celui-ci sera le meme que precedement et les memes actions devront etre faites. Vous pourrez de nouveau aller dans l'agenda du smartphone, l'evenement sera present aux horaires entres.
+    \subsection{Ajout dans l'agenda depuis la liste des événements}
+      Depuis la liste des événements~[Fig.~\ref{fig:03}], appuyer un moment sur l'événement que vous voulez ajouter dans l'agenda et un menu apparaîtra. Celui-ci sera le même que précédement et les mêmes actions pourront être faites. Vous pourrez de nouveau aller dans l'agenda du smartphone, l'événement sera présent aux horaires entrés.
 
   \section{Contacts (Bordeaux1 et LaBRI)}
 
-    Depuis l'ecran d'accueil de votre etablissement, appuyez sur le bouton "annuaire". Vous arrivez sur une page contenant une barre de recherche~[Fig.~\ref{fig:06}].
+    Depuis l'écran d'accueil de votre établissement, appuyez sur le bouton \emph{Annuaire}. Vous arrivez sur une page contenant une barre de recherche~[Fig.~\ref{fig:06}].
 
     \subsection{Recherche d'un contact}
-      Si vous n'avez pas d'acces a internet, auncun nom ne s'affiche et un toast vous indique que vous n'etes pas connecte.
-      Dans le cas contraire, les premiers noms de l'annuaire de l'etablissement apparaissent. Dans la barre de recherche entrez le nom ou le prenom de la personne souhaitee. L'application cherche dans l'annuaire de l'etablissement et vous propose les personnes correspondantes.    
+      Si vous n'avez pas d'accès à Internet, aucun nom ne s'affiche et un toast vous indique que vous n'êtes pas connecté.
+      Dans le cas contraire, les premiers noms de l'annuaire de l'établissement apparaissent. Dans la barre de recherche entrez le nom et/ou le prénom de la personne souhaitée. L'application cherche dans l'annuaire de l'établissement et vous propose les résultats correspondants.    
 
     \subsection{Ajout dans l'annuaire du smartphone}
-      Apres avoir trouve le contact recherche (voir section precedente), appuyez sur ce contact et un menu s'ouvre. Celui-ci propose soit d'ajouter les informations a un contact existant, soit d'en creer un nouveau. Dans les deux cas, l'application doit faire des propositions dans les champs appropriés. La différence étant que si l'on ajoute des informations a un contact existant, on ne proposera pas de nouvelle entree pour le nom.
+      Après avoir trouvé le contact recherché (voir section précédente), appuyez sur ce contact et un menu s'ouvre. Celui-ci propose soit d'ajouter les informations à un contact existant, soit d'en créer un nouveau.\\
+      \begin{itemize}
+      \renewcommand{\labelitemi}{$\bullet$}
+      \item Nouveau contact: Redirection vers la page de création d'un nouveau contact, avec les champs pré-remplis avec les informations récupérées.
+      \item Editer existant: Redirection vers la page des contacts. L'utilisateur doit sélectionner le contact qu'il veut mettre à jour. 
+      \end{itemize}
+      \wl Une fois validé, on peut vérifier en s'assurant que le contact est bien créé et que les informations sont mises à jour.
 
-    \subsection{Appeler ou envoyer un mail a un contact}
-      Apres avoir trouve votre contact (voir paragraphe precedent), appuyez sur son nom et un menu apparaitra. Celui-ci vous proposera\\ 
-      appel: Un appel sera lancé vers le numéro du contact (Si aucun numéro n'est disponible, l'option sera grisée)
-      envoyer mail: Ouvre le gestionnaire d'e-mail du téléphone avec le champ destinataire déja rempli.
-      
-
-
-  \section{Export d'emploi du temps (Bordeaux1)}
-    \subsection{Etat connecté}
-      Un menu s'ouvre, offrant plusieurs niveaux d'étude~[Fig.~\ref{fig:07}]. Ce premier choix mène ensuite à au choix de la filière et du groupe~[Fig.~\ref{fig:08}].
-      En appuiyant sur le bouton "Exporter", l'emploi du temps sera téléchargé, puis ajouté dans le calendrier du smartphone.
-
-    \subsection{Etat non connecté}
-      Un message s'affiche, indiquant à l'utilisateur qu'un connexion internet est nécessaire à l'exportation de l'emploi du temps.
-
-  \section{Carte de Bordeaux 1}
-    \subsection{Etat connecté}
-      L'application maps du téléphone est ouverte, et centrée sur le campus et si possible, affiche le marqueur de position actuelle de l'utilisateur.
-
-    \subsection{Etat non connecté}
-      L'application affichera une image du plan du campus bordeaux 1 (suffisamment différente de l'image de l'application maps pour éviter les confusions).
+    \subsection{Appeler ou envoyer un mail à un contact}
+      Après avoir trouvé votre contact (voir paragraphe précédent), appuyez sur son nom et un menu apparaîtra. Celui-ci vous proposera:\\
+      \begin{itemize}
+      \renewcommand{\labelitemi}{$\bullet$}
+      \item Appeler: Un appel sera lancé vers le numéro du contact. Si aucun numéro n'est disponible, l'option sera désactivée.
+      \item Envoyer mail: Ouvre le gestionnaire d'e-mail du smartphone avec le champ destinataire pré-rempli avec l'adresse du contact.
+      \end{itemize}
 
 
+  \section{Export d'Emploi du Temps (Bordeaux1)}
+    \subsection{Situation en ligne}
+      Un menu s'ouvre, listant plusieurs niveaux d'études~[Fig.~\ref{fig:07}]. Ce premier choix mène ensuite au choix de la filière et du groupe~[Fig.~\ref{fig:08}].
+      En appuyant sur le bouton \emph{Exporter}, l'emploi du temps sera téléchargé, puis ajouté dans le calendrier du smartphone.
+
+    \subsection{Situation hors ligne}
+      Un message s'affiche, indiquant à l'utilisateur qu'une connexion Internet est nécessaire à l'exportation de l'emploi du temps.
+
+  \section{Plan du Campus de Bordeaux 1}
+      L'application Google Maps du smartphone est lancée, centrée sur le campus et si possible, affiche le marqueur de position actuelle de l'utilisateur.
+      Si l'utilisateur a désactivé son GPS et n'est pas en ligne, l'application affichera une simple image du plan du campus de Bordeaux 1 pour une utilisation hors ligne.
 
 
-    
 
 \chapter{Exemple d'utilisation}
 
