@@ -144,12 +144,18 @@ En ce qui concerne le site du LaBRI, il n'y a aucun flux RSS et il faudra donc p
 
 \subsection{Annuaire}
 Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
-Afin d'implémenter l'annuaire au sein de notre application Android, il est évident qu'il faut exploiter les annuaires de Bordeaux 1~\cite{AnnuaireBdx1} et du LaBRI. Vu que les accès aux bases de données ne peuvent pas nous être communiqués, nous pensons intégrer l'annuaire à travers des requêtes GET, dans le but de parser les résultats obtenus. Pour le moment ceci semble être la meilleure solution envisageable.
+Afin d'implémenter l'annuaire au sein de notre application Android, il est évident qu'il faut exploiter les annuaires de Bordeaux 1~\cite{AnnuaireBdx1} et du LaBRI. En ce qui concerne le LaBRI, le serveur LDAP n'est pas accessible depuis l'extérieur (sans authentification).Nous devrons donc intégrer l'annuaire à travers des requêtes GET, dans le but de parser les résultats obtenus. Pour le moment ceci semble être la meilleure solution envisageable. L'accès sans authentification au serveur LDAP de l'université de Bordeaux1 nous est permis, ce qui facilitera grandement l'intégration de la recherche dans l'annuaire pour cet établissement, ainsi que la maintenabilité du logiciel.
+
 
 \subsection{Utilitaires}
+\subsubsection{Plan du campus}
 Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, potentiellement intégré à l'application Maps du smartphone.
-Finalement, nous parserons les fichiers XML des emplois du temps\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
+Ce service permettrait donc à l'utilisateur d'avoir un aperçu plus détaillé du campus en affichant les différents bâtiments et leur noms.
+On poura éventuellement aussi afficher les emplacements des différents services dédiés aux étudiants(Cafettaria,Restaurant Universitaire, Bibliothèque Universitaire).
 
+\subsubsection{Emploi du temps}
+Un autre service qui pourrait être très utile en particulier pour les étudiants de Bordeaux1 est l'accès et la sauvegarde locale de leur emplois du temps en fonction de leurs filières, des groupes, et des différentes options suivies. 
+Pour cela, nous parserons les fichiers XML des emplois du temps utilisant la plateforme Celcat\cite{EdTxml}, afin de mettre à disposition une copie locale de l'emploi du temps dans l'agenda du smartphone.
 
 \chapter{Analyse des besoins}
 
@@ -158,7 +164,7 @@ Nous allons donc utiliser un système de points pour évaluer la priorité et la
 \section{Besoins fonctionnels}
 \subsection{Fonctionnalités principales}
 \subsubsection{Choix de l'établissement}
-Etant donné que l'application présentera des services pour deux établissements différents, l'utilisateur doit pouvoir naviguer entre les établissements, s'il souhaite accéder à leurs services et informations [Fig.~\ref{fig:01}]. \\
+Etant donné que l'application présentera des services en commun à plusieurs établiseements, l'utilisateur doit pouvoir s'abonner aux établissements de son choix, s'il souhaite accéder à leurs propres informations [Fig.~\ref{fig:01}]. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -169,7 +175,7 @@ Etant donné que l'application présentera des services pour deux établissement
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
-En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités de l'établissement [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités des établissements auxquels il est abonné. Par défaut il aura alors la possibilité de voir les événements propres aux établissements auxquels il s'est abonné. Il pourra à tout moment depuis la même fenêtre et à l'aide d'un filtre choisir entre voir la totalité des actualités des établissements auprès desquels il s'est souscrit, ou voir uniquement les actualités propres aux établissements qu'il a sélectionné dans le filtre.  [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -190,6 +196,7 @@ L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:
 \item Envoyer un mail au contact.
 \item Appeler la personne (si un numéro de téléphone est disponible).
 \end{itemize}
+La recherche de personnes dans l'annuaire se fera en fonction des établissements auquels l'utilisateur s'est abonné. On pourra donc choisir grâce à un filtre entre rechercher une personne dans l'annuaire propre à un ou plusieurs établissements, ou la rechercher dans tous les annuaires.
 Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de création d'un nouveau contact, dans laquelle les champs pertinents seront pré-remplis, en fonction des informations collectées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
 
 \begin{itemize}
