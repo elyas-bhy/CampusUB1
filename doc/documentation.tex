@@ -355,17 +355,20 @@ Les initiales représentent :\\
 
 \chapter{Tests et Validation}
   
-  \section{Choix de l'Etablissement}
-    Lors du premier lancement de l'application, un écran propose le choix entre les établissements disponibles~[Fig.~\ref{fig:01}]. Cet écran est aussi disponible lorsque on a déjà choisi un établissement, il suffit, depuis l'écran d'accueil~[Fig.~\ref{fig:02}], d'appuyer sur le logo de l'application en haut à gauche de l'écran.
+  \section{Test 01: Choix de l'établissement}
+    \begin{enumerate}
+    \item Démarrer l'application pour la première fois, un menu vous sera proposé pour effectuer le choix de l'établissement~[Fig.~\ref{fig:01}].
+    \item Sélctionnez un des éléments dans le menu.
+    \end{enumerate}
 
-    \subsection{Bordeaux 1}
-      Sélectionnez \emph{Bordeaux 1}, l'application devrait vous rediriger vers le menu adapté pour la partie Bordeaux 1~[Fig.~\ref{fig:02}]. Au prochain démarrage de l'application, vous devriez arriver sur ce menu automatiquement.
+    Résultat attendu: Vous serez redirigé vers le menu correspondant à l'établissement choisi. Exemple pour le choix de Bordeaux 1:~[Fig.~\ref{fig:02}].
 
-    \subsection{LaBRI}
-      Sélectionnez \emph{LaBRI}. La sélection de l'établissement LaBRI doit se comporter comme pour le choix de l'établissement Bordeaux 1, mais en redirigeant vers le menu LaBRI~[Fig.~\ref{fig:09}]. Au prochain démarrage de l'application, vous devriez être redirigés sur ce menu.
+  \section{Test 02: Maintient du choix de l'établissement}
+    \begin{enumerate}
+    \item Quittez l'application, et redémarrez-la.
+    \end{enumerate}
 
-    \subsection{Sauvegarde du choix d'établissement}
-      Après avoir fais votre choix, fermez l'application puis ouvrez-la de nouveau, vous devriez vous retrouver sur l'écran d'accueil de l'établissement que vous avez choisi.
+    Résultat attendu: L'application aura sauvegardé votre choix d'établissement, et vous redirigera à la page d'accueil de cet établissement. Exemple pour le choix LaBRI:~[Fig.~\ref{fig:09}]
 
 
   \section{Evénements (Bordeaux1 et LaBRI)}  
