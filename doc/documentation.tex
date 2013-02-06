@@ -358,18 +358,57 @@ Les initiales représentent :\\
   \section{Test 01: Choix de l'établissement}
     \begin{enumerate}
     \item Démarrer l'application pour la première fois, un menu vous sera proposé pour effectuer le choix de l'établissement~[Fig.~\ref{fig:01}].
-    \item Sélctionnez un des éléments dans le menu.
+    \item Sélectionnez les établissements auxquels vous voulez vous abonner.
     \end{enumerate}
 
-    Résultat attendu: Vous serez redirigé vers le menu correspondant à l'établissement choisi. Exemple pour le choix de Bordeaux 1:~[Fig.~\ref{fig:02}].
+    \underline{Résultat attendu}: Vous serez redirigé vers le menu principal de l'application.
 
   \section{Test 02: Maintient du choix de l'établissement}
     \begin{enumerate}
     \item Quittez l'application, et redémarrez-la.
     \end{enumerate}
 
-    Résultat attendu: L'application aura sauvegardé votre choix d'établissement, et vous redirigera à la page d'accueil de cet établissement. Exemple pour le choix LaBRI:~[Fig.~\ref{fig:09}]
+    \underline{Résultat attendu}: L'application aura sauvegardé vos choix d'établissement, et vous redirigera à la page d'accueil de l'application.
 
+  \section{Test 03: Evènements}
+    \begin{enumerate}
+    \item Une fois les abonnements configurés, sélectionner le menu des évènements dans le menu principal.
+    \end{enumerate}
+
+    \underline{Résultats attendus}:
+    \begin{itemize}
+    \item Si l'application est connectée à internet: Les évènements de tous les établissements auxquels l'application est abonnée sont affichés.
+    \item Sinon: Les évènements ayant déja été téléchargées sont affichées.
+    \end{itemize}
+
+  \section{Test 04: Ajout d'un évènement au téléphone}
+    \begin{enumerate}
+    \item TODO
+    \end{enumerate}
+
+  \section{Test 05: Annuaire}
+    \begin{enumerate}
+    \item Une fois les abonnements configurés, sélectionner le menu de l'annuaire dans le menu principal.
+    \end{enumerate}
+
+    \textbf{Résultats attendus}:
+    \begin{itemize}
+    \item Si l'application est connectée à internet: Tous les contacts des annuaires auxquels l'application est abonnée sont affichés.
+    \item Sinon : La liste reste vide.
+    \end{itemize}
+
+  \section{Test 06: Filtrer l'Annuaire}
+    \begin{enumerate}
+    \item Accéder à l'annuaire à partir du menu principal.
+    \item Ecrire dans la barre de recherche.
+    \end{enumerate}
+
+    \underline{Résultat attendu}: Le nombre de résultat se réduit à ceux qui correspondent à ce qui est écrit dans la barre de recherche.
+
+  \section{Test 07: }
+    \begin{enumerate}
+    \item TODO
+    \end{enumerate}
 
   \section{Evénements (Bordeaux1 et LaBRI)}  
     Depuis l'écran d'accueil de votre établissement, appuyez sur le bouton \emph{Evénements}. Vous arrivez sur une liste d'événements propre à votre établissement.
