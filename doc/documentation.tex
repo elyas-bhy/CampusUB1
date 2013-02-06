@@ -160,7 +160,8 @@ Pour cela, nous parserons les fichiers XML des emplois du temps utilisant la pla
 \chapter{Analyse des besoins}
 
 Nous allons analyser dans ce chapitre les différents besoins fonctionnels et non-fonctionnels de notre application.\\
-Nous allons donc utiliser un système de points pour évaluer la priorité et la faisabilité des tâches. On se basera sur une séquence de Fibonacci arrondie (1, 2, 3, 5, 8, 13, 20, 40, 60, 100), avec 100 reflétant un besoin de priorité maximale, et d'une grande faisabilité.
+Nous allons donc utiliser un système de points pour évaluer la difficulté des tâches. On se basera sur une séquence de Fibonacci arrondie (1, 2, 3, 5, 8, 13, 20, 40, 60, 100), avec 100 reflétant une tâche d'une grande difficulté.\\
+Les priorités des besoins sont classées sur cette échelle: optionnel, faible, moyen, important, vital.
 \section{Besoins fonctionnels}
 \subsection{Fonctionnalités principales}
 \subsubsection{Choix de l'établissement}
@@ -168,8 +169,8 @@ Etant donné que l'application présentera des services en commun à plusieurs �
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 100/100
-\item Faisabilité: 100/100
+\item Priorité: vital
+\item Difficulté: 1/100
 \item Risques: mise à jour des URLs si les adresses des établissements sont modifiées.
 \item Validation: s'assurer que les sélections et les changements d'établissements s'effectuent correctement.
 \end{itemize}
@@ -179,15 +180,15 @@ En accédant au menu des actualités, l'utilisateur disposera d'une interface à
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 100/100
-\item Faisabilité: 60/100
+\item Priorité: vital
+\item Difficulté: 40/100
 \item Difficultés techniques: extraction des informations pertinentes.
 \item Risques: changement de structure du contenu à parser (flux RSS et pages HTML).
 \item Validation: assurer l'intégrité des informations extraites.
 \end{itemize}
 
 \subsubsection{Accès à l'annuaire}
-L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:
+L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:\\
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
@@ -196,13 +197,14 @@ L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:
 \item Envoyer un mail au contact.
 \item Appeler la personne (si un numéro de téléphone est disponible).
 \end{itemize}
-La recherche de personnes dans l'annuaire se fera en fonction des établissements auquels l'utilisateur s'est abonné. On pourra donc choisir grâce à un filtre entre rechercher une personne dans l'annuaire propre à un ou plusieurs établissements, ou la rechercher dans tous les annuaires.
+
+\wl La recherche de personnes dans l'annuaire se fera en fonction des établissements auquels l'utilisateur s'est abonné. On pourra donc choisir grâce à un filtre entre rechercher une personne dans l'annuaire propre à un ou plusieurs établissements, ou la rechercher dans tous les annuaires.
 Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de création d'un nouveau contact, dans laquelle les champs pertinents seront pré-remplis, en fonction des informations collectées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 100/100
-\item Faisabilité: 60/100
+\item Priorité: vital
+\item Difficulté: 40/100
 \item Difficultés techniques:
 \begin{itemize}
 \item Avec LDAP: mise en place du protocole.
@@ -214,12 +216,12 @@ Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de créa
 
 \subsubsection{Mises à jour}
 Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Nous pourrions également proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement(durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
+L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement (durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 100/100
-\item Faisabilité: 60/100
+\item Priorité: important
+\item Difficulté: 40/100
 \item Risques: mauvaise gestion de la mémoire.
 \item Difficultés techniques: éviter de télécharger de nouveau des informations déja collectées.
 \item Validation: vérifier l'intégration des nouvelles informations.
@@ -234,8 +236,8 @@ L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 1/100
-\item Faisabilité: 40/100
+\item Priorité: optionnel
+\item Difficulté: 60/100
 \item Difficultés techniques: extraction des informations en fonction du choix de l'utilisateur.
 \item Risques: changement du format de l'emploi du temps.
 \item Validation: assurer l'intégrité des données extraites.
@@ -246,8 +248,8 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 1/100
-\item Faisabilité: 40/100
+\item Priorité: optionnel
+\item Difficulté: 60/100
 \item Difficultés techniques: maîtriser l'API de Google Maps.
 \end{itemize}
 
@@ -256,12 +258,12 @@ L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'
 \section{Besoins non fonctionnels}
 \subsection{Besoins de performance}
 L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra exécuter ces services de manière assez rapide même sur les smartphones moins performants.\\
-Nous testerons l'application sur les appareils suivants: LG Optimus 2X (P990), Sony Xperia S, Samsung Galaxy S2.
+Nous testerons l'application sur les appareils suivants: LG Optimus 2X (P990), Sony Xperia S, Samsung Galaxy S3.\\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 20/100
-\item Faisabilité: 60/100
+\item Priorité: faible
+\item Difficulté: 40/100
 \item Difficultés techniques: bonne gestion de l'espace mémoire et de l'actualisation.
 \item Risques: implémention complexe et potentiellement longue.
 \item Validation: vérification que l'utilisation reste assez fluide et ne consomme pas beaucoup de ressources (à préciser un seuil de consommation de RAM).
@@ -272,8 +274,8 @@ Etant donné que les différents services mis à disposition par CampusUB1 à se
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 60/100
-\item Faisabilité: 20/100
+\item Priorité: moyen
+\item Difficulté: 60/100
 \item Difficultés techniques: fiabilité de l'algorithme d'analyse textuelle pour détecter les dates des événements.
 \item Risques: création d'un événement avec des données erronées.
 \item Validation: simulation de l'algorithme d'analyse textuelle sur suffisamment de données pour avoir un taux de réussite acceptable (à déterminer).
@@ -284,8 +286,8 @@ CampusUB1 doit accéder à certaines ressources personnelles du client pour pouv
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
-\item Priorité: 60/100
-\item Faisabilité: 60/100
+\item Priorité: moyen
+\item Difficulté: 40/100
 \item Risques: perte des informations existantes sur le smartphone.
 \item Validation: monitoring du comportement de l'application.
 \end{itemize} 
@@ -307,6 +309,7 @@ L'IDE dans lequel nous avons choisi d'implémenter notre application est Eclipse
 \end{figure}
 
 \newpage
+
 Ce diagramme présente toutes les actions réalisables par l'utilisateur et leurs enchaînements.
 Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès duquel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc omise lors des futurs démarrages de l'application. Une option existera tout de même pour modifier cette sélection si nécessaire. Depuis l'écran d'accueil, l'utilisateur pourra alors accéder aux services de son choix et pourra à tout moment revenir en arrière facilement.
 
@@ -370,25 +373,25 @@ Les initiales représentent :\\
 
     \underline{Résultat attendu}: Vous serez redirigé vers le menu principal de l'application.
 
-  \section{Test 02: Maintient du choix de l'établissement}
+  \section{Test 02: Maintien du choix de l'établissement}
     \begin{enumerate}
     \item Quittez l'application, et redémarrez-la.
     \end{enumerate}
 
     \underline{Résultat attendu}: L'application aura sauvegardé vos choix d'établissement, et vous redirigera à la page d'accueil de l'application.
 
-  \section{Test 03: Evènements}
+  \section{Test 03: Evénements}
     \begin{enumerate}
-    \item Une fois les abonnements configurés, sélectionner le menu des évènements dans le menu principal.
+    \item Une fois les abonnements configurés, sélectionner le menu des événements dans le menu principal.
     \end{enumerate}
 
     \underline{Résultats attendus}:
     \begin{itemize}
-    \item Si l'application est connectée à internet: Les évènements de tous les établissements auxquels l'application est abonnée sont affichés.
-    \item Sinon: Les évènements ayant déja été téléchargées sont affichées.
+    \item Si l'application est connectée à Internet: Les événements de tous les établissements auxquels l'application est abonnée sont affichés.
+    \item Sinon: Les événements ayant déjà été téléchargés sont affichés.
     \end{itemize}
 
-  \section{Test 04: Ajout d'un évènement au téléphone}
+  \section{Test 04: Ajout d'un évènement au smartphone}
     \begin{enumerate}
     \item TODO
     \end{enumerate}
@@ -400,7 +403,7 @@ Les initiales représentent :\\
 
     \textbf{Résultats attendus}:
     \begin{itemize}
-    \item Si l'application est connectée à internet: Tous les contacts des annuaires auxquels l'application est abonnée sont affichés.
+    \item Si l'application est connectée à Internet: tous les contacts des annuaires auxquels l'application est abonnée sont affichés.
     \item Sinon : La liste reste vide.
     \end{itemize}
 
