@@ -391,12 +391,26 @@ Les initiales représentent :\\
     \item Sinon: Les événements ayant déjà été téléchargés sont affichés.
     \end{itemize}
 
-  \section{Test 04: Ajout d'un évènement au smartphone}
+  \section{Test 04: Validité des informations extraites d'un évenement}
     \begin{enumerate}
-    \item TODO
+    \item Depuis l'accueil, appuyer sur Evénements.
+    \item Naviguer dans la liste des événements.
+    \item Appuyer sur un événement afin d'afficher la vue détaillée.
+    \item Effectuer une touche longue sur l'écran.
     \end{enumerate}
 
-  \section{Test 05: Annuaire}
+    \underline{Résultat attendu}: Les propositions d'informations correspondent aux informations contenues dans l'évenement.
+
+  \section{Test 05: Ajout d'un événement au smartphone}
+    \begin{enumerate}
+    \item Effectuer le Test 04
+    \item Valider l'ajout de l'événement.
+    \end{enumerate}
+
+    \underline{Résultat attendu}: L'événement sera ajouté à l'agenda du téléphone.
+
+
+  \section{Test 06: Annuaire}
     \begin{enumerate}
     \item Une fois les abonnements configurés, sélectionner le menu de l'annuaire dans le menu principal.
     \end{enumerate}
@@ -407,7 +421,7 @@ Les initiales représentent :\\
     \item Sinon : La liste reste vide.
     \end{itemize}
 
-  \section{Test 06: Filtrer l'Annuaire}
+  \section{Test 07: Filtrer l'Annuaire}
     \begin{enumerate}
     \item Accéder à l'annuaire à partir du menu principal.
     \item Ecrire dans la barre de recherche.
@@ -415,46 +429,46 @@ Les initiales représentent :\\
 
     \underline{Résultat attendu}: Le nombre de résultat se réduit à ceux qui correspondent à ce qui est écrit dans la barre de recherche.
 
-  \section{Test 07: }
+  \section{Test 08: Validité des informations extraites}
+    \begin{enumerate}
+    \item Depuis l'accueil appuyer sur Annuaire
+    \item Naviguer dans l'annuaire.
+    \item Appuyer sur un contact afin d'afficher la vue détaillée.
+    \item Effectuer une touche longue sur l'écran.
+    \item Sélectionner "ajouter un nouveau contact" ou "editer un contact existant".
+    \end{enumerate}
+
+    \underline{Résultat attendu}: Les informations extraites correspondent aux informations contenues dans le contact.
+
+  \section{test 09: Ajout d'un contact au téléphone}
+    \begin{enumerate}
+    \item Effectuer le Test 08.
+    \item Valider l'ajout/l'édition du contact
+    \end{enumerate}
+
+    \underline{Résultat attendu}: Le informations se situe dans les contacts du téléphone.
+
+  \section{Test 10: Appeler un contact}
     \begin{enumerate}
     \item TODO
     \end{enumerate}
 
-  \section{Evénements (Bordeaux1 et LaBRI)}  
-    Depuis l'écran d'accueil de votre établissement, appuyez sur le bouton \emph{Evénements}. Vous arrivez sur une liste d'événements propre à votre établissement.
+  \section{Test 11: Envoyer un mail à un contact}
+    \begin{enumerate}
+    \item TODO
+    \end{enumerate}
 
-    \subsection{Situation en ligne}
-      L'application étant connectée à Internet, elle télécharge les derniers événements propres à l'établissement choisi (ceux qui n'ont pas encore été téléchargés) et les affiche~[Fig.~\ref{fig:03}]. Un toast s'affiche pour indiquer la date de la dernière mise à jour effectuée.
+  \section{Test 12: Exporter un emploi du temps}
+    \begin{enumerate}
+    \item TODO
+    \end{enumerate}
 
-    \subsection{Situation hors ligne}
-      L'application affiche l'historique des événements enregistrés de l'établissement choisi~[Fig.~\ref{fig:03}]. Un toast affiche la date de la dernière mise à jour effectuée.
-
-    \subsection{Affichage en détail}
-      Depuis la liste des événements~[Fig.~\ref{fig:03}], effectuez un \emph{slide} vers la gauche sur le résumé d'un événement pour afficher le contenu complet de l'événement choisi~[Fig.~\ref{fig:04}].
-
-    \subsection{Ajout dans l'agenda depuis la vue détaillé de l'événement}
-      Depuis l'écran des détails de l'événement, appuyez sur le bouton situé en haut à droite pour atteindre le formulaire d'ajout de l'événement dans l'agenda du smartphone. Ce dernier étant prérempli en fonction des détails fournis dans le texte. Vous pouvez ensuite rentrer les informations manquantes (par exemple changer de titre qui sera celui de l'événement, ...) puis valider. Vous pouvez, à partir de ce moment, aller regarder dans l'agenda du smartphone, l'événement devrait être ajouté aux horaires choisis.
+  \section{Test 13: Afficher le plan du Campus Bordeaux1}
+    \begin{enumerate}
+    \item TODO
+    \end{enumerate}
 
 
-    \subsection{Ajout dans l'agenda depuis la liste des événements}
-      Depuis la liste des événements~[Fig.~\ref{fig:03}], appuyer un moment sur l'événement que vous voulez ajouter dans l'agenda et un menu apparaîtra. Celui-ci sera le même que précédement et les mêmes actions pourront être faites. Vous pourrez de nouveau aller dans l'agenda du smartphone, l'événement sera présent aux horaires entrés.
-
-  \section{Contacts (Bordeaux1 et LaBRI)}
-
-    Depuis l'écran d'accueil de votre établissement, appuyez sur le bouton \emph{Annuaire}. Vous arrivez sur une page contenant une barre de recherche~[Fig.~\ref{fig:06}].
-
-    \subsection{Recherche d'un contact}
-      Si vous n'avez pas d'accès à Internet, aucun nom ne s'affiche et un toast vous indique que vous n'êtes pas connecté.
-      Dans le cas contraire, les premiers noms de l'annuaire de l'établissement apparaissent. Dans la barre de recherche entrez le nom et/ou le prénom de la personne souhaitée. L'application cherche dans l'annuaire de l'établissement et vous propose les résultats correspondants.    
-
-    \subsection{Ajout dans l'annuaire du smartphone}
-      Après avoir trouvé le contact recherché (voir section précédente), appuyez sur ce contact et un menu s'ouvre. Celui-ci propose soit d'ajouter les informations à un contact existant, soit d'en créer un nouveau.\\
-      \begin{itemize}
-      \renewcommand{\labelitemi}{$\bullet$}
-      \item Nouveau contact: Redirection vers la page de création d'un nouveau contact, avec les champs pré-remplis avec les informations récupérées.
-      \item Editer existant: Redirection vers la page des contacts. L'utilisateur doit sélectionner le contact qu'il veut mettre à jour. 
-      \end{itemize}
-      \wl Une fois validé, on peut vérifier en s'assurant que le contact est bien créé et que les informations sont mises à jour.
 
     \subsection{Appeler ou envoyer un mail à un contact}
       Après avoir trouvé votre contact (voir paragraphe précédent), appuyez sur son nom et un menu apparaîtra. Celui-ci vous proposera:\\
