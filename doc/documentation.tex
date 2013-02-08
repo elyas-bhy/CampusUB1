@@ -89,9 +89,9 @@ Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\
 \section{Ressources existantes}
 
 \subsection{LDAP}
-Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocole conçu uniquement pour les annuaires, et l'annuaire du LaBRI s'avère être conforme aux normes LDAP.
+Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocole conçu uniquement pour les annuaires, et les annuaires du LaBRI et de Bordeaux1 s'avèrent être conformes aux normes LDAP.
 Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBRI.\\
-Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au format LDAP, cependant nous avons trouvé une page d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
+Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au travers du protocole LDAP; cependant nous avons trouvé une page d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
 
 \subsection{HTTP/HTML}
 Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour des balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
@@ -129,9 +129,8 @@ Il sera donc possible de comparer les dates et horaires extraites par analyse te
 
 \wl Sur cet exemple, l'heure qui apparait dans la balise \emph{pubDate} ne correspond pas à celle de l'événement; il va donc falloir analyser la description pour essayer de trouver l'horaire correspondant (ici 18h). \\
 
-Il existe plusieurs outils utiles à l'implémentation d'une solution à ce problème, notamment JFlex/CUP qui, d'après un livre d'Android~\cite{ProgAndroid} reste une solution possible. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Ces outils cumulés avec les informations extraites d'un livre d'analyse textuelle~\cite{analyseTextuelle}.\\
-Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda). \\
-
+Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
+\wl Il existe plusieurs outils utiles à l'implémentation d'une solution à ces problèmes, notamment des outils de parsing comme JFlex et CUP qui, d'après un livre d'Android~\cite{ProgAndroid} reste une solution possible. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Ces outils cumulés avec les informations extraites d'un livre d'analyse textuelle~\cite{analyseTextuelle} sur l'extraction d'information pourront nous permettre de mettre en place une solution efficace à ce problème.\\
 
 
 \chapter{L'Application CampusUB1}
@@ -140,7 +139,7 @@ Etant donné ces problèmes, nous devrons surement trouver une approximation au 
 \subsection{Actualités}
 Une des fonctionalités principales de l'application est la récupération, l'affichage et l'enregistrement des événements dans le calendrier de l'utilisateur. 
 Pour cela, nous prévoyons de récuperer les flux RSS les plus utiles de l'université Bordeaux 1\cite{fluxBDX1}, notamment les flux disponibles sur la page d'accueil du site de l'université (dont les actualités).
-En ce qui concerne le site du LaBRI, il n'y a aucun flux RSS et il faudra donc parser directement du HTML.
+En ce qui concerne le site du LaBRI, il n'y a aucun flux RSS et il faudra donc parser directement du code HTML.
 
 \subsection{Annuaire}
 Il sera également possible de consulter les annuaires des établissements concernés, afin d'en extraire les informations désirées et les ajouter aux contacts du smartphone.
@@ -164,15 +163,15 @@ Nous allons donc utiliser un système de points pour évaluer la difficulté des
 Les priorités des besoins sont classées sur cette échelle: optionnel, faible, moyen, important, vital.
 \section{Besoins fonctionnels}
 \subsection{Fonctionnalités principales}
-\subsubsection{Choix de l'établissement}
-Etant donné que l'application présentera des services en commun à plusieurs établiseements, l'utilisateur doit pouvoir s'abonner aux établissements de son choix, s'il souhaite accéder à leurs propres informations [Fig.~\ref{fig:01}]. \\
+\subsubsection{Choix des établissements}
+Etant donné que l'application présentera des services en commun à plusieurs établissements, l'utilisateur doit pouvoir s'abonner aux établissements de son choix, s'il souhaite accéder à leurs propres informations [Fig.~\ref{fig:01}]. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: vital
 \item Difficulté: 1/100
 \item Risques: mise à jour des liens si les adresses des établissements sont modifiées.
-\item Validation: s'assurer que les sélections et les changements d'établissements s'effectuent correctement.
+\item Validation: s'assurer que les sélections et les modifications des abonnements s'effectuent correctement.
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
@@ -216,7 +215,7 @@ Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de créa
 
 \subsubsection{Mises à jour}
 Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Nous pourrions également proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement (durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
+L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement (durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à Internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -232,16 +231,16 @@ L'application devra garder en mémoire les derniers éléments téléchargés pe
 Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
 
 \subsubsection{Abonnements et filtrage d'informations}
-Après avoir choisi lors du premier démarrage de l'application, les établissements auprès desquels l'utilisateur souhaite s'abonner,
-il pourra à tout moment revenir sur son choix à travers le menu des préférences. Il pourra également en fonction de ses abonnements actifs visualiser la totalité des informations propres à un, plusieurs ou tous les établissements grâce à un outil de filtrage. Cet outil se présente sous la forme d'une fenêtre quasiment identique à celle du choix des abonnements ~[Fig.~\ref{fig:03}] et sera accessible uniquement depuis l'écran d'acceuil. \\
+Après avoir choisi lors du premier démarrage de l'application, les établissements auprès desquels l'utilisateur souhaite s'abonner~[Fig.~\ref{fig:01}], il pourra à tout moment revenir sur son choix à travers le menu des préférences.
+Il pourra également en fonction de ses abonnements actifs visualiser la totalité des informations propres à un, plusieurs ou tous les établissements grâce à un outil de filtrage. Cet outil se présente sous la forme d'un menu quasiment identique à celui du choix des abonnements et sera accessible uniquement depuis l'écran d'accueil. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: optionnel
 \item Difficulté: 60/100
-\item Difficultés techniques: s'assurer que l'abonnement simultané à un grand nombre d'établissements n'ait aucun impact sur la stabilité de l'application.\\
+\item Difficultés techniques: s'assurer que l'abonnement simultané à un grand nombre d'établissements ait un impact mineur sur la stabilité de l'application.
 \item Risques: saturation trop rapide de la mémoire cache.
-\item Validation: affichage cohérent des informations liés aux abonnements actifs.
+\item Validation: affichage cohérent des informations liées aux abonnements actifs en un temps raisonnable (de l'ordre de 3 à 4 secondes par établissement).
 \end{itemize}
 
 \subsubsection{Emploi du temps}
@@ -344,7 +343,7 @@ Le diagramme ci-dessus présente les services offerts pour l'établissement Bord
 Le diagramme de mises à jour représente les différents modes de connection dans lesquels on peut se trouver lorsqu'on accède aux événements. Il y a trois modes possibles gérés par le téléphone :\\
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
- \item Hors Ligne : pas d'accès à internet.
+ \item Hors Ligne : pas d'accès à Internet.
  \item 3G :  accès au réseau de données mobiles (lent).
  \item WiFi : accès à un réseau sans-fil (rapide).
 \end{itemize}
@@ -359,27 +358,27 @@ Le diagramme de Gantt suivant présente une première estimation de la répartit
   \includegraphics[width=1.0\textwidth]{resources/gantt.jpg}
 \end{figure}
 
-Chaque ligne représente une tâche à effectuer, une estimation de sa durée, et son attribution. \\
+Chaque ligne représente une tâche à effectuer, une estimation de sa durée, et son attribution au sein de l'équipe de développement. \\
 
 
 \chapter{Tests et Validation}
   
-  \section{Test 01: Choix de l'établissement}
+  \subsection{Test 01: Choix de l'établissement}
     \begin{enumerate}
     \item Démarrer l'application pour la première fois, un menu vous sera proposé pour effectuer le choix de l'établissement~[Fig.~\ref{fig:01}].
-    \item Sélectionnez les établissements auxquels vous voulez vous abonner.
+    \item Sélectionnez les établissements auxquels vous voulez vous abonner (on peut annuler pour quitter l'application).
     \end{enumerate}
 
     \underline{Résultat attendu}: Vous serez redirigé vers le menu principal de l'application.
 
-  \section{Test 02: Maintien du choix de l'établissement}
+  \subsection{Test 02: Maintien du choix des établissements}
     \begin{enumerate}
     \item Quittez l'application, et redémarrez-la.
     \end{enumerate}
 
-    \underline{Résultat attendu}: L'application aura sauvegardé vos choix d'établissement, et vous redirigera à la page d'accueil de l'application.
+    \underline{Résultat attendu}: L'application aura sauvegardé vos abonnements, et vous redirigera sur la page d'accueil de l'application.
 
-  \section{Test 03: Evénements}
+  \subsection{Test 03: Evénements}
     \begin{enumerate}
     \item Une fois les abonnements configurés, sélectionner le menu des événements dans le menu principal~[Fig.~\ref{fig:02}].
     \end{enumerate}
@@ -390,121 +389,113 @@ Chaque ligne représente une tâche à effectuer, une estimation de sa durée, e
     \item Sinon: Les événements ayant déjà été téléchargés sont affichés.
     \end{itemize}
 
-  \section{Test 04: Validité des informations extraites d'un évenement}
+  \subsection{Test 04: Validité des informations extraites d'un évenement}
     \begin{enumerate}
     \item Depuis l'accueil, appuyer sur Evénements.
     \item Naviguer dans la liste des événements.
     \item Appuyer sur un événement afin d'afficher la vue détaillée~[Fig.~\ref{fig:06}].
-    \item Effectuer une touche longue sur l'écran.
+    \item Appuyer sur le bouton \emph{Plus}, ou bien \emph{Menu}->\emph{Ajouter}.
     \end{enumerate}
 
-    \underline{Résultat attendu}: Les propositions d'informations correspondent aux informations contenues dans l'évenement.
+    \underline{Résultat attendu}: Redirection vers la page de création d'événements de Google Calendar, avec les informations correspondantes à celles contenues dans l'événement.
 
-  \section{Test 05: Ajout d'un événement au smartphone}
+  \subsection{Test 05: Ajout d'un événement au smartphone}
     \begin{enumerate}
-    \item Effectuer le Test 04
+    \item Effectuer le Test 04.
     \item Valider l'ajout de l'événement.
     \end{enumerate}
 
     \underline{Résultat attendu}: L'événement sera ajouté à l'agenda du téléphone.
 
 
-  \section{Test 06: Annuaire}
+  \subsection{Test 06: Annuaire}
     \begin{enumerate}
-    \item Sélectionner Annuaire dans le menu d'accueil.
+    \item Sélectionner \emph{Annuaire} dans le menu d'accueil.
     \end{enumerate}
 
     \underline{Résultats attendus}:
     \begin{itemize}
-    \item Si l'application est connectée à Internet: on arrive sur l'écran de la~[figure~\ref{fig:07}].
+    \item Si l'application est connectée à Internet: on arrive sur l'écran de la~figure~\ref{fig:07}.
     \item Sinon : un toast nous prévient qu'on est déconnecté.
     \end{itemize}
 
-  \section{Test 07: Rechercher dans l'Annuaire}
+  \subsection{Test 07: Rechercher dans l'Annuaire}
     \begin{enumerate}
     \item Accéder à l'annuaire à partir du menu principal.
-    \item Ecrire dans la barre de recherche~[Fig.~\ref{fig:08}], cela affichera tous les contacts qui correspondent à la recherche, parmis les établissement auxquels l'application est abonnée.
+    \item Effectuer une recherche~[Fig.~\ref{fig:08}], cela affichera tous les contacts qui correspondent à la recherche, parmis les établissements auxquels l'application est abonnée.
     \end{enumerate}
 
-    \underline{Résultat attendu}: Le nombre de résultats se réduit à ceux qui correspondent à ce qui est écrit dans la barre de recherche.
+    \underline{Résultat attendu}: Les résultats se réduisent à ceux qui correspondent à la recherche.
 
-  \section{Test 08: Validité des informations extraites}
+  \subsection{Test 08: Validité des informations extraites}
     \begin{enumerate}
-    \item Depuis l'accueil appuyer sur Annuaire
-    \item Naviguer dans l'annuaire.
-    \item Appuyer sur un contact afin d'afficher la vue détaillée.
-    \item Effectuer une touche longue sur l'écran.
-    \item Sélectionner \emph{Ajouter contact}.
-    \item Sélectionner \emph{Ajouter un nouveau contact} ou \emph{Editer un contact existant}.
+    \item Depuis l'accueil appuyer sur \emph{Annuaire}
+    \item Effectuer une recherche de contact.
+    \item Effectuer une touche longue sur un contact.
+    \item Sélectionner \emph{Ajouter un nouveau contact}.
     \end{enumerate}
 
-    \underline{Résultat attendu}: Les informations extraites correspondent aux informations contenues dans le contact.
+    \underline{Résultat attendu}: Redirection vers la page de création de contact, pré-remplie avec les informations correspondantes à celles contenues dans le résultat de recherche.
 
-  \section{test 09: Ajout d'un contact au téléphone}
+  \subsection{Test 09: Ajout d'un contact au téléphone}
     \begin{enumerate}
     \item Effectuer le Test 08.
     \item Valider l'ajout/l'édition du contact
     \end{enumerate}
 
-    \underline{Résultat attendu}: Le informations se situe dans les contacts du téléphone.
+    \underline{Résultat attendu}: Les informations se trouvent dans les contacts du téléphone.
 
-  \section{Test 10: Appeler un contact}
+  \subsection{Test 10: Appeler un contact}
     \begin{enumerate}
-    \item Depuis le menu d'accueil appuyer sur Annuaire.
+    \item Depuis le menu d'accueil, appuyer sur \emph{Annuaire}.
     \item Sélectionner un contact possédant un numéro de téléphone.
-    \item Effectuer une touche longue sur l'écran.
+    \item Effectuer une touche longue sur un contact.
     \item Sélectionner \emph{Appeler}
     \end{enumerate}
 
     \underline{Résultat attendu}: L'application démarrera un appel vers ce contact.
 
-  \section{Test 11: Envoyer un mail à un contact}
+  \subsection{Test 11: Envoyer un mail à un contact}
     \begin{enumerate}
-    \item Depuis le menu d'accueil appuyer sur Annuaire.
-    \item Sélectionner un contact possédant un numéro de téléphone.
-    \item Effectuer une touche longue sur l'écran.
+    \item Depuis le menu d'accueil appuyer sur \emph{Annuaire}.
+    \item Sélectionner un contact possédant une adresse mail.
+    \item Effectuer une touche longue sur un contact.
     \item Sélectionner \emph{Envoyer un email}
     \end{enumerate}
 
-    \underline{Résultat attendu}: L'application ouvre le gestionnaire d'email du téléphone avec le destinataire rempli avec l'adresse email du contact.
+    \underline{Résultat attendu}: L'application ouvre le gestionnaire d'email du smartphone avec le destinataire rempli avec l'adresse email du contact.
 
-  \section{Test 12: Exporter un emploi du temps}
+  \subsection{Test 12: Exporter un emploi du temps}
     \begin{enumerate}
     \item S'abonner à un établissement permettant l'exportation d'emplois du temps (ex: Bordeaux1).
-<<<<<<< Updated upstream
-    \item Depuis le menu d'accueil, appuyer sur "Export emploi du temps".
+    \item Depuis le menu d'accueil, appuyer sur \emph{Export emploi du temps}.
     \item Sélectionner un niveau d'études~[Fig.~\ref{fig:09}].
     \item Sélectionner une filière et un groupe~[Fig.~\ref{fig:10}].
-    \item appuyer sur "Exporter"
-=======
-    \item Depuis le menu d'accueil, appuyer sur \emph{Export emploi du temps}.
-    \item Sélectionner un niveau d'études.
-    \item Sélectionner une filière et un groupe.
-    \item appuyer sur \emph{Exporter}
->>>>>>> Stashed changes
+    \item Appuyer sur \emph{Exporter}
     \end{enumerate}
 
     \underline{Résultat attendu}:
     \begin{itemize}
-    \item Si l'application est connectée à internet: l'intégrité de l'emploi du temps choisit est intégrée au calendrier du téléphone
-    \item Sinon: Le test échoue dès la première étape, l'option \emph{Export emploi du temps} est grisée.
+    \item Si l'application est connectée à Internet: l'emploi du temps choisi est intégré au calendrier du smartphone.
+    \item Sinon: Le test échoue dès la première étape, un toast apparait pour indiquer qu'une connexion est nécessaire.
     \end{itemize}
 
-  \section{Test 13: Afficher le plan du Campus Bordeaux1}
+  \subsection{Test 13: Afficher le plan du Campus de Bordeaux1}
     \begin{enumerate}
-    \item Sélectionner Plan du Campus dans le menu d'accueil.
+    \item S'abonner à un établissement permettant ayant un plan de campus (ex: Bordeaux1).
+    \item Sélectionner \emph{Plan du Campus} dans le menu d'accueil.
     \end{enumerate}
 
     \underline{Résultat attendu}:
     \begin{itemize}
-    \item Si l'application est connectée à internet: ouvre l'application Maps centrée sur le campus de Bordeaux1.
-    \item Sinon: Affiche une image du plan du campus Bordeaux1.
+    \item Si le GPS est activé: ouvre l'application Google Maps centrée sur le campus de Bordeaux1.
+    \item Sinon: Affiche une image du plan du campus de Bordeaux1.
     \end{itemize}
 
 
 \chapter{Exemple d'utilisation}
 
-Les images suivantes représentent un premier aperçu de l'interface graphique de l'application. Nous imaginons donc un scénario d'utilisation qui montre le déroulement d'un usage typique. 
+Les images suivantes représentent un premier aperçu de l'interface graphique de l'application. Nous imaginons donc un scénario d'utilisation qui montre le déroulement d'un usage typique.
 
 \begin{figure}
   \begin{minipage}[t]{8cm}
@@ -535,7 +526,7 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/04}
-    \caption{Vue des événements. Pour lire la news et arriver sur l'écran de la figure~\ref{fig:06}, il suffit de toucher la news correspondante. Par défaut, toutes les news sont affichées. On a également la possibilité de les afficher par catégories. La liste des catégories est disponible via la touche menu.}
+    \caption{Vue des événements. Pour lire la news et arriver sur l'écran de la figure~\ref{fig:06}, il suffit d'appuyer sur la news correspondante. Par défaut, toutes les news sont affichées. On a également la possibilité de les afficher par catégories. La liste des catégories est disponible via la touche menu.}
     \label{fig:04}
   \end{minipage}
   \hspace{-60pt}
