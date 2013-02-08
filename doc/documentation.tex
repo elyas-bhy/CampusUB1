@@ -412,10 +412,10 @@ Les initiales représentent :\\
 
   \section{Test 06: Annuaire}
     \begin{enumerate}
-    \item Une fois les abonnements configurés, sélectionner le menu de l'annuaire dans le menu principal.
+    \item Sélectionner Annuaire dans le menu d'accueil.
     \end{enumerate}
 
-    \textbf{Résultats attendus}:
+    \underline{Résultats attendus}:
     \begin{itemize}
     \item Si l'application est connectée à Internet: tous les contacts des annuaires auxquels l'application est abonnée sont affichés.
     \item Sinon : La liste reste vide.
@@ -427,7 +427,7 @@ Les initiales représentent :\\
     \item Ecrire dans la barre de recherche.
     \end{enumerate}
 
-    \underline{Résultat attendu}: Le nombre de résultat se réduit à ceux qui correspondent à ce qui est écrit dans la barre de recherche.
+    \underline{Résultat attendu}: Le nombre de résultats se réduit à ceux qui correspondent à ce qui est écrit dans la barre de recherche.
 
   \section{Test 08: Validité des informations extraites}
     \begin{enumerate}
@@ -435,6 +435,7 @@ Les initiales représentent :\\
     \item Naviguer dans l'annuaire.
     \item Appuyer sur un contact afin d'afficher la vue détaillée.
     \item Effectuer une touche longue sur l'écran.
+    \item Sélectionner "Ajouter contact".
     \item Sélectionner "ajouter un nouveau contact" ou "editer un contact existant".
     \end{enumerate}
 
@@ -450,47 +451,49 @@ Les initiales représentent :\\
 
   \section{Test 10: Appeler un contact}
     \begin{enumerate}
-    \item TODO
+    \item Depuis le menu d'accueil appuyer sur Annuaire.
+    \item Sélectionner un contact possédant un numéro de téléphone.
+    \item Effectuer une touche longue sur l'écran.
+    \item Sélectionner "Appeler"
     \end{enumerate}
+
+    \underline{Résultat attendu}: L'application démarrera un appel vers ce contact.
 
   \section{Test 11: Envoyer un mail à un contact}
     \begin{enumerate}
-    \item TODO
+    \item Depuis le menu d'accueil appuyer sur Annuaire.
+    \item Sélectionner un contact possédant un numéro de téléphone.
+    \item Effectuer une touche longue sur l'écran.
+    \item Sélectionner "envoyer un email"
     \end{enumerate}
+
+    \underline{Résultat attendu}: L'application ouvre le gestionnaire d'email du téléphone avec le destinataire rempli avec l'adresse email du contact.
 
   \section{Test 12: Exporter un emploi du temps}
     \begin{enumerate}
-    \item TODO
+    \item S'abonner à un établissement permettant l'exportation d'emplois du temps (ex: Bordeaux1).
+    \item Depuis le menu d'accueil, appuyer sur "Export emploi du temps".
+    \item Sélectionner un niveau d'études.
+    \item Sélectionner une filière et un groupe.
+    \item appuyer sur "Exporter"
     \end{enumerate}
+
+    \underline{Résultat attendu}:
+    \begin{itemize}
+    \item Si l'application est connectée à internet: l'intégrité de l'emploi du temps choisit est intégrée au calendrier du téléphone
+    \item Sinon: Le test échoue dès la première étape, l'option "Export emploi du temps" est grisée.
+    \end{itemize}
 
   \section{Test 13: Afficher le plan du Campus Bordeaux1}
     \begin{enumerate}
-    \item TODO
+    \item Sélectionner Plan du Campus dans le menu d'accueil.
     \end{enumerate}
 
-
-
-    \subsection{Appeler ou envoyer un mail à un contact}
-      Après avoir trouvé votre contact (voir paragraphe précédent), appuyez sur son nom et un menu apparaîtra. Celui-ci vous proposera:\\
-      \begin{itemize}
-      \renewcommand{\labelitemi}{$\bullet$}
-      \item Appeler: Un appel sera lancé vers le numéro du contact. Si aucun numéro n'est disponible, l'option sera désactivée.
-      \item Envoyer mail: Ouvre le gestionnaire d'e-mail du smartphone avec le champ destinataire pré-rempli avec l'adresse du contact.
-      \end{itemize}
-
-
-  \section{Export d'Emploi du Temps (Bordeaux1)}
-    \subsection{Situation en ligne}
-      Un menu s'ouvre, listant plusieurs niveaux d'études~[Fig.~\ref{fig:07}]. Ce premier choix mène ensuite au choix de la filière et du groupe~[Fig.~\ref{fig:08}].
-      En appuyant sur le bouton \emph{Exporter}, l'emploi du temps sera téléchargé, puis ajouté dans le calendrier du smartphone.
-
-    \subsection{Situation hors ligne}
-      Un message s'affiche, indiquant à l'utilisateur qu'une connexion Internet est nécessaire à l'exportation de l'emploi du temps.
-
-  \section{Plan du Campus de Bordeaux 1}
-      L'application Google Maps du smartphone est lancée, centrée sur le campus et si possible, affiche le marqueur de position actuelle de l'utilisateur.
-      Si l'utilisateur a désactivé son GPS et n'est pas en ligne, l'application affichera une simple image du plan du campus de Bordeaux 1 pour une utilisation hors ligne.
-
+    \underline{Résultat attendu}:
+    \begin{itemize}
+    \item Si l'application est connectée à internet: ouvre l'application Maps centrée sur le campus de Bordeaux1.
+    \item Sinon: Affiche une image du plan du campus Bordeaux1.
+    \end{itemize}
 
 
 \chapter{Exemple d'utilisation}
