@@ -1,25 +1,79 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <PreferenceCategory
-        android:title="Category A">
+        android:title="@string/preferences_category">
         
-        <CheckBoxPreference
-            android:key="checkbox_pref"
-            android:title="title_checkbox_pref"
-            android:summary="summary_checkbox_pref">
-        </CheckBoxPreference>
+        <PreferenceScreen
+            android:key="subscriptions_screen"
+            android:title="@string/subscriptions_title"
+            android:summary="@string/subscriptions_summary">
+            
+            <CheckBoxPreference
+                android:key="subscribe_ub1"
+                android:title="@string/ub1"
+                android:defaultValue="false"
+                android:persistent="true"/>
+            
+            <CheckBoxPreference
+                android:key="subscribe_labri"
+                android:title="@string/labri"
+                android:defaultValue="false"
+                android:persistent="true"/>
+            
+            <CheckBoxPreference
+                android:key="subscribe_dummy1"
+                android:title="Dummy1"
+                android:defaultValue="false"
+                android:persistent="true"/>
+            
+            <CheckBoxPreference
+                android:key="subscribe_dummy2"
+                android:title="Dummy2"
+                android:defaultValue="false"
+                android:persistent="true"/>
+            
+        </PreferenceScreen>
+        
+        <PreferenceScreen 
+            android:key="filters_screen"
+            android:title="@string/filters_title"
+            android:summary="@string/filters_summary">
+            
+            <CheckBoxPreference
+                android:key="filter_ub1"
+                android:title="@string/ub1"
+                android:defaultValue="true"
+                android:persistent="true"/>
+            
+            <CheckBoxPreference
+                android:key="filter_labri"
+                android:title="@string/labri"
+                android:defaultValue="true"
+                android:persistent="true"/>
+            
+            <CheckBoxPreference
+                android:key="filter_dummy1"
+                android:title="Dummy1"
+                android:defaultValue="true"
+                android:persistent="true"/>
+            
+            <CheckBoxPreference
+                android:key="filter_dummy2"
+                android:title="Dummy2"
+                android:defaultValue="true"
+                android:persistent="true"/>
+            
+        </PreferenceScreen>
+        
         
     </PreferenceCategory>
     
     <PreferenceCategory 
-        android:title="Category B">
+        android:title="@string/other_category">
         
-        <EditTextPreference
-            android:key="editText_pref"
-            android:title="title_editText_pref"
-            android:summary="summary_editText_pref"
-            android:dialogTitle="dialog_title_editText_pref">
-        </EditTextPreference>
+        <Preference
+            android:key="checkbox_pref"
+            android:title="@string/about_title"/>
         
     </PreferenceCategory>
 

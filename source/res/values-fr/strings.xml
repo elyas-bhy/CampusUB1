@@ -12,5 +12,16 @@
     <string name="directory">Annuaire</string>
     <string name="schedule">Emploi du Temps</string>
     <string name="map">Plan du Campus</string>
-
+    
+    <!-- Preferences -->
+    <string name="preferences_category">Préférences</string>
+    <string name="other_category">Autres</string>
+    
+    <string name="subscriptions_title">Abonnements</string>
+    <string name="subscriptions_summary">Gérer ses abonnements</string>
+    
+    <string name="filters_title">Filtres</string>
+    <string name="filters_summary">Gérer ses filtres</string>
+    
+    <string name="about_title">A propos</string>
 </resources>

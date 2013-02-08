@@ -21,4 +21,16 @@
     <string name="schedule">Schedule</string>
     <string name="map">Campus Map</string>
     
+    <!-- Preferences -->
+    <string name="preferences_category">Preferences</string>
+    <string name="other_category">Other</string>
+    
+    <string name="subscriptions_title">Subscriptions</string>
+    <string name="subscriptions_summary">Manage your subscribtions</string>
+    
+    <string name="filters_title">Filters</string>
+    <string name="filters_summary">Manage your filters</string>
+    
+    <string name="about_title">About</string>
+    
 </resources>
