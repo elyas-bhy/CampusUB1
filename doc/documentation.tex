@@ -176,7 +176,7 @@ Etant donné que l'application présentera des services en commun à plusieurs �
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
-En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités des établissements auxquels il est abonné. Par défaut il aura alors la possibilité de voir les événements propres aux établissements auxquels il s'est abonné. Il pourra à tout moment depuis la même fenêtre et à l'aide d'un filtre choisir entre voir la totalité des actualités des établissements auprès desquels il s'est souscrit, ou voir uniquement les actualités propres aux établissements qu'il a sélectionné dans le filtre.  [Fig.~\ref{fig:02}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:03}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités des établissements auxquels il est abonné. Par défaut il aura alors la possibilité de voir les événements propres aux établissements auxquels il s'est abonné. Il pourra à tout moment changer de catégorie grâce au menu des catégories [Fig.~\ref{fig:04}] depuis la même fenêtre. De plus, il peut choisir entre voir la totalité des actualités des établissements auquels il a souscrit, ou voir uniquement les actualités propres aux établissements qu'il a sélectionné dans les filtres.  [Fig.~\ref{fig:03}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:04}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -382,12 +382,12 @@ Les initiales représentent :\\
 
   \section{Test 03: Evénements}
     \begin{enumerate}
-    \item Une fois les abonnements configurés, sélectionner le menu des événements dans le menu principal.
+    \item Une fois les abonnements configurés, sélectionner le menu des événements dans le menu principal~[Fig.~\ref{fig:02}].
     \end{enumerate}
 
     \underline{Résultats attendus}:
     \begin{itemize}
-    \item Si l'application est connectée à Internet: Les événements de tous les établissements auxquels l'application est abonnée sont affichés.
+    \item Si l'application est connectée à Internet: Les événements de tous les établissements auxquels l'application est abonnée sont affichés~[Fig.~\ref{fig:04}].
     \item Sinon: Les événements ayant déjà été téléchargés sont affichés.
     \end{itemize}
 
@@ -395,7 +395,7 @@ Les initiales représentent :\\
     \begin{enumerate}
     \item Depuis l'accueil, appuyer sur Evénements.
     \item Naviguer dans la liste des événements.
-    \item Appuyer sur un événement afin d'afficher la vue détaillée.
+    \item Appuyer sur un événement afin d'afficher la vue détaillée~[Fig.~\ref{fig:06}].
     \item Effectuer une touche longue sur l'écran.
     \end{enumerate}
 
@@ -417,14 +417,14 @@ Les initiales représentent :\\
 
     \underline{Résultats attendus}:
     \begin{itemize}
-    \item Si l'application est connectée à Internet: tous les contacts des annuaires auxquels l'application est abonnée sont affichés.
-    \item Sinon : La liste reste vide.
+    \item Si l'application est connectée à Internet: on arrive sur l'écran de la~[figure~\ref{fig:07}].
+    \item Sinon : un toast nous prévient qu'on est déconnecté.
     \end{itemize}
 
-  \section{Test 07: Filtrer l'Annuaire}
+  \section{Test 07: Rechercher dans l'Annuaire}
     \begin{enumerate}
     \item Accéder à l'annuaire à partir du menu principal.
-    \item Ecrire dans la barre de recherche.
+    \item Ecrire dans la barre de recherche~[Fig.~\ref{fig:08}].
     \end{enumerate}
 
     \underline{Résultat attendu}: Le nombre de résultats se réduit à ceux qui correspondent à ce qui est écrit dans la barre de recherche.
@@ -473,8 +473,8 @@ Les initiales représentent :\\
     \begin{enumerate}
     \item S'abonner à un établissement permettant l'exportation d'emplois du temps (ex: Bordeaux1).
     \item Depuis le menu d'accueil, appuyer sur "Export emploi du temps".
-    \item Sélectionner un niveau d'études.
-    \item Sélectionner une filière et un groupe.
+    \item Sélectionner un niveau d'études~[Fig.~\ref{fig:09}].
+    \item Sélectionner une filière et un groupe~[Fig.~\ref{fig:10}].
     \item appuyer sur "Exporter"
     \end{enumerate}
 
@@ -504,14 +504,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/01}
-    \caption{Lors du premier lancement de l'application, l'utilisateur doit choisir son établissement. Une fois son choix effectué, il est enregistré et ne sera plus demandé. L'établissement est modifiable via les préférences.}
+    \caption{Lors du premier lancement de l'application, l'utilisateur doit sélectionner ses établissements. Une fois ses choix effectués, il sont enregistrés et ne seront plus demandés. Les établissements sont modifiables via les préférences.}
     \label{fig:01}
   \end{minipage}
   \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/02}
-    \caption{Vue d'accueil pour Bordeaux~1}
+    \caption{Vue d'accueil de l'application}
     \label{fig:02}
   \end{minipage}
   \hspace{-60pt}
@@ -522,14 +522,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/03}
-    \caption{Evénements. Pour lire la news et arriver sur l'écran de la figure~\ref{fig:04}, il suffit de toucher la news correspondante.}
+    \caption{Vue des filtres des résultats en fonction des établissements préalablement choisis. Cette fonctionnalité est accessible en touchant le logo (situé en haut à gauche) de l'application uniquement depuis l'écran d'accueil.}
     \label{fig:03}
   \end{minipage}
   \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/04}
-    \caption{Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
+    \caption{Vue des événements. Pour lire la news et arriver sur l'écran de la figure~\ref{fig:06}, il suffit de toucher la news correspondante. Par défaut, toutes les news sont affichées. On a également la possibilité de les afficher par catégories. La liste des catégories est disponible via la touche menu.}
     \label{fig:04}
   \end{minipage}
   \hspace{-60pt}
@@ -540,14 +540,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/05}
-    \caption{Vue de l'annuaire.}
+    \caption{Liste des catégories pour afficher les news.}
     \label{fig:05}
   \end{minipage}
   \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/06}
-    \caption{Vue des résultats de l'annuaire.}
+    \caption{Vue détaillée d'une news. Le bouton ``plus'' situé en haut à droite permet d'ajouter l’événement au calendrier du smartphone.}
     \label{fig:06}
   \end{minipage}
   \hspace{-60pt}
@@ -558,14 +558,14 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/07}
-    \caption{Export de l'emploi du temps. L'application demande la promotion seulement la première fois et il faudra aller dans les paramètres pour la modifier ultérieurement. }
+    \caption{Vue de l'annuaire.}
     \label{fig:07}
   \end{minipage}
   \hspace{+20pt}
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/08}
-    \caption{Sélection des groupes pour l'export de l'emploi du temps.}
+    \caption{Vue des résultats de l'annuaire.}
     \label{fig:08}
   \end{minipage}
   \hspace{-60pt}
@@ -573,14 +573,22 @@ Les images suivantes représentent un premier aperçu de l'interface graphique d
 
 
 \begin{figure}
-  \centering
   \begin{minipage}[t]{8cm}
     \centering
     \includegraphics[width=0.8\textwidth]{resources/ui_preview/09}
-    \caption{Vue d'accueil pour LaBRI}
+    \caption{Export de l'emploi du temps. L'application demande la promotion seulement la première fois et il faudra aller dans les paramètres pour la modifier ultérieurement.}
     \label{fig:09}
   \end{minipage}
+  \hspace{+20pt}
+  \begin{minipage}[t]{8cm}
+    \centering
+    \includegraphics[width=0.8\textwidth]{resources/ui_preview/10}
+    \caption{Sélection des groupes pour l'export de l'emploi du temps.}
+    \label{fig:10}
+  \end{minipage}
+  \hspace{-60pt}
 \end{figure}
+
 
 \bibliography{biblio}
 \end{document}
