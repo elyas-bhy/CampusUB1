@@ -231,6 +231,19 @@ L'application devra garder en mémoire les derniers éléments téléchargés pe
 \subsection{Fonctionnalités secondaires}
 Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
 
+\subsubsection{Abonnements et filtrage d'informations}
+Après avoir choisi lors du premier démarrage de l'application, les établissements auprès desquels l'utilisateur souhaite s'abonner,
+il pourra à tout moment revenir sur son choix à travers le menu des préférences. Il pourra également en fonction de ses abonnements actifs visualiser la totalité des informations propres à un, plusieurs ou tous les établissements grâce à un outil de filtrage. Cet outil se présente sous la forme d'une fenêtre quasiment identique à celle du choix des abonnements ~[Fig.~\ref{fig:03}] et sera accessible uniquement depuis l'écran d'acceuil. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: optionnel
+\item Difficulté: 60/100
+\item Difficultés techniques: s'assurer que l'abonnement simultané à un grand nombre d'établissements n'ait aucun impact sur la stabilité de l'application.\\
+\item Risques: saturation trop rapide de la mémoire cache.
+\item Validation: affichage cohérent des informations liés aux abonnements actifs.
+\end{itemize}
+
 \subsubsection{Emploi du temps}
 L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer sa filière, et éventuellement ses cours et ses groupes. \\
 
