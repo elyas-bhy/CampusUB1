@@ -30,7 +30,7 @@ public class HelperActivity extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-		//mEstablishmentDialogBuilder.show();
+		mEstablishmentDialogBuilder.show();
     }
     
     @Override

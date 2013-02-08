@@ -1,5 +1,7 @@
 package com.dev.campus;
 
+import com.dev.campus.util.Persistence;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -8,6 +10,7 @@ public class CampusUB1App extends Application {
 	public static final String TAG = "CampusUB1";
 	
 	public static final boolean DEBUG = true;
+	public static Persistence persistence;
 	private static CampusUB1App instance;
 	
 	@Override
@@ -19,6 +22,7 @@ public class CampusUB1App extends Application {
 	private void init() {
 		LogD("Initializing app");
 		instance = this;
+		persistence = new Persistence(this);
 	}
 	
 	@Override
