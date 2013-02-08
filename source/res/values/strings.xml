@@ -10,4 +10,5 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_ub1">UB1Activity</string>
     <string name="title_activity_labri">LabriActivity</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

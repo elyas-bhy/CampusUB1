@@ -5,11 +5,12 @@ import com.dev.campus.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
-	
 	private EstablishmentDialogBuilder mEstablishmentDialogBuilder;
 
 	@Override
@@ -29,7 +30,21 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-		mEstablishmentDialogBuilder.show();
+		//mEstablishmentDialogBuilder.show();
     }
     
+    @Override
+ 	public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    		case R.id.menu_settings:
+    			Intent intent = new Intent();
+    			intent.setClass(MainActivity.this, SettingsActivity.class);
+    			startActivityForResult(intent, 0);
+    			return true;
+    		default:
+    			break;
+    	}
+    	return false;
+    }
+	 
 }

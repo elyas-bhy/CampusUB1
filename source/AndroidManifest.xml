@@ -22,13 +22,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
+        <activity
             android:name="com.dev.campus.UB1Activity"
             android:label="@string/title_activity_ub1" >
         </activity>
         <activity
             android:name="com.dev.campus.LabriActivity"
             android:label="@string/title_activity_labri" >
+        </activity>
+        <activity
+            android:name="com.dev.campus.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 
