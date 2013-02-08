@@ -2,13 +2,23 @@
 <resources>
 
     <string name="app_name">CampusUB1</string>
+    <string name="menu_settings">Settings</string>
     
     <!-- Establishments -->
+    <string name="selectEst">Select your establishment</string>
     <string name="labri">LaBRI</string>
+    <string name="ub1">University of Bordeaux 1</string>
     
     <!-- Activity titles -->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_ub1">UB1Activity</string>
     <string name="title_activity_labri">LabriActivity</string>
     <string name="title_activity_settings">Settings</string>
+    
+    <!-- Servies -->
+    <string name="events">Events</string>
+    <string name="directory">Directory</string>
+    <string name="schedule">Schedule</string>
+    <string name="map">Campus Map</string>
+    
 </resources>
