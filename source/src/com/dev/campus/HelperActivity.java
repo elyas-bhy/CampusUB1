@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends Activity {
+public class HelperActivity extends Activity {
 
 	private EstablishmentDialogBuilder mEstablishmentDialogBuilder;
 
@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     	switch(item.getItemId()) {
     		case R.id.menu_settings:
     			Intent intent = new Intent();
-    			intent.setClass(MainActivity.this, SettingsActivity.class);
+    			intent.setClass(HelperActivity.this, SettingsActivity.class);
     			startActivityForResult(intent, 0);
     			return true;
     		default:

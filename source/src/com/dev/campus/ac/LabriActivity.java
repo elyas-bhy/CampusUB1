@@ -1,4 +1,4 @@
-package com.dev.campus;
+package com.dev.campus.ac;
 
 import com.dev.campus.R;
 

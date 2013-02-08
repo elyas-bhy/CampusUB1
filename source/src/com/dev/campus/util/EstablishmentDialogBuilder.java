@@ -1,8 +1,9 @@
 package com.dev.campus.util;
 
-import com.dev.campus.LabriActivity;
-import com.dev.campus.UB1Activity;
+
 import com.dev.campus.R;
+import com.dev.campus.ac.LabriActivity;
+import com.dev.campus.ac.UB1Activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
