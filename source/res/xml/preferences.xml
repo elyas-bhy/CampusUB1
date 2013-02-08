@@ -20,18 +20,6 @@
                 android:defaultValue="false"
                 android:persistent="true"/>
             
-            <CheckBoxPreference
-                android:key="subscribe_dummy1"
-                android:title="Dummy1"
-                android:defaultValue="false"
-                android:persistent="true"/>
-            
-            <CheckBoxPreference
-                android:key="subscribe_dummy2"
-                android:title="Dummy2"
-                android:defaultValue="false"
-                android:persistent="true"/>
-            
         </PreferenceScreen>
         
         <PreferenceScreen 
@@ -51,18 +39,6 @@
                 android:defaultValue="true"
                 android:persistent="true"/>
             
-            <CheckBoxPreference
-                android:key="filter_dummy1"
-                android:title="Dummy1"
-                android:defaultValue="true"
-                android:persistent="true"/>
-            
-            <CheckBoxPreference
-                android:key="filter_dummy2"
-                android:title="Dummy2"
-                android:defaultValue="true"
-                android:persistent="true"/>
-            
         </PreferenceScreen>
         
         
@@ -72,7 +48,7 @@
         android:title="@string/other_category">
         
         <Preference
-            android:key="checkbox_pref"
+            android:key="about_pref"
             android:title="@string/about_title"/>
         
     </PreferenceCategory>
