@@ -151,7 +151,7 @@ Afin d'implémenter l'annuaire au sein de notre application Android, il est évi
 \subsubsection{Plan du campus}
 Dans un deuxième temps, nous prévoyons de mettre en place un plan du campus, potentiellement intégré à l'application Maps du smartphone.
 Ce service permettrait donc à l'utilisateur d'avoir un aperçu plus détaillé du campus en affichant les différents bâtiments et leur noms.
-On poura éventuellement aussi afficher les emplacements des différents services dédiés aux étudiants(Cafettaria,Restaurant Universitaire, Bibliothèque Universitaire).
+On poura éventuellement aussi afficher les emplacements des différents services dédiés aux étudiants (cafétéria, restaurant universitaire, bibliothèque universitaire, ...).
 
 \subsubsection{Emploi du temps}
 Un autre service qui pourrait être très utile en particulier pour les étudiants de Bordeaux1 est l'accès et la sauvegarde locale de leur emplois du temps en fonction de leurs filières, des groupes, et des différentes options suivies. 
@@ -171,7 +171,7 @@ Etant donné que l'application présentera des services en commun à plusieurs �
 \renewcommand{\labelitemi}{$\bullet$}
 \item Priorité: vital
 \item Difficulté: 1/100
-\item Risques: mise à jour des URLs si les adresses des établissements sont modifiées.
+\item Risques: mise à jour des liens si les adresses des établissements sont modifiées.
 \item Validation: s'assurer que les sélections et les changements d'établissements s'effectuent correctement.
 \end{itemize}
 
@@ -301,17 +301,25 @@ L'IDE dans lequel nous avons choisi d'implémenter notre application est Eclipse
 
 \chapter{Diagrammes de fonctionnement}
 
-\section{Diagramme des cas d'utilisation}
+\section{Fonctionnalités de l'application}
 
 \begin{figure}[h]
   \center
-  \includegraphics[width=0.8\textwidth]{resources/useCases.jpg}
+  \includegraphics[width=0.92\textwidth]{resources/features1.jpg}
 \end{figure}
 
 \newpage
 
-Ce diagramme présente toutes les actions réalisables par l'utilisateur et leurs enchaînements.
-Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès duquel il veut s'abonner pour accéder uniquement à ses services. Ce choix est alors retenu, et cette étape est donc omise lors des futurs démarrages de l'application. Une option existera tout de même pour modifier cette sélection si nécessaire. Depuis l'écran d'accueil, l'utilisateur pourra alors accéder aux services de son choix et pourra à tout moment revenir en arrière facilement.
+Le diagramme ci-dessus présente toutes les actions réalisables par l'utilisateur et leurs enchaînements.
+Lorsque l'utilisateur démarre l'application pour la première fois, il choisit l'établissement auprès duquel il veut s'abonner.
+Ce choix est alors retenu, et cette étape est donc omise lors des futurs démarrages de l'application. Une option existera tout de même pour modifier les abonnements si nécessaire. Depuis l'écran d'accueil, l'utilisateur pourra alors accéder aux services de son choix et pourra à tout moment revenir en arrière facilement. \\
+
+\begin{figure}[h]
+	\center
+	\includegraphics[width=0.6\textwidth]{resources/features2.jpg}
+\end{figure}
+
+Le diagramme ci-dessus présente les services offerts pour l'établissement Bordeaux1. Ces services seront accessibles quand l'utilisateur sera abonné à Bordeaux1.
 
 \section{Diagramme des mises à jour}
 
@@ -328,39 +336,17 @@ Le diagramme de mises à jour représente les différents modes de connection da
  \item WiFi : accès à un réseau sans-fil (rapide).
 \end{itemize}
 
+\newpage
+
 \section{Diagramme de Gantt}
 Le diagramme de Gantt suivant présente une première estimation de la répartition des tâches sur le déroulement du projet.
 
-\begin{table}[h!]
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-        \hline
-        Tâches/semaines                       & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
-        Connexion aux sites Web               & S & S & ~ & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
-        Architecture de l'application         & E & E & E & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
-        Parsage de flux RSS                   & ~ & T & T & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
-        Interaction annuaire (LDAP)    		  & ~ & R & R & ~ & ~ & ~ & ~ & ~ & ~ \\ \hline
-        Interaction annuaire (HTML)			  & ~ & ~ & R & R & R & ~ & ~ & ~ & ~ \\ \hline
-        Interface Graphique                   & ~ & P & P & P & ~ & ~ & ~ & ~ & ~ \\ \hline
-        Intégration des données				  & ~ & ~ & S & S & S & S & ~ & ~ & ~ \\ \hline
-        Gestion des mises à jour              & ~ & ~ & E & E & E & ~ & ~ & ~ & ~ \\ \hline
-        Analyse textuelle                     & ~ & ~ & ~ & T & T & T & T & ~ & ~ \\ \hline
-        Fonction de recherche annuaire 		  & ~ & ~ & ~ & ~ & P & P & ~ & ~ & ~ \\ \hline
-        Elaboration des tests                 & R & P & T & S & R & E & T & S & P \\ \hline
-        Elaboration du rapport                & A & A & A & A & A & A & A & A & A \\ \hline
-        Finalisation des tâches               & A & A & A & A & A & A & A & A & A \\
-        \hline
-    \end{tabular}
-\end{table}
-Chaque ligne est destinée à la répartition d'une tâche, et les colonnes représentent chacune une semaine du projet.\\
-Les initiales représentent :\\
-\begin{itemize}
-\item A : Tout le monde
-\item E : Elyas \textsc{Ben Hadj Yahia}
-\item R : Ryan \textsc{Herbert}
-\item P : Paul \textsc{Maribon-Ferret}
-\item S : Stefan \textsc{Mijatovic}
-\item T : Tatiana \textsc{Rocher}
-\end{itemize}
+\begin{figure}[h]
+  \center
+  \includegraphics[width=1.0\textwidth]{resources/gantt.jpg}
+\end{figure}
+
+Chaque ligne représente une tâche à effectuer, une estimation de sa durée, et son attribution. \\
 
 
 \chapter{Tests et Validation}
@@ -435,8 +421,8 @@ Les initiales représentent :\\
     \item Naviguer dans l'annuaire.
     \item Appuyer sur un contact afin d'afficher la vue détaillée.
     \item Effectuer une touche longue sur l'écran.
-    \item Sélectionner "Ajouter contact".
-    \item Sélectionner "ajouter un nouveau contact" ou "editer un contact existant".
+    \item Sélectionner \emph{Ajouter contact}.
+    \item Sélectionner \emph{Ajouter un nouveau contact} ou \emph{Editer un contact existant}.
     \end{enumerate}
 
     \underline{Résultat attendu}: Les informations extraites correspondent aux informations contenues dans le contact.
@@ -454,7 +440,7 @@ Les initiales représentent :\\
     \item Depuis le menu d'accueil appuyer sur Annuaire.
     \item Sélectionner un contact possédant un numéro de téléphone.
     \item Effectuer une touche longue sur l'écran.
-    \item Sélectionner "Appeler"
+    \item Sélectionner \emph{Appeler}
     \end{enumerate}
 
     \underline{Résultat attendu}: L'application démarrera un appel vers ce contact.
@@ -464,7 +450,7 @@ Les initiales représentent :\\
     \item Depuis le menu d'accueil appuyer sur Annuaire.
     \item Sélectionner un contact possédant un numéro de téléphone.
     \item Effectuer une touche longue sur l'écran.
-    \item Sélectionner "envoyer un email"
+    \item Sélectionner \emph{Envoyer un email}
     \end{enumerate}
 
     \underline{Résultat attendu}: L'application ouvre le gestionnaire d'email du téléphone avec le destinataire rempli avec l'adresse email du contact.
@@ -472,16 +458,23 @@ Les initiales représentent :\\
   \section{Test 12: Exporter un emploi du temps}
     \begin{enumerate}
     \item S'abonner à un établissement permettant l'exportation d'emplois du temps (ex: Bordeaux1).
+<<<<<<< Updated upstream
     \item Depuis le menu d'accueil, appuyer sur "Export emploi du temps".
     \item Sélectionner un niveau d'études~[Fig.~\ref{fig:09}].
     \item Sélectionner une filière et un groupe~[Fig.~\ref{fig:10}].
     \item appuyer sur "Exporter"
+=======
+    \item Depuis le menu d'accueil, appuyer sur \emph{Export emploi du temps}.
+    \item Sélectionner un niveau d'études.
+    \item Sélectionner une filière et un groupe.
+    \item appuyer sur \emph{Exporter}
+>>>>>>> Stashed changes
     \end{enumerate}
 
     \underline{Résultat attendu}:
     \begin{itemize}
     \item Si l'application est connectée à internet: l'intégrité de l'emploi du temps choisit est intégrée au calendrier du téléphone
-    \item Sinon: Le test échoue dès la première étape, l'option "Export emploi du temps" est grisée.
+    \item Sinon: Le test échoue dès la première étape, l'option \emph{Export emploi du temps} est grisée.
     \end{itemize}
 
   \section{Test 13: Afficher le plan du Campus Bordeaux1}
