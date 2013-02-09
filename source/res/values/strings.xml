@@ -4,6 +4,10 @@
     <string name="app_name">CampusUB1</string>
     <string name="menu_settings">Settings</string>
     
+    <!-- Dialogs -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    
     <!-- Establishments -->
     <string name="selectEst">Select your establishment</string>
     <string name="labri">LaBRI</string>
@@ -23,13 +27,10 @@
     <!-- Preferences -->
     <string name="preferences_category">Preferences</string>
     <string name="other_category">Other</string>
-    
+    <string name="about_title">About</string>
     <string name="subscriptions_title">Subscriptions</string>
     <string name="subscriptions_summary">Manage your subscribtions</string>
-    
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
-    
-    <string name="about_title">About</string>
     
 </resources>

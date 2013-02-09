@@ -66,5 +66,11 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 			}
 		}
 	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(PrefFragment.this);
+	}
 }
 

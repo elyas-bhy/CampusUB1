@@ -27,5 +27,24 @@ public class Persistence {
 		return shared_prefs.getBoolean(PREF_SUBSCRIBE_LABRI, false);
 	}
 	
+	public void setSubscribeUB(boolean subscribed) {
+		prefs_editor.putBoolean(PREF_SUBSCRIBE_UB1, subscribed);
+		prefs_editor.commit();
+	}
+	
+	public void setSubscribeLabri(boolean subscribed) {
+		prefs_editor.putBoolean(PREF_SUBSCRIBE_LABRI, subscribed);
+		prefs_editor.commit();
+	}
+	
+	public void setFilterUB(boolean on) {
+		prefs_editor.putBoolean(PREF_FILTER_UB1, on);
+		prefs_editor.commit();
+	}
+	
+	public void setFilterLabri(boolean on) {
+		prefs_editor.putBoolean(PREF_FILTER_LABRI, on);
+		prefs_editor.commit();
+	}
 
 }

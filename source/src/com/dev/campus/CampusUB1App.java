@@ -3,13 +3,20 @@ package com.dev.campus;
 import com.dev.campus.util.Persistence;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
 
 public class CampusUB1App extends Application {
 	
+	/**
+	 * Tag used for logging in the whole app
+	 */
 	public static final String TAG = "CampusUB1";
-	
+	/**
+	 * Main debug switch, turns on/off debugging for the whole app
+	 */
 	public static final boolean DEBUG = true;
+	
 	public static Persistence persistence;
 	private static CampusUB1App instance;
 	
@@ -20,7 +27,7 @@ public class CampusUB1App extends Application {
 	}
 	
 	private void init() {
-		LogD("Initializing app");
+		LogD("App starting on " + Build.MODEL + " by " + Build.MANUFACTURER);
 		instance = this;
 		persistence = new Persistence(this);
 	}
@@ -38,6 +45,5 @@ public class CampusUB1App extends Application {
 	public static void LogD(String message) {
 		if (DEBUG) Log.d(TAG, message);
 	}
-	
 	
 }

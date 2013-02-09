@@ -3,6 +3,9 @@
 
     <string name="menu_settings">Configuration</string>
     
+    <!-- Dialogs -->
+    <string name="cancel">Annuler</string>
+    
     <!-- Establishments -->
     <string name="selectEst">Sélectionnez votre établissement</string>
     <string name="ub1">Université de Bordeaux 1</string>
