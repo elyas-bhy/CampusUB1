@@ -1,18 +1,20 @@
 package com.dev.campus.ac;
 
 import com.dev.campus.R;
-import com.dev.campus.CampusUB1App;
+import com.dev.campus.SettingsActivity;
 
 import android.os.Bundle;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class UB1Activity extends ListActivity {
+public class HomeActivity extends ListActivity {
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,20 @@ public class UB1Activity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	String item = (String) getListAdapter().getItem(position);
     	Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+    }
+    
+    @Override
+ 	public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    		case R.id.menu_settings:
+    			Intent intent = new Intent();
+    			intent.setClass(HomeActivity.this, SettingsActivity.class);
+    			startActivityForResult(intent, 0);
+    			return true;
+    		default:
+    			break;
+    	}
+    	return false;
     }
     
 }

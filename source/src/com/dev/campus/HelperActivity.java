@@ -1,5 +1,6 @@
 package com.dev.campus;
 
+import com.dev.campus.ac.HomeActivity;
 import com.dev.campus.util.EstablishmentDialogBuilder;
 import com.dev.campus.R;
 
@@ -16,8 +17,8 @@ public class HelperActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		mEstablishmentDialogBuilder = new EstablishmentDialogBuilder(this);
+		setContentView(R.layout.activity_main);
 	}
 
     @Override
@@ -30,7 +31,13 @@ public class HelperActivity extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-		mEstablishmentDialogBuilder.show();
+		if (CampusUB1App.persistence.isUBSubscribed() || CampusUB1App.persistence.isLabriSubscribed()) {
+			startActivity(new Intent(this, HomeActivity.class));
+			finish();
+		}
+		else {
+			mEstablishmentDialogBuilder.show();
+		}
     }
     
     @Override

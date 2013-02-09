@@ -2,8 +2,7 @@ package com.dev.campus.util;
 
 
 import com.dev.campus.R;
-import com.dev.campus.ac.LabriActivity;
-import com.dev.campus.ac.UB1Activity;
+import com.dev.campus.ac.HomeActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,11 +24,8 @@ public class EstablishmentDialogBuilder extends AlertDialog.Builder {
 				Intent intent;
 				switch(which) {
 				case 0: //UB1
-					intent = new Intent(mContext, UB1Activity.class);
-					mContext.startActivity(intent);
-					break;
 				case 1: //LaBRI
-					intent = new Intent(mContext, LabriActivity.class);
+					intent = new Intent(mContext, HomeActivity.class);
 					mContext.startActivity(intent);
 					break;
 				default:

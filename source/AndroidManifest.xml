@@ -24,12 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dev.campus.ac.UB1Activity"
-            android:label="@string/title_activity_ub1" >
-        </activity>
-        <activity
-            android:name="com.dev.campus.ac.LabriActivity"
-            android:label="@string/title_activity_labri" >
+            android:name="com.dev.campus.ac.HomeActivity"
+            android:label="@string/title_activity_home" >
         </activity>
         <activity
             android:name="com.dev.campus.SettingsActivity"
