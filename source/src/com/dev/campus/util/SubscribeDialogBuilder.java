@@ -7,8 +7,8 @@ import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.ac.HomeActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -17,10 +17,10 @@ public class SubscribeDialogBuilder extends AlertDialog.Builder {
 	private static final Integer UB1_INDEX = 0;
 	private static final Integer LABRI_INDEX = 1;
 	
-	private Context mContext;
+	private Activity mContext;
 	private ArrayList<Integer> mSelectedItems;
 
-	public SubscribeDialogBuilder(Context context) {
+	public SubscribeDialogBuilder(Activity context) {
 		super(context);
 		mContext = context;
 		mSelectedItems = new ArrayList<Integer>();
@@ -53,6 +53,7 @@ public class SubscribeDialogBuilder extends AlertDialog.Builder {
 					}
 					
 					mContext.startActivity(new Intent(mContext, HomeActivity.class));
+					mContext.finish();
 				}
 			}
 		});
