@@ -1,7 +1,7 @@
 package com.dev.campus;
 
 import com.dev.campus.ac.HomeActivity;
-import com.dev.campus.util.SubscribeDialogBuilder;
+import com.dev.campus.util.SubscribeDialog;
 import com.dev.campus.R;
 
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import android.view.MenuItem;
 
 public class HelperActivity extends Activity {
 
-	private SubscribeDialogBuilder mSubscribeDialogBuilder;
+	private SubscribeDialog mSubscribeDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		mSubscribeDialogBuilder = new SubscribeDialogBuilder(this);
+		mSubscribeDialog = new SubscribeDialog(this);
 	}
 
     @Override
@@ -36,7 +36,7 @@ public class HelperActivity extends Activity {
 			finish();
 		}
 		else {
-			mSubscribeDialogBuilder.show();
+			mSubscribeDialog.show();
 		}
     }
     
