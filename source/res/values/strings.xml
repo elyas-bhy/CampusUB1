@@ -15,7 +15,7 @@
     
     <!-- Activity titles -->
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">Home</string>
     <string name="title_activity_settings">Settings</string>
     
     <!-- Servies -->

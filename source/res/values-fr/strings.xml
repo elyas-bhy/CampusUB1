@@ -10,6 +10,9 @@
     <string name="selectEst">Sélectionnez vos établissements</string>
     <string name="ub1">Université de Bordeaux 1</string>
     
+    <!-- Activity titles -->
+    <string name="title_activity_home">Accueil</string>
+    
     <!-- Servies -->
     <string name="events">Evénements</string>
     <string name="directory">Annuaire</string>
@@ -19,12 +22,10 @@
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
     <string name="other_category">Autres</string>
-    
+    <string name="about_title">A propos</string>
     <string name="subscriptions_title">Abonnements</string>
     <string name="subscriptions_summary">Gérer ses abonnements</string>
-    
     <string name="filters_title">Filtres</string>
     <string name="filters_summary">Gérer ses filtres</string>
     
-    <string name="about_title">A propos</string>
 </resources>

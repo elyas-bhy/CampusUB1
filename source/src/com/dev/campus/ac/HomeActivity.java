@@ -49,10 +49,12 @@ public class HomeActivity extends ListActivity {
     			intent.setClass(HomeActivity.this, SettingsActivity.class);
     			startActivityForResult(intent, 0);
     			return true;
+    		case R.id.menu_filters:
+    			//TODO start filter dialog
+    			return true;
     		default:
-    			break;
+    			return super.onOptionsItemSelected(item);
     	}
-    	return false;
     }
     
 }
