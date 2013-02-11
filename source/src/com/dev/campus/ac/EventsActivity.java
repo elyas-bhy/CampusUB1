@@ -1,24 +1,31 @@
-package com.dev.campus;
+package com.dev.campus.ac;
 
-import com.dev.campus.util.PrefFragment;
+import com.dev.campus.R;
 
+import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
-
-public class SettingsActivity extends Activity {
+public class EventsActivity extends Activity {
 	
 	private ActionBar mActionBar;
-	
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefFragment()).commit();
-        
+		setContentView(R.layout.activity_events);
+		
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		return true;
 	}
 	
 	@Override
@@ -31,4 +38,5 @@ public class SettingsActivity extends Activity {
     			return super.onOptionsItemSelected(item);
 		}
 	}
+
 }

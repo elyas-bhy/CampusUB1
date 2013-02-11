@@ -31,23 +31,28 @@ public class HomeActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.with_actionbar, menu);
         return true;
     }
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	String item = (String) getListAdapter().getItem(position);
-    	Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+    	Toast.makeText(this, item + " selected: ", Toast.LENGTH_LONG).show();
+    	switch (position) {
+    		case 0:
+				startActivity(new Intent(HomeActivity.this, EventsActivity.class));
+    			break;
+    		default:
+    			break;
+    	}
     }
     
     @Override
  	public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
     		case R.id.menu_settings:
-    			Intent intent = new Intent();
-    			intent.setClass(HomeActivity.this, SettingsActivity.class);
-    			startActivityForResult(intent, 0);
+    			startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
     			return true;
     		case R.id.menu_filters:
     			//TODO start filter dialog

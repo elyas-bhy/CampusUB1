@@ -3,27 +3,27 @@
 
     <string name="app_name">CampusUB1</string>
     <string name="menu_settings">Settings</string>
-    
+
     <!-- Dialogs -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    
+
     <!-- Establishments -->
     <string name="select_establishment">Select your establishments</string>
     <string name="labri">LaBRI</string>
     <string name="ub1">University of Bordeaux 1</string>
-    
+
     <!-- Activity titles -->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_settings">Settings</string>
-    
+
     <!-- Servies -->
     <string name="events">Events</string>
     <string name="directory">Directory</string>
     <string name="schedule">Schedule</string>
     <string name="map">Campus Map</string>
-    
+
     <!-- Preferences -->
     <string name="preferences_category">Preferences</string>
     <string name="other_category">Other</string>
@@ -32,5 +32,7 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
-    
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_events">EventsActivity</string>
+
 </resources>
