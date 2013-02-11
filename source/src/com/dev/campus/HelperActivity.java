@@ -44,9 +44,7 @@ public class HelperActivity extends Activity {
  	public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
     		case R.id.menu_settings:
-    			Intent intent = new Intent();
-    			intent.setClass(HelperActivity.this, SettingsActivity.class);
-    			startActivityForResult(intent, 0);
+    			startActivity(new Intent(HelperActivity.this, SettingsActivity.class));
     			return true;
     		default:
     			break;
