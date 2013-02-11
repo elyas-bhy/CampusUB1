@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 public class Persistence {
 	
+	public static final String PREF_SCREEN_SUBSCRIBE = "subscriptions_screen";
 	public static final String PREF_SUBSCRIBE_UB1 = "subscribe_ub1";
 	public static final String PREF_SUBSCRIBE_LABRI = "subscribe_labri";
 	public static final String PREF_FILTER_UB1 = "filter_ub1";
@@ -19,11 +20,11 @@ public class Persistence {
 		prefs_editor = shared_prefs.edit();
 	}
 	
-	public boolean isUBSubscribed() {
+	public boolean isSubscribedUB1() {
 		return shared_prefs.getBoolean(PREF_SUBSCRIBE_UB1, false);
 	}
 	
-	public boolean isLabriSubscribed() {
+	public boolean isSubscribedLabri() {
 		return shared_prefs.getBoolean(PREF_SUBSCRIBE_LABRI, false);
 	}
 	

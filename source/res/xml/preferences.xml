@@ -3,24 +3,10 @@
     <PreferenceCategory
         android:title="@string/preferences_category">
         
-        <PreferenceScreen
+        <Preference
             android:key="subscriptions_screen"
             android:title="@string/subscriptions_title"
-            android:summary="@string/subscriptions_summary">
-            
-            <CheckBoxPreference
-                android:key="subscribe_ub1"
-                android:title="@string/ub1"
-                android:defaultValue="false"
-                android:persistent="true"/>
-            
-            <CheckBoxPreference
-                android:key="subscribe_labri"
-                android:title="@string/labri"
-                android:defaultValue="false"
-                android:persistent="true"/>
-            
-        </PreferenceScreen>
+            android:summary="@string/subscriptions_summary"/>
         
         <PreferenceScreen 
             android:key="filters_screen"

@@ -7,7 +7,7 @@
     <string name="cancel">Annuler</string>
     
     <!-- Establishments -->
-    <string name="selectEst">Sélectionnez vos établissements</string>
+    <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="ub1">Université de Bordeaux 1</string>
     
     <!-- Activity titles -->

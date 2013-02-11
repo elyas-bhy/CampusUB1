@@ -31,12 +31,12 @@ public class HelperActivity extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-		if (CampusUB1App.persistence.isUBSubscribed() || CampusUB1App.persistence.isLabriSubscribed()) {
+		if (CampusUB1App.persistence.isSubscribedUB1() || CampusUB1App.persistence.isSubscribedLabri()) {
 			startActivity(new Intent(this, HomeActivity.class));
 			finish();
 		}
 		else {
-			mSubscribeDialog.show();
+			mSubscribeDialog.showDialog(true);
 		}
     }
     
