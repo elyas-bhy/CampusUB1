@@ -12,6 +12,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+/**
+ * Custom AlertDialog class which for subscriptions management
+ * @author elyas-bhy
+ *
+ */
 public class SubscribeDialog extends AlertDialog {
 	
 	private AlertDialog mSubscribeDialog;
@@ -22,13 +27,22 @@ public class SubscribeDialog extends AlertDialog {
 		mContext = context;
 	}
 	
+	/**
+	 * Creates and shows an instance of SubscribeDialog
+	 * @param redirectionEnabled flag that enables redirecting
+	 * to home page after validating choices.
+	 */
 	public void showDialog(boolean redirectionEnabled) {
 		SubscribeDialogBuilder builder = new SubscribeDialogBuilder(mContext, redirectionEnabled);
 		mSubscribeDialog = builder.create();
 		mSubscribeDialog.show();
 		initializePositiveButton();
 	}
-
+	
+	/**
+	 * Check that positive button is enabled only if 
+	 * at least one establishment is selected
+	 */
 	private void initializePositiveButton() {
 		if (!CampusUB1App.persistence.isSubscribedUB1()
 		 && !CampusUB1App.persistence.isSubscribedLabri())
@@ -83,7 +97,6 @@ public class SubscribeDialog extends AlertDialog {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					CampusUB1App.LogD("onClick listener builder: " + which);
 					boolean sub_ub1 = mSelectedItems.contains(UB1_INDEX);
 					boolean sub_labri = mSelectedItems.contains(LABRI_INDEX);
 					
