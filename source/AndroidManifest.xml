@@ -36,6 +36,10 @@
             android:name="com.dev.campus.ac.EventsActivity"
             android:label="@string/title_activity_events" >
         </activity>
+        <activity
+            android:name="com.dev.campus.ac.DirectoryActivity"
+            android:label="@string/title_activity_directory" >
+        </activity>
     </application>
 
 </manifest>

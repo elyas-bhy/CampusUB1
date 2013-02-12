@@ -10,14 +10,14 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class EventsActivity extends Activity {
-	
+public class DirectoryActivity extends Activity {
+
 	private ActionBar mActionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_events);
+		setContentView(R.layout.activity_directory);
 		
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -34,7 +34,7 @@ public class EventsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_settings:
-				startActivity(new Intent(EventsActivity.this, SettingsActivity.class));
+				startActivity(new Intent(DirectoryActivity.this, SettingsActivity.class));
 				return true;
 			case R.id.menu_filters:
 				//TODO start filter dialog

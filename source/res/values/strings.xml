@@ -14,15 +14,21 @@
     <string name="ub1">University of Bordeaux 1</string>
 
     <!-- Activity titles -->
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">CampusUB1</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_events">Events</string>
+    <string name="title_activity_directory">Directory</string>
 
     <!-- Servies -->
     <string name="events">Events</string>
     <string name="directory">Directory</string>
     <string name="schedule">Schedule</string>
     <string name="map">Campus Map</string>
+    
+    <!-- Directory strings -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 
     <!-- Preferences -->
     <string name="preferences_category">Preferences</string>
@@ -32,7 +38,5 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_events">EventsActivity</string>
 
 </resources>

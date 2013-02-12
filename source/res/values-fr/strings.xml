@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="menu_settings">Configuration</string>
+    <string name="menu_settings">Paramètres</string>
     
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
@@ -12,12 +12,19 @@
     
     <!-- Activity titles -->
     <string name="title_activity_home">Accueil</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="title_activity_events">Evénements</string>
+    <string name="title_activity_directory">Annuaire</string>
     
     <!-- Servies -->
     <string name="events">Evénements</string>
     <string name="directory">Annuaire</string>
     <string name="schedule">Emploi du Temps</string>
-    <string name="map">Plan du Campus</string>
+    <string name="map">Plan du Campus</string>   
+    
+    <!-- Directory strings -->
+    <string name="first_name">Prénom</string>
+    <string name="last_name">Nom</string>
     
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
