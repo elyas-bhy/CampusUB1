@@ -2,6 +2,9 @@ package com.dev.campus.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.preference.PreferenceManager;
 
 public class Persistence {
@@ -13,12 +16,19 @@ public class Persistence {
 	public static final String PREF_FILTER_UB1 = "filter_ub1";
 	public static final String PREF_FILTER_LABRI = "filter_labri";
 	
+	
+	private ConnectivityManager conMan;
 	private SharedPreferences shared_prefs;
 	private SharedPreferences.Editor prefs_editor;
+	private State mobile;
+	private State wifi;
 	
 	public Persistence(Context context) {
 		shared_prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		prefs_editor = shared_prefs.edit();
+		conMan = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		mobile = null;
+		wifi = null;
 	}
 	
 	public boolean isSubscribedUB1() {
@@ -57,4 +67,13 @@ public class Persistence {
 		prefs_editor.commit();
 	}
 
+	public boolean isMobileConnected(){
+		mobile = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
+		return (mobile == NetworkInfo.State.CONNECTED || mobile == NetworkInfo.State.CONNECTING);
+	}
+	
+	public boolean isWifiConnected(){
+		wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+		return (wifi == NetworkInfo.State.CONNECTED || wifi == NetworkInfo.State.CONNECTING);
+	}
 }

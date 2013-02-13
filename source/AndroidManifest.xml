@@ -41,5 +41,10 @@
             android:label="@string/title_activity_directory" >
         </activity>
     </application>
+    
+    <!-- Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
