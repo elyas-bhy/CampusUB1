@@ -2,6 +2,7 @@ package com.dev.campus.ac;
 
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
+import com.dev.campus.util.FilterDialog;
 
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -13,12 +14,14 @@ import android.view.MenuItem;
 public class DirectoryActivity extends Activity {
 
 	private ActionBar mActionBar;
+	private FilterDialog mFilterDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_directory);
 		
+		mFilterDialog = new FilterDialog(this);
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -37,7 +40,7 @@ public class DirectoryActivity extends Activity {
 				startActivity(new Intent(DirectoryActivity.this, SettingsActivity.class));
 				return true;
 			case R.id.menu_filters:
-				//TODO start filter dialog
+    			mFilterDialog.showDialog();
 				return true;
 			case android.R.id.home:
 				finish();

@@ -2,6 +2,7 @@ package com.dev.campus.ac;
 
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
+import com.dev.campus.util.FilterDialog;
 
 import android.os.Bundle;
 import android.app.ListActivity;
@@ -12,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class HomeActivity extends ListActivity {
+	
+	private FilterDialog mFilterDialog;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		mFilterDialog = new FilterDialog(this);
         Resources res = getResources();
         String[] values = new String[] { res.getString(R.string.events), 
         								 res.getString(R.string.directory),
@@ -43,7 +46,7 @@ public class HomeActivity extends ListActivity {
     		case 0: // Events
 				startActivity(new Intent(HomeActivity.this, EventsActivity.class));
     			break;
-    		case 1:
+    		case 1: // Directory
     			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
     		default:
     			break;
@@ -57,7 +60,7 @@ public class HomeActivity extends ListActivity {
     			startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
     			return true;
     		case R.id.menu_filters:
-    			//TODO start filter dialog
+    			mFilterDialog.showDialog();
     			return true;
     		default:
     			return super.onOptionsItemSelected(item);

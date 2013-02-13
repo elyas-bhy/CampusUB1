@@ -8,25 +8,10 @@
             android:title="@string/subscriptions_title"
             android:summary="@string/subscriptions_summary"/>
         
-        <PreferenceScreen 
+        <Preference
             android:key="filters_screen"
             android:title="@string/filters_title"
-            android:summary="@string/filters_summary">
-            
-            <CheckBoxPreference
-                android:key="filter_ub1"
-                android:title="@string/ub1"
-                android:defaultValue="true"
-                android:persistent="true"/>
-            
-            <CheckBoxPreference
-                android:key="filter_labri"
-                android:title="@string/labri"
-                android:defaultValue="true"
-                android:persistent="true"/>
-            
-        </PreferenceScreen>
-        
+            android:summary="@string/filters_summary"/>
         
     </PreferenceCategory>
     

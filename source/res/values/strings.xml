@@ -7,9 +7,10 @@
     <!-- Dialogs -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="select_establishment">Select your establishments</string>
+    <string name="filter_results">Filter your results</string>
 
     <!-- Establishments -->
-    <string name="select_establishment">Select your establishments</string>
     <string name="labri">LaBRI</string>
     <string name="ub1">University of Bordeaux 1</string>
 

@@ -5,7 +5,6 @@ import com.dev.campus.R;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -13,20 +12,15 @@ import android.preference.PreferenceScreen;
 public class PrefFragment extends PreferenceFragment 
 implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private CheckBoxPreference mPrefFilterUB1;
-	private CheckBoxPreference mPrefFilterLabri;
 	private SubscribeDialog mSubscribeDialog;
+	private FilterDialog mFilterDialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
-		mPrefFilterUB1 = (CheckBoxPreference) findPreference(Persistence.PREF_FILTER_UB1);
-		mPrefFilterLabri = (CheckBoxPreference) findPreference(Persistence.PREF_FILTER_LABRI);
 		mSubscribeDialog = new SubscribeDialog(getActivity());
-		
-		mPrefFilterUB1.setEnabled(CampusUB1App.persistence.isSubscribedUB1());
-		mPrefFilterLabri.setEnabled(CampusUB1App.persistence.isSubscribedLabri());
+		mFilterDialog = new FilterDialog(getActivity());
 	}
 	
 	@Override
@@ -40,6 +34,9 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		if (preference.getKey().equals(Persistence.PREF_SCREEN_SUBSCRIBE)) {
 			mSubscribeDialog.showDialog(false);
 		}
+		if (preference.getKey().equals(Persistence.PREF_SCREEN_FILTERS)) {
+			mFilterDialog.showDialog();
+		}
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 		
 	}
@@ -50,14 +47,12 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		boolean state;
 		if (key.equals(Persistence.PREF_SUBSCRIBE_UB1)) {
 			state = CampusUB1App.persistence.isSubscribedUB1();
-			mPrefFilterUB1.setEnabled(state);
-			mPrefFilterUB1.setChecked(state);
+			CampusUB1App.persistence.setFilterUB(state);
 		}
 		
 		if (key.equals(Persistence.PREF_SUBSCRIBE_LABRI)) {
 			state = CampusUB1App.persistence.isSubscribedLabri();
-			mPrefFilterLabri.setEnabled(state);
-			mPrefFilterLabri.setChecked(state);
+			CampusUB1App.persistence.setFilterLabri(state);
 		}
 	}
 	

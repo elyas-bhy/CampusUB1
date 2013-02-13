@@ -5,9 +5,10 @@
     
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
+    <string name="select_establishment">Sélectionnez vos établissements</string>
+    <string name="filter_results">Filtrez vos résultats</string>
     
     <!-- Establishments -->
-    <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="ub1">Université de Bordeaux 1</string>
     
     <!-- Activity titles -->
