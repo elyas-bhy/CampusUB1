@@ -104,6 +104,10 @@ public class SubscribeDialog extends AlertDialog {
 					CampusUB1App.persistence.setSubscribeLabri(sub_labri);
 					
 					if (redirectionEnabled) {
+						//Manually update filters, as the SharedPreferences
+						//listener is not yet registered
+						CampusUB1App.persistence.setFilterUB(sub_ub1);
+						CampusUB1App.persistence.setFilterLabri(sub_labri);
 						mContext.startActivity(new Intent(mContext, HomeActivity.class));
 						mContext.finish();
 					}

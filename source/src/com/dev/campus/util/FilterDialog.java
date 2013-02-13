@@ -121,7 +121,6 @@ public class FilterDialog extends AlertDialog {
 					mSelectedItems.clear();
 				}
 			});
-			CampusUB1App.LogD("filters: " + CampusUB1App.persistence.isFilteredUB1() + " " + CampusUB1App.persistence.isFilteredLabri());
 		}
 	}
 
