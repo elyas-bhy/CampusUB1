@@ -3,6 +3,11 @@
     package="com.dev.campus"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+    <!-- Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -15,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.dev.campus.HelperActivity"
+            android:name="com.dev.campus.ac.HelperActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +33,7 @@
             android:label="@string/title_activity_home" >
         </activity>
         <activity
-            android:name="com.dev.campus.SettingsActivity"
+            android:name="com.dev.campus.ac.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@android:style/Theme.Holo" >
         </activity>
@@ -41,10 +46,5 @@
             android:label="@string/title_activity_directory" >
         </activity>
     </application>
-    
-    <!-- Internet Permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Network State Permissions -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

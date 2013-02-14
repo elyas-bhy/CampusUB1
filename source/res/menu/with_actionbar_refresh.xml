@@ -12,5 +12,11 @@
         android:orderInCategory="90"
         android:showAsAction="always"
         android:icon="@drawable/ic_filters"/>
+    
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="80"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_refresh"/>
 
 </menu>

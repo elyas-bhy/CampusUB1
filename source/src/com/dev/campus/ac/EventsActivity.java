@@ -1,47 +1,63 @@
 package com.dev.campus.ac;
 
+import java.util.ArrayList;
+
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
-import com.dev.campus.SettingsActivity;
+import com.dev.campus.event.Event;
+import com.dev.campus.event.EventAdapter;
 import com.dev.campus.util.FilterDialog;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class EventsActivity extends Activity {
+public class EventsActivity extends ListActivity {
 
-	private final int update_interval = 15000; // Temps mise à jour automatique
+	private final int updateFrequency = 15000; // Update frequency (ms)
 	
 	private ActionBar mActionBar;
 	private FilterDialog mFilterDialog;
-	private Handler update_handler;
+	
+	private Handler mHandler;
+	private EventAdapter mEventAdapter;
+	//private EventParser mEventParser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_events);
 		mFilterDialog = new FilterDialog(this);
+        mHandler = new Handler();
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        update_handler = new Handler();
+        
+        //Fetch data from parser
+        mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
+        setListAdapter(mEventAdapter);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
         startUpdateTimer();
 	}
-
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		pauseUpdateTimer();
+	}
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		getMenuInflater().inflate(R.menu.with_actionbar_refresh, menu);
 		return true;
 	}
 	
@@ -54,7 +70,7 @@ public class EventsActivity extends Activity {
 			case R.id.menu_filters:
     			mFilterDialog.showDialog();
 				return true;
-			case R.id.event_update:
+			case R.id.menu_refresh:
 				update();
 				return true;
 			case android.R.id.home:
@@ -63,40 +79,40 @@ public class EventsActivity extends Activity {
 			default:
     			return super.onOptionsItemSelected(item);
 		}
-		
 	}
 
-	
-	Runnable update_statusChecker = new Runnable()
-	{
+	private Runnable update_statusChecker = new Runnable() {
 	     @Override 
 	     public void run() {
 	    	 if (CampusUB1App.persistence.isWifiConnected())
 	    		 update();
-	         update_handler.postDelayed(update_statusChecker, update_interval);
+	         mHandler.postDelayed(update_statusChecker, updateFrequency);
 	     }
 	};
 	
-
-	void startUpdateTimer()
-	{
+	private void startUpdateTimer() {
 	    update_statusChecker.run(); 
 	}
 
-	void stopUpdateTimer()
-	{
-	    update_handler.removeCallbacks(update_statusChecker);
+	private void pauseUpdateTimer() {
+	    mHandler.removeCallbacks(update_statusChecker);
 	}
 	
 
-	public void update(){ 
+	public void update() { 
 		if (!CampusUB1App.persistence.isWifiConnected()	&& !CampusUB1App.persistence.isMobileConnected()){
-			Toast t = Toast.makeText(this, "Echec lors de la mise à jour!", Toast.LENGTH_SHORT);
-			t.show();
+			Toast.makeText(this, "Echec lors de la mise à jour!", Toast.LENGTH_SHORT).show();
+			//if history exists, load it for offline use
 		}
-		else{ //TODO
-			Toast t = Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT);
-			t.show();
+		else { //TODO
+			Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
+			mEventAdapter.add(new Event("Event " + System.currentTimeMillis()));	//For test purposes
+			
+			//Fetch parsed data from parser
+			/*List<Event> parseResult = mEventParser.parse();
+			mEventAdapter.clear();
+			mEventAdapter.addAll(parseResult);
+			mEventAdapter.notifyDataSetChanged();*/
 		}
 	}
 	

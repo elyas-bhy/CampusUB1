@@ -1,7 +1,6 @@
 package com.dev.campus.ac;
 
 import com.dev.campus.R;
-import com.dev.campus.SettingsActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.Bundle;
@@ -40,8 +39,6 @@ public class HomeActivity extends ListActivity {
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-    	String item = (String) getListAdapter().getItem(position);
-    	//Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
     	switch (position) {
     		case 0: // Events
 				startActivity(new Intent(HomeActivity.this, EventsActivity.class));
