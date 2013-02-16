@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.dev.campus.event.CategoriesActivity;
 import com.dev.campus.event.Event;
 import com.dev.campus.event.EventAdapter;
 import com.dev.campus.util.FilterDialog;
@@ -15,11 +16,17 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class EventsActivity extends ListActivity {
+public class EventsActivity extends ListActivity implements OnItemClickListener {
 
 	private final int updateFrequency = 15000; // Update frequency (ms)
+	private final int PICK_CATEGORY = 10;
 	
 	private ActionBar mActionBar;
 	private FilterDialog mFilterDialog;
@@ -37,13 +44,24 @@ public class EventsActivity extends ListActivity {
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		
 		ArrayList<Event> events = new ArrayList<Event>();
-		events.add(new Event(R.drawable.ic_test, "Event1", "News", "The brown fox jumps over the lazy frog"));
-		events.add(new Event(R.drawable.ic_test, "Event2", "News", "The brown fox jumps over the lazy frog"));
-		events.add(new Event(R.drawable.ic_test, "Event3", "News", "The brown fox jumps over the lazy frog"));
+		events.add(new Event(R.drawable.ic_test, "Event1", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event2", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event3", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event4", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event5", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event6", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event7", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event8", "News", "The brown fox jumps over the lazy dog"));
+		events.add(new Event(R.drawable.ic_test, "Event9", "News", "The brown fox jumps over the lazy dog"));
+		
+		ListView listView = getListView();
+		View header = (View)getLayoutInflater().inflate(R.layout.event_list_header, listView, false);
+		listView.addHeaderView(header, null, true);
+		listView.setOnItemClickListener(this);
         
         //Fetch data from parser
         mEventAdapter = new EventAdapter(this, events);
-        setListAdapter(mEventAdapter);
+		listView.setAdapter(mEventAdapter);
 	}
 	
 	@Override
@@ -118,6 +136,26 @@ public class EventsActivity extends ListActivity {
 			mEventAdapter.clear();
 			mEventAdapter.addAll(parseResult);
 			mEventAdapter.notifyDataSetChanged();*/
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		if (arg2 == 0) {	//Categories index
+			startActivityForResult(new Intent(EventsActivity.this, CategoriesActivity.class), PICK_CATEGORY);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == PICK_CATEGORY) {
+			if (resultCode == RESULT_OK) {
+				String category = data.getStringExtra(CategoriesActivity.EXTRA_CATEGORY);
+				if (category != null) {
+					TextView headerView = (TextView) findViewById(R.id.event_list_header);
+					headerView.setText(category);
+				}
+			}
 		}
 	}
 	

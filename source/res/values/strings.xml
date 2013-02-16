@@ -26,7 +26,7 @@
     <string name="directory">Directory</string>
     <string name="schedule">Schedule</string>
     <string name="map">Campus Map</string>
-    
+
     <!-- Directory strings -->
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -39,5 +39,7 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_categories">CategoriesActivity</string>
 
 </resources>

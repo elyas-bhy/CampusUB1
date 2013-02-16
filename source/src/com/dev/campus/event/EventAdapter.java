@@ -59,6 +59,5 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		eventHolder.details.setText(event.getDetails());
 		
 		return row;
-		//return super.getView(position, convertView, parent);
 	}
 }

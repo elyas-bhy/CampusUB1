@@ -3,7 +3,7 @@
     package="com.dev.campus"
     android:versionCode="1"
     android:versionName="1.0" >
-    
+
     <!-- Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Network State Permissions -->
@@ -44,6 +44,10 @@
         <activity
             android:name="com.dev.campus.ac.DirectoryActivity"
             android:label="@string/title_activity_directory" >
+        </activity>
+        <activity
+            android:name="com.dev.campus.event.CategoriesActivity"
+            android:label="@string/title_activity_categories" >
         </activity>
     </application>
 
