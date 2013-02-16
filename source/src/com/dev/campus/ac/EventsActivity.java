@@ -32,12 +32,17 @@ public class EventsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFilterDialog = new FilterDialog(this);
-        mHandler = new Handler();
-        mActionBar = getActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+		mHandler = new Handler();
+		mActionBar = getActionBar();
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		
+		ArrayList<Event> events = new ArrayList<Event>();
+		events.add(new Event(R.drawable.ic_test, "Event1", "News", "The brown fox jumps over the lazy frog"));
+		events.add(new Event(R.drawable.ic_test, "Event2", "News", "The brown fox jumps over the lazy frog"));
+		events.add(new Event(R.drawable.ic_test, "Event3", "News", "The brown fox jumps over the lazy frog"));
         
         //Fetch data from parser
-        mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
+        mEventAdapter = new EventAdapter(this, events);
         setListAdapter(mEventAdapter);
 	}
 	
@@ -106,7 +111,7 @@ public class EventsActivity extends ListActivity {
 		}
 		else { //TODO
 			Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
-			mEventAdapter.add(new Event("Event " + System.currentTimeMillis()));	//For test purposes
+			//mEventAdapter.add(new Event("Event " + System.currentTimeMillis()));	//For test purposes
 			
 			//Fetch parsed data from parser
 			/*List<Event> parseResult = mEventParser.parse();
