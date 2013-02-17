@@ -58,24 +58,12 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			e.printStackTrace();
 		}
 		
-		ArrayList<Event> events = new ArrayList<Event>();
-		events.add(new Event(R.drawable.ic_test, "Event1", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event2", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event3", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event4", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event5", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event6", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event7", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event8", "News", "The brown fox jumps over the lazy dog"));
-		events.add(new Event(R.drawable.ic_test, "Event9", "News", "The brown fox jumps over the lazy dog"));
-		
 		ListView listView = getListView();
 		View header = (View)getLayoutInflater().inflate(R.layout.event_list_header, listView, false);
 		listView.addHeaderView(header, null, true);
 		listView.setOnItemClickListener(this);
         
-        //Fetch data from parser
-        mEventAdapter = new EventAdapter(this, events);
+        mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
 		listView.setAdapter(mEventAdapter);
 	}
 	
@@ -186,9 +174,9 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		
 		@Override
 		protected void onPostExecute(List<Event> events) {
-			/*mEventAdapter.clear();
+			mEventAdapter.clear();
 			mEventAdapter.addAll(events);
-			mEventAdapter.notifyDataSetChanged();*/
+			mEventAdapter.notifyDataSetChanged();
 		}
 	 }
 	

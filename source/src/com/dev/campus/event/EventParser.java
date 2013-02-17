@@ -10,8 +10,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import com.dev.campus.CampusUB1App;
-
 public class EventParser {
 	
 	private XmlPullParser mParser;
@@ -30,6 +28,7 @@ public class EventParser {
 	
 	public List<Event> getEvents() throws XmlPullParserException, IOException {
 		ArrayList<Event> events = new ArrayList<Event>();
+		Event event = new Event();
 
 		int eventType = mParser.getEventType();
 	    while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -40,9 +39,21 @@ public class EventParser {
 	        	//TODO
 	        }
 	        else if (eventType == XmlPullParser.START_TAG) {
-	        	if (mParser.getName().equalsIgnoreCase("title")) {
-	        		CampusUB1App.LogD(mParser.nextText());
+	        	if (mParser.getName().equals("item")) {
+	        		event = new Event();
 	        	} 
+	        	if (mParser.getName().equals("title")) {
+	        		event.setTitle(mParser.nextText());
+	        	} 
+	        	if (mParser.getName().equals("description")) {
+	        		event.setDescription(mParser.nextText());
+	        	} 
+	        }
+	        else if (eventType == XmlPullParser.END_TAG) {
+	        	if (mParser.getName().equals("item")) {
+	        		event.setCategory("News"); //temporary
+	        		events.add(event);
+	        	}
 	        }
 	        eventType = mParser.next();
 	    }

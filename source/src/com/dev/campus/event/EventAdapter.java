@@ -22,8 +22,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		TextView title;
 		TextView category;
 		TextView date;
-		TextView details;
-		//ImageView eventSource;
+		TextView description;
 	}
 	
 	public EventAdapter(Activity context, List<Event> events) {
@@ -45,7 +44,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 			eventHolder.icon = (ImageView)row.findViewById(R.id.event_icon);
 			eventHolder.title = (TextView)row.findViewById(R.id.event_title);
 			eventHolder.category = (TextView)row.findViewById(R.id.event_category);
-			eventHolder.details = (TextView)row.findViewById(R.id.event_details);
+			eventHolder.description = (TextView)row.findViewById(R.id.event_description);
 			row.setTag(eventHolder);
 			
 		} else {
@@ -53,10 +52,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
-		eventHolder.icon.setImageResource(event.getThumbnail());
+		eventHolder.icon.setImageResource(R.drawable.ic_test);
 		eventHolder.title.setText(event.getTitle());
 		eventHolder.category.setText(event.getCategory());
-		eventHolder.details.setText(event.getDetails());
+		eventHolder.description.setText(event.getDescription());
 		
 		return row;
 	}
