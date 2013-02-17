@@ -1,0 +1,51 @@
+package com.dev.campus.event;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import com.dev.campus.CampusUB1App;
+
+public class EventParser {
+	
+	private XmlPullParser mParser;
+	
+	public EventParser() throws XmlPullParserException {
+		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+		factory.setNamespaceAware(false);
+		mParser = factory.newPullParser();
+	}
+	
+	public void setInput(String address) throws IOException, XmlPullParserException {
+		URL url = new URL(address);
+		InputStream stream = url.openStream();
+		mParser.setInput(stream, null);
+	}
+	
+	public List<Event> getEvents() throws XmlPullParserException, IOException {
+		ArrayList<Event> events = new ArrayList<Event>();
+
+		int eventType = mParser.getEventType();
+	    while (eventType != XmlPullParser.END_DOCUMENT) {
+	        if (eventType == XmlPullParser.START_DOCUMENT) {
+	        	//TODO
+	        } 
+	        else if (eventType == XmlPullParser.END_DOCUMENT) {
+	        	//TODO
+	        }
+	        else if (eventType == XmlPullParser.START_TAG) {
+	        	if (mParser.getName().equalsIgnoreCase("title")) {
+	        		CampusUB1App.LogD(mParser.nextText());
+	        	} 
+	        }
+	        eventType = mParser.next();
+	    }
+		return events;
+	}
+}

@@ -1,14 +1,19 @@
 package com.dev.campus.ac;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.event.CategoriesActivity;
 import com.dev.campus.event.Event;
 import com.dev.campus.event.EventAdapter;
+import com.dev.campus.event.EventParser;
 import com.dev.campus.util.FilterDialog;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.ActionBar;
@@ -28,20 +33,30 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	private final int updateFrequency = 15000; // Update frequency (ms)
 	private final int PICK_CATEGORY = 10;
 	
+	public static final String UB1_ALL_NEWS = "http://www.u-bordeaux1.fr/index.php?type=114";
+	
 	private ActionBar mActionBar;
 	private FilterDialog mFilterDialog;
 	
 	private Handler mHandler;
 	private EventAdapter mEventAdapter;
-	//private EventParser mEventParser;
+	private EventParser mEventParser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		mFilterDialog = new FilterDialog(this);
 		mHandler = new Handler();
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
+
+		try {
+			mEventParser = new EventParser();
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		ArrayList<Event> events = new ArrayList<Event>();
 		events.add(new Event(R.drawable.ic_test, "Event1", "News", "The brown fox jumps over the lazy dog"));
@@ -125,23 +140,18 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	public void update() { 
 		if (!CampusUB1App.persistence.isWifiConnected()	&& !CampusUB1App.persistence.isMobileConnected()){
 			Toast.makeText(this, "Echec lors de la mise à jour!", Toast.LENGTH_SHORT).show();
-			//if history exists, load it for offline use
+			//If history exists, load it for offline use
 		}
-		else { //TODO
+		else {
 			Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
-			//mEventAdapter.add(new Event("Event " + System.currentTimeMillis()));	//For test purposes
-			
-			//Fetch parsed data from parser
-			/*List<Event> parseResult = mEventParser.parse();
-			mEventAdapter.clear();
-			mEventAdapter.addAll(parseResult);
-			mEventAdapter.notifyDataSetChanged();*/
+			//Fetch a fresh version of feed
+			new UpdateFeedsTask().execute(UB1_ALL_NEWS);
 		}
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		if (arg2 == 0) {	//Categories index
+	public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+		if (position == 0) {	//Categories index
 			startActivityForResult(new Intent(EventsActivity.this, CategoriesActivity.class), PICK_CATEGORY);
 		}
 	}
@@ -158,5 +168,28 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			}
 		}
 	}
+	
+	private class UpdateFeedsTask extends AsyncTask<String, Void, List<Event>> {
+
+		@Override
+		protected List<Event> doInBackground(String... params) {
+			//if (currentVersion < newVersion)
+			try {
+				mEventParser.setInput(params[0]);
+				return mEventParser.getEvents();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			//else retrieve history
+		}
+		
+		@Override
+		protected void onPostExecute(List<Event> events) {
+			/*mEventAdapter.clear();
+			mEventAdapter.addAll(events);
+			mEventAdapter.notifyDataSetChanged();*/
+		}
+	 }
 	
 }
