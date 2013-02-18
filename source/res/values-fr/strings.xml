@@ -36,4 +36,14 @@
     <string name="filters_title">Filtres</string>
     <string name="filters_summary">Gérer ses filtres</string>
     
+    <!-- UB1 RSS feeds -->
+    <string name="ub1_all_news">Actualités - Toutes les actualités</string>
+    <string name="ub1_university">Actualités - Université</string>
+    <string name="ub1_formation">Actualités - Formation</string>
+    <string name="ub1_research">Actualités - Recherche</string>
+    <string name="ub1_international">Actualités - International</string>
+    <string name="ub1_student_life">Actualités - Vie étudiante</string>
+    <string name="ub1_companies">Actualités - Entreprise</string>
+    <string name="ub1_press">Actualités - Presse</string>
+    
 </resources>

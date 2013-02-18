@@ -41,5 +41,15 @@
     <string name="filters_summary">Manage your filters</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_categories">CategoriesActivity</string>
+    
+    <!-- UB1 RSS feeds -->
+    <string name="ub1_all_news">News - All News</string>
+    <string name="ub1_university">News - University</string>
+    <string name="ub1_formation">News - Formation</string>
+    <string name="ub1_research">News - Research</string>
+    <string name="ub1_international">News - International</string>
+    <string name="ub1_student_life">News - Student Life</string>
+    <string name="ub1_companies">News - Companies</string>
+    <string name="ub1_press">News - Press</string>
 
 </resources>

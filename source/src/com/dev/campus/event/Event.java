@@ -7,7 +7,6 @@ public class Event {
 	private String mDescription;
 	private String mDate;
 	private String mTime;
-	private int mThumbnail;
 	private String mDetails;
 	private String mSource;
 	
@@ -16,19 +15,9 @@ public class Event {
 		mTitle = null;
 		mDate = null;
 		mTime = null;
-		mThumbnail = -1;
 		mDetails = null;
 		mSource = null;
 	}
-	
-	public Event(int thumbnail, String title, String category, String details) {
-		this();
-		mThumbnail = thumbnail;
-		mTitle = title;
-		mCategory = category;
-		mDetails = details;
-	}
-	
 	
 	public String getCategory() {
 		return mCategory;
@@ -68,14 +57,6 @@ public class Event {
 
 	public void setTime(String time) {
 		mTime = time;
-	}
-
-	public int getThumbnail() {
-		return mThumbnail;
-	}
-
-	public void setThumbnail(int thumbnail) {
-		mThumbnail = thumbnail;
 	}
 
 	public String getDetails() {
