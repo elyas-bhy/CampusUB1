@@ -1,5 +1,9 @@
 package com.dev.campus.event;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.dev.campus.R;
 import com.dev.campus.ac.EventsActivity;
 
@@ -12,18 +16,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class CategoriesActivity extends ListActivity {
+public class CategoryActivity extends ListActivity {
 	
 	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        String[] values = new String[] { "Category 1", 
-        								 "Category 2", 
-        								 "Category 3", 
-        								 "Category 4"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
+		List<Category> categories = new ArrayList<Category>();
+		categories.addAll(Arrays.asList(Category.values()));
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1, categories);
         setListAdapter(adapter);
 	}
 
@@ -36,8 +38,8 @@ public class CategoriesActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-    	String item = (String) getListAdapter().getItem(position);
-    	Intent intent = new Intent(CategoriesActivity.this, EventsActivity.class);
+    	Category item = (Category) getListAdapter().getItem(position);
+    	Intent intent = new Intent(CategoryActivity.this, EventsActivity.class);
     	intent.putExtra(EXTRA_CATEGORY, item);
     	setResult(Activity.RESULT_OK, intent);
     	finish();

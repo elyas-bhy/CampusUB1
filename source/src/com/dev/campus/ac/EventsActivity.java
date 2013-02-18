@@ -7,7 +7,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
-import com.dev.campus.event.CategoriesActivity;
+import com.dev.campus.event.CategoryActivity;
+import com.dev.campus.event.Category;
 import com.dev.campus.event.Event;
 import com.dev.campus.event.EventAdapter;
 import com.dev.campus.event.EventParser;
@@ -32,8 +33,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	private final int updateFrequency = 15000; // Update frequency (ms)
 	private final int PICK_CATEGORY = 10;
-	
-	public static final String UB1_ALL_NEWS = "http://www.u-bordeaux1.fr/index.php?type=114";
+	private Category mCategory;
 	
 	private ActionBar mActionBar;
 	private FilterDialog mFilterDialog;
@@ -50,6 +50,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		mHandler = new Handler();
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mCategory = Category.UB1_ALL_NEWS;
 
 		try {
 			mEventParser = new EventParser();
@@ -133,14 +134,14 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		else {
 			Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
 			//Fetch a fresh version of feed
-			new UpdateFeedsTask().execute(UB1_ALL_NEWS);
+			new UpdateFeedsTask().execute();
 		}
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 		if (position == 0) {	//Categories index
-			startActivityForResult(new Intent(EventsActivity.this, CategoriesActivity.class), PICK_CATEGORY);
+			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);
 		}
 	}
 	
@@ -148,22 +149,22 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PICK_CATEGORY) {
 			if (resultCode == RESULT_OK) {
-				String category = data.getStringExtra(CategoriesActivity.EXTRA_CATEGORY);
+				Category category = (Category) data.getSerializableExtra(CategoryActivity.EXTRA_CATEGORY);
 				if (category != null) {
-					TextView headerView = (TextView) findViewById(R.id.event_list_header);
-					headerView.setText(category);
+					mCategory = category;
+					update();
 				}
 			}
 		}
 	}
 	
-	private class UpdateFeedsTask extends AsyncTask<String, Void, List<Event>> {
+	private class UpdateFeedsTask extends AsyncTask<Category, Void, List<Event>> {
 
 		@Override
-		protected List<Event> doInBackground(String... params) {
+		protected List<Event> doInBackground(Category... params) {
 			//if (currentVersion < newVersion)
 			try {
-				mEventParser.setInput(params[0]);
+				mEventParser.setInput(mCategory.getUrl());
 				return mEventParser.getEvents();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -174,10 +175,13 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		
 		@Override
 		protected void onPostExecute(List<Event> events) {
+			TextView headerView = (TextView) findViewById(R.id.event_list_header);
+			headerView.setText(mCategory.toString());
 			mEventAdapter.clear();
 			mEventAdapter.addAll(events);
 			mEventAdapter.notifyDataSetChanged();
 		}
+		
 	 }
 	
 }

@@ -46,7 +46,7 @@
             android:label="@string/title_activity_directory" >
         </activity>
         <activity
-            android:name="com.dev.campus.event.CategoriesActivity"
+            android:name="com.dev.campus.event.CategoryActivity"
             android:label="@string/title_activity_categories" >
         </activity>
     </application>
