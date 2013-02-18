@@ -11,6 +11,9 @@
 # generated files
 bin/
 gen/
+src/com/dev/campus/analyser/MySymbol.java
+src/com/dev/campus/analyser/Parser.java
+src/com/dev/campus/analyser/Scanner.java
 
 # Local configuration file (sdk path, etc)
 local.properties

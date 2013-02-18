@@ -2,7 +2,8 @@ package com.dev.campus.analyser;
  
 import com.dev.campus.analyser.*;
 import java.io.*;
-
+import java.lang.*;
+import java.util.ArrayList;
 
 terminal AT, FROM, TIME;
 
@@ -10,9 +11,13 @@ non terminal time;
   
 time ::=
   TIME:t
-    {: RESULT = null; :}
-  | AT TIME:t
-    {: RESULT = null; :}
-  | FROM TIME:start AT TIME:end
-    {: RESULT = null; :}
+    {:  TimeKeeper.startTimes.add(new Time(t));
+    	RESULT = null; :}
+  | AT:t
+    {:  TimeKeeper.startTimes.add(new Time(t));
+    	RESULT = null; :}
+  | FROM:start AT:end
+    {:  TimeKeeper.startTimes.add(new Time(start));
+    	TimeKeeper.startTimes.add(new Time(end));
+    	RESULT = null; :}
   ;

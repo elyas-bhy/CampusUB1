@@ -47,9 +47,9 @@ WhiteSpace     = {LineTerminator} | [ \t\f]
   Times
    ------------------------------------------------- */
 
-"de"      { return symbol(MySymbol.FROM, yytext()); }
-[Aà]       { return symbol(MySymbol.AT, yytext()); }
-{Time}     { System.out.println("TIME"); return symbol(MySymbol.TIME, yytext()); }
+[Dd]e\ {Time}      { return symbol(MySymbol.FROM, yytext()); }
+[Aà]\ {Time}       { return symbol(MySymbol.AT, yytext()); }
+{Time}     		   { return symbol(MySymbol.TIME, yytext()); }
 
 
 /* -------------------------------------------------
@@ -57,6 +57,6 @@ WhiteSpace     = {LineTerminator} | [ \t\f]
    ------------------------------------------------- */
 {WhiteSpace}  { /* ignore */ }
 
-.       { System.out.println("NOTHING"); /* Ignore other characters */ }
+.       { /* Ignore other characters */ }
 
 }
