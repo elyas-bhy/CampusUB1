@@ -1,0 +1,18 @@
+package com.dev.campus.analyser;
+ 
+import com.dev.campus.analyser.*;
+import java.io.*;
+
+
+terminal AT, FROM, TIME;
+
+non terminal time;
+  
+time ::=
+  TIME:t
+    {: RESULT = null; :}
+  | AT TIME:t
+    {: RESULT = null; :}
+  | FROM TIME:start AT TIME:end
+    {: RESULT = null; :}
+  ;

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LeaCompiler" default="default">
+  <property name="JFlexLib" location="libs" />
+  <property name="CUPLib" location="libs" />
+  <property name="parser.dir" location="parser" />
+  <property name="scanner.dir" location="scanner" />
+  <property name="bin.dir" location="bin" />
+  <property name="lib.dir" location="libs" />
+  <property name="src.dir" location="src" />
+
+  <regexp id="class" pattern="[a-z]*\.class" />
+  
+  <description>
+    LeaCompiler build file
+  </description>
+
+  <!-- ================================= 
+       target: default              
+       ================================= -->
+
+  <target name="default" depends="parser, scanner" description="Compiles the parser and scanner">
+    <javac 
+	srcdir="${src.dir}/com/dev/campus/analyser/"
+	destdir="${bin.dir}" 
+	classpath="${lib.dir}/java-cup-11a-runtime.jar" 
+	debug="on" />
+    
+  </target>
+  
+  <!-- =================================
+       target: scanner
+       ================================= -->
+  <target name="scanner">
+    
+    <taskdef name="jflex" classname="JFlex.anttask.JFlexTask">
+      <classpath location="${JFlexLib}/JFlex.jar" />
+    </taskdef>
+    
+    <jflex 
+	file="${scanner.dir}/scanner.jflex" 
+	destdir="${src.dir}"/>
+  </target>
+  
+  <!-- ================================= 
+       target: parser              
+       ================================= -->
+  <target name="parser" description="Compiles the parser">
+    
+    <taskdef name="cup" classname="java_cup.anttask.CUPTask">
+      <classpath location="${CUPLib}/java-cup-11a.jar" />
+    </taskdef>
+    
+    <cup 
+	srcfile="${parser.dir}/parser.cup"
+	destdir="${src.dir}"
+	parser="Parser"
+	symbols="MySymbol"
+	dump_grammar="true"
+	dump_tables="false"
+	dump_states="false"
+	expect="0"
+	debug="false"
+/>
+  </target>
+</project>
