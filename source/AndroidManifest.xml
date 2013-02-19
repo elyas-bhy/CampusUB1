@@ -38,7 +38,7 @@
             android:theme="@android:style/Theme.Holo" >
         </activity>
         <activity
-            android:name="com.dev.campus.ac.EventsActivity"
+            android:name="com.dev.campus.event.EventsActivity"
             android:label="@string/title_activity_events" >
         </activity>
         <activity
@@ -48,6 +48,10 @@
         <activity
             android:name="com.dev.campus.event.CategoryActivity"
             android:label="@string/title_activity_categories" >
+        </activity>
+        <activity
+            android:name="com.dev.campus.event.EventViewActivity"
+            android:label="@string/title_activity_events" >
         </activity>
     </application>
 

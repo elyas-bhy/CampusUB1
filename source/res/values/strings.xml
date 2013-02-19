@@ -20,6 +20,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_events">Events</string>
     <string name="title_activity_directory">Directory</string>
+    <string name="title_activity_categories">Categories</string>
 
     <!-- Servies -->
     <string name="events">Events</string>
@@ -39,9 +40,7 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_categories">CategoriesActivity</string>
-    
+
     <!-- UB1 RSS feeds -->
     <string name="ub1_all_news">News - All News</string>
     <string name="ub1_university">News - University</string>

@@ -1,4 +1,4 @@
-package com.dev.campus.ac;
+package com.dev.campus.event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +7,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
-import com.dev.campus.event.CategoryActivity;
-import com.dev.campus.event.Category;
-import com.dev.campus.event.Event;
-import com.dev.campus.event.EventAdapter;
-import com.dev.campus.event.EventParser;
+import com.dev.campus.ac.SettingsActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.AsyncTask;
@@ -30,6 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EventsActivity extends ListActivity implements OnItemClickListener {
+	
+	
+	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
+	public static final String EXTRA_EVENT = "com.dev.campus.EVENT";
 
 	private final int updateFrequency = 15000; // Update frequency (ms)
 	private final int PICK_CATEGORY = 10;
@@ -138,9 +138,14 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+	public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
 		if (position == 0) {	//Categories index
 			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);
+		} else {
+	    	Event item = (Event) getListView().getAdapter().getItem(position);
+			Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
+			intent.putExtra(EXTRA_EVENT, item);
+			startActivity(intent);
 		}
 	}
 	
@@ -148,7 +153,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PICK_CATEGORY) {
 			if (resultCode == RESULT_OK) {
-				Category category = (Category) data.getSerializableExtra(CategoryActivity.EXTRA_CATEGORY);
+				Category category = (Category) data.getSerializableExtra(EXTRA_CATEGORY);
 				if (category != null) {
 					mCategory = category;
 					update();

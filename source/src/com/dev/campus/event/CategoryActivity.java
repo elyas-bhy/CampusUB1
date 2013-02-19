@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.dev.campus.R;
-import com.dev.campus.ac.EventsActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -17,8 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class CategoryActivity extends ListActivity {
-	
-	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,7 @@ public class CategoryActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_categories, menu);
+		getMenuInflater().inflate(R.menu.without_actionbar, menu);
 		return true;
 	}
 
@@ -40,7 +37,7 @@ public class CategoryActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	Category item = (Category) getListAdapter().getItem(position);
     	Intent intent = new Intent(CategoryActivity.this, EventsActivity.class);
-    	intent.putExtra(EXTRA_CATEGORY, item);
+    	intent.putExtra(EventsActivity.EXTRA_CATEGORY, item);
     	setResult(Activity.RESULT_OK, intent);
     	finish();
     }

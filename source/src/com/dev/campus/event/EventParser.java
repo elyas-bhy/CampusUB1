@@ -48,6 +48,9 @@ public class EventParser {
 	        	if (mParser.getName().equals("description")) {
 	        		event.setDescription(mParser.nextText());
 	        	} 
+	        	if (mParser.getName().equals("content:encoded")) {
+        			event.setDetails(mParser.nextText());
+	        	} 
 	        }
 	        else if (eventType == XmlPullParser.END_TAG) {
 	        	if (mParser.getName().equals("item")) {
@@ -55,7 +58,7 @@ public class EventParser {
 	        		events.add(event);
 	        	}
 	        }
-	        eventType = mParser.next();
+	        eventType = mParser.nextToken();
 	    }
 		return events;
 	}

@@ -1,7 +1,11 @@
 package com.dev.campus.event;
 
-public class Event {
+import java.io.Serializable;
 
+public class Event implements Serializable {
+
+	private static final long serialVersionUID = 8284757527911114571L;
+	
 	private String mCategory;
 	private String mTitle;
 	private String mDescription;
