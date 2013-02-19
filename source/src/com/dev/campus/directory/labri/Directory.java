@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Directory {
-
+	
 	public static String MyRegex(String str, String pattern) {
 		String res = "";
 		Pattern p = Pattern.compile(pattern);
@@ -20,7 +20,7 @@ public class Directory {
 		}
 		return res;
 	}
-
+	
 	public static String capitalize(String str) {
 		boolean replaced = false;
 		for(int k=0; k<str.length(); k++) {
@@ -60,14 +60,14 @@ public class Directory {
 		dirContent = dirContent.replaceAll("(\\r)|(\\n)|(\\t)", "");
 		dirContent = dirContent.replaceAll("&amp;", "&");
 		
-		// Récupération du tableau
+		// RÃ©cupÃ©ration du tableau
 		dirContent = MyRegex(dirContent, "<table border(.*?)</table>");
 		
 		String tmp;
 		Pattern p;
 		Matcher m;
 		
-		// On enlève la première ligne qui contient les en-têtes des colonnes
+		// On enlÃ¨ve la premiÃ¨re ligne qui contient les en-tÃªtes des colonnes
 		tmp = "";
 		p = Pattern.compile("<tr(.*?)</tr>");
 		m = p.matcher(dirContent);
@@ -93,9 +93,9 @@ public class Directory {
 			tmp = tmp.replaceAll("<td(.*?)>(.*?)</td>", "$2");
 			tmp = tmp.trim();
 			
-			if( i%8==1 ) { // Nom-Prénom
+			if( i%8==1 ) { // Nom-PrÃ©nom
 				String name = tmp;
-				int offset = name.lastIndexOf(" "); // On sépare nom/prénom en fonction du dernier espace dans la chaîne
+				int offset = name.lastIndexOf(" "); // On sÃ©pare nom/prÃ©nom en fonction du dernier espace dans la chaÃ®ne
 				String lastName = name.substring(0, offset);
 				String firstName = name.substring(offset+1, name.length());
 				//System.out.println("-"+firstName+"-"+"  -"+lastName+"-");
@@ -107,7 +107,7 @@ public class Directory {
 				//System.out.println(tmp);
 				//contact.setEmail(tmp);
 			}
-			else if( i%8==3 ) { // Téléphone, Défaut : "+33 (0)5 40 00 "
+			else if( i%8==3 ) { // TÃ©lÃ©phone, DÃ©faut : "+33 (0)5 40 00 "
 				if( !tmp.equals("+33 (0)5 40 00") ) {
 					//System.out.println(tmp);
 					//contact.setTel(tmp);
@@ -144,7 +144,7 @@ public class Directory {
 			i++;
 		}
 	    
-		/* Récupérer Nom/Prénom avec l'adresse email
+		/* RÃ©cupÃ©rer Nom/PrÃ©nom avec l'adresse email
 		// -----------------------------------------  
 		String mail = "john-doe.smith@labri.fr";
 		int offset = mail.indexOf(".");
