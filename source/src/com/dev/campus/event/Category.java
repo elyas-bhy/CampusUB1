@@ -14,7 +14,9 @@ public enum Category {
 	UB1_INTERNATIONAL("http://www.u-bordeaux1.fr/index.php?type=103", R.string.ub1_international),
 	UB1_STUDENTS("http://www.u-bordeaux1.fr/index.php?type=104", R.string.ub1_student_life),
 	UB1_COMPANIES("http://www.u-bordeaux1.fr/index.php?type=105", R.string.ub1_companies),
-	UB1_PRESS("http://www.u-bordeaux1.fr/index.php?type=106", R.string.ub1_press);
+	UB1_PRESS("http://www.u-bordeaux1.fr/index.php?type=106", R.string.ub1_press),
+	
+	LABRI_NEWS("http://www.labri.fr/rss/rss.php", R.string.labri);
 	
 	private String mUrl;
 	private int mName;
