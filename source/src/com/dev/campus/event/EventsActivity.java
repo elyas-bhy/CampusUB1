@@ -23,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,7 +75,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
 		listView.setAdapter(mEventAdapter);
-		update();
+		update_statusChecker.run();
 	}
 
 	@Override
@@ -126,7 +127,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	};
 
 	private void startUpdateTimer() {
-		update_statusChecker.run(); 
+		mHandler.postDelayed(update_statusChecker,updateFrequency);
 	}
 
 	private void pauseUpdateTimer() {
@@ -198,6 +199,17 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	private class UpdateFeedsTask extends AsyncTask<Category, Void, List<Event>> {
 
+		ProgressDialog dialog = new ProgressDialog(EventsActivity.this);
+		
+		 @Override
+	    protected void onPreExecute() {
+	            dialog.setTitle("Chargement des événements...");
+	            dialog.setMessage("Veuillez patienter");
+	            dialog.setIndeterminate(true);
+	            dialog.setCancelable(false);
+	            dialog.show();
+	        }
+		
 		@Override
 		protected List<Event> doInBackground(Category... params) {
 			//if (currentVersion < newVersion)
@@ -219,8 +231,14 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			mEventAdapter.clear();
 			mEventAdapter.addAll(events);
 			mEventAdapter.notifyDataSetChanged();
+			dialog.dismiss();
 		}
 
+		@Override
+        protected void onCancelled() {
+            dialog.dismiss();
+            super.onCancelled();
+        }
 		public void saveEvents(List<Event> events) throws XmlPullParserException{
 
 			ObjectOutputStream oos = null;
