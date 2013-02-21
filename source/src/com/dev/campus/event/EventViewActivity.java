@@ -2,7 +2,6 @@ package com.dev.campus.event;
 
 import java.util.GregorianCalendar;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 
 import android.os.Bundle;
@@ -45,7 +44,7 @@ public class EventViewActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.without_actionbar, menu);
+		getMenuInflater().inflate(R.menu.with_actionbar_calendar, menu);
 		return true;
 	}
 	
@@ -55,7 +54,7 @@ public class EventViewActivity extends Activity {
 			case android.R.id.home:
 				finish();
 				return true;
-			case R.id.menu_addCalendar:
+			case R.id.menu_calendar:
 				addToCalendar();
 				return true;
 			default:

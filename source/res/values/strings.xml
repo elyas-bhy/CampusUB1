@@ -3,7 +3,7 @@
 
     <string name="app_name">CampusUB1</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_addCalendar">Rajouter au calendrier</string>
+    <string name="menu_calendar">Rajouter au calendrier</string>
 
     <!-- Dialogs -->
     <string name="ok">OK</string>
