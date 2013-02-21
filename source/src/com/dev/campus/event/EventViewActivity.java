@@ -1,10 +1,16 @@
 package com.dev.campus.event;
 
+import java.util.GregorianCalendar;
+
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,9 +55,25 @@ public class EventViewActivity extends Activity {
 			case android.R.id.home:
 				finish();
 				return true;
+			case R.id.menu_addCalendar:
+				addToCalendar();
+				return true;
 			default:
     			return super.onOptionsItemSelected(item);
 		}
 	}
 
+	public void addToCalendar() {
+		Event event = (Event) getIntent().getSerializableExtra(EventsActivity.EXTRA_EVENT);
+		Intent calIntent = new Intent(Intent.ACTION_INSERT);
+		calIntent.setType("vnd.android.cursor.item/event");
+		calIntent.putExtra(Events.TITLE,event.getTitle());
+		calIntent.putExtra(Events.DESCRIPTION,event.getDetails());
+		//TODO date and time of beggining
+		GregorianCalendar calDate = new GregorianCalendar(2013, 2, 1, 18, 0);
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,calDate.getTimeInMillis());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,calDate.getTimeInMillis());
+		startActivity(calIntent);
+	}
+	
 }

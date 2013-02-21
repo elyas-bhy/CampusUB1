@@ -69,11 +69,11 @@ public class Persistence {
 
 	public boolean isMobileConnected(){
 		mobile = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
-		return (mobile == NetworkInfo.State.CONNECTED || mobile == NetworkInfo.State.CONNECTING);
+		return (mobile == NetworkInfo.State.CONNECTED);
 	}
 	
 	public boolean isWifiConnected(){
 		wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-		return (wifi == NetworkInfo.State.CONNECTED || wifi == NetworkInfo.State.CONNECTING);
+		return (wifi == NetworkInfo.State.CONNECTED);
 	}
 }

@@ -2,6 +2,7 @@ package com.dev.campus.event;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 public class EventParser {
 	
+
 	private XmlPullParser mParser;
 	
 	public EventParser() throws XmlPullParserException {
