@@ -75,7 +75,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
 		listView.setAdapter(mEventAdapter);
-		update_statusChecker.run();
+		startUpdateTimer();
 	}
 
 	@Override
@@ -127,16 +127,14 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	};
 
 	private void startUpdateTimer() {
-		mHandler.postDelayed(update_statusChecker,updateFrequency);
+		update_statusChecker.run();
 	}
 
 	private void pauseUpdateTimer() {
 		mHandler.removeCallbacks(update_statusChecker);
 	}
 
-	
-	
-	public void loadHistory(List<Event> events){	
+	public void reloadEvents(List<Event> events){	
 		TextView headerView = (TextView) findViewById(R.id.event_list_header);
 		headerView.setText(mCategory.toString());
 		mEventAdapter.clear();
@@ -148,22 +146,23 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		if (!CampusUB1App.persistence.isWifiConnected()	&& !CampusUB1App.persistence.isMobileConnected()){
 			//If history exists, load it for offline use
 			File file = new File(Environment.getExternalStorageDirectory()+"/history.dat");
-			if(file.exists()) {
+			if (file.exists()) {
 				try {
 					FileInputStream fint = new FileInputStream(file);
 					ObjectInputStream ois = new ObjectInputStream(fint);
 					@SuppressWarnings("unchecked")
 					List<Event> events =(List<Event>)ois.readObject();
-					loadHistory(events);
+					reloadEvents(events);
 					Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
 					ois.close();
 				}
-				catch (Exception e) { e.printStackTrace();
+				catch (Exception e) { 
+					e.printStackTrace();
 				}
 			}
 			else {
 				Toast.makeText(this, "Echec lors de la mise à jour!", Toast.LENGTH_SHORT).show();
-				  }
+			}
 		}
 		else {
 			Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
@@ -174,7 +173,8 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-		if (position == 0) {	//Categories index
+		if (position == 0) {
+			//Categories index
 			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);
 		} else {
 			Event item = (Event) getListView().getAdapter().getItem(position);
@@ -199,25 +199,25 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	private class UpdateFeedsTask extends AsyncTask<Category, Void, List<Event>> {
 
-		ProgressDialog dialog = new ProgressDialog(EventsActivity.this);
-		
-		 @Override
-	    protected void onPreExecute() {
-	            dialog.setTitle("Chargement des événements...");
-	            dialog.setMessage("Veuillez patienter");
-	            dialog.setIndeterminate(true);
-	            dialog.setCancelable(false);
-	            dialog.show();
-	        }
-		
+		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog.setTitle("Chargement des événements...");
+			progressDialog.setMessage("Veuillez patienter");
+			progressDialog.setIndeterminate(true);
+			progressDialog.setCancelable(false);
+			progressDialog.show();
+		}
+
 		@Override
 		protected List<Event> doInBackground(Category... params) {
 			//if (currentVersion < newVersion)
 			try {
 				mEventParser.setInput(mCategory.getUrl());
-				List<Event> events = mEventParser.getEvents();
-				saveEvents(events);
-				return events;
+				mEventParser.parseEvents();
+				mEventParser.saveEvents();
+				return mEventParser.getEvents();
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -231,47 +231,13 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			mEventAdapter.clear();
 			mEventAdapter.addAll(events);
 			mEventAdapter.notifyDataSetChanged();
-			dialog.dismiss();
+			progressDialog.dismiss();
 		}
 
 		@Override
-        protected void onCancelled() {
-            dialog.dismiss();
-            super.onCancelled();
-        }
-		public void saveEvents(List<Event> events) throws XmlPullParserException{
-
-			ObjectOutputStream oos = null;
-
-			try {
-				File history = new File(Environment.getExternalStorageDirectory()+"/history.dat");
-				history.getParentFile().createNewFile();
-				FileOutputStream fout = new FileOutputStream(history);
-				oos = new ObjectOutputStream(fout);
-				oos.writeObject(events);
-			}
-			catch (FileNotFoundException ex)
-			{
-				ex.printStackTrace();  
-			} catch (IOException ex)
-			{
-				ex.printStackTrace();
-			}
-			finally
-	        {
-	            try
-	            {
-	                if (oos != null)
-	                {
-	                    oos.flush();
-	                    oos.close();
-	                }
-	            }
-	            catch (IOException ex)
-	            {
-	                ex.printStackTrace(); }
+		protected void onCancelled() {
+			progressDialog.dismiss();
+			super.onCancelled();
 		}
 	}
-
-}
 }
