@@ -44,6 +44,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 			eventHolder.icon = (ImageView)row.findViewById(R.id.event_icon);
 			eventHolder.title = (TextView)row.findViewById(R.id.event_title);
 			eventHolder.category = (TextView)row.findViewById(R.id.event_category);
+			eventHolder.date = (TextView)row.findViewById(R.id.event_date);
 			eventHolder.description = (TextView)row.findViewById(R.id.event_description);
 			row.setTag(eventHolder);
 			
@@ -55,6 +56,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		eventHolder.icon.setImageResource(R.drawable.ic_test);
 		eventHolder.title.setText(event.getTitle());
 		eventHolder.category.setText(event.getCategory());
+		eventHolder.date.setText(event.getDate());
 		eventHolder.description.setText(event.getDescription());
 		
 		return row;

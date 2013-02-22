@@ -31,6 +31,7 @@ public class EventViewActivity extends Activity {
 		ImageView icon = (ImageView) findViewById(R.id.event_view_icon);
 		TextView title = (TextView) findViewById(R.id.event_view_title);
 		TextView category= (TextView) findViewById(R.id.event_view_category);
+		TextView date= (TextView) findViewById(R.id.event_view_date);
 		TextView details = (TextView) findViewById(R.id.event_view_details);
 		
 		Event event = (Event) getIntent().getSerializableExtra(EventsActivity.EXTRA_EVENT);
@@ -38,6 +39,7 @@ public class EventViewActivity extends Activity {
 		icon.setImageResource(R.drawable.ic_test);
 		title.setText(event.getTitle());
 		category.setText(event.getCategory());
+		date.setText(event.getDate());
 		details.setText(Html.fromHtml(event.getDetails()));
 	}
 

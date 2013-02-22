@@ -145,7 +145,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	public void update() { 
 		if (!CampusUB1App.persistence.isWifiConnected()	&& !CampusUB1App.persistence.isMobileConnected()){
 			//If history exists, load it for offline use
-			File file = new File(Environment.getExternalStorageDirectory()+"/history.dat");
+			File file = new File(Environment.getExternalStorageDirectory() + "/history.dat");
 			if (file.exists()) {
 				try {
 					FileInputStream fint = new FileInputStream(file);

@@ -32,13 +32,22 @@
                     android:id="@+id/event_view_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
                     android:layout_marginTop="1dp"
+                    android:layout_marginBottom="0dp"
                     android:textColor="#0C1259"
                     android:textSize="18dp" />
                 
                 <TextView
                     android:id="@+id/event_view_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:textColor="#8A8A8A"
+                    android:textSize="10dp" />
+                
+                <TextView
+                    android:id="@+id/event_view_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
