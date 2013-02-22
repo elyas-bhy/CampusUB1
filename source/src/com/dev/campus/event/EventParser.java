@@ -14,8 +14,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import com.dev.campus.CampusUB1App;
-
 import android.os.Environment;
 
 public class EventParser {
@@ -67,7 +65,6 @@ public class EventParser {
 				if (mParser.getName().equals("item")) {
 					event.setCategory("News"); //temporary
 					events.add(event);
-					CampusUB1App.LogD("date: " + event.getDate());
 				}
 			}
 			eventType = mParser.nextToken();
@@ -78,9 +75,7 @@ public class EventParser {
 	}
 
 	public void saveEvents() throws XmlPullParserException {
-
 		ObjectOutputStream oos = null;
-
 		try {
 			File history = new File(Environment.getExternalStorageDirectory() + "/history.dat");
 			history.getParentFile().createNewFile();
