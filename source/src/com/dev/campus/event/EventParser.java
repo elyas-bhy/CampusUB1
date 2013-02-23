@@ -14,6 +14,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.dev.campus.event.Category.CategoryType;
+
 import android.os.Environment;
 
 public class EventParser {
@@ -54,7 +56,10 @@ public class EventParser {
 					event.setTitle(mParser.nextText());
 				} 
 				if (mParser.getName().equals("description")) {
-					event.setDescription(mParser.nextText());
+					String description = mParser.nextText();
+					event.setDescription(description);
+					if (mCategory.getType().equals(CategoryType.LABRI_FEED))
+						event.setDetails(description);
 				} 
 				if (mParser.getName().equals("content:encoded")) {
 					event.setDetails(mParser.nextText());
@@ -66,7 +71,8 @@ public class EventParser {
 			else if (eventType == XmlPullParser.END_TAG) {
 				if (mParser.getName().equals("item")) {
 					event.setCategory("News"); //temporary
-					events.add(event);
+					if (!event.getTitle().equals(""))
+						events.add(event);
 				}
 			}
 			eventType = mParser.nextToken();
