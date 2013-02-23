@@ -1,6 +1,7 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Event implements Serializable {
 
@@ -9,7 +10,7 @@ public class Event implements Serializable {
 	private String mCategory;
 	private String mTitle;
 	private String mDescription;
-	private String mDate;
+	private Date mDate;
 	private String mTime;
 	private String mDetails;
 	private String mSource;
@@ -47,11 +48,17 @@ public class Event implements Serializable {
 		mDescription = description;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return mDate;
 	}
+	
+	public String getStringDate() {
+		if(mDate == null)
+			return "";
+		return mDate.toString();
+	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		mDate = date;
 	}
 

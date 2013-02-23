@@ -8,13 +8,18 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.dev.campus.CampusUB1App;
+import com.dev.campus.util.TimeExtractor;
+
 import android.os.Environment;
+import android.util.Log;
 
 public class EventParser {
 
@@ -60,7 +65,15 @@ public class EventParser {
 					event.setDetails(mParser.nextText());
 				}
 				if (mParser.getName().equals("pubDate")) {
-					event.setDate(mParser.nextText());
+					Date d = null;
+					try {
+						String text = mParser.nextText();
+						CampusUB1App.LogD("About to parse date " + text);
+						d = TimeExtractor.getCorrectDate(text, event.getDetails());
+						event.setDate(d);
+					} catch(Exception e){
+						CampusUB1App.LogD("DATE: " + d);
+					}
 				}
 			}
 			else if (eventType == XmlPullParser.END_TAG) {

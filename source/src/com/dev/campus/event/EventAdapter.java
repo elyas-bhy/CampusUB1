@@ -56,7 +56,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		eventHolder.icon.setImageResource(R.drawable.ic_test);
 		eventHolder.title.setText(event.getTitle());
 		eventHolder.category.setText(event.getCategory());
-		eventHolder.date.setText(event.getDate());
+		eventHolder.date.setText(event.getStringDate());
 		eventHolder.description.setText(event.getDescription());
 		
 		return row;
