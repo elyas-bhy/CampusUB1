@@ -72,7 +72,6 @@ public class EventParser {
 					Date d = null;
 					try {
 						String text = mParser.nextText();
-						CampusUB1App.LogD("About to parse date " + text);
 						d = TimeExtractor.getCorrectDate(text, event.getDetails());
 						event.setDate(d);
 					} catch(Exception e){
