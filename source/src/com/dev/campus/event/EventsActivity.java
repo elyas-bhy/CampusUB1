@@ -210,7 +210,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		protected List<Event> doInBackground(Category... params) {
 			//if (currentVersion < newVersion)
 			try {
-				mEventParser.setInput(mCategory.getUrl());
+				mEventParser.setInput(mCategory);
 				mEventParser.parseEvents();
 				mEventParser.saveEvents();
 				return mEventParser.getEvents();

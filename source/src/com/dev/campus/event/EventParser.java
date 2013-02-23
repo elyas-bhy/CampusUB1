@@ -21,6 +21,7 @@ public class EventParser {
 
 	private XmlPullParser mParser;
 	private List<Event> mEvents;
+	private Category mCategory;
 
 	public EventParser() throws XmlPullParserException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -28,8 +29,9 @@ public class EventParser {
 		mParser = factory.newPullParser();
 	}
 
-	public void setInput(String address) throws IOException, XmlPullParserException {
-		URL url = new URL(address);
+	public void setInput(Category category) throws IOException, XmlPullParserException {
+		mCategory = category;
+		URL url = new URL(mCategory.getUrl());
 		InputStream stream = url.openStream();
 		mParser.setInput(stream, null);
 	}
