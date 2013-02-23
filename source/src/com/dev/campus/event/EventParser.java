@@ -17,6 +17,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.util.TimeExtractor;
+import com.dev.campus.event.Category.CategoryType;
 
 import android.os.Environment;
 import android.util.Log;
@@ -59,7 +60,10 @@ public class EventParser {
 					event.setTitle(mParser.nextText());
 				} 
 				if (mParser.getName().equals("description")) {
-					event.setDescription(mParser.nextText());
+					String description = mParser.nextText();
+					event.setDescription(description);
+					if (mCategory.getType().equals(CategoryType.LABRI_FEED))
+						event.setDetails(description);
 				} 
 				if (mParser.getName().equals("content:encoded")) {
 					event.setDetails(mParser.nextText());
@@ -79,7 +83,8 @@ public class EventParser {
 			else if (eventType == XmlPullParser.END_TAG) {
 				if (mParser.getName().equals("item")) {
 					event.setCategory("News"); //temporary
-					events.add(event);
+					if (!event.getTitle().equals(""))
+						events.add(event);
 				}
 			}
 			eventType = mParser.nextToken();

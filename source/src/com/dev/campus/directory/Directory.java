@@ -1,4 +1,4 @@
-package com.dev.campus.directory.labri;
+package com.dev.campus.directory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -38,7 +38,7 @@ public class Directory {
 	public void labriDirectoryParser() throws UnsupportedEncodingException {
 		
 		String dirContent="";
-		String file ="src/com/dev/campus/directory/labri/directory.txt";
+		String file ="src/com/dev/campus/directory/labri/DirectoryLabri.txt";
 		
 		// Lecture du fichier texte
 		try {
