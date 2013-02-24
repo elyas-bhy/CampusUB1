@@ -7,6 +7,8 @@
     <string name="cancel">Annuler</string>
     <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="filter_results">Filtrez vos résultats</string>
+    <string name="events_loading">Chargement des événements</string>
+    <string name="events_please_wait">Veuillez patienter</string>
     
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
@@ -36,14 +38,14 @@
     <string name="filters_title">Filtres</string>
     <string name="filters_summary">Gérer ses filtres</string>
     
-    <!-- UB1 RSS feeds -->
-    <string name="ub1_all_news">Actualités - Toutes les actualités</string>
-    <string name="ub1_university">Actualités - Université</string>
-    <string name="ub1_formation">Actualités - Formation</string>
-    <string name="ub1_research">Actualités - Recherche</string>
-    <string name="ub1_international">Actualités - International</string>
-    <string name="ub1_student_life">Actualités - Vie étudiante</string>
-    <string name="ub1_companies">Actualités - Entreprise</string>
-    <string name="ub1_press">Actualités - Presse</string>
+    <!-- Event categories -->
+    <string name="category_main_events">Actualités</string>
+    <string name="category_formation">Formation</string>
+    <string name="category_research">Recherche</string>
+    <string name="category_university">Université</string>
+    <string name="category_international">International</string>
+    <string name="category_student_life">Vie étudiante</string>
+    <string name="category_companies">Entreprises</string>
+    <string name="category_press">Presse</string>
     
 </resources>

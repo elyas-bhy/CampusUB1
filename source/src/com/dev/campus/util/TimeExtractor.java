@@ -1,15 +1,12 @@
 package com.dev.campus.util;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.dev.campus.CampusUB1App;
 
 @SuppressLint("SimpleDateFormat")
 public class TimeExtractor {

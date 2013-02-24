@@ -10,6 +10,8 @@
     <string name="cancel">Cancel</string>
     <string name="select_establishment">Select your establishments</string>
     <string name="filter_results">Filter your results</string>
+    <string name="events_loading">Loading events</string>
+    <string name="events_please_wait">Please wait</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>
@@ -41,15 +43,15 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
-
-    <!-- UB1 RSS feeds -->
-    <string name="ub1_all_news">News - All News</string>
-    <string name="ub1_university">News - University</string>
-    <string name="ub1_formation">News - Formation</string>
-    <string name="ub1_research">News - Research</string>
-    <string name="ub1_international">News - International</string>
-    <string name="ub1_student_life">News - Student Life</string>
-    <string name="ub1_companies">News - Companies</string>
-    <string name="ub1_press">News - Press</string>
+    
+    <!-- Event categories -->
+    <string name="category_main_events">Main Events</string>
+    <string name="category_formation">Formation</string>
+    <string name="category_research">Research</string>
+    <string name="category_university">University</string>
+    <string name="category_international">International</string>
+    <string name="category_student_life">Student Life</string>
+    <string name="category_companies">Companies</string>
+    <string name="category_press">Press</string>
 
 </resources>

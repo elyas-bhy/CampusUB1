@@ -17,76 +17,79 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.util.TimeExtractor;
-import com.dev.campus.event.Category.CategoryType;
+import com.dev.campus.event.Feed.FeedType;
 
 import android.os.Environment;
-import android.util.Log;
 
 public class EventParser {
 
 
 	private XmlPullParser mParser;
 	private List<Event> mEvents;
-	private Category mCategory;
 
 	public EventParser() throws XmlPullParserException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(false);
 		mParser = factory.newPullParser();
 	}
-
-	public void setInput(Category category) throws IOException, XmlPullParserException {
-		mCategory = category;
-		URL url = new URL(mCategory.getUrl());
-		InputStream stream = url.openStream();
-		mParser.setInput(stream, null);
-	}
-
+	
 	public List<Event> getEvents() {
 		return mEvents;
 	}
 
-	public List<Event> parseEvents() throws XmlPullParserException, IOException {
-		ArrayList<Event> events = new ArrayList<Event>();
-		Event event = new Event();
+	private void setInput(Feed feed) throws IOException, XmlPullParserException {
+		URL url = new URL(feed.getUrl());
+		InputStream stream = url.openStream();
+		mParser.setInput(stream, null);
+	}
 
-		int eventType = mParser.getEventType();
-		while (eventType != XmlPullParser.END_DOCUMENT) {
-			if (eventType == XmlPullParser.START_TAG) {
-				if (mParser.getName().equals("item")) {
-					event = new Event();
-				} 
-				if (mParser.getName().equals("title")) {
-					event.setTitle(mParser.nextText());
-				} 
-				if (mParser.getName().equals("description")) {
-					String description = mParser.nextText();
-					event.setDescription(description);
-					if (mCategory.getType().equals(CategoryType.LABRI_FEED))
-						event.setDetails(description);
-				} 
-				if (mParser.getName().equals("content:encoded")) {
-					event.setDetails(mParser.nextText());
-				}
-				if (mParser.getName().equals("pubDate")) {
-					Date d = null;
-					try {
-						String text = mParser.nextText();
-						d = TimeExtractor.getCorrectDate(text, event.getDetails());
-						event.setDate(d);
-					} catch(Exception e){
-						CampusUB1App.LogD("DATE: " + d);
+	public List<Event> parseEvents(Category category) throws XmlPullParserException, IOException {
+		ArrayList<Event> events = new ArrayList<Event>();
+		for (Feed feed : category.getFeeds()) {
+			if (feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
+			 || feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()) {
+				setInput(feed);
+				Event event = new Event();
+
+				int eventType = mParser.getEventType();
+				while (eventType != XmlPullParser.END_DOCUMENT) {
+					if (eventType == XmlPullParser.START_TAG) {
+						if (mParser.getName().equals("item")) {
+							event = new Event();
+						} 
+						if (mParser.getName().equals("title")) {
+							event.setTitle(mParser.nextText());
+						} 
+						if (mParser.getName().equals("description")) {
+							String description = mParser.nextText();
+							event.setDescription(description);
+							if (feed.getType().equals(FeedType.LABRI_FEED))
+								event.setDetails(description);
+						} 
+						if (mParser.getName().equals("content:encoded")) {
+							event.setDetails(mParser.nextText());
+						}
+						if (mParser.getName().equals("pubDate")) {
+							Date d = null;
+							try {
+								String text = mParser.nextText();
+								d = TimeExtractor.getCorrectDate(text, event.getDetails());
+								event.setDate(d);
+							} catch(Exception e){
+								CampusUB1App.LogD("DATE: " + d);
+							}
+						}
 					}
+					else if (eventType == XmlPullParser.END_TAG) {
+						if (mParser.getName().equals("item")) {
+							event.setCategory("News"); //temporary
+							if (!event.getTitle().equals(""))
+								events.add(event);
+						}
+					}
+					eventType = mParser.nextToken();
 				}
 			}
-			else if (eventType == XmlPullParser.END_TAG) {
-				if (mParser.getName().equals("item")) {
-					event.setCategory("News"); //temporary
-					if (!event.getTitle().equals(""))
-						events.add(event);
-				}
-			}
-			eventType = mParser.nextToken();
 		}
 
 		mEvents = events;
@@ -101,8 +104,7 @@ public class EventParser {
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
 			oos.writeObject(mEvents);
-		}
-		catch (FileNotFoundException ex) {
+		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  
 		} catch (IOException ex) {
 			ex.printStackTrace();

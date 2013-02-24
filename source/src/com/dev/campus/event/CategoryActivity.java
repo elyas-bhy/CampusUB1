@@ -1,9 +1,9 @@
 package com.dev.campus.event;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 
 import android.os.Bundle;
@@ -21,12 +21,7 @@ public class CategoryActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		List<Category> categories = new ArrayList<Category>();
-		
-		if (CampusUB1App.persistence.isFilteredUB1())
-			categories.addAll(Category.getUb1Feeds());
-		if (CampusUB1App.persistence.isFilteredLabri())
-			categories.addAll(Category.getLabriFeeds());
-		
+		categories.addAll(Arrays.asList(Category.values()));
         ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1, categories);
         setListAdapter(adapter);
 	}

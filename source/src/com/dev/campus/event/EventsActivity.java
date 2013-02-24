@@ -21,6 +21,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	private ActionBar mActionBar;
 	private FilterDialog mFilterDialog;
+	private Resources mResources;
 
 	private Handler mHandler;
 	private EventAdapter mEventAdapter;
@@ -51,11 +53,12 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mFilterDialog = new FilterDialog(this);
-		mHandler = new Handler();
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mCategory = Category.UB1_ALL_NEWS;
+		mResources = getResources();
+		mFilterDialog = new FilterDialog(this);
+		mHandler = new Handler();
+		mCategory = Category.MAIN_EVENTS;
 
 		try {
 			mEventParser = new EventParser();
@@ -199,8 +202,8 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog.setTitle("Chargement des événements...");
-			progressDialog.setMessage("Veuillez patienter");
+			progressDialog.setTitle(mResources.getString(R.string.events_loading));
+			progressDialog.setMessage(mResources.getString(R.string.events_please_wait));
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(false);
 			progressDialog.show();
@@ -210,8 +213,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		protected List<Event> doInBackground(Category... params) {
 			//if (currentVersion < newVersion)
 			try {
-				mEventParser.setInput(mCategory);
-				mEventParser.parseEvents();
+				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
 				return mEventParser.getEvents();
 			} catch (Exception e) {
