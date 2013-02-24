@@ -1,6 +1,11 @@
 package com.dev.campus.ac;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dev.campus.R;
+import com.dev.campus.directory.Contact;
+import com.dev.campus.directory.DirectoryAdapter;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.Bundle;
@@ -9,11 +14,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 public class DirectoryActivity extends Activity {
 
 	private ActionBar mActionBar;
 	private FilterDialog mFilterDialog;
+	private ListView listview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +30,17 @@ public class DirectoryActivity extends Activity {
 		mFilterDialog = new FilterDialog(this);
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
+
+		// Testing directory view
+		Contact c1 = new Contact("John", "Smith", "john.smith@email.com", "0623456789", "http://www.google.fr");
+		Contact c2 = new Contact("Kyle", "Johnson", "kyle.johnson@email.com", "0623456789", "http://www.google.fr");
+		List<Contact> contacts = new ArrayList<Contact>();
+		contacts.add(c1);
+		contacts.add(c2);
+		
+        listview = (ListView)findViewById(R.id.listview);
+		DirectoryAdapter adapter = new DirectoryAdapter(this, contacts);
+		listview.setAdapter(adapter);
 	}
 
 	@Override

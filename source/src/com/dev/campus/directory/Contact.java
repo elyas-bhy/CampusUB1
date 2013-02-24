@@ -1,13 +1,23 @@
 package com.dev.campus.directory;
 
 public class Contact {
-	
+
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String tel;
 	private String website;
 	
+	public Contact() {
+		
+	}
+	public Contact(String firstName, String lastName, String email, String tel, String website) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.tel = tel;
+		this.website = website;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -38,5 +48,4 @@ public class Contact {
 	public void setWebsite(String website) {
 		this.website = website;
 	}
-	
 }

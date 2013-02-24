@@ -1,15 +1,22 @@
 package com.dev.campus.directory;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.Log;
 
 public class Directory {
+	
+	public static String htmlDecode(String str) {
+		Spanned spa = Html.fromHtml(str);
+		return spa.toString();
+	}
 	
 	public static String MyRegex(String str, String pattern) {
 		String res = "";
@@ -35,14 +42,15 @@ public class Directory {
 		return str;
 	}
 	
-	public void labriDirectoryParser() throws UnsupportedEncodingException {
+	public ArrayList<Contact> labriDirectoryParser() throws IOException {
 		
 		String dirContent="";
-		String file ="src/com/dev/campus/directory/labri/DirectoryLabri.txt";
+		String filepath = "com/dev/campus/directory/DirectoryLabri.txt";
 		
 		// Lecture du fichier texte
 		try {
-			InputStream ips = new FileInputStream(file);
+			InputStream ips = getClass().getClassLoader().getResourceAsStream(filepath);
+			//InputStream ips = new FileInputStream(file);
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 			String line;
@@ -83,15 +91,14 @@ public class Directory {
 		p = Pattern.compile("<td(.*?)>(.*?)</td>");
 		m = p.matcher(dirContent);
 		
-		//ArrayList<Contact> contacts = new ArrayList<Contact>();
-		//Contact contact;
-		int nbLine=0;
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		Contact contact;
 		int i=1;
 		while(m.find()) {
-			//contact = new Contact();
+			contact = new Contact();
 			tmp = m.group();
 			tmp = tmp.replaceAll("<td(.*?)>(.*?)</td>", "$2");
-			tmp = tmp.trim();
+			tmp = htmlDecode(tmp.trim());
 			
 			if( i%8==1 ) { // Nom-Prénom
 				String name = tmp;
@@ -99,46 +106,44 @@ public class Directory {
 				String lastName = name.substring(0, offset);
 				String firstName = name.substring(offset+1, name.length());
 				//System.out.println("-"+firstName+"-"+"  -"+lastName+"-");
-				//contact.setFirstName(firstName);
-				//contact.setLastName(lastName);
+				Log.d("MyOwnDebug", firstName);
+				contact.setFirstName(firstName);
+				contact.setLastName(lastName);
 			}
 			else if( i%8==2 ) { // Email
 				tmp = tmp.replaceAll("<a href=\"mailto:([^\"]*)\"(.*)</a>", "$1");
 				//System.out.println(tmp);
-				//contact.setEmail(tmp);
+				contact.setEmail(tmp);
 			}
 			else if( i%8==3 ) { // Téléphone, Défaut : "+33 (0)5 40 00 "
 				if( !tmp.equals("+33 (0)5 40 00") ) {
 					//System.out.println(tmp);
-					//contact.setTel(tmp);
+					contact.setTel(tmp);
 				}
 			}
-			else if( i%8==4 ) { // Bureau
+			//else if( i%8==4 ) { // Bureau
 				//System.out.println(tmp);
 				//contact.setDesk(tmp);
-			}
-			else if( i%8==5 ) { // Statut
+			//}
+			//else if( i%8==5 ) { // Statut
 				//System.out.println(tmp);
 				//contact.setStatus(tmp);
-			}
-			else if( i%8==6 ) { // Equipe
+			//}
+			//else if( i%8==6 ) { // Equipe
 				//System.out.println(tmp);
 				//contact.setTeam(tmp);
-			}
+			//}
 			else if( i%8==7 ) { // Website
 				tmp = tmp.replaceAll("<a href=\"http([^\"]*)\"(.*)</a>", "http$1");
 				//System.out.println(tmp);
-				//contact.setWebsite(tmp);
+				contact.setWebsite(tmp);
 			}
-			else if( i%8==0 ) { // Fonction
-				if( !tmp.equals("") ) {
+			else if( i%8==0 && i>0 ) { // Fonction
+				//if( !tmp.equals("") ) {
 					//System.out.println(tmp);
 					//contact.setOffice(tmp);
-				}
-				if( nbLine>0 ) {
-					//contacts.add(contact);
-				}
-				nbLine++;
+				//}
+				contacts.add(contact);
 			}
 				
 			i++;
@@ -154,6 +159,7 @@ public class Directory {
 		//System.out.println(-"+firstName+"-"+"  -"+lastName+"-");
 		//*/
 		
+		return contacts;
 	}
 	
 }
