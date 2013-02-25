@@ -46,7 +46,7 @@
             android:label="@string/title_activity_events" >
         </activity>
         <activity
-            android:name="com.dev.campus.ac.DirectoryActivity"
+            android:name="com.dev.campus.directory.DirectoryActivity"
             android:label="@string/title_activity_directory" >
         </activity>
         <activity

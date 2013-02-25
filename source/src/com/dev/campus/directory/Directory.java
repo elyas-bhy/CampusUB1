@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import android.text.Html;
@@ -77,8 +78,10 @@ public class Directory {
 		
 		// On enlève la première ligne qui contient les en-têtes des colonnes
 		tmp = "";
+
 		p = Pattern.compile("<tr(.*?)</tr>");
 		m = p.matcher(dirContent);
+		
 		int k=0;
 		while(m.find()) {
 			if( k>0 )
@@ -86,69 +89,49 @@ public class Directory {
 			k++;
 		}
 		dirContent = tmp;
-		
-		tmp = "";
+
 		p = Pattern.compile("<td(.*?)>(.*?)</td>");
 		m = p.matcher(dirContent);
 		
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
-		Contact contact;
+		
+		Contact contact = new Contact();
 		int i=1;
 		while(m.find()) {
-			contact = new Contact();
 			tmp = m.group();
 			tmp = tmp.replaceAll("<td(.*?)>(.*?)</td>", "$2");
-			tmp = htmlDecode(tmp.trim());
+			tmp = tmp.trim();
 			
 			if( i%8==1 ) { // Nom-Prénom
 				String name = tmp;
 				int offset = name.lastIndexOf(" "); // On sépare nom/prénom en fonction du dernier espace dans la chaîne
 				String lastName = name.substring(0, offset);
 				String firstName = name.substring(offset+1, name.length());
-				//System.out.println("-"+firstName+"-"+"  -"+lastName+"-");
-				Log.d("MyOwnDebug", firstName);
-				contact.setFirstName(firstName);
-				contact.setLastName(lastName);
+				contact.setFirstName(htmlDecode(firstName));
+				contact.setLastName(htmlDecode(lastName));
 			}
 			else if( i%8==2 ) { // Email
 				tmp = tmp.replaceAll("<a href=\"mailto:([^\"]*)\"(.*)</a>", "$1");
-				//System.out.println(tmp);
-				contact.setEmail(tmp);
+				contact.setEmail(htmlDecode(tmp));
 			}
 			else if( i%8==3 ) { // Téléphone, Défaut : "+33 (0)5 40 00 "
 				if( !tmp.equals("+33 (0)5 40 00") ) {
-					//System.out.println(tmp);
-					contact.setTel(tmp);
+					contact.setTel(htmlDecode(tmp.replaceAll("\\s","")));
 				}
 			}
-			//else if( i%8==4 ) { // Bureau
-				//System.out.println(tmp);
-				//contact.setDesk(tmp);
-			//}
-			//else if( i%8==5 ) { // Statut
-				//System.out.println(tmp);
-				//contact.setStatus(tmp);
-			//}
-			//else if( i%8==6 ) { // Equipe
-				//System.out.println(tmp);
-				//contact.setTeam(tmp);
-			//}
 			else if( i%8==7 ) { // Website
 				tmp = tmp.replaceAll("<a href=\"http([^\"]*)\"(.*)</a>", "http$1");
-				//System.out.println(tmp);
-				contact.setWebsite(tmp);
+				contact.setWebsite(htmlDecode(tmp));
 			}
-			else if( i%8==0 && i>0 ) { // Fonction
-				//if( !tmp.equals("") ) {
-					//System.out.println(tmp);
-					//contact.setOffice(tmp);
-				//}
+			else if( i%8==0 && i>0 ) {
 				contacts.add(contact);
+				contact = new Contact();
 			}
-				
 			i++;
 		}
 	    
+	    
+		
 		/* Récupérer Nom/Prénom avec l'adresse email
 		// -----------------------------------------  
 		String mail = "john-doe.smith@labri.fr";
@@ -161,5 +144,19 @@ public class Directory {
 		
 		return contacts;
 	}
-	
+
+	public ArrayList<Contact> directoryFilter(ArrayList<Contact> contacts, String firstName, String lastName){
+		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
+		if( firstName==null ) firstName = "";
+		if( lastName==null ) lastName = "";
+		firstName = firstName.toLowerCase();
+		lastName = lastName.toLowerCase();
+		for (Contact c : contacts) {
+			if( c.getFirstName().toLowerCase().contains(firstName) && c.getLastName().toLowerCase().contains(lastName) ) {
+				matchingContacts.add(c);
+				//Log.d("MyOwnTag", c.getFirstName());
+			}
+		}
+		return matchingContacts;
+	}
 }
