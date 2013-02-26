@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class EventParser {
 		mParser.setInput(stream, null);
 	}
 
-	public void parseEvents(Category category) throws XmlPullParserException, IOException {
+	public void parseEvents(Category category) throws XmlPullParserException, IOException, ParseException {
 		mCategory = category;
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
@@ -55,12 +56,17 @@ public class EventParser {
 			 || feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()) {
 				setInput(feed);
 				Event event = new Event();
+				Date date = new Date(0);
 
 				int eventType = mParser.getEventType();
 				while (eventType != XmlPullParser.END_DOCUMENT) {
 					if (eventType == XmlPullParser.START_TAG) {
+						if (mParser.getName().equals("lastBuildDate")) {
+							date = TimeExtractor.createDate(mParser.nextText());
+						}
 						if (mParser.getName().equals("item")) {
 							event = new Event();
+							date = new Date(0);
 						} 
 						if (mParser.getName().equals("title")) {
 							event.setTitle(mParser.nextText());
@@ -90,7 +96,7 @@ public class EventParser {
 							event.setCategory(category.toString());
 							if (!event.getTitle().equals("")) {
 								events.add(event);
-								dates.add(new Date(0)); //TODO set to feed build date
+								dates.add(date);
 							}
 						}
 					}
