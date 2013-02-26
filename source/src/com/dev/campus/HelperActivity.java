@@ -1,8 +1,7 @@
-package com.dev.campus.ac;
+package com.dev.campus;
 
-import com.dev.campus.ac.HomeActivity;
 import com.dev.campus.util.SubscribeDialog;
-import com.dev.campus.CampusUB1App;
+import com.dev.campus.HomeActivity;
 import com.dev.campus.R;
 
 import android.os.Bundle;

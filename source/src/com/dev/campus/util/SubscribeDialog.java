@@ -4,8 +4,8 @@ package com.dev.campus.util;
 import java.util.HashSet;
 
 import com.dev.campus.CampusUB1App;
+import com.dev.campus.HomeActivity;
 import com.dev.campus.R;
-import com.dev.campus.ac.HomeActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;

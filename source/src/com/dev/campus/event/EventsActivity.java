@@ -12,7 +12,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
-import com.dev.campus.ac.SettingsActivity;
+import com.dev.campus.SettingsActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.AsyncTask;

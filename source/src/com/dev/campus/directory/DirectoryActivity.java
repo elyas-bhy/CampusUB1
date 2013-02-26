@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.dev.campus.R;
-import com.dev.campus.ac.SettingsActivity;
+import com.dev.campus.SettingsActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.Bundle;

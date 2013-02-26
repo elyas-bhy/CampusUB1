@@ -1,4 +1,4 @@
-package com.dev.campus.ac;
+package com.dev.campus;
 
 import com.dev.campus.util.PrefFragment;
 
