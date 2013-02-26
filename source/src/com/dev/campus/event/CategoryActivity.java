@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 
 import android.os.Bundle;

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,8 @@ public class EventParser {
 
 	private XmlPullParser mParser;
 	private List<Event> mEvents;
+	private List<Date> mEventDates;
+	private Category mCategory;
 
 	public EventParser() throws XmlPullParserException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -43,8 +46,10 @@ public class EventParser {
 		mParser.setInput(stream, null);
 	}
 
-	public List<Event> parseEvents(Category category) throws XmlPullParserException, IOException {
+	public void parseEvents(Category category) throws XmlPullParserException, IOException {
+		mCategory = category;
 		ArrayList<Event> events = new ArrayList<Event>();
+		ArrayList<Date> dates = new ArrayList<Date>();
 		for (Feed feed : category.getFeeds()) {
 			if (feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
 			 || feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()) {
@@ -82,9 +87,11 @@ public class EventParser {
 					}
 					else if (eventType == XmlPullParser.END_TAG) {
 						if (mParser.getName().equals("item")) {
-							event.setCategory("News"); //temporary
-							if (!event.getTitle().equals(""))
+							event.setCategory(category.toString());
+							if (!event.getTitle().equals("")) {
 								events.add(event);
+								dates.add(new Date(0)); //TODO set to feed build date
+							}
 						}
 					}
 					eventType = mParser.nextToken();
@@ -93,17 +100,19 @@ public class EventParser {
 		}
 
 		mEvents = events;
-		return mEvents;
+		mEventDates = dates;
 	}
 
 	public void saveEvents() throws XmlPullParserException {
 		ObjectOutputStream oos = null;
 		try {
-			File history = new File(Environment.getExternalStorageDirectory() + "/history.dat");
+			File history = new File(Environment.getExternalStorageDirectory() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
 			history.getParentFile().createNewFile();
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
-			oos.writeObject(mEvents);
+			
+			SimpleEntry<List<Event>,List<Date>> map = new SimpleEntry<List<Event>,List<Date>>(mEvents, mEventDates);
+			oos.writeObject(map);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  
 		} catch (IOException ex) {

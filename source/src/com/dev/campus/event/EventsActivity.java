@@ -3,7 +3,9 @@ package com.dev.campus.event;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -63,7 +65,6 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		try {
 			mEventParser = new EventParser();
 		} catch (XmlPullParserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -133,7 +134,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		mHandler.removeCallbacks(update_statusChecker);
 	}
 
-	public void reloadEvents(List<Event> events){	
+	public void reloadEvents(List<Event> events) {
 		TextView headerView = (TextView) findViewById(R.id.event_list_header);
 		headerView.setText(mCategory.toString());
 		mEventAdapter.clear();
@@ -141,32 +142,39 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		mEventAdapter.notifyDataSetChanged();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update() { 
-		if (!CampusUB1App.persistence.isWifiConnected()	&& !CampusUB1App.persistence.isMobileConnected()){
-			//If history exists, load it for offline use
-			File file = new File(Environment.getExternalStorageDirectory() + "/history.dat");
-			if (file.exists()) {
-				try {
-					FileInputStream fint = new FileInputStream(file);
-					ObjectInputStream ois = new ObjectInputStream(fint);
-					@SuppressWarnings("unchecked")
-					List<Event> events =(List<Event>)ois.readObject();
-					reloadEvents(events);
-					Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
-					ois.close();
-				}
-				catch (Exception e) { 
-					e.printStackTrace();
-				}
+		File file = new File(Environment.getExternalStorageDirectory() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
+		SimpleEntry<List<Event>,List<Date>> feedsEntry = null;
+
+		if (file.exists()) {
+			try {
+				FileInputStream fint = new FileInputStream(file);
+				ObjectInputStream ois = new ObjectInputStream(fint);
+				feedsEntry = (SimpleEntry<List<Event>,List<Date>>)ois.readObject();
+				ois.close();
+			} catch (Exception e) { 
+				e.printStackTrace();
 			}
-			else {
-				Toast.makeText(this, "Echec lors de la mise à jour!", Toast.LENGTH_SHORT).show();
+
+			if (CampusUB1App.persistence.isOnline()) {
+				//TODO
+				//check if latest version, and start update task only if needed
+				//otherwise, just load history
+				new UpdateFeedsTask().execute(); //temporary
+			} else {
+				reloadEvents(feedsEntry.getKey());
+				Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
 			}
 		}
+
 		else {
-			Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
-			//Fetch a fresh version of feed
-			new UpdateFeedsTask().execute();
+			if (CampusUB1App.persistence.isOnline()) {
+				new UpdateFeedsTask().execute();
+				Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(this, "Echec de connection!", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 
@@ -211,7 +219,6 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 		@Override
 		protected List<Event> doInBackground(Category... params) {
-			//if (currentVersion < newVersion)
 			try {
 				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
@@ -224,11 +231,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 		@Override
 		protected void onPostExecute(List<Event> events) {
-			TextView headerView = (TextView) findViewById(R.id.event_list_header);
-			headerView.setText(mCategory.toString());
-			mEventAdapter.clear();
-			mEventAdapter.addAll(events);
-			mEventAdapter.notifyDataSetChanged();
+			reloadEvents(events);
 			progressDialog.dismiss();
 		}
 

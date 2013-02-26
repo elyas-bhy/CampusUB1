@@ -20,15 +20,11 @@ public class Persistence {
 	private ConnectivityManager conMan;
 	private SharedPreferences shared_prefs;
 	private SharedPreferences.Editor prefs_editor;
-	private State mobile;
-	private State wifi;
 	
 	public Persistence(Context context) {
 		shared_prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		prefs_editor = shared_prefs.edit();
 		conMan = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		mobile = null;
-		wifi = null;
 	}
 	
 	public boolean isSubscribedUB1() {
@@ -67,13 +63,17 @@ public class Persistence {
 		prefs_editor.commit();
 	}
 
-	public boolean isMobileConnected(){
-		mobile = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
-		return (mobile == NetworkInfo.State.CONNECTED);
+	public boolean isMobileConnected() {
+		State state = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
+		return state == NetworkInfo.State.CONNECTED;
 	}
 	
-	public boolean isWifiConnected(){
-		wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-		return (wifi == NetworkInfo.State.CONNECTED);
+	public boolean isWifiConnected() {
+		State state = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+		return state == NetworkInfo.State.CONNECTED;
+	}
+	
+	public boolean isOnline() {
+		return isMobileConnected() || isWifiConnected();
 	}
 }
