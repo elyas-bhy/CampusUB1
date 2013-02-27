@@ -18,7 +18,7 @@
         android:targetSdkVersion="14" />
 
     <application
-        android:name="com.dev.campus.CampusUB1App"
+        android:name=".CampusUB1App"
         android:allowBackup="true"
         android:icon="@drawable/campus_ub1_logo"
         android:label="@string/app_name"
@@ -33,28 +33,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dev.campus.HomeActivity"
+            android:name=".HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
         <activity
-            android:name="com.dev.campus.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@android:style/Theme.Holo" >
         </activity>
         <activity
-            android:name="com.dev.campus.event.EventsActivity"
+            android:name=".event.EventsActivity"
             android:label="@string/title_activity_events" >
         </activity>
         <activity
-            android:name="com.dev.campus.directory.DirectoryActivity"
+            android:name=".directory.DirectoryActivity"
             android:label="@string/title_activity_directory" >
         </activity>
         <activity
-            android:name="com.dev.campus.event.CategoryActivity"
+            android:name=".event.CategoryActivity"
             android:label="@string/title_activity_categories" >
         </activity>
         <activity
-            android:name="com.dev.campus.event.EventViewActivity"
+            android:name=".event.EventViewActivity"
             android:label="@string/title_activity_events" >
         </activity>
     </application>
