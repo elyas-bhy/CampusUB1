@@ -4,36 +4,24 @@ import java.util.List;
 
 import com.dev.campus.R;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class DirectoryAdapter extends BaseAdapter {
+public class DirectoryAdapter extends ArrayAdapter<Contact> {
 
-	List<Contact> contacts;
-	LayoutInflater inflater;
+	private List<Contact> contacts;
+	private Activity mContext;
 	
-	public DirectoryAdapter(Context context, List<Contact> contacts) {
-		inflater = LayoutInflater.from(context);
+	public DirectoryAdapter(Activity context, List<Contact> contacts) {
+		super(context, R.layout.directory_list_item, contacts);
+		mContext = context;
 		this.contacts = contacts;
-	}
-
-	@Override
-	public int getCount() {
-		return contacts.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return contacts.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
 	}
 	
 	private static class ContactHolder {
@@ -48,6 +36,7 @@ public class DirectoryAdapter extends BaseAdapter {
 		ContactHolder contactHolder = null;
 		
 		if (row == null) {
+			LayoutInflater inflater = mContext.getLayoutInflater();
 			row = inflater.inflate(R.layout.directory_list_item, parent, false);
 			
 			contactHolder = new ContactHolder();
@@ -66,7 +55,7 @@ public class DirectoryAdapter extends BaseAdapter {
 		
 		Contact contact = contacts.get(position);
 		
-		contactHolder.name.setText(contact.getLastName().toUpperCase()+" "+contact.getFirstName());
+		contactHolder.name.setText(contact.getLastName().toUpperCase() + " " + contact.getFirstName());
 		contactHolder.tel.setText(contact.getTel());
 		contactHolder.email.setText(contact.getEmail());
 		

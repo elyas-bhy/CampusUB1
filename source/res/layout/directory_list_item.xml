@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#242424"
-            android:textScaleX="0.8"
+            android:textScaleX="1"
             android:textSize="14sp" />
 
         <TextView
@@ -36,7 +36,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="6dp"
         android:textColor="#242424"
-        android:textScaleX="0.8"
+        android:textScaleX="1"
         android:textSize="14sp" />
 
     <ImageView
