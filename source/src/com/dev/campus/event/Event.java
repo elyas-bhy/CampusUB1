@@ -10,7 +10,7 @@ public class Event implements Serializable {
 	private String mCategory;
 	private String mTitle;
 	private String mDescription;
-	private Date mDate;
+	private String mDate;
 	private String mTime;
 	private String mDetails;
 	private String mSource;
@@ -48,17 +48,11 @@ public class Event implements Serializable {
 		mDescription = description;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return mDate;
 	}
-	
-	public String getStringDate() {
-		if(mDate == null)
-			return "";
-		return mDate.toString();
-	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		mDate = date;
 	}
 

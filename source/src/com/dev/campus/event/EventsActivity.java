@@ -224,7 +224,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 				mEventParser.saveEvents();
 				return mEventParser.getEvents();
 			} catch (Exception e) {
-				e.printStackTrace();
+				CampusUB1App.LogD(e.toString());
 				return null;
 			}
 		}

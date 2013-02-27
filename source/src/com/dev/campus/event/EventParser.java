@@ -62,7 +62,7 @@ public class EventParser {
 				while (eventType != XmlPullParser.END_DOCUMENT) {
 					if (eventType == XmlPullParser.START_TAG) {
 						if (mParser.getName().equals("lastBuildDate")) {
-							date = TimeExtractor.createDate(mParser.nextText());
+							date = TimeExtractor.createDate(mParser.nextText(), "EEE, d MMM yyyy HH:mm:ss Z");
 						}
 						if (mParser.getName().equals("item")) {
 							event = new Event();
@@ -81,7 +81,7 @@ public class EventParser {
 							event.setDetails(mParser.nextText());
 						}
 						if (mParser.getName().equals("pubDate")) {
-							Date d = null;
+							String d = null;
 							try {
 								String text = mParser.nextText();
 								d = TimeExtractor.getCorrectDate(text, event.getDetails());

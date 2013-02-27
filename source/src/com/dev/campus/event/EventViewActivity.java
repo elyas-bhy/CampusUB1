@@ -39,7 +39,7 @@ public class EventViewActivity extends Activity {
 		icon.setImageResource(R.drawable.ic_test);
 		title.setText(mEvent.getTitle());
 		category.setText(mEvent.getCategory());
-		date.setText(mEvent.getStringDate());
+		date.setText(mEvent.getDate());
 		details.setText(Html.fromHtml(mEvent.getDetails()));
 	}
 
