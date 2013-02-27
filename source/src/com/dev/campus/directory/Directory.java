@@ -97,12 +97,12 @@ public class Directory {
 		
 		Contact contact = new Contact();
 		int i=1;
-		while(m.find()) {
+		while (m.find()) {
 			tmp = m.group();
 			tmp = tmp.replaceAll("<td(.*?)>(.*?)</td>", "$2");
 			tmp = tmp.trim();
 			
-			if( i%8==1 ) { // Nom-Prénom
+			if (i%8 == 1) { // Nom-Prénom
 				String name = tmp;
 				int offset = name.lastIndexOf(" "); // On sépare nom/prénom en fonction du dernier espace dans la chaîne
 				String lastName = name.substring(0, offset);

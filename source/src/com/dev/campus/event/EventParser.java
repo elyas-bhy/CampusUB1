@@ -21,20 +21,21 @@ import com.dev.campus.CampusUB1App;
 import com.dev.campus.util.TimeExtractor;
 import com.dev.campus.event.Feed.FeedType;
 
-import android.os.Environment;
+import android.content.Context;
 
 public class EventParser {
 
-
+	private Context mContext;
 	private XmlPullParser mParser;
 	private List<Event> mEvents;
 	private List<Date> mEventDates;
 	private Category mCategory;
 
-	public EventParser() throws XmlPullParserException {
+	public EventParser(Context context) throws XmlPullParserException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(false);
 		mParser = factory.newPullParser();
+		mContext = context;
 	}
 	
 	public List<Event> getEvents() {
@@ -112,7 +113,7 @@ public class EventParser {
 	public void saveEvents() throws XmlPullParserException {
 		ObjectOutputStream oos = null;
 		try {
-			File history = new File(Environment.getExternalStorageDirectory() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
+			File history = new File(mContext.getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
 			history.getParentFile().createNewFile();
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);

@@ -17,7 +17,6 @@ import com.dev.campus.util.FilterDialog;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.app.ActionBar;
 import android.app.ListActivity;
@@ -63,7 +62,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		mCategory = Category.MAIN_EVENTS;
 
 		try {
-			mEventParser = new EventParser();
+			mEventParser = new EventParser(this);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
@@ -143,8 +142,8 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 
 	@SuppressWarnings("unchecked")
-	public void update() { 
-		File file = new File(Environment.getExternalStorageDirectory() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
+	public void update() {
+		File file = new File(getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
 		SimpleEntry<List<Event>,List<Date>> feedsEntry = null;
 
 		if (file.exists()) {

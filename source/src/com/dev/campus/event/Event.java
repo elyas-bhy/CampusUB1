@@ -1,7 +1,6 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Event implements Serializable {
 

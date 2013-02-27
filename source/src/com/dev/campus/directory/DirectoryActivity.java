@@ -7,8 +7,6 @@ import java.util.List;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Category;
-import com.dev.campus.event.Event;
-import com.dev.campus.event.EventsActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.AsyncTask;
@@ -23,11 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DirectoryActivity extends ListActivity {
 
