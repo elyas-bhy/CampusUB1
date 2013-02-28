@@ -13,7 +13,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 
 /**
- * Custom AlertDialog class which for filters management
+ * Custom AlertDialog class which handles filters management
  * @author elyas-bhy
  *
  */
@@ -68,20 +68,27 @@ public class FilterDialog extends AlertDialog {
 			mSelectedItems = new HashSet<Integer>();
 			boolean[] checkedItems = new boolean[2];
 			int index = 0;
-			ArrayList<String> listItems = new ArrayList<String>();
+			ArrayList<String> itemsList = new ArrayList<String>();
 			
 			if (CampusUB1App.persistence.isSubscribedUB1()) {
-				mSelectedItems.add(UB1_INDEX);
-				checkedItems[index++] = CampusUB1App.persistence.isFilteredUB1();
-				listItems.add(res.getString(R.string.ub1));
-			}
-			if (CampusUB1App.persistence.isSubscribedLabri()) {
-				mSelectedItems.add(LABRI_INDEX);
-				checkedItems[index++] = CampusUB1App.persistence.isFilteredLabri();
-				listItems.add(res.getString(R.string.labri));
+				itemsList.add(res.getString(R.string.ub1));
+				if (CampusUB1App.persistence.isFilteredUB1()) {
+					mSelectedItems.add(UB1_INDEX);
+					checkedItems[index++] = true;
+				} else
+					checkedItems[index++] = false;
 			}
 			
-			final CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
+			if (CampusUB1App.persistence.isSubscribedLabri()) {
+				itemsList.add(res.getString(R.string.labri));
+				if (CampusUB1App.persistence.isFilteredLabri()) {
+					mSelectedItems.add(LABRI_INDEX);
+					checkedItems[index++] = true;
+				} else
+					checkedItems[index++] = false;
+			}
+			
+			final CharSequence[] items = itemsList.toArray(new CharSequence[itemsList.size()]);
 			
 			setTitle(R.string.filter_results);
 			setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {

@@ -13,7 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 /**
- * Custom AlertDialog class which for subscriptions management
+ * Custom AlertDialog class which handles subscriptions management
  * @author elyas-bhy
  *
  */
