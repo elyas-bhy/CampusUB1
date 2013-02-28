@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Category;
 import com.dev.campus.util.FilterDialog;
+import com.unboundid.ldap.sdk.LDAPException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -111,13 +113,28 @@ public class DirectoryActivity extends ListActivity {
 			final TextView lastName = (TextView) findViewById(R.id.editTextLastName);
 
 			int searchMinChar = 3;
+			int choice = 1; // temporary put : UB1 = 1 , Labri = 2
 			ArrayList<Contact> matchingContacts = new ArrayList<Contact>(); 
 			if( firstName.getText().toString().length() >= searchMinChar || lastName.getText().toString().length() >= searchMinChar ) {
 				ArrayList<Contact> contacts = new ArrayList<Contact>();
+				
+				if (choice ==1){
 				try {
-					contacts = new Directory().labriDirectoryParser();
-				} catch (IOException e) {
+					if(Directory_UB1.authenticate() == true){
+						contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
+					}
+				} catch (LDAPException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				}
+				if (choice==2){
+					try {
+						contacts = new Directory().labriDirectoryParser();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				matchingContacts = new Directory().directoryFilter(contacts, firstName.getText().toString(), lastName.getText().toString());	
 			}
