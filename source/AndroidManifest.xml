@@ -4,14 +4,15 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <!-- Internet Permissions -->
+    <!-- Internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Network State Permissions -->
+    <!-- Network state permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Write and read permissions -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-   
+    <!-- Calendar permissions -->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <uses-sdk
         android:minSdkVersion="14"
