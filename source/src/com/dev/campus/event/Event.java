@@ -2,6 +2,8 @@ package com.dev.campus.event;
 
 import java.io.Serializable;
 
+import com.dev.campus.event.Feed.FeedType;
+
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 8284757527911114571L;
@@ -12,7 +14,7 @@ public class Event implements Serializable {
 	private String mDate;
 	private String mTime;
 	private String mDetails;
-	private String mSource;
+	private FeedType mSource;
 	
 	public Event() {
 		mCategory = null;
@@ -71,11 +73,11 @@ public class Event implements Serializable {
 		mDetails = details;
 	}
 
-	public String getSource() {
+	public FeedType getSource() {
 		return mSource;
 	}
 
-	public void setSource(String source) {
+	public void setSource(FeedType source) {
 		mSource = source;
 	}
 

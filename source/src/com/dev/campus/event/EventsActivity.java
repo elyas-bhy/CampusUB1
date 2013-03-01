@@ -13,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
+import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.AsyncTask;
@@ -34,19 +35,20 @@ import android.widget.Toast;
 
 public class EventsActivity extends ListActivity implements OnItemClickListener {
 
-
 	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
 	public static final String EXTRA_EVENT = "com.dev.campus.EVENT";
-
-	private final int updateFrequency = 60000; // Update frequency (ms)
+	
 	private final int PICK_CATEGORY = 10;
+	private final int updateFrequency = 60000; // Update frequency (ms)
+	
+	private List<Event> mEvents;
 	private Category mCategory;
 
 	private ActionBar mActionBar;
-	private FilterDialog mFilterDialog;
 	private Resources mResources;
-
 	private Handler mHandler;
+	
+	private FilterDialog mFilterDialog;
 	private EventAdapter mEventAdapter;
 	private EventParser mEventParser;
 
@@ -57,8 +59,9 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-		mFilterDialog = new FilterDialog(this);
+
 		mHandler = new Handler();
+		mFilterDialog = new FilterDialog(this);
 		mCategory = Category.MAIN_EVENTS;
 
 		try {
@@ -116,28 +119,35 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 	}
 
-	private Runnable update_statusChecker = new Runnable() {
+	private Runnable mUpdateRunnable = new Runnable() {
 		@Override 
 		public void run() {
 			if (CampusUB1App.persistence.isWifiConnected())
 				update();
-			mHandler.postDelayed(update_statusChecker, updateFrequency);
+			mHandler.postDelayed(mUpdateRunnable, updateFrequency);
 		}
 	};
 
 	private void startUpdateTimer() {
-		update_statusChecker.run();
+		mUpdateRunnable.run();
 	}
 
 	private void pauseUpdateTimer() {
-		mHandler.removeCallbacks(update_statusChecker);
+		mHandler.removeCallbacks(mUpdateRunnable);
 	}
 
-	public void reloadEvents(List<Event> events) {
+	public void reloadEvents() {
 		TextView headerView = (TextView) findViewById(R.id.event_list_header);
 		headerView.setText(mCategory.toString());
 		mEventAdapter.clear();
-		mEventAdapter.addAll(events);
+
+		if (mEvents != null) {
+			for (Event event : mEvents) {
+				if ((event.getSource().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1())
+				 || (event.getSource().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()))
+					mEventAdapter.add(event);
+			}
+		}
 		mEventAdapter.notifyDataSetChanged();
 	}
 
@@ -162,7 +172,8 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 				//otherwise, just load history
 				new UpdateFeedsTask().execute(); //temporary
 			} else {
-				reloadEvents(feedsEntry.getKey());
+				mEvents = feedsEntry.getKey();
+				reloadEvents();
 				Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -203,7 +214,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 	}
 
-	private class UpdateFeedsTask extends AsyncTask<Category, Void, List<Event>> {
+	private class UpdateFeedsTask extends AsyncTask<Category, Void, Void> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
 
@@ -217,20 +228,20 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 
 		@Override
-		protected List<Event> doInBackground(Category... params) {
+		protected Void doInBackground(Category... params) {
 			try {
 				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
-				return mEventParser.getEvents();
+				mEvents = mEventParser.getEvents();
 			} catch (Exception e) {
 				CampusUB1App.LogD(e.toString());
-				return null;
 			}
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(List<Event> events) {
-			reloadEvents(events);
+		protected void onPostExecute(Void result) {
+			reloadEvents();
 			progressDialog.dismiss();
 		}
 

@@ -52,9 +52,8 @@ public class EventParser {
 		mCategory = category;
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
-		for (Feed feed : category.getFeeds()) {
-			if (feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
-			 || feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()) {
+		for (Feed feed : mCategory.getFeeds()) {
+			if (feed.getType().equals(FeedType.UB1_FEED) || feed.getType().equals(FeedType.LABRI_FEED)) {
 				setInput(feed);
 				Event event = new Event();
 				Date date = new Date(0);
@@ -94,7 +93,8 @@ public class EventParser {
 					}
 					else if (eventType == XmlPullParser.END_TAG) {
 						if (mParser.getName().equals("item")) {
-							event.setCategory(category.toString());
+							event.setCategory(mCategory.toString());
+							event.setSource(feed.getType());
 							if (!event.getTitle().equals("")) {
 								events.add(event);
 								dates.add(date);

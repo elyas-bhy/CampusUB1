@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.dev.campus.event.EventsActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -118,6 +119,10 @@ public class FilterDialog extends AlertDialog {
 					
 					CampusUB1App.persistence.setFilterUB(filter_ub1);
 					CampusUB1App.persistence.setFilterLabri(filter_labri);
+					
+					//Find a better workaround for this (getClass() ?)
+					if (mContext instanceof EventsActivity)
+						((EventsActivity)mContext).reloadEvents();
 				}
 			});
 			
