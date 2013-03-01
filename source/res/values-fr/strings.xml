@@ -8,7 +8,7 @@
     <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="filter_results">Filtrez vos résultats</string>
     <string name="events_loading">Chargement des événements</string>
-    <string name="events_please_wait">Veuillez patienter</string>
+    <string name="please_wait">Veuillez patienter</string>
     
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
