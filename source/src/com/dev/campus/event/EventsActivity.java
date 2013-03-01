@@ -210,7 +210,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		@Override
 		protected void onPreExecute() {
 			progressDialog.setTitle(mResources.getString(R.string.events_loading));
-			progressDialog.setMessage(mResources.getString(R.string.events_please_wait));
+			progressDialog.setMessage(mResources.getString(R.string.please_wait));
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(false);
 			progressDialog.show();

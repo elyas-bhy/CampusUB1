@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Category;
@@ -39,7 +38,7 @@ public class DirectoryActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		mContext = this;
 		mFilterDialog = new FilterDialog(this);
 		mActionBar = getActionBar();
@@ -48,11 +47,11 @@ public class DirectoryActivity extends ListActivity {
 		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
 
 		listview = getListView();
-		View header = (View)getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
+		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
 		listview.addHeaderView(header, null, true);
 		adapter = new DirectoryAdapter(this, matchingContacts);
 		listview.setAdapter(adapter);
-		
+
 		final ImageButton searchButton = (ImageButton) findViewById(R.id.buttonSearchDirectory);
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -60,9 +59,8 @@ public class DirectoryActivity extends ListActivity {
 				new SearchResultTask().execute();
 			}
 		});
-
 	}
-	
+
 	public void reloadContacts(List<Contact> matchingContacts){
 		adapter.clear();
 		adapter.addAll(matchingContacts);
@@ -92,7 +90,7 @@ public class DirectoryActivity extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 
 	private class SearchResultTask extends AsyncTask<Category, Void, List<Contact>> {
 
@@ -100,8 +98,8 @@ public class DirectoryActivity extends ListActivity {
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog.setTitle(mResources.getString(R.string.events_loading));
-			progressDialog.setMessage(mResources.getString(R.string.events_please_wait));
+			progressDialog.setTitle(mResources.getString(R.string.contacts_loading));
+			progressDialog.setMessage(mResources.getString(R.string.please_wait));
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(false);
 			progressDialog.show();
@@ -113,22 +111,22 @@ public class DirectoryActivity extends ListActivity {
 			final TextView lastName = (TextView) findViewById(R.id.editTextLastName);
 
 			int searchMinChar = 3;
-			int choice = 1; // temporary put : UB1 = 1 , Labri = 2
-			ArrayList<Contact> matchingContacts = new ArrayList<Contact>(); 
-			if( firstName.getText().toString().length() >= searchMinChar || lastName.getText().toString().length() >= searchMinChar ) {
+			int choice = 2; // temporary put : UB1 = 1 , Labri = 2
+			ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
+			if (firstName.getText().toString().length() >= searchMinChar || lastName.getText().toString().length() >= searchMinChar) {
 				ArrayList<Contact> contacts = new ArrayList<Contact>();
-				
-				if (choice ==1){
-				try {
-					if(Directory_UB1.authenticate() == true){
-						contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
+
+				if (choice == 1) {
+					try {
+						if (Directory_UB1.authenticate() == true) {
+							contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
+						}
+					} catch (LDAPException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-				} catch (LDAPException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-				}
-				if (choice==2){
+				if (choice == 2) {
 					try {
 						contacts = new Directory().labriDirectoryParser();
 					} catch (IOException e) {
@@ -142,16 +140,6 @@ public class DirectoryActivity extends ListActivity {
 				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
 			}
 
-
-			/* Testing directory view
-					Contact c1 = new Contact("John", "Smith", "john.smith@email.com", "0623456789", "http://www.google.fr");
-					Contact c2 = new Contact("Kyle", "Johnson", "kyle.johnson@email.com", "0623456789", "http://www.google.fr");
-					ArrayList<Contact> contacts = new ArrayList<Contact>();
-					contacts.add(c1);
-					contacts.add(c2);
-					//*/
-
-			// --------------------
 			return matchingContacts;
 		}
 
