@@ -111,7 +111,7 @@ public class DirectoryActivity extends ListActivity {
 			final TextView lastName = (TextView) findViewById(R.id.editTextLastName);
 
 			int searchMinChar = 3;
-			int choice = 2; // temporary put : UB1 = 1 , Labri = 2
+			int choice = 1; // temporary put : UB1 = 1 , Labri = 2
 			ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
 			if (firstName.getText().toString().length() >= searchMinChar || lastName.getText().toString().length() >= searchMinChar) {
 				ArrayList<Contact> contacts = new ArrayList<Contact>();
