@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,12 @@ public class Directory {
 	public static String htmlDecode(String str) {
 		Spanned span = Html.fromHtml(str);
 		return span.toString();
+	}
+
+	public static String removeAccents(String str) {
+		str = Normalizer.normalize(str, Normalizer.Form.NFD);
+		str = str.replaceAll("[^\\p{ASCII}]", "");
+		return str;
 	}
 
 	public static String capitalize(String str) {
@@ -87,7 +94,7 @@ public class Directory {
 			}
 			else if (i % 8 == 3) { // Telephone, Default : "+33 (0)5 40 00 "
 				if (!buffer.equals("+33 (0)5 40 00")) {
-					buffer = buffer.replaceAll("\\s", "");
+					buffer = buffer.trim();
 					contact.setTel(htmlDecode(buffer));
 				}
 			}
@@ -120,10 +127,12 @@ public class Directory {
 			firstName = "";
 		if (lastName == null)
 			lastName = "";
-		firstName = firstName.toLowerCase();
-		lastName = lastName.toLowerCase();
+		firstName = removeAccents(firstName).toLowerCase();
+		lastName = removeAccents(lastName).toLowerCase();
+
 		for (Contact c : contacts) {
-			if (c.getFirstName().toLowerCase().contains(firstName) && c.getLastName().toLowerCase().contains(lastName)) {
+			if (removeAccents(c.getFirstName()).toLowerCase().contains(firstName)
+					&& removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
 				matchingContacts.add(c);
 			}
 		}
