@@ -25,11 +25,13 @@ import android.content.Context;
 
 public class EventParser {
 
-	private Context mContext;
 	private XmlPullParser mParser;
+	
+	private Context mContext;
+	private Category mCategory;
+	
 	private List<Event> mEvents;
 	private List<Date> mEventDates;
-	private Category mCategory;
 
 	public EventParser(Context context) throws XmlPullParserException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -56,17 +58,17 @@ public class EventParser {
 			if (feed.getType().equals(FeedType.UB1_FEED) || feed.getType().equals(FeedType.LABRI_FEED)) {
 				setInput(feed);
 				Event event = new Event();
-				Date date = new Date(0);
+				Date buildDate = new Date(0);
 
 				int eventType = mParser.getEventType();
 				while (eventType != XmlPullParser.END_DOCUMENT) {
 					if (eventType == XmlPullParser.START_TAG) {
 						if (mParser.getName().equals("lastBuildDate")) {
-							date = TimeExtractor.createDate(mParser.nextText(), "EEE, d MMM yyyy HH:mm:ss Z");
+							buildDate = TimeExtractor.createDate(mParser.nextText(), "EEE, d MMM yyyy HH:mm:ss Z");
+							dates.add(buildDate);
 						}
 						if (mParser.getName().equals("item")) {
 							event = new Event();
-							date = new Date(0);
 						} 
 						if (mParser.getName().equals("title")) {
 							event.setTitle(mParser.nextText());
@@ -97,7 +99,6 @@ public class EventParser {
 							event.setSource(feed.getType());
 							if (!event.getTitle().equals("")) {
 								events.add(event);
-								dates.add(date);
 							}
 						}
 					}
@@ -108,6 +109,32 @@ public class EventParser {
 
 		mEvents = events;
 		mEventDates = dates;
+	}
+
+	public boolean isLatestVersion(Category category, List<Date> dates) throws IOException, XmlPullParserException, ParseException {
+		int i = 0;
+		for (Feed feed : category.getFeeds()) {
+			if (feed.getType().equals(FeedType.UB1_FEED) || feed.getType().equals(FeedType.LABRI_FEED)) {
+				setInput(feed);
+				Date buildDate;
+				
+				int eventType = mParser.getEventType();
+				while (eventType != XmlPullParser.END_DOCUMENT) {
+					if (eventType == XmlPullParser.START_TAG) {
+						if (mParser.getName().equals("lastBuildDate")) {
+							buildDate = TimeExtractor.createDate(mParser.nextText(), "EEE, d MMM yyyy HH:mm:ss Z");
+							if (dates.get(i++).getTime() != buildDate.getTime())
+								return false;
+						}
+					}
+					eventType = mParser.nextToken();
+				}
+			} else {
+				//No build dates in HTML pages, so always update
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void saveEvents() throws XmlPullParserException {

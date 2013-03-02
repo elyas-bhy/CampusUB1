@@ -167,10 +167,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			}
 
 			if (CampusUB1App.persistence.isOnline()) {
-				//TODO
-				//check if latest version, and start update task only if needed
-				//otherwise, just load history
-				new UpdateFeedsTask().execute(); //temporary
+				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
 				mEvents = feedsEntry.getKey();
 				reloadEvents();
@@ -214,7 +211,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 	}
 
-	private class UpdateFeedsTask extends AsyncTask<Category, Void, Void> {
+	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<List<Event>, List<Date>>, Void, Void> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
 
@@ -228,8 +225,16 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 
 		@Override
-		protected Void doInBackground(Category... params) {
+		protected Void doInBackground(SimpleEntry<List<Event>, List<Date>>... feedsEntry) {
 			try {
+				//check if latest version, and update only if needed
+				//otherwise, just load history
+				if (feedsEntry.length > 0) {
+					if (mEventParser.isLatestVersion(mCategory, feedsEntry[0].getValue())) {
+						//CampusUB1App.LogD("Latest version!");
+						return null;
+					}
+				}
 				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
 				mEvents = mEventParser.getEvents();
