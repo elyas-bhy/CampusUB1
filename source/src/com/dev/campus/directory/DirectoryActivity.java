@@ -2,6 +2,7 @@ package com.dev.campus.directory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.dev.campus.R;
@@ -166,6 +167,8 @@ public class DirectoryActivity extends ListActivity {
 			else {
 				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
 			}
+
+			Collections.sort(matchingContacts, new ContactComparator());
 
 			return matchingContacts;
 		}

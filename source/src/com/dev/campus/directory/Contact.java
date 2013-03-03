@@ -1,5 +1,7 @@
 package com.dev.campus.directory;
 
+import java.util.Comparator;
+
 public class Contact {
 
 	private String firstName;
@@ -47,5 +49,13 @@ public class Contact {
 	}
 	public void setWebsite(String website) {
 		this.website = website;
+	}
+}
+
+
+class ContactComparator implements Comparator<Contact> {
+	@Override
+	public int compare(Contact c1, Contact c2) {
+		return c1.getLastName().compareTo(c2.getLastName());
 	}
 }
