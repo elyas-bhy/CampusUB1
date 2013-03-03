@@ -150,31 +150,41 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 		mEventAdapter.notifyDataSetChanged();
 	}
-
+	
+	public String getHistoryPath() {
+		return getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + ".dat";
+	}
+	
 	@SuppressWarnings("unchecked")
-	public void update() {
-		File file = new File(getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
+	private SimpleEntry<List<Event>, List<Date>> readEventsHistory() {
+		File file = new File(getHistoryPath());
 		SimpleEntry<List<Event>,List<Date>> feedsEntry = null;
 
 		if (file.exists()) {
 			try {
-				FileInputStream fint = new FileInputStream(file);
-				ObjectInputStream ois = new ObjectInputStream(fint);
-				feedsEntry = (SimpleEntry<List<Event>,List<Date>>)ois.readObject();
+				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+				feedsEntry = (SimpleEntry<List<Event>,List<Date>>) ois.readObject();
 				ois.close();
 			} catch (Exception e) { 
 				e.printStackTrace();
 			}
+		}
+		return feedsEntry;
+	}
 
+	@SuppressWarnings("unchecked")
+	public void update() {
+		SimpleEntry<List<Event>,List<Date>> feedsEntry = readEventsHistory();
+		
+		if (feedsEntry != null) {
 			if (CampusUB1App.persistence.isOnline()) {
-				new UpdateFeedsTask().execute(feedsEntry);
+				new UpdateFeedsTask().execute(feedsEntry.getValue());
 			} else {
 				mEvents = feedsEntry.getKey();
 				reloadEvents();
 				Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
 			}
 		}
-
 		else {
 			if (CampusUB1App.persistence.isOnline()) {
 				new UpdateFeedsTask().execute();
@@ -211,7 +221,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 	}
 
-	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<List<Event>, List<Date>>, Void, Void> {
+	private class UpdateFeedsTask extends AsyncTask<List<Date>, Void, Void> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
 
@@ -225,15 +235,13 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 
 		@Override
-		protected Void doInBackground(SimpleEntry<List<Event>, List<Date>>... feedsEntry) {
+		protected Void doInBackground(List<Date>... dates) {
 			try {
 				//check if latest version, and update only if needed
 				//otherwise, just load history
-				if (feedsEntry.length > 0) {
-					if (mEventParser.isLatestVersion(mCategory, feedsEntry[0].getValue())) {
-						//CampusUB1App.LogD("Latest version!");
+				if (dates.length > 0) {
+					if (mEventParser.isLatestVersion(mCategory, dates[0]))
 						return null;
-					}
 				}
 				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
