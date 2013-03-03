@@ -8,6 +8,7 @@ import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Category;
 import com.dev.campus.util.FilterDialog;
+import com.dev.campus.util.Persistence;
 import com.unboundid.ldap.sdk.LDAPException;
 
 import android.os.AsyncTask;
@@ -111,12 +112,32 @@ public class DirectoryActivity extends ListActivity {
 			final TextView lastName = (TextView) findViewById(R.id.editTextLastName);
 
 			int searchMinChar = 3;
-			int choice = 2; // temporary put : UB1 = 1 , Labri = 2
+			boolean join = false; // becomes true if there are 2 or more filters active
 			ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
 			if (firstName.getText().toString().length() >= searchMinChar || lastName.getText().toString().length() >= searchMinChar) {
 				ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-				if (choice == 1) {
+				ArrayList<Contact> contacts2 = null;
+				
+				if (Persistence.isFilteredUB1() && Persistence.isFilteredLabri() ) {
+					join = true;
+					try {
+						if (Directory_UB1.authenticate() == true) {
+							contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
+						}
+					} catch (LDAPException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					contacts2 = new ArrayList<Contact>();
+					try {
+						contacts2 = new Directory().labriDirectoryParser();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else if (Persistence.isFilteredUB1()) {
 					try {
 						if (Directory_UB1.authenticate() == true) {
 							contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
@@ -126,7 +147,7 @@ public class DirectoryActivity extends ListActivity {
 						e.printStackTrace();
 					}
 				}
-				if (choice == 2) {
+				else if (Persistence.isFilteredLabri()) {
 					try {
 						contacts = new Directory().labriDirectoryParser();
 					} catch (IOException e) {
@@ -134,6 +155,12 @@ public class DirectoryActivity extends ListActivity {
 						e.printStackTrace();
 					}
 				}
+				if (join){ // 2 or more filters are active
+					ArrayList<Contact> MergedContacts = new ArrayList<Contact>();
+					MergedContacts.addAll(contacts);
+					MergedContacts.addAll(contacts2);
+					contacts = MergedContacts;
+				}	
 				matchingContacts = new Directory().directoryFilter(contacts, firstName.getText().toString(), lastName.getText().toString());	
 			}
 			else {
