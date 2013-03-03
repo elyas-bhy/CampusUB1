@@ -9,12 +9,12 @@ import android.preference.PreferenceManager;
 
 public class Persistence {
 	
-	public static final String PREF_SCREEN_SUBSCRIBE = "subscriptions_screen";
-	public static final String PREF_SCREEN_FILTERS = "filters_screen";
-	public static final String PREF_SUBSCRIBE_UB1 = "subscribe_ub1";
-	public static final String PREF_SUBSCRIBE_LABRI = "subscribe_labri";
-	public static final String PREF_FILTER_UB1 = "filter_ub1";
-	public static final String PREF_FILTER_LABRI = "filter_labri";
+	public static final String PREF_SCREEN_SUBSCRIBE = "pref_subscriptions_screen";
+	public static final String PREF_SCREEN_FILTERS = "pref_filters_screen";
+	public static final String PREF_SUBSCRIBE_UB1 = "pref_subscribe_ub1";
+	public static final String PREF_SUBSCRIBE_LABRI = "pref_subscribe_labri";
+	public static final String PREF_FILTER_UB1 = "pref_filter_ub1";
+	public static final String PREF_FILTER_LABRI = "pref_filter_labri";
 	
 	
 	private ConnectivityManager conMan;

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="menu_settings">Paramètres</string>
+    <string name="menu_calendar">Rajouter au calendrier</string>
     
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
@@ -9,6 +10,11 @@
     <string name="filter_results">Filtrez vos résultats</string>
     <string name="events_loading">Chargement des événements</string>
     <string name="please_wait">Veuillez patienter</string>
+    
+    <!-- Toasts -->
+    <string name="showing_history">Affichage de l\'historique</string>
+    <string name="update_complete">Mise à jour effectuée</string>
+    <string name="connection_failed">Echec de connection</string>
     
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
@@ -22,7 +28,7 @@
     <!-- Servies -->
     <string name="events">Evénements</string>
     <string name="directory">Annuaire</string>
-    <string name="schedule">Emploi du Temps</string>
+    <string name="schedule">Emploi du temps</string>
     <string name="map">Plan du Campus</string>   
     
     <!-- Directory strings -->

@@ -182,15 +182,15 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			} else {
 				mEvents = feedsEntry.getKey();
 				reloadEvents();
-				Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, mResources.getString(R.string.showing_history), Toast.LENGTH_SHORT).show();
 			}
 		}
 		else {
 			if (CampusUB1App.persistence.isOnline()) {
 				new UpdateFeedsTask().execute();
-				Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, mResources.getString(R.string.update_complete), Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(this, "Echec de connection!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

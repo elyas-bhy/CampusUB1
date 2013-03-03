@@ -4,12 +4,12 @@
         android:title="@string/preferences_category">
         
         <Preference
-            android:key="subscriptions_screen"
+            android:key="pref_subscriptions_screen"
             android:title="@string/subscriptions_title"
             android:summary="@string/subscriptions_summary"/>
         
         <Preference
-            android:key="filters_screen"
+            android:key="pref_filters_screen"
             android:title="@string/filters_title"
             android:summary="@string/filters_summary"/>
         
