@@ -5,25 +5,21 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.dev.campus.CampusUB1App;
-import com.dev.campus.R;
-import com.dev.campus.SettingsActivity;
-import com.dev.campus.event.Feed.FeedType;
-import com.dev.campus.util.FilterDialog;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +28,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dev.campus.CampusUB1App;
+import com.dev.campus.R;
+import com.dev.campus.SettingsActivity;
+import com.dev.campus.event.Feed.FeedType;
+import com.dev.campus.util.FilterDialog;
 
 public class EventsActivity extends ListActivity implements OnItemClickListener {
 
@@ -137,6 +139,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 
 	public void reloadEvents() {
+		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		TextView headerView = (TextView) findViewById(R.id.event_list_header);
 		headerView.setText(mCategory.toString());
 		mEventAdapter.clear();
@@ -145,9 +148,17 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			for (Event event : mEvents) {
 				if ((event.getSource().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1())
 				 || (event.getSource().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()))
-					mEventAdapter.add(event);
+					sortedEvents.add(event);
 			}
 		}
+		Collections.sort(sortedEvents, new Comparator<Event>(){
+			@Override
+			public int compare(Event evt1, Event evt2) {
+				return evt2.getDate().compareTo(evt1.getDate());
+			}
+		});
+		
+		mEventAdapter.addAll(sortedEvents);
 		mEventAdapter.notifyDataSetChanged();
 	}
 	
@@ -264,4 +275,5 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			super.onCancelled();
 		}
 	}
+	
 }

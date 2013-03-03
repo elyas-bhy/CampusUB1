@@ -81,7 +81,7 @@ public class EventParser {
 							event.setDetails(mParser.nextText());
 						}
 						if (mParser.getName().equals("pubDate")) {
-							String d = null;
+							Date d = null;
 							try {
 								String text = mParser.nextText();
 								d = TimeExtractor.getCorrectDate(text, event.getDetails());

@@ -39,17 +39,11 @@ public class TimeExtractor {
 		SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
 		return sdf.parse(date);
 	}
-	
-	public static String formatDate(Date d, String format) {
-		SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
-		return sdf.format(d);
-	}
 
-	public static String getCorrectDate(String date, String text) throws ParseException{
+	public static Date getCorrectDate(String date, String text) throws ParseException{
 		String[] time = parseTime(text);
 		String format = "EEE, d MMM yyyy HH:mm:ss Z";
 		Date d = createDate(date, format);
-		format = "EEE, d MMM yyyy HH:mm";
 		
 		if(time != null) {
 			if(time.length > 1) { // Means we have parsed minutes
@@ -63,8 +57,9 @@ public class TimeExtractor {
 			/* no time parsed in text, set time to 00:00 to avoid displaying
 			 * the time at which the article was posted
 			 */
-			format = "EEE, d MMM yyyy";
+			d.setMinutes(0);
+			d.setHours(0);
 		}
-		return formatDate(d, format);
+		return d;
 	}
 }
