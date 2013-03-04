@@ -40,9 +40,7 @@ public class Contact {
 	}
 	
 	public boolean existsEmail(){
-		if(this.email == null)
-			return false;
-		return true;
+		return this.email != null;
 	}
 	
 	public String getTel() {
@@ -54,9 +52,7 @@ public class Contact {
 	
 	public boolean existsTel(){
 		String [] notValid = new String[] {null,"Non renseigne"};
-		if(this.tel == notValid[0] || this.tel.equals(notValid[1]))
-			return false;
-		return true;
+		return this.tel != notValid[0] && !(this.tel).equals(notValid[1]);
 	}
 	
 	public String getWebsite() {
@@ -67,9 +63,7 @@ public class Contact {
 	}
 	
 	public boolean existsWebsite(){
-		if(this.website == null)
-			return false;
-		return true;
+		return this.website != null;
 	}
 	
 }
