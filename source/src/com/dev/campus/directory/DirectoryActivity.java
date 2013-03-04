@@ -113,7 +113,7 @@ public class DirectoryActivity extends ListActivity {
 	
 	public void callContact(Contact c){
 		String ContactNumber = c.getTel();
-		if(ContactNumber != null){
+		if(c.existsTel()){
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
 			callIntent.setData(Uri.parse("tel:"+ContactNumber));
 			startActivity(callIntent);
@@ -124,7 +124,7 @@ public class DirectoryActivity extends ListActivity {
 	
 	public void emailContact(Contact c) {
 		String ContactEmail = c.getEmail();
-		if(ContactEmail != null){
+		if(c.existsEmail()){
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
 			emailIntent.setType("plain/text");  
 			emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {ContactEmail});
@@ -141,14 +141,16 @@ public class DirectoryActivity extends ListActivity {
 		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT,ContactsContract.Contacts.CONTENT_URI);
 		intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
 		intent.putExtra(ContactsContract.Intents.Insert.NAME, ContactFullName);
-		intent.putExtra(ContactsContract.Intents.Insert.PHONE, ContactNumber);
-		intent.putExtra(ContactsContract.Intents.Insert.EMAIL, ContactEmail);
+		if(c.existsTel())
+			intent.putExtra(ContactsContract.Intents.Insert.PHONE, ContactNumber);	
+		if(c.existsEmail())
+			intent.putExtra(ContactsContract.Intents.Insert.EMAIL, ContactEmail);
 		startActivity(intent);
 	}
 
 	public void visitContactWebsite(Contact c) {
 		String ContactWebSite = c.getWebsite();
-		if(ContactWebSite != null){
+		if(c.existsWebsite()){
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ContactWebSite));
 			startActivity(browserIntent);
 		}
