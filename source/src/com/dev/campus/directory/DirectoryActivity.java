@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Category;
@@ -12,21 +13,30 @@ import com.dev.campus.util.FilterDialog;
 import com.dev.campus.util.Persistence;
 import com.unboundid.ldap.sdk.LDAPException;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 public class DirectoryActivity extends ListActivity {
 
@@ -36,6 +46,7 @@ public class DirectoryActivity extends ListActivity {
 	private DirectoryAdapter adapter;
 	private Resources mResources;
 	private Activity mContext;
+	private Contact selectedContact;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,16 @@ public class DirectoryActivity extends ListActivity {
 		adapter = new DirectoryAdapter(this, matchingContacts);
 		listview.setAdapter(adapter);
 
+		registerForContextMenu(listview);
+		listview.setOnItemClickListener(new OnItemClickListener() {
+
+		       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		    	   selectedContact = (Contact) parent.getItemAtPosition(position);
+		    	   listview.showContextMenuForChild(view);
+		       }
+		});
+		
+		
 		final ImageButton searchButton = (ImageButton) findViewById(R.id.buttonSearchDirectory);
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -62,7 +83,79 @@ public class DirectoryActivity extends ListActivity {
 			}
 		});
 	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+	    super.onCreateContextMenu(menu, v, menuInfo);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.directory_contextual, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_call:
+	        	callContact(selectedContact);
+	            return true;
+	        case R.id.menu_mail:
+	        	emailContact(selectedContact);
+	            return true;
+	        case R.id.menu_addToContacts:	
+	        	addToPhoneContacts(selectedContact);
+	            return true;
+	        case R.id.menu_webSite:	  
+	        	visitContactWebsite(selectedContact);
+	            return true;
+	        default:
+	            return super.onContextItemSelected(item);
+	    }
+	}
+	
+	public void callContact(Contact c){
+		String ContactNumber = c.getTel();
+		if(ContactNumber != null){
+			Intent callIntent = new Intent(Intent.ACTION_CALL);
+			callIntent.setData(Uri.parse("tel:"+ContactNumber));
+			startActivity(callIntent);
+		}
+		else
+			Toast.makeText(this, mResources.getString(R.string.no_tel), Toast.LENGTH_SHORT).show();
+	}
+	
+	public void emailContact(Contact c) {
+		String ContactEmail = c.getEmail();
+		if(ContactEmail != null){
+			Intent emailIntent = new Intent(Intent.ACTION_SEND);
+			emailIntent.setType("plain/text");  
+			emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {ContactEmail});
+			startActivity(Intent.createChooser(emailIntent, "Choisissez votre client :"));
+		}
+		else
+			Toast.makeText(this, mResources.getString(R.string.no_email), Toast.LENGTH_SHORT).show();
+	}
+	
+	public void addToPhoneContacts(Contact c) {
+		String ContactFullName =  c.getFirstName() + " " + c.getLastName();
+		String ContactNumber = c.getTel();
+		String ContactEmail =  c.getEmail();
+		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT,ContactsContract.Contacts.CONTENT_URI);
+		intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
+		intent.putExtra(ContactsContract.Intents.Insert.NAME, ContactFullName);
+		intent.putExtra(ContactsContract.Intents.Insert.PHONE, ContactNumber);
+		intent.putExtra(ContactsContract.Intents.Insert.EMAIL, ContactEmail);
+		startActivity(intent);
+	}
 
+	public void visitContactWebsite(Contact c) {
+		String ContactWebSite = c.getWebsite();
+		if(ContactWebSite != null){
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ContactWebSite));
+			startActivity(browserIntent);
+		}
+		else
+			Toast.makeText(this, mResources.getString(R.string.no_webSite), Toast.LENGTH_SHORT).show();
+	}
+	
 	public void reloadContacts(List<Contact> matchingContacts){
 		adapter.clear();
 		adapter.addAll(matchingContacts);
