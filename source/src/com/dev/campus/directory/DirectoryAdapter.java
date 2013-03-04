@@ -5,6 +5,7 @@ import java.util.List;
 import com.dev.campus.R;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 		if (contact.getWebsite() == null || contact.getWebsite().equals("")) {
 			contactHolder.website.setColorFilter(null);
 		}
-
+		
 		return row;
 	}
 

@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,11 +24,12 @@ import com.unboundid.ldap.sdk.controls.SimplePagedResultsControl;
 
 import android.text.Html;
 
-public class Directory {
+public class DirectoryManager {
 
-	private static LDAPConnection LDAP;
+	private LDAPConnection LDAP;
+	private List<Contact> mLabriContacts;
 
-	public static boolean isAuthenticatedLDAP() throws LDAPException {
+	public boolean isAuthenticatedLDAP() throws LDAPException {
 		LDAP = new LDAPConnection("carnet.u-bordeaux1.fr", 389);
 		Filter f1 = Filter.createEqualityFilter("cn", "Blanc Xavier");
 		SearchResult sr = LDAP.search("ou=people,dc=u-bordeaux1,dc=fr", SearchScope.SUB, f1);
@@ -36,8 +39,26 @@ public class Directory {
 		}
 		return true;
 	}
+	
+	public List<Contact> searchContact(String firstName, String lastName) throws LDAPException, IOException {
+		ArrayList<Contact> searchResult = new ArrayList<Contact>();
+		
+		if (CampusUB1App.persistence.isFilteredUB1()) {
+			if (isAuthenticatedLDAP())
+				searchResult.addAll(searchUB1(firstName, lastName));
+		}
+		
+		if (CampusUB1App.persistence.isFilteredLabri()) {
+			if (mLabriContacts == null)
+				parseLabriDirectory();
+			searchResult.addAll(filterLabriResults(firstName, lastName));
+		}
+		
+		Collections.sort(searchResult, new Contact.ContactComparator());
+		return searchResult;
+	}
 
-	public static ArrayList<Contact> searchUB1(String lastName, String firstName) throws LDAPException {
+	public List<Contact> searchUB1(String firstName, String lastName) throws LDAPException {
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
 		Filter f = Filter.create("(&(givenName=" + firstName + "*)(sn=" + lastName + "*))");
 		String[] attributes = {"mail", "telephoneNumber", "givenName", "sn"};
@@ -64,7 +85,7 @@ public class Directory {
 	}
 
 
-	public static ArrayList<Contact> filterLabriResults(ArrayList<Contact> contacts, String firstName, String lastName){
+	public List<Contact> filterLabriResults(String firstName, String lastName){
 		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
 		if (firstName == null)
 			firstName = "";
@@ -73,7 +94,7 @@ public class Directory {
 		firstName = removeAccents(firstName).toLowerCase();
 		lastName = removeAccents(lastName).toLowerCase();
 
-		for (Contact c : contacts) {
+		for (Contact c : mLabriContacts) {
 			if (removeAccents(c.getFirstName()).toLowerCase().contains(firstName)
 			 && removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
 				matchingContacts.add(c);
@@ -82,14 +103,14 @@ public class Directory {
 		return matchingContacts;
 	}
 
-	public static ArrayList<Contact> parseLabriDirectory() throws IOException {
+	public void parseLabriDirectory() throws IOException {
 		String labriDirectory = "";
 		String filepath = "com/dev/campus/directory/DirectoryLabri.txt";
 
 		// Reading text file
 		try {
 			// InputStream ips = new FileInputStream(file);
-			InputStream ips = Directory.class.getClassLoader().getResourceAsStream(filepath);
+			InputStream ips = DirectoryManager.class.getClassLoader().getResourceAsStream(filepath);
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 			String line;
@@ -98,7 +119,7 @@ public class Directory {
 			}
 			br.close();
 		}
-		catch(Exception e) {
+		catch (Exception e) {
 			System.out.println(e.toString());
 		}
 
@@ -112,10 +133,11 @@ public class Directory {
 		Pattern p = Pattern.compile("<td(.*?)>(.*?)</td>");
 		Matcher m = p.matcher(labriDirectory);
 
-		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		ArrayList<Contact> allContacts = new ArrayList<Contact>();
 		Contact contact = new Contact();
 		String buffer;
 		int i = 1;
+		
 		while (m.find()) {
 			buffer = m.group();
 			buffer = buffer.replaceAll("<td(.*?)>(.*?)</td>", "$2");
@@ -145,36 +167,27 @@ public class Directory {
 				contact.setWebsite(htmlDecode(buffer));
 			}
 			else if (i % 8 == 0 && i > 0) {
-				contacts.add(contact);
+				allContacts.add(contact);
 				contact = new Contact();
 			}
 			i++;
 		}
 
-		/* Retrieve the first name/last name with the email adress
-		// -----------------------------------------  
-		String mail = "john-doe.smith@labri.fr";
-		int offset = mail.indexOf(".");
-		String firstName = mail.substring(0, offset);
-		firstName = capitalize(firstName);
-		String lastName = mail.substring(offset+1, mail.indexOf("@"));
-		//*/
-
-		return contacts;
+		mLabriContacts = allContacts;
 	}
 
 
-	public static String htmlDecode(String str) {
+	public String htmlDecode(String str) {
 		return Html.fromHtml(str).toString();
 	}
 
-	public static String removeAccents(String str) {
+	public String removeAccents(String str) {
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
 		return str;
 	}
 
-	public static String capitalize(String str) {
+	public String capitalize(String str) {
 		str = str.toLowerCase();
 		boolean charReplaced = false;
 		for (int k = 0; k < str.length(); k++) {

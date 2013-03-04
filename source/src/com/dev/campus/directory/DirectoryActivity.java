@@ -2,10 +2,8 @@ package com.dev.campus.directory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.util.FilterDialog;
@@ -43,6 +41,7 @@ public class DirectoryActivity extends ListActivity {
 	
 	private Contact mContact;
 	private DirectoryAdapter mDirectoryAdapter;
+	private DirectoryManager mDirectoryManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +56,7 @@ public class DirectoryActivity extends ListActivity {
 		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
 		listview.addHeaderView(header, null, true);
 		
+		mDirectoryManager = new DirectoryManager();
 		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 		listview.setAdapter(mDirectoryAdapter);
 		registerForContextMenu(listview);
@@ -194,64 +194,23 @@ public class DirectoryActivity extends ListActivity {
 
 		@Override
 		protected List<Contact> doInBackground(Void... params) {
-			final TextView firstName = (TextView) findViewById(R.id.editTextFirstName);
-			final TextView lastName = (TextView) findViewById(R.id.editTextLastName);
+			final String firstName = ((TextView) findViewById(R.id.editTextFirstName)).getText().toString();
+			final String lastName = ((TextView) findViewById(R.id.editTextLastName)).getText().toString();
 
 			int searchMinChar = 3;
-			boolean join = false; // becomes true if there are 2 or more filters active
-			ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
-			if (firstName.getText().toString().length() >= searchMinChar || lastName.getText().toString().length() >= searchMinChar) {
-				ArrayList<Contact> contacts = new ArrayList<Contact>();
-				ArrayList<Contact> contacts2 = null;
-				
-				if (CampusUB1App.persistence.isFilteredUB1() && CampusUB1App.persistence.isFilteredLabri() ) {
-					join = true;
-					try {
-						if (Directory.isAuthenticatedLDAP()) {
-							contacts = Directory.searchUB1(lastName.getText().toString(), firstName.getText().toString());
-						}
-					} catch (LDAPException e) {
-						e.printStackTrace();
-					}
-					
-					contacts2 = new ArrayList<Contact>();
-					try {
-						contacts2 = Directory.parseLabriDirectory();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+			if (firstName.length() >= searchMinChar || lastName.length() >= searchMinChar) {
+				try {
+					return mDirectoryManager.searchContact(firstName, lastName);
+				} catch (LDAPException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				else if (CampusUB1App.persistence.isFilteredUB1()) {
-					try {
-						if (Directory.isAuthenticatedLDAP()) {
-							contacts = Directory.searchUB1(lastName.getText().toString(), firstName.getText().toString());
-						}
-					} catch (LDAPException e) {
-						e.printStackTrace();
-					}
-				}
-				else if (CampusUB1App.persistence.isFilteredLabri()) {
-					try {
-						contacts = Directory.parseLabriDirectory();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				if (join) { // 2 or more filters are active
-					ArrayList<Contact> mergedContacts = new ArrayList<Contact>();
-					mergedContacts.addAll(contacts);
-					mergedContacts.addAll(contacts2);
-					contacts = mergedContacts;
-				}	
-				matchingContacts = Directory.filterLabriResults(contacts, firstName.getText().toString(), lastName.getText().toString());	
 			}
 			else {
 				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
 			}
-
-			Collections.sort(matchingContacts, new Contact.ContactComparator());
-
-			return matchingContacts;
+			return null;
 		}
 
 		@Override
