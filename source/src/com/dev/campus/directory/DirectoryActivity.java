@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Category;
@@ -100,10 +99,10 @@ public class DirectoryActivity extends ListActivity {
 	        case R.id.menu_mail:
 	        	emailContact(selectedContact);
 	            return true;
-	        case R.id.menu_addToContacts:	
+	        case R.id.menu_add_to_contacts:	
 	        	addToPhoneContacts(selectedContact);
 	            return true;
-	        case R.id.menu_webSite:	  
+	        case R.id.menu_website:	  
 	        	visitContactWebsite(selectedContact);
 	            return true;
 	        default:
@@ -128,7 +127,7 @@ public class DirectoryActivity extends ListActivity {
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
 			emailIntent.setType("plain/text");  
 			emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {ContactEmail});
-			startActivity(Intent.createChooser(emailIntent, "Choisissez votre client :"));
+			startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
 		}
 		else
 			Toast.makeText(this, mResources.getString(R.string.no_email), Toast.LENGTH_SHORT).show();
@@ -153,7 +152,7 @@ public class DirectoryActivity extends ListActivity {
 			startActivity(browserIntent);
 		}
 		else
-			Toast.makeText(this, mResources.getString(R.string.no_webSite), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, mResources.getString(R.string.no_website), Toast.LENGTH_SHORT).show();
 	}
 	
 	public void reloadContacts(List<Contact> matchingContacts){

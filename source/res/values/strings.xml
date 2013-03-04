@@ -2,12 +2,15 @@
 <resources>
 
     <string name="app_name">CampusUB1</string>
+    
+    <!-- Menus -->
     <string name="menu_settings">Settings</string>
-    <string name="menu_call">Appeler</string>
-    <string name="menu_mail">Envoyer un E-Mail</string>
-    <string name="menu_addToContacts">Rajouter aux contacts</string>
-    <string name="menu_webSite">Visiter le site web</string>
     <string name="menu_calendar">Add to calendar</string>
+    <string name="menu_call">Call</string>
+    <string name="menu_mail">Send email</string>
+    <string name="menu_add_to_contacts">Add to contacts</string>
+    <string name="menu_website">Go to website</string>
+    <string name="menu_complete_action">Complete action using</string>
 
     <!-- Dialogs -->
     <string name="ok">OK</string>
@@ -22,7 +25,7 @@
     <string name="showing_history">Showing offline history</string>
     <string name="update_complete">Update complete</string>
     <string name="connection_failed">Connection failed</string>
-    <string name="no_webSite">No web site for this contact</string>
+    <string name="no_website">No website for this contact</string>
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>
 

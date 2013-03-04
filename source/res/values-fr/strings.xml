@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Menus -->
     <string name="menu_settings">Paramètres</string>
     <string name="menu_calendar">Rajouter au calendrier</string>
+    <string name="menu_call">Appeler</string>
+    <string name="menu_mail">Envoyer un e-mail</string>
+    <string name="menu_add_to_contacts">Ajouter contact</string>
+    <string name="menu_website">Visiter le site web</string>
+    <string name="menu_complete_action">Effectuer l\'action en utilisant</string>
     
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
@@ -15,6 +21,9 @@
     <string name="showing_history">Affichage de l\'historique</string>
     <string name="update_complete">Mise à jour effectuée</string>
     <string name="connection_failed">Echec de connection</string>
+    <string name="no_website">Aucun site web disponible pour ce contact</string>
+    <string name="no_tel">Aucun numero disponible pour ce contact</string>
+    <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
     
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
