@@ -26,17 +26,19 @@ import android.text.Html;
 
 public class DirectoryManager {
 
+	public static final String UB1_LDAP_HOST = "carnet.u-bordeaux1.fr";
+	public static final String UB1_BASE_DN = "ou=people,dc=u-bordeaux1,dc=fr";
+	
 	private LDAPConnection LDAP;
 	private List<Contact> mLabriContacts;
+	
 
 	public boolean isAuthenticatedLDAP() throws LDAPException {
-		LDAP = new LDAPConnection("carnet.u-bordeaux1.fr", 389);
+		LDAP = new LDAPConnection(UB1_LDAP_HOST, 389);
 		Filter f1 = Filter.createEqualityFilter("cn", "Blanc Xavier");
-		SearchResult sr = LDAP.search("ou=people,dc=u-bordeaux1,dc=fr", SearchScope.SUB, f1);
-		if (sr.getEntryCount() < 1) {
-			CampusUB1App.LogD("Error, not connected to ldap"); 
+		SearchResult sr = LDAP.search(UB1_BASE_DN, SearchScope.SUB, f1);
+		if (sr.getEntryCount() < 1)
 			return false;
-		}
 		return true;
 	}
 	
@@ -63,7 +65,7 @@ public class DirectoryManager {
 		Filter f = Filter.create("(&(givenName=" + firstName + "*)(sn=" + lastName + "*))");
 		String[] attributes = {"mail", "telephoneNumber", "givenName", "sn"};
 
-		SearchRequest searchRequest = new SearchRequest("ou=people,dc=u-bordeaux1,dc=fr", SearchScope.SUB, f, attributes);
+		SearchRequest searchRequest = new SearchRequest(UB1_BASE_DN, SearchScope.SUB, f, attributes);
 
 		searchRequest.setControls(new Control[] { new SimplePagedResultsControl(10, null)});
 		SearchResult searchResult = LDAP.search(searchRequest);
