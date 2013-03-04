@@ -8,46 +8,88 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.dev.campus.CampusUB1App;
+import com.unboundid.ldap.sdk.Control;
+import com.unboundid.ldap.sdk.Filter;
+import com.unboundid.ldap.sdk.LDAPConnection;
+import com.unboundid.ldap.sdk.LDAPException;
+import com.unboundid.ldap.sdk.SearchRequest;
+import com.unboundid.ldap.sdk.SearchResult;
+import com.unboundid.ldap.sdk.SearchResultEntry;
+import com.unboundid.ldap.sdk.SearchScope;
+import com.unboundid.ldap.sdk.controls.SimplePagedResultsControl;
+
 import android.text.Html;
-import android.text.Spanned;
 
 public class Directory {
 
-	public static String htmlDecode(String str) {
-		Spanned span = Html.fromHtml(str);
-		return span.toString();
+	private static LDAPConnection LDAP;
+
+	public static boolean isAuthenticatedLDAP() throws LDAPException {
+		LDAP = new LDAPConnection("carnet.u-bordeaux1.fr", 389);
+		Filter f1 = Filter.createEqualityFilter("cn", "Blanc Xavier");
+		SearchResult sr = LDAP.search("ou=people,dc=u-bordeaux1,dc=fr", SearchScope.SUB, f1);
+		if (sr.getEntryCount() < 1) {
+			CampusUB1App.LogD("Error, not connected to ldap"); 
+			return false;
+		}
+		return true;
 	}
 
-	public static String removeAccents(String str) {
-		str = Normalizer.normalize(str, Normalizer.Form.NFD);
-		str = str.replaceAll("[^\\p{ASCII}]", "");
-		return str;
-	}
+	public static ArrayList<Contact> searchUB1(String lastName, String firstName) throws LDAPException {
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		Filter f = Filter.create("(&(givenName=" + firstName + "*)(sn=" + lastName + "*))");
+		String[] attributes = {"mail", "telephoneNumber", "givenName", "sn"};
 
-	public static String capitalize(String str) {
-		str = str.toLowerCase();
-		boolean charReplaced = false;
-		for (int k=0; k<str.length(); k++) {
-			char currentChar = str.charAt(k);
-			if (currentChar < 97 || currentChar > 122) // detecting new word, currentChar not in [a-z]
-				charReplaced = false;
-			if (charReplaced == false && (currentChar > 96 && currentChar < 123)) { // currentChar in [a-z]
-				str = str.substring(0, k) + str.substring(k, k+1).toUpperCase() + str.substring(k+1); // capitalize currentChar in string
-				charReplaced = true;
+		SearchRequest searchRequest = new SearchRequest("ou=people,dc=u-bordeaux1,dc=fr", SearchScope.SUB, f, attributes);
+
+		searchRequest.setControls(new Control[] { new SimplePagedResultsControl(10, null)});
+		SearchResult searchResult = LDAP.search(searchRequest);
+		int entryCount = searchResult.getEntryCount();
+		// Do something with the entries that are returned.
+		if (entryCount > 0) {
+			for (int contact_nb = 0; contact_nb < entryCount; contact_nb++) {
+				SearchResultEntry entry = searchResult.getSearchEntries().get(contact_nb);
+				Contact contact = new Contact();
+				contact.setEmail(entry.getAttributeValue("mail"));
+				contact.setTel(entry.getAttributeValue("telephoneNumber"));
+				contact.setFirstName(entry.getAttributeValue("givenName"));
+				contact.setLastName(entry.getAttributeValue("sn"));
+				contacts.add(contact);
 			}
 		}
-		return str;
+
+		return contacts;
 	}
 
-	public ArrayList<Contact> labriDirectoryParser() throws IOException {
 
+	public static ArrayList<Contact> filterLabriResults(ArrayList<Contact> contacts, String firstName, String lastName){
+		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
+		if (firstName == null)
+			firstName = "";
+		if (lastName == null)
+			lastName = "";
+		firstName = removeAccents(firstName).toLowerCase();
+		lastName = removeAccents(lastName).toLowerCase();
+
+		for (Contact c : contacts) {
+			if (removeAccents(c.getFirstName()).toLowerCase().contains(firstName)
+			 && removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
+				matchingContacts.add(c);
+			}
+		}
+		return matchingContacts;
+	}
+
+	public static ArrayList<Contact> parseLabriDirectory() throws IOException {
 		String labriDirectory = "";
 		String filepath = "com/dev/campus/directory/DirectoryLabri.txt";
 
 		// Reading text file
 		try {
 			// InputStream ips = new FileInputStream(file);
-			InputStream ips = getClass().getClassLoader().getResourceAsStream(filepath);
+			InputStream ips = Directory.class.getClassLoader().getResourceAsStream(filepath);
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 			String line;
@@ -121,21 +163,29 @@ public class Directory {
 		return contacts;
 	}
 
-	public ArrayList<Contact> directoryFilter(ArrayList<Contact> contacts, String firstName, String lastName){
-		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
-		if (firstName == null)
-			firstName = "";
-		if (lastName == null)
-			lastName = "";
-		firstName = removeAccents(firstName).toLowerCase();
-		lastName = removeAccents(lastName).toLowerCase();
 
-		for (Contact c : contacts) {
-			if (removeAccents(c.getFirstName()).toLowerCase().contains(firstName)
-					&& removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
-				matchingContacts.add(c);
+	public static String htmlDecode(String str) {
+		return Html.fromHtml(str).toString();
+	}
+
+	public static String removeAccents(String str) {
+		str = Normalizer.normalize(str, Normalizer.Form.NFD);
+		str = str.replaceAll("[^\\p{ASCII}]", "");
+		return str;
+	}
+
+	public static String capitalize(String str) {
+		str = str.toLowerCase();
+		boolean charReplaced = false;
+		for (int k = 0; k < str.length(); k++) {
+			char currentChar = str.charAt(k);
+			if (currentChar < 97 || currentChar > 122) // detecting new word, currentChar not in [a-z]
+				charReplaced = false;
+			if (charReplaced == false && (currentChar > 96 && currentChar < 123)) { // currentChar in [a-z]
+				str = str.substring(0, k) + str.substring(k, k+1).toUpperCase() + str.substring(k+1); // capitalize currentChar in string
+				charReplaced = true;
 			}
 		}
-		return matchingContacts;
+		return str;
 	}
 }

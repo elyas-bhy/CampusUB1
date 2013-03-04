@@ -11,68 +11,69 @@ public class Contact {
 	private String website;
 
 	public Contact() {
+		firstName = null;
+		lastName = null;
+		email = null;
+		tel = null;
+		website = null;
+	}
 
-	}
-	public Contact(String firstName, String lastName, String email, String tel, String website) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.tel = tel;
-		this.website = website;
-	}
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public boolean existsEmail(){
-		return this.email != null;
-	}
-	
+
 	public String getTel() {
 		return tel;
 	}
+
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	
-	public boolean existsTel(){
-		String [] notValid = new String[] {null,"Non renseigne"};
-		return this.tel != notValid[0] && !(this.tel).equals(notValid[1]);
-	}
-	
+
 	public String getWebsite() {
 		return website;
 	}
 	public void setWebsite(String website) {
 		this.website = website;
 	}
-	
-	public boolean existsWebsite(){
+
+	public boolean hasTel(){
+		return (this.tel != null) && !((this.tel).equals("Non renseigne"));
+	}
+
+	public boolean hasEmail(){
+		return this.email != null;
+	}
+
+	public boolean hasWebsite(){
 		return this.website != null;
 	}
 	
-}
-
-	
-
-class ContactComparator implements Comparator<Contact> {
-	@Override
-	public int compare(Contact c1, Contact c2) {
-		return c1.getLastName().compareTo(c2.getLastName());
+	static class ContactComparator implements Comparator<Contact> {
+		@Override
+		public int compare(Contact c1, Contact c2) {
+			return c1.getLastName().compareTo(c2.getLastName());
+		}
 	}
+
 }

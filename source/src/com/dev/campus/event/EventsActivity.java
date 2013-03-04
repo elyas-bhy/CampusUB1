@@ -207,7 +207,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (position == 0) {
 			//Categories index
 			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);

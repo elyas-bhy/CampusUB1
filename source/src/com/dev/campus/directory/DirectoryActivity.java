@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
-import com.dev.campus.event.Category;
 import com.dev.campus.util.FilterDialog;
-import com.dev.campus.util.Persistence;
 import com.unboundid.ldap.sdk.LDAPException;
 
 import android.net.Uri;
@@ -17,7 +16,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -40,35 +38,32 @@ import android.widget.Toast;
 public class DirectoryActivity extends ListActivity {
 
 	private ActionBar mActionBar;
-	private FilterDialog mFilterDialog;
-	private ListView listview;
-	private DirectoryAdapter adapter;
 	private Resources mResources;
-	private Activity mContext;
-	private Contact selectedContact;
-
+	private FilterDialog mFilterDialog;
+	
+	private Contact mContact;
+	private DirectoryAdapter mDirectoryAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mContext = this;
 		mFilterDialog = new FilterDialog(this);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
 
-		listview = getListView();
+		final ListView listview = getListView();
 		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
 		listview.addHeaderView(header, null, true);
-		adapter = new DirectoryAdapter(this, matchingContacts);
-		listview.setAdapter(adapter);
-
+		
+		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
+		listview.setAdapter(mDirectoryAdapter);
 		registerForContextMenu(listview);
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
 		       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		    	   selectedContact = (Contact) parent.getItemAtPosition(position);
+		    	   mContact = (Contact) parent.getItemAtPosition(position);
 		    	   listview.showContextMenuForChild(view);
 		       }
 		});
@@ -94,63 +89,59 @@ public class DirectoryActivity extends ListActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.menu_call:
-	        	callContact(selectedContact);
+	        	callContact();
 	            return true;
 	        case R.id.menu_mail:
-	        	emailContact(selectedContact);
+	        	emailContact();
 	            return true;
 	        case R.id.menu_add_to_contacts:	
-	        	addToPhoneContacts(selectedContact);
+	        	addToContacts();
 	            return true;
 	        case R.id.menu_website:	  
-	        	visitContactWebsite(selectedContact);
+	        	visitContactWebsite();
 	            return true;
 	        default:
 	            return super.onContextItemSelected(item);
 	    }
 	}
 	
-	public void callContact(Contact c){
-		String ContactNumber = c.getTel();
-		if(c.existsTel()){
+	public void callContact() {
+		if (mContact.hasTel()) {
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
-			callIntent.setData(Uri.parse("tel:"+ContactNumber));
+			callIntent.setData(Uri.parse("tel:" + mContact.getTel()));
 			startActivity(callIntent);
 		}
 		else
 			Toast.makeText(this, mResources.getString(R.string.no_tel), Toast.LENGTH_SHORT).show();
 	}
 	
-	public void emailContact(Contact c) {
-		String ContactEmail = c.getEmail();
-		if(c.existsEmail()){
+	public void emailContact() {
+		if (mContact.hasEmail()) {
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
 			emailIntent.setType("plain/text");  
-			emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {ContactEmail});
+			emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {mContact.getEmail()});
 			startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
 		}
 		else
 			Toast.makeText(this, mResources.getString(R.string.no_email), Toast.LENGTH_SHORT).show();
 	}
 	
-	public void addToPhoneContacts(Contact c) {
-		String ContactFullName =  c.getFirstName() + " " + c.getLastName();
-		String ContactNumber = c.getTel();
-		String ContactEmail =  c.getEmail();
+	public void addToContacts() {
+		String contactFullName =  mContact.getFirstName() + " " + mContact.getLastName();
 		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT,ContactsContract.Contacts.CONTENT_URI);
 		intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
-		intent.putExtra(ContactsContract.Intents.Insert.NAME, ContactFullName);
-		if(c.existsTel())
-			intent.putExtra(ContactsContract.Intents.Insert.PHONE, ContactNumber);	
-		if(c.existsEmail())
-			intent.putExtra(ContactsContract.Intents.Insert.EMAIL, ContactEmail);
+		intent.putExtra(ContactsContract.Intents.Insert.NAME, contactFullName);
+		
+		if (mContact.hasTel())
+			intent.putExtra(ContactsContract.Intents.Insert.PHONE, mContact.getTel());	
+		if (mContact.hasEmail())
+			intent.putExtra(ContactsContract.Intents.Insert.EMAIL, mContact.getEmail());
 		startActivity(intent);
 	}
 
-	public void visitContactWebsite(Contact c) {
-		String ContactWebSite = c.getWebsite();
-		if(c.existsWebsite()){
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ContactWebSite));
+	public void visitContactWebsite() {
+		if (mContact.hasWebsite()) {
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebsite()));
 			startActivity(browserIntent);
 		}
 		else
@@ -158,9 +149,9 @@ public class DirectoryActivity extends ListActivity {
 	}
 	
 	public void reloadContacts(List<Contact> matchingContacts){
-		adapter.clear();
-		adapter.addAll(matchingContacts);
-		adapter.notifyDataSetChanged();
+		mDirectoryAdapter.clear();
+		mDirectoryAdapter.addAll(matchingContacts);
+		mDirectoryAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -188,7 +179,7 @@ public class DirectoryActivity extends ListActivity {
 	}
 
 
-	private class SearchResultTask extends AsyncTask<Category, Void, List<Contact>> {
+	private class SearchResultTask extends AsyncTask<Void, Void, List<Contact>> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(DirectoryActivity.this);
 
@@ -202,7 +193,7 @@ public class DirectoryActivity extends ListActivity {
 		}
 
 		@Override
-		protected List<Contact> doInBackground(Category... params) {
+		protected List<Contact> doInBackground(Void... params) {
 			final TextView firstName = (TextView) findViewById(R.id.editTextFirstName);
 			final TextView lastName = (TextView) findViewById(R.id.editTextLastName);
 
@@ -213,56 +204,52 @@ public class DirectoryActivity extends ListActivity {
 				ArrayList<Contact> contacts = new ArrayList<Contact>();
 				ArrayList<Contact> contacts2 = null;
 				
-				if (Persistence.isFilteredUB1() && Persistence.isFilteredLabri() ) {
+				if (CampusUB1App.persistence.isFilteredUB1() && CampusUB1App.persistence.isFilteredLabri() ) {
 					join = true;
 					try {
-						if (Directory_UB1.authenticate() == true) {
-							contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
+						if (Directory.isAuthenticatedLDAP()) {
+							contacts = Directory.searchUB1(lastName.getText().toString(), firstName.getText().toString());
 						}
 					} catch (LDAPException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
 					contacts2 = new ArrayList<Contact>();
 					try {
-						contacts2 = new Directory().labriDirectoryParser();
+						contacts2 = Directory.parseLabriDirectory();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				else if (Persistence.isFilteredUB1()) {
+				else if (CampusUB1App.persistence.isFilteredUB1()) {
 					try {
-						if (Directory_UB1.authenticate() == true) {
-							contacts = Directory_UB1.search(lastName.getText().toString(), firstName.getText().toString());
+						if (Directory.isAuthenticatedLDAP()) {
+							contacts = Directory.searchUB1(lastName.getText().toString(), firstName.getText().toString());
 						}
 					} catch (LDAPException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				else if (Persistence.isFilteredLabri()) {
+				else if (CampusUB1App.persistence.isFilteredLabri()) {
 					try {
-						contacts = new Directory().labriDirectoryParser();
+						contacts = Directory.parseLabriDirectory();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				if (join){ // 2 or more filters are active
-					ArrayList<Contact> MergedContacts = new ArrayList<Contact>();
-					MergedContacts.addAll(contacts);
-					MergedContacts.addAll(contacts2);
-					contacts = MergedContacts;
+				if (join) { // 2 or more filters are active
+					ArrayList<Contact> mergedContacts = new ArrayList<Contact>();
+					mergedContacts.addAll(contacts);
+					mergedContacts.addAll(contacts2);
+					contacts = mergedContacts;
 				}	
-				matchingContacts = new Directory().directoryFilter(contacts, firstName.getText().toString(), lastName.getText().toString());	
+				matchingContacts = Directory.filterLabriResults(contacts, firstName.getText().toString(), lastName.getText().toString());	
 			}
 			else {
 				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
 			}
 
-			Collections.sort(matchingContacts, new ContactComparator());
+			Collections.sort(matchingContacts, new Contact.ContactComparator());
 
 			return matchingContacts;
 		}

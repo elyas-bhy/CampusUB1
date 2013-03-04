@@ -18,7 +18,7 @@ public class Persistence {
 	
 	
 	private ConnectivityManager conMan;
-	public static SharedPreferences shared_prefs;
+	private SharedPreferences shared_prefs;
 	private SharedPreferences.Editor prefs_editor;
 	
 	public Persistence(Context context) {
@@ -45,11 +45,11 @@ public class Persistence {
 		prefs_editor.commit();
 	}
 	
-	public static boolean isFilteredUB1() {
+	public boolean isFilteredUB1() {
 		return shared_prefs.getBoolean(PREF_FILTER_UB1, false);
 	}
 	
-	public static boolean isFilteredLabri() {
+	public boolean isFilteredLabri() {
 		return shared_prefs.getBoolean(PREF_FILTER_LABRI, false);
 	}
 	
