@@ -38,20 +38,43 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public boolean existsEmail(){
+		if(this.email == null)
+			return false;
+		return true;
+	}
+	
 	public String getTel() {
 		return tel;
 	}
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+	
+	public boolean existsTel(){
+		String [] notValid = new String[] {null,"Non renseigne"};
+		if(this.tel == notValid[0] || this.tel.equals(notValid[1]))
+			return false;
+		return true;
+	}
+	
 	public String getWebsite() {
 		return website;
 	}
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+	
+	public boolean existsWebsite(){
+		if(this.website == null)
+			return false;
+		return true;
+	}
+	
 }
 
+	
 
 class ContactComparator implements Comparator<Contact> {
 	@Override
