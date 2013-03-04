@@ -49,10 +49,10 @@
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/website_icon"
             android:gravity="center"
             android:maxHeight="20dp"
             android:maxWidth="20dp"
-            android:src="@drawable/website"
             android:tint="#B03F" />
     </LinearLayout>
 

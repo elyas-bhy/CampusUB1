@@ -56,10 +56,13 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 		contactHolder.name.setText(contact.getLastName().toUpperCase() + " " + contact.getFirstName());
 		contactHolder.tel.setText(contact.getTel());
 		contactHolder.email.setText(contact.getEmail());
+
+		Drawable drawableWebsite = mContext.getResources().getDrawable(R.drawable.website);
+		contactHolder.website.setImageDrawable(drawableWebsite);
 		if (contact.getWebsite() == null || contact.getWebsite().equals("")) {
-			contactHolder.website.setColorFilter(null);
+			contactHolder.website.getDrawable().mutate().setColorFilter(null);
 		}
-		
+
 		return row;
 	}
 
