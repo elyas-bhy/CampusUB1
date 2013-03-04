@@ -197,10 +197,11 @@ public class DirectoryActivity extends ListActivity {
 			final String firstName = ((TextView) findViewById(R.id.editTextFirstName)).getText().toString();
 			final String lastName = ((TextView) findViewById(R.id.editTextLastName)).getText().toString();
 
-			int searchMinChar = 3;
+			int searchMinChar = 1;
+			List<Contact> searchResult = new ArrayList<Contact>();
 			if (firstName.length() >= searchMinChar || lastName.length() >= searchMinChar) {
 				try {
-					return mDirectoryManager.searchContact(firstName, lastName);
+					searchResult = mDirectoryManager.searchContact(firstName, lastName);
 				} catch (LDAPException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -210,7 +211,7 @@ public class DirectoryActivity extends ListActivity {
 			else {
 				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
 			}
-			return null;
+			return searchResult;
 		}
 
 		@Override
