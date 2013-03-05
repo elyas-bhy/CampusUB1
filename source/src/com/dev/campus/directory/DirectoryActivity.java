@@ -109,6 +109,12 @@ public class DirectoryActivity extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 	    super.onCreateContextMenu(menu, v, menuInfo);
 	    getMenuInflater().inflate(R.menu.directory_contextual, menu);
+	    if (!mContact.hasTel())
+	    	menu.getItem(0).setEnabled(false);
+	    if (!mContact.hasEmail())
+	    	 menu.getItem(1).setEnabled(false);
+	    if (!mContact.hasWebsite())
+	    	 menu.getItem(3).setEnabled(false);    
 	}
 
 	public void startSearchTask() {
@@ -121,32 +127,23 @@ public class DirectoryActivity extends ListActivity {
 	}
 
 	public void callContact() {
-		if (mContact.hasTel()) {
-			Intent callIntent = new Intent(Intent.ACTION_CALL);
-			callIntent.setData(Uri.parse("tel:" + mContact.getTel()));
-			startActivity(callIntent);
-		}
-		else
-			Toast.makeText(this, mResources.getString(R.string.no_tel), Toast.LENGTH_SHORT).show();
+		Intent callIntent = new Intent(Intent.ACTION_CALL);
+		callIntent.setData(Uri.parse("tel:" + mContact.getTel()));
+		startActivity(callIntent);
 	}
 	
 	public void emailContact() {
-		if (mContact.hasEmail()) {
-			Intent emailIntent = new Intent(Intent.ACTION_SEND);
-			emailIntent.setType("plain/text");  
-			emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {mContact.getEmail()});
-			startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
-		}
-		else
-			Toast.makeText(this, mResources.getString(R.string.no_email), Toast.LENGTH_SHORT).show();
+		Intent emailIntent = new Intent(Intent.ACTION_SEND);
+		emailIntent.setType("plain/text");  
+		emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {mContact.getEmail()});
+		startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
 	}
 	
 	public void addToContacts() {
 		String contactFullName =  mContact.getFirstName() + " " + mContact.getLastName();
 		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT,ContactsContract.Contacts.CONTENT_URI);
 		intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
-		intent.putExtra(ContactsContract.Intents.Insert.NAME, contactFullName);
-		
+		intent.putExtra(ContactsContract.Intents.Insert.NAME, contactFullName);	
 		if (mContact.hasTel())
 			intent.putExtra(ContactsContract.Intents.Insert.PHONE, mContact.getTel());	
 		if (mContact.hasEmail())
@@ -155,12 +152,8 @@ public class DirectoryActivity extends ListActivity {
 	}
 
 	public void visitContactWebsite() {
-		if (mContact.hasWebsite()) {
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebsite()));
 			startActivity(browserIntent);
-		}
-		else
-			Toast.makeText(this, mResources.getString(R.string.no_website), Toast.LENGTH_SHORT).show();
 	}
 	
 	public void reloadContacts(List<Contact> matchingContacts){
