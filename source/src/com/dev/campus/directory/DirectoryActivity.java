@@ -16,6 +16,7 @@ import android.provider.ContactsContract;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.view.ContextMenu;
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -75,7 +77,7 @@ public class DirectoryActivity extends ListActivity {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					new SearchResultTask().execute();
+					startSearchTask();
 					return true;
 				}
 				return false;
@@ -91,9 +93,16 @@ public class DirectoryActivity extends ListActivity {
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SearchResultTask().execute();
+				startSearchTask();
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		return true;
 	}
 	
 	@Override
@@ -101,27 +110,16 @@ public class DirectoryActivity extends ListActivity {
 	    super.onCreateContextMenu(menu, v, menuInfo);
 	    getMenuInflater().inflate(R.menu.directory_contextual, menu);
 	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_call:
-	        	callContact();
-	            return true;
-	        case R.id.menu_mail:
-	        	emailContact();
-	            return true;
-	        case R.id.menu_add_to_contacts:	
-	        	addToContacts();
-	            return true;
-	        case R.id.menu_website:	  
-	        	visitContactWebsite();
-	            return true;
-	        default:
-	            return super.onContextItemSelected(item);
-	    }
+
+	public void startSearchTask() {
+		new SearchResultTask().execute();
+		//Hide soft keyboard
+		if (getCurrentFocus() != null) {
+			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		}
 	}
-	
+
 	public void callContact() {
 		if (mContact.hasTel()) {
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -172,10 +170,23 @@ public class DirectoryActivity extends ListActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.with_actionbar, menu);
-		return true;
+	public boolean onContextItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_call:
+	        	callContact();
+	            return true;
+	        case R.id.menu_mail:
+	        	emailContact();
+	            return true;
+	        case R.id.menu_add_to_contacts:	
+	        	addToContacts();
+	            return true;
+	        case R.id.menu_website:	  
+	        	visitContactWebsite();
+	            return true;
+	        default:
+	            return super.onContextItemSelected(item);
+	    }
 	}
 
 	@Override
