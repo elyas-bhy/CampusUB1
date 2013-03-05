@@ -20,16 +20,19 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 
@@ -68,8 +71,23 @@ public class DirectoryActivity extends ListActivity {
 		       }
 		});
 		
+		OnEditorActionListener searchAction = new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+					new SearchResultTask().execute();
+					return true;
+				}
+				return false;
+			}
+		};
 		
-		final ImageButton searchButton = (ImageButton) findViewById(R.id.buttonSearchDirectory);
+		EditText firstNameEditText = (EditText) findViewById(R.id.edit_text_first_name);
+		EditText lastNameEditText = (EditText) findViewById(R.id.edit_text_last_name);
+		firstNameEditText.setOnEditorActionListener(searchAction);
+		lastNameEditText.setOnEditorActionListener(searchAction);
+		
+		final ImageButton searchButton = (ImageButton) findViewById(R.id.button_search_directory);
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -79,10 +97,9 @@ public class DirectoryActivity extends ListActivity {
 	}
 	
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 	    super.onCreateContextMenu(menu, v, menuInfo);
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.directory_contextual, menu);
+	    getMenuInflater().inflate(R.menu.directory_contextual, menu);
 	}
 	
 	@Override
@@ -194,8 +211,8 @@ public class DirectoryActivity extends ListActivity {
 
 		@Override
 		protected List<Contact> doInBackground(Void... params) {
-			final String firstName = ((TextView) findViewById(R.id.editTextFirstName)).getText().toString();
-			final String lastName = ((TextView) findViewById(R.id.editTextLastName)).getText().toString();
+			final String firstName = ((TextView) findViewById(R.id.edit_text_first_name)).getText().toString();
+			final String lastName = ((TextView) findViewById(R.id.edit_text_last_name)).getText().toString();
 
 			int searchMinChar = 1;
 			List<Contact> searchResult = new ArrayList<Contact>();
