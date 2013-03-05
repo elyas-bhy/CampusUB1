@@ -32,23 +32,11 @@ public class DirectoryManager {
 	private LDAPConnection LDAP;
 	private List<Contact> mLabriContacts;
 	
-
-	public boolean isAuthenticatedLDAP() throws LDAPException {
-		LDAP = new LDAPConnection(UB1_LDAP_HOST, 389);
-		Filter f1 = Filter.createEqualityFilter("cn", "Blanc Xavier");
-		SearchResult sr = LDAP.search(UB1_BASE_DN, SearchScope.SUB, f1);
-		if (sr.getEntryCount() < 1)
-			return false;
-		return true;
-	}
-	
 	public List<Contact> searchContact(String firstName, String lastName) throws LDAPException, IOException {
 		ArrayList<Contact> searchResult = new ArrayList<Contact>();
 		
-		if (CampusUB1App.persistence.isFilteredUB1()) {
-			if (isAuthenticatedLDAP())
+		if (CampusUB1App.persistence.isFilteredUB1()) 
 				searchResult.addAll(searchUB1(firstName, lastName));
-		}
 		
 		if (CampusUB1App.persistence.isFilteredLabri()) {
 			if (mLabriContacts == null)
@@ -62,6 +50,7 @@ public class DirectoryManager {
 
 	public List<Contact> searchUB1(String firstName, String lastName) throws LDAPException {
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		LDAP = new LDAPConnection(UB1_LDAP_HOST, 389);
 		Filter f = Filter.create("(&(givenName=" + firstName + "*)(sn=" + lastName + "*))");
 		String[] attributes = {"mail", "telephoneNumber", "givenName", "sn"};
 

@@ -62,7 +62,7 @@ public class Contact {
 	}
 
 	public boolean hasEmail(){
-		return this.email != null;
+		return this.email != null && !(this.email).equals("");
 	}
 
 	public boolean hasWebsite(){
