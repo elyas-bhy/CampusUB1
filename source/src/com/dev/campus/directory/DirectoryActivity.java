@@ -2,10 +2,13 @@ package com.dev.campus.directory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
+import com.dev.campus.directory.Contact.ContactType;
 import com.dev.campus.util.FilterDialog;
 import com.unboundid.ldap.sdk.LDAPException;
 
@@ -44,6 +47,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	private FilterDialog mFilterDialog;
 
 	private Contact mContact;
+	private List<Contact> mSearchResult;
 	private DirectoryAdapter mDirectoryAdapter;
 	private DirectoryManager mDirectoryManager;
 
@@ -157,9 +161,19 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		startActivity(browserIntent);
 	}
 
-	public void reloadContacts(List<Contact> matchingContacts){
+	public void reloadContacts() {
+		ArrayList<Contact> sortedContacts = new ArrayList<Contact>();
 		mDirectoryAdapter.clear();
-		mDirectoryAdapter.addAll(matchingContacts);
+
+		if (mSearchResult != null) {
+			for (Contact contact: mSearchResult) {
+				if ((contact.getType().equals(ContactType.UB1_CONTACT) && CampusUB1App.persistence.isFilteredUB1())
+				 || (contact.getType().equals(ContactType.LABRI_CONTACT) && CampusUB1App.persistence.isFilteredLabri()))
+					sortedContacts.add(contact);
+			}
+		}
+		Collections.sort(sortedContacts, new Contact.ContactComparator());
+		mDirectoryAdapter.addAll(sortedContacts);
 		mDirectoryAdapter.notifyDataSetChanged();
 	}
 
@@ -201,7 +215,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	}
 
 
-	private class SearchResultTask extends AsyncTask<Void, Void, List<Contact>> {
+	private class SearchResultTask extends AsyncTask<Void, Void, Void> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(DirectoryActivity.this);
 
@@ -215,7 +229,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		}
 
 		@Override
-		protected List<Contact> doInBackground(Void... params) {
+		protected Void doInBackground(Void... params) {
 			final String firstName = ((TextView) findViewById(R.id.edit_text_first_name)).getText().toString();
 			final String lastName = ((TextView) findViewById(R.id.edit_text_last_name)).getText().toString();
 
@@ -233,12 +247,13 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 			else {
 				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
 			}
-			return searchResult;
+			mSearchResult = searchResult;
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(List<Contact> contacts) {
-			reloadContacts(contacts);
+		protected void onPostExecute(Void result) {
+			reloadContacts();
 			progressDialog.dismiss();
 		}
 

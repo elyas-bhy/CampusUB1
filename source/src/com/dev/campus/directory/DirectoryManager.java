@@ -6,12 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.dev.campus.CampusUB1App;
+import com.dev.campus.directory.Contact.ContactType;
 import com.unboundid.ldap.sdk.Control;
 import com.unboundid.ldap.sdk.Filter;
 import com.unboundid.ldap.sdk.LDAPConnection;
@@ -26,31 +26,30 @@ import android.text.Html;
 
 public class DirectoryManager {
 
-	public static final String UB1_LDAP_HOST = "carnet.u-bordeaux1.fr";
-	public static final String UB1_BASE_DN = "ou=people,dc=u-bordeaux1,dc=fr";
+	private final String UB1_BASE_DN = "ou=people,dc=u-bordeaux1,dc=fr";
+	private final String UB1_LDAP_HOST = "carnet.u-bordeaux1.fr";
+	private final int UB1_LDAP_PORT = 389;
 	
 	private LDAPConnection LDAP;
 	private List<Contact> mLabriContacts;
 	
+	
 	public List<Contact> searchContact(String firstName, String lastName) throws LDAPException, IOException {
 		ArrayList<Contact> searchResult = new ArrayList<Contact>();
-		
-		if (CampusUB1App.persistence.isFilteredUB1()) 
+		if (CampusUB1App.persistence.isSubscribedUB1()) 
 				searchResult.addAll(searchUB1(firstName, lastName));
 		
-		if (CampusUB1App.persistence.isFilteredLabri()) {
+		if (CampusUB1App.persistence.isSubscribedLabri()) {
 			if (mLabriContacts == null)
 				parseLabriDirectory();
 			searchResult.addAll(filterLabriResults(firstName, lastName));
 		}
-		
-		Collections.sort(searchResult, new Contact.ContactComparator());
 		return searchResult;
 	}
 
 	public List<Contact> searchUB1(String firstName, String lastName) throws LDAPException {
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
-		LDAP = new LDAPConnection(UB1_LDAP_HOST, 389);
+		LDAP = new LDAPConnection(UB1_LDAP_HOST, UB1_LDAP_PORT);
 		Filter f = Filter.create("(&(givenName=" + firstName + "*)(sn=" + lastName + "*))");
 		String[] attributes = {"mail", "telephoneNumber", "givenName", "sn"};
 
@@ -68,6 +67,7 @@ public class DirectoryManager {
 				contact.setTel(entry.getAttributeValue("telephoneNumber"));
 				contact.setFirstName(entry.getAttributeValue("givenName"));
 				contact.setLastName(entry.getAttributeValue("sn"));
+				contact.setType(ContactType.UB1_CONTACT);
 				contacts.add(contact);
 			}
 		}
@@ -142,6 +142,7 @@ public class DirectoryManager {
 				String firstName = name.substring(offset+1, name.length());
 				contact.setFirstName(htmlDecode(firstName));
 				contact.setLastName(htmlDecode(lastName));
+				contact.setType(ContactType.LABRI_CONTACT);
 			}
 			else if(i % 8 == 2) { // Email
 				buffer = buffer.replaceAll("<a href=\"mailto:([^\"]*)\"(.*)</a>", "$1");

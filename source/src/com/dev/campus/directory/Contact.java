@@ -9,15 +9,13 @@ public class Contact {
 	private String email;
 	private String tel;
 	private String website;
+	private ContactType mType;
 
-	public Contact() {
-		firstName = null;
-		lastName = null;
-		email = null;
-		tel = null;
-		website = null;
+	static enum ContactType {
+		UB1_CONTACT, LABRI_CONTACT;
 	}
-
+	
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -67,6 +65,14 @@ public class Contact {
 
 	public boolean hasWebsite(){
 		return this.website != null;
+	}
+
+	public ContactType getType() {
+		return mType;
+	}
+
+	public void setType(ContactType type) {
+		mType = type;
 	}
 	
 	static class ContactComparator implements Comparator<Contact> {

@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.dev.campus.directory.DirectoryActivity;
 import com.dev.campus.event.EventsActivity;
 
 import android.app.Activity;
@@ -123,6 +124,8 @@ public class FilterDialog extends AlertDialog {
 					//Find a better workaround for this (getClass() ?)
 					if (mContext instanceof EventsActivity)
 						((EventsActivity)mContext).reloadEvents();
+					else if (mContext instanceof DirectoryActivity)
+						((DirectoryActivity)mContext).reloadContacts();
 				}
 			});
 			
