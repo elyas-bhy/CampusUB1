@@ -35,19 +35,18 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 
-public class DirectoryActivity extends ListActivity {
+public class DirectoryActivity extends ListActivity implements OnItemClickListener {
 
 	private ActionBar mActionBar;
 	private Resources mResources;
 	private FilterDialog mFilterDialog;
-	
+
 	private Contact mContact;
 	private DirectoryAdapter mDirectoryAdapter;
 	private DirectoryManager mDirectoryManager;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,22 +56,15 @@ public class DirectoryActivity extends ListActivity {
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
 
-		final ListView listview = getListView();
+		ListView listview = getListView();
 		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
-		listview.addHeaderView(header, null, true);
-		
+		listview.addHeaderView(header, null, false);
+
 		mDirectoryManager = new DirectoryManager();
 		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 		listview.setAdapter(mDirectoryAdapter);
-		registerForContextMenu(listview);
-		listview.setOnItemClickListener(new OnItemClickListener() {
+		listview.setOnItemClickListener(this);
 
-		       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		    	   mContact = (Contact) parent.getItemAtPosition(position);
-		    	   listview.showContextMenuForChild(view);
-		       }
-		});
-		
 		OnEditorActionListener searchAction = new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -83,13 +75,13 @@ public class DirectoryActivity extends ListActivity {
 				return false;
 			}
 		};
-		
+
 		EditText firstNameEditText = (EditText) findViewById(R.id.edit_text_first_name);
 		EditText lastNameEditText = (EditText) findViewById(R.id.edit_text_last_name);
 		firstNameEditText.setOnEditorActionListener(searchAction);
 		lastNameEditText.setOnEditorActionListener(searchAction);
-		
-		final ImageButton searchButton = (ImageButton) findViewById(R.id.button_search_directory);
+
+		ImageButton searchButton = (ImageButton) findViewById(R.id.button_search_directory);
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -104,17 +96,26 @@ public class DirectoryActivity extends ListActivity {
 		getMenuInflater().inflate(R.menu.with_actionbar, menu);
 		return true;
 	}
-	
+
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		mContact = (Contact) parent.getItemAtPosition(position);
+		registerForContextMenu(view);
+		view.setLongClickable(false);
+		openContextMenu(view);
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	    super.onCreateContextMenu(menu, v, menuInfo);
-	    getMenuInflater().inflate(R.menu.directory_contextual, menu);
-	    if (!mContact.hasTel())
-	    	menu.getItem(0).setEnabled(false);
-	    if (!mContact.hasEmail())
-	    	 menu.getItem(1).setEnabled(false);
-	    if (!mContact.hasWebsite())
-	    	 menu.getItem(3).setEnabled(false);    
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.directory_contextual, menu);
+		if (!mContact.hasTel())
+			menu.getItem(0).setEnabled(false);
+		if (!mContact.hasEmail())
+			menu.getItem(1).setEnabled(false);
+		if (!mContact.hasWebsite())
+			menu.getItem(3).setEnabled(false);
 	}
 
 	public void startSearchTask() {
@@ -131,14 +132,14 @@ public class DirectoryActivity extends ListActivity {
 		callIntent.setData(Uri.parse("tel:" + mContact.getTel()));
 		startActivity(callIntent);
 	}
-	
+
 	public void emailContact() {
 		Intent emailIntent = new Intent(Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");  
 		emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {mContact.getEmail()});
 		startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
 	}
-	
+
 	public void addToContacts() {
 		String contactFullName =  mContact.getFirstName() + " " + mContact.getLastName();
 		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT,ContactsContract.Contacts.CONTENT_URI);
@@ -152,10 +153,10 @@ public class DirectoryActivity extends ListActivity {
 	}
 
 	public void visitContactWebsite() {
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebsite()));
-			startActivity(browserIntent);
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebsite()));
+		startActivity(browserIntent);
 	}
-	
+
 	public void reloadContacts(List<Contact> matchingContacts){
 		mDirectoryAdapter.clear();
 		mDirectoryAdapter.addAll(matchingContacts);
@@ -164,22 +165,22 @@ public class DirectoryActivity extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_call:
-	        	callContact();
-	            return true;
-	        case R.id.menu_mail:
-	        	emailContact();
-	            return true;
-	        case R.id.menu_add_to_contacts:	
-	        	addToContacts();
-	            return true;
-	        case R.id.menu_website:	  
-	        	visitContactWebsite();
-	            return true;
-	        default:
-	            return super.onContextItemSelected(item);
-	    }
+		switch (item.getItemId()) {
+		case R.id.menu_call:
+			callContact();
+			return true;
+		case R.id.menu_mail:
+			emailContact();
+			return true;
+		case R.id.menu_add_to_contacts:	
+			addToContacts();
+			return true;
+		case R.id.menu_website:	  
+			visitContactWebsite();
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 	@Override
@@ -247,5 +248,4 @@ public class DirectoryActivity extends ListActivity {
 			super.onCancelled();
 		}
 	}
-
 }
