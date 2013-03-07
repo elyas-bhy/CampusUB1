@@ -1,6 +1,7 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 import com.dev.campus.event.Feed.FeedType;
@@ -87,5 +88,12 @@ public class Event implements Serializable {
 		if (this.mDate.getHours() != 0)
 			d += mDate.toString().substring(11, 16) + " ";
 		return d + mDate.toString().substring(24);
+	}
+	
+	static class EventComparator implements Comparator<Event> {
+		@Override
+		public int compare(Event evt1, Event evt2) {
+			return evt2.getDate().compareTo(evt1.getDate());
+		}
 	}
 }

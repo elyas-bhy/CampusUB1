@@ -28,8 +28,8 @@ public class EventParser {
 	private Category mCategory;
 	private EventsActivity mContext;
 	
-	private List<Event> mEvents;
-	private List<Date> mEventDates;
+	private ArrayList<Event> mEvents;
+	private ArrayList<Date> mEventDates;
 
 	public EventParser(EventsActivity context) throws XmlPullParserException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -38,7 +38,7 @@ public class EventParser {
 		mContext = context;
 	}
 	
-	public List<Event> getEvents() {
+	public ArrayList<Event> getEvents() {
 		return mEvents;
 	}
 
@@ -143,7 +143,7 @@ public class EventParser {
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
 			
-			SimpleEntry<List<Event>,List<Date>> map = new SimpleEntry<List<Event>,List<Date>>(mEvents, mEventDates);
+			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(mEvents, mEventDates);
 			oos.writeObject(map);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  

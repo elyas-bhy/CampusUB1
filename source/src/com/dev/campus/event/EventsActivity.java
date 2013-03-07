@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -38,12 +37,14 @@ import com.dev.campus.util.FilterDialog;
 public class EventsActivity extends ListActivity implements OnItemClickListener {
 
 	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
-	public static final String EXTRA_EVENT = "com.dev.campus.EVENT";
+	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
+	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
 	
 	private final int PICK_CATEGORY = 10;
 	private final int updateFrequency = 60000; // Update frequency (ms)
 	
-	private List<Event> mEvents;
+	private ArrayList<Event> mEvents;
+	private ArrayList<Event> mSortedEvents;
 	private Category mCategory;
 
 	private ActionBar mActionBar;
@@ -79,19 +80,19 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
 		listView.setAdapter(mEventAdapter);
-		startUpdateTimer();
+		update();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		startUpdateTimer();
+		//startUpdateTimer();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		pauseUpdateTimer();
+		//pauseUpdateTimer();
 	}
 
 	@Override
@@ -121,7 +122,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 	}
 
-	private Runnable mUpdateRunnable = new Runnable() {
+	/*private Runnable mUpdateRunnable = new Runnable() {
 		@Override 
 		public void run() {
 			if (CampusUB1App.persistence.isWifiConnected())
@@ -136,7 +137,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	private void pauseUpdateTimer() {
 		mHandler.removeCallbacks(mUpdateRunnable);
-	}
+	}*/
 
 	public void reloadEvents() {
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
@@ -151,14 +152,9 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 					sortedEvents.add(event);
 			}
 		}
-		Collections.sort(sortedEvents, new Comparator<Event>(){
-			@Override
-			public int compare(Event evt1, Event evt2) {
-				return evt2.getDate().compareTo(evt1.getDate());
-			}
-		});
-		
-		mEventAdapter.addAll(sortedEvents);
+		Collections.sort(sortedEvents, new Event.EventComparator());
+		mSortedEvents = sortedEvents;
+		mEventAdapter.addAll(mSortedEvents);
 		mEventAdapter.notifyDataSetChanged();
 	}
 	
@@ -167,14 +163,14 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 	
 	@SuppressWarnings("unchecked")
-	private SimpleEntry<List<Event>, List<Date>> readEventsHistory() {
+	private SimpleEntry<ArrayList<Event>, ArrayList<Date>> readEventsHistory() {
 		File file = new File(getHistoryPath());
-		SimpleEntry<List<Event>,List<Date>> feedsEntry = null;
+		SimpleEntry<ArrayList<Event>, ArrayList<Date>> feedsEntry = null;
 
 		if (file.exists()) {
 			try {
 				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-				feedsEntry = (SimpleEntry<List<Event>,List<Date>>) ois.readObject();
+				feedsEntry = (SimpleEntry<ArrayList<Event>, ArrayList<Date>>) ois.readObject();
 				ois.close();
 			} catch (Exception e) { 
 				e.printStackTrace();
@@ -185,7 +181,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	@SuppressWarnings("unchecked")
 	public void update() {
-		SimpleEntry<List<Event>,List<Date>> feedsEntry = readEventsHistory();
+		SimpleEntry<ArrayList<Event>, ArrayList<Date>> feedsEntry = readEventsHistory();
 		
 		if (feedsEntry != null) {
 			if (CampusUB1App.persistence.isOnline()) {
@@ -212,9 +208,12 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			//Categories index
 			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);
 		} else {
-			Event item = (Event) getListView().getAdapter().getItem(position);
 			Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
-			intent.putExtra(EXTRA_EVENT, item);
+			intent.putExtra(EXTRA_EVENTS, mSortedEvents);
+			intent.putExtra(EXTRA_EVENTS_INDEX, position-1);	
+			//substract 1 so as to have a correct 
+			//reference relative to the list of events 
+			//(i.e. without the category as first item)
 			startActivity(intent);
 		}
 	}
