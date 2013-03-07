@@ -7,7 +7,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -185,7 +184,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		
 		if (feedsEntry != null) {
 			if (CampusUB1App.persistence.isOnline()) {
-				new UpdateFeedsTask().execute(feedsEntry.getValue());
+				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
 				mEvents = feedsEntry.getKey();
 				reloadEvents();
@@ -231,7 +230,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 	}
 
-	private class UpdateFeedsTask extends AsyncTask<List<Date>, Void, Void> {
+	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Event>, ArrayList<Date>>, Void, Void> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
 
@@ -245,13 +244,15 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 
 		@Override
-		protected Void doInBackground(List<Date>... dates) {
+		protected Void doInBackground(SimpleEntry<ArrayList<Event>, ArrayList<Date>>... entries) {
 			try {
 				//check if latest version, and update only if needed
 				//otherwise, just load history
-				if (dates.length > 0) {
-					if (mEventParser.isLatestVersion(mCategory, dates[0]))
+				if (entries.length > 0) {
+					if (mEventParser.isLatestVersion(mCategory, entries[0].getValue())) {
+						mEvents = entries[0].getKey();
 						return null;
+					}
 				}
 				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
