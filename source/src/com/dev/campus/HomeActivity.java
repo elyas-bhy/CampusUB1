@@ -3,6 +3,7 @@ package com.dev.campus;
 import com.dev.campus.R;
 import com.dev.campus.directory.DirectoryActivity;
 import com.dev.campus.event.EventsActivity;
+import com.dev.campus.map.MapActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.os.Bundle;
@@ -47,6 +48,10 @@ public class HomeActivity extends ListActivity {
     			break;
     		case 1: // Directory
     			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
+    			break;
+    		case 3: // Map
+    			startActivity(new Intent(HomeActivity.this, MapActivity.class));
+    			break;
     		default:
     			break;
     	}

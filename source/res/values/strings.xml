@@ -70,5 +70,8 @@
     <string name="category_student_life">Student Life</string>
     <string name="category_companies">Companies</string>
     <string name="category_press">Press</string>
+    <string name="title_activity_map">Campus plan</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
