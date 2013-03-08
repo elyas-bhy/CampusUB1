@@ -79,7 +79,7 @@
 
           <activity
             android:name="com.dev.campus.map.MapActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_maps" >
         </activity>
         
         <meta-data

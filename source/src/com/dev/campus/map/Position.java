@@ -25,7 +25,7 @@ public enum Position {
 	BAT_A20("Batiment A20",44.806783,-0.59728),
 	BAT_A21("Batiment A21",44.80654,-0.597948),
 	BAT_A22("Batiment A22",44.807303,-0.599541),
-	BAT_A27("Batiment A27",44.808452,-0.596829),
+	BAT_A27("LaBRI",44.808452,-0.596829),
 	BAT_A28("Cremi",44.807851,-0.597481),
 	BAT_A29("Batiment A29",44.807935,-0.596821),
 	BAT_A30("Batiment A30",44.808452,-0.596829),
@@ -36,18 +36,18 @@ public enum Position {
 	BAT_A39("Batiment A39",44.809326,-0.591789),
 	;
 	
-	private String mPosName;
+	private String mName;
 	private double mLat;
 	private double mLng;
 	
 	private Position(String name, double lat, double lng) {
-		mPosName = name;
+		mName = name;
 		mLat = lat;
 		mLng = lng;
 	}
 
-	public String getPosName() {
-		return mPosName;
+	public String getName() {
+		return mName;
 	}
 
 	public double getLat() {
