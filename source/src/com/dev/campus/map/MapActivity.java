@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 public class MapActivity extends Activity {
 
-	private final LatLng CAMPUS_BORDEAUX1 = new LatLng(44.80736,-0.596572);
+	//Used CameraPosition attributes
+	private final int MAP_BEARING = 69;
+	private final int SETUP_ZOOM = 17;
+	private final int AT_POSITION_ZOOM = 19;
 	
 	private GoogleMap mMap;
 	
@@ -44,14 +47,29 @@ public class MapActivity extends Activity {
 	}
 	
 	public void setUpMap(){
+		LatLng UB1 = new LatLng(Position.CENTRE_CAMPUS.getLat(),Position.CENTRE_CAMPUS.getLng());
 		CameraPosition UB1Position = new CameraPosition.Builder()
-	    	.target(CAMPUS_BORDEAUX1) 
-	    	.zoom(17)                   // Sets the zoom
-	    	.bearing(90)                // Sets the orientation of the camera to east
-	    	.build();                   // Creates a CameraPosition from the builder
+	    	.target(UB1)
+	    	.zoom(SETUP_ZOOM)                   
+	    	.bearing(MAP_BEARING)               
+	    	.build();                  
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map_UB1)).getMap();
+		mMap.getUiSettings().setAllGesturesEnabled(false);
+		mMap.getUiSettings().setScrollGesturesEnabled(true);
+		mMap.getUiSettings().setCompassEnabled(false);
+		mMap.getUiSettings().setZoomControlsEnabled(false);
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
-		
 	}
+	
+	public void goToPosition(Position posName){
+		LatLng coords = new LatLng(posName.getLat(),posName.getLng());
+		CameraPosition position  = new CameraPosition.Builder()
+	    	.target(coords)
+	    	.zoom(AT_POSITION_ZOOM)                   
+	    	.bearing(MAP_BEARING)               
+	    	.build();                  
+		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+	}
+	
 }
