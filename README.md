@@ -14,7 +14,8 @@ If you are planning to work on the CampusUB1 application, follow the steps below
 6. In Eclipse/ADT, click on "Window" -> "Android SDK manager" -> search for the "Google Play Services" package in the extras category and click on install package.
 7. You now need to import the Google Play Services Lib. In Eclipse/ADT, click on "File" -> "Import" -> "Existing Android Code into workspace" -> browse to the "google-play-services_lib" folder located in the libs/ folder and click on finish.
 8. In Eclipse/ADT,in the Package Explorer, right click on the CampusUB1 project -> "Properties" -> On the "Android" tab look at the "Library" part and click on "Add" and then select the "google-play-services_lib" project you imported in the previous step and click on "Ok" and "Apply".
-9. You should now be able to compile the project.
+9. Follow the instructions indicated in the [Getting a Google Maps API debug key](https://github.com/elyas-bhy/CampusUB1/wiki/Getting-a-Google-Maps-API-debug-key) wiki page to properly setup Google Maps.
+10. You should now be able to compile the project.
 
 
 Before you start coding, please study [this branching model] (http://nvie.com/posts/a-successful-git-branching-model/) **carefully**. It will save everyone in the team a lot of time and effort incorporating your changes if your contributions follow that model. In particular:
