@@ -3,7 +3,7 @@
 *.ap_
 
 # Google Maps debug key resource
-res/values/maps_api_key.xml
+maps_api_key.xml
 
 # files for the dex VM
 *.dex
