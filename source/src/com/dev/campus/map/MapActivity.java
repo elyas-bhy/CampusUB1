@@ -29,7 +29,7 @@ public class MapActivity extends Activity {
 
 	//Used CameraPosition attributes
 	private final int MAP_BEARING = 69;
-	private final int SETUP_ZOOM = 17;
+	private final int SETUP_ZOOM = 16;
 	private final int AT_POSITION_ZOOM = 19;
 	private final LatLng MAP_CENTER = new LatLng(44.80736,-0.596572);
 	
@@ -45,32 +45,30 @@ public class MapActivity extends Activity {
         checkGooglePlayServicesAvailability();
         setContentView(R.layout.activity_map);
         mResources = getResources();
-        mServicesMarkers = new ArrayList<Marker>();
-        mRestaurationMarkers = new ArrayList<Marker>();
-        mBuildingsMarkers = new ArrayList<Marker>(); 
 	    mServices = (CheckBox)findViewById(R.id.services_check);
 	    mRestauration = (CheckBox)findViewById(R.id.restauration_check);
 	    mBuildings = (CheckBox)findViewById(R.id.buildings_check); 
-        setUpMap();  
+        setUpMap();
+        setUpMarkers();
      }
 
 	public void onCheckboxClicked(View view) {
 	    switch(view.getId()) {
 	        case R.id.services_check:
 	            if (mServices.isChecked())
-	            	populateMap(PositionType.SERVICE,mServicesMarkers,"services_marker");
+	            	populateMap(mServicesMarkers);
 	            else
 	            	unPopulateMap(mServicesMarkers);
 	            	break;
 	        case R.id.restauration_check:
 	            if (mRestauration.isChecked())
-	            	populateMap(PositionType.RESTAURATION,mRestaurationMarkers,"restauration_marker");
+	            	populateMap(mRestaurationMarkers);
 	            else
 	            	unPopulateMap(mRestaurationMarkers);
 	            break;
 	        case R.id.buildings_check:
 	        	 if (mBuildings.isChecked())
-	        		 populateMap(PositionType.BUILDING,mBuildingsMarkers,"building_marker");
+	        		 populateMap(mBuildingsMarkers);
 	 	         else
 	 	        	 unPopulateMap(mBuildingsMarkers);
 	 	         break;
@@ -118,23 +116,49 @@ public class MapActivity extends Activity {
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 	}
 	
-	public void populateMap(PositionType positionType,List<Marker> container,String icon_name){
-			for (Position pos : Position.values()) {
-				if(pos.getType().equals(positionType)){
-					 Marker marker = mMap.addMarker(new MarkerOptions()
-					.position(new LatLng(pos.getLat(), pos.getLng()))
-					.draggable(false)
-					.icon(BitmapDescriptorFactory.fromResource(mResources.getIdentifier(icon_name,"drawable", getPackageName())))
-					.title(pos.getName()));	
-					container.add(marker);
-				}
-			}
+	public void populateMap(List<Marker> markers){
+			for (Marker marker : markers) 
+				marker.setVisible(true);			
 		}
 	
-	public void unPopulateMap(List<Marker> container){
-		for(int i = 0; i <container.size();i++)
-				container.get(i).remove();
-		container.clear();
+	public void unPopulateMap(List<Marker> markers){
+			for (Marker marker : markers) 
+				marker.setVisible(false);
 		}
+	
+	public void setUpMarkers(){
+		mServicesMarkers = new ArrayList<Marker>();
+        mRestaurationMarkers = new ArrayList<Marker>();
+        mBuildingsMarkers = new ArrayList<Marker>();
+        mServices.setChecked(true);
+        mRestauration.setChecked(true);
+        mBuildings.setChecked(true);
+        for (Position pos : Position.values()) {   
+        	if(pos.getType().equals(PositionType.BUILDING)){
+        		Marker marker = mMap.addMarker(new MarkerOptions()
+				.position(new LatLng(pos.getLat(), pos.getLng()))
+				.draggable(false)
+				.icon(BitmapDescriptorFactory.fromResource(mResources.getIdentifier("building_marker","drawable", getPackageName())))
+				.title(pos.getName()));	
+				mBuildingsMarkers.add(marker);
+        	}
+        	else if(pos.getType().equals(PositionType.RESTAURATION)){
+        		Marker marker = mMap.addMarker(new MarkerOptions()
+				.position(new LatLng(pos.getLat(), pos.getLng()))
+				.draggable(false)
+				.icon(BitmapDescriptorFactory.fromResource(mResources.getIdentifier("restauration_marker","drawable", getPackageName())))
+				.title(pos.getName()));	
+				mRestaurationMarkers.add(marker);
+        	}
+        	else if(pos.getType().equals(PositionType.SERVICE)){
+        		Marker marker = mMap.addMarker(new MarkerOptions()
+				.position(new LatLng(pos.getLat(), pos.getLng()))
+				.draggable(false)
+				.icon(BitmapDescriptorFactory.fromResource(mResources.getIdentifier("services_marker","drawable", getPackageName())))
+				.title(pos.getName()));	
+				mServicesMarkers.add(marker);
+        	}
+        }
+	}
 }
 	
