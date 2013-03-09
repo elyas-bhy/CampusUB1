@@ -28,7 +28,7 @@
     <string name="no_website">No website for this contact</string>
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>
-    <string name="no_play_services">Error. Please make sure that you have the Play Store Service installed</string>
+    <string name="no_play_services">Please make sure you have the Play Store Service installed</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>
@@ -41,7 +41,7 @@
     <string name="title_activity_events">Events</string>
     <string name="title_activity_directory">Directory</string>
     <string name="title_activity_categories">Categories</string>
-    <string name="title_activity_maps">Plan du Campus</string>
+    <string name="title_activity_maps">Campus Map</string>
 
     <!-- Services -->
     <string name="events">Events</string>
@@ -55,7 +55,7 @@
     <string name="website_icon">Website icon</string>
 	
     <!-- Map strings -->
-    <string name="campus_restauration">Restauration</string>
+    <string name="campus_restauration">Catering</string>
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Buildings</string>
     

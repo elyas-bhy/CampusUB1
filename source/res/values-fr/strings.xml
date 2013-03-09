@@ -33,6 +33,8 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_events">Evénements</string>
     <string name="title_activity_directory">Annuaire</string>
+    <string name="title_activity_categories">Categories</string>
+    <string name="title_activity_maps">Plan du Campus</string>
 
     <!-- Services -->
     <string name="events">Evénements</string>
