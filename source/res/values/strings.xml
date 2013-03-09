@@ -53,7 +53,12 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="website_icon">Website icon</string>
-
+	
+    <!-- Map strings -->
+    <string name="campus_restauration">Restauration</string>
+    <string name="campus_services">Services</string>
+    <string name="campus_buildings">Buildings</string>
+    
     <!-- Preferences -->
     <string name="preferences_category">Preferences</string>
     <string name="other_category">Other</string>

@@ -44,6 +44,11 @@
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
     <string name="website_icon">Website icon</string>
+    
+    <!-- Map strings -->
+    <string name="campus_restauration">Restauration</string>
+    <string name="campus_services">Services</string>
+    <string name="campus_buildings">Bâtiments</string>
 
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
