@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Go to https://github.com/elyas-bhy/CampusUB1/wiki/Getting-a-Google-Maps-API-debug-key 
+         for instructions on how to obtain an API debug key -->
+    <string name="maps_api_debug_key">Copy API key here</string>
+</resources>
