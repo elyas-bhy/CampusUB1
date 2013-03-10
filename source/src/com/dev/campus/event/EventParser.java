@@ -53,7 +53,8 @@ public class EventParser {
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
 		for (Feed feed : mCategory.getFeeds()) {
-			if (feed.getType().equals(FeedType.UB1_FEED) || feed.getType().equals(FeedType.LABRI_FEED)) {
+			if ((feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1())
+			 || (feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri())) {
 				setInput(feed);
 				Event event = new Event();
 				Date buildDate = new Date(0);
@@ -82,13 +83,9 @@ public class EventParser {
 						}
 						if (mParser.getName().equals("pubDate")) {
 							Date d = null;
-							try {
-								String text = mParser.nextText();
-								d = TimeExtractor.getCorrectDate(text, event.getDetails());
-								event.setDate(d);
-							} catch(Exception e){
-								CampusUB1App.LogD("DATE: " + d);
-							}
+							String text = mParser.nextText();
+							d = TimeExtractor.getCorrectDate(text, event.getDetails());
+							event.setDate(d);
 						}
 					}
 					else if (eventType == XmlPullParser.END_TAG) {
@@ -112,7 +109,8 @@ public class EventParser {
 	public boolean isLatestVersion(Category category, List<Date> dates) throws IOException, XmlPullParserException, ParseException {
 		int i = 0;
 		for (Feed feed : category.getFeeds()) {
-			if (feed.getType().equals(FeedType.UB1_FEED) || feed.getType().equals(FeedType.LABRI_FEED)) {
+			if ((feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1())
+			 || (feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri())) {
 				setInput(feed);
 				Date buildDate;
 				

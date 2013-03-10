@@ -158,7 +158,9 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 	
 	public String getHistoryPath() {
-		return getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + ".dat";
+		int sub1 = CampusUB1App.persistence.isSubscribedUB1()? 1 : 0;
+		int sub2 = CampusUB1App.persistence.isSubscribedLabri()? 1 : 0;
+		return getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + sub1 + sub2 + ".dat";
 	}
 	
 	@SuppressWarnings("unchecked")
