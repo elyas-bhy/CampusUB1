@@ -76,4 +76,5 @@ public class Persistence {
 	public boolean isOnline() {
 		return isMobileConnected() || isWifiConnected();
 	}
+	
 }

@@ -24,6 +24,7 @@
     <string name="no_website">Aucun site web disponible pour ce contact</string>
     <string name="no_tel">Aucun numero disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
+    <string name="no_gps">Pas de signal GPS</string>
 
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>

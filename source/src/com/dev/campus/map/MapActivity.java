@@ -3,7 +3,6 @@ package com.dev.campus.map;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.map.Position.PositionType;
 import com.google.android.gms.common.ConnectionResult;
@@ -20,28 +19,34 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Resources;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-public class MapActivity extends Activity {
+public class MapActivity extends Activity implements LocationListener {
 
 	//Used CameraPosition attributes
 	private final int MAP_BEARING = 69;
 	private final int SETUP_ZOOM = 16;
 	private final int AT_POSITION_ZOOM = 19;
+	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
 	private final LatLng MAP_CENTER = new LatLng(44.80736,-0.596572);
 	
 	private CheckBox mServices, mRestauration, mBuildings;
 	private Resources mResources;
 	private GoogleMap mMap;
+	private LocationManager mLocationManager;
+	private Marker mCurrentLocation;
 	private ArrayList<Marker> mServicesMarkers, mRestaurationMarkers, mBuildingsMarkers;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkInternetConnection();
         checkGooglePlayServicesAvailability();
         setContentView(R.layout.activity_map);
         mResources = getResources();
@@ -49,6 +54,7 @@ public class MapActivity extends Activity {
 	    mRestauration = (CheckBox)findViewById(R.id.restauration_check);
 	    mBuildings = (CheckBox)findViewById(R.id.buildings_check); 
         setUpMap();
+        setUpLocationServices();
         setUpMarkers();
      }
 
@@ -75,17 +81,13 @@ public class MapActivity extends Activity {
 	    }
 	}
 	
-	public void checkInternetConnection() {
-		if(!CampusUB1App.persistence.isOnline())
-			Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
-	}
-	
 	public void checkGooglePlayServicesAvailability()
 	{
 	    int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 	   
 	    if(status != ConnectionResult.SUCCESS){
-	    	Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,69);
+	    	int requestCode = 10;
+	    	Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,requestCode);
 	    	if(status == ConnectionResult.SERVICE_MISSING 
 	    	|| status== ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED 
 	    	|| status == ConnectionResult.SERVICE_DISABLED)
@@ -100,32 +102,36 @@ public class MapActivity extends Activity {
 	    	.target(MAP_CENTER)
 	    	.zoom(SETUP_ZOOM)                   
 	    	.bearing(MAP_BEARING)               
-	    	.build();                  
+	    	.build();  
+		
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map_UB1)).getMap();
 		mMap.getUiSettings().setCompassEnabled(false);
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
 	}
 	
-	public void goToPosition(Position pos){
-		CameraPosition position  = new CameraPosition.Builder()
-	    	.target(new LatLng(pos.getLat(),pos.getLng()))
-	    	.zoom(AT_POSITION_ZOOM)                   
-	    	.bearing(MAP_BEARING)               
-	    	.build();                  
-		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+	public void setUpLocationServices(){
+		 if(!isGpsEnabled())
+			 Toast.makeText(this,mResources.getString(R.string.no_gps), Toast.LENGTH_LONG).show();
+		 mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		 Criteria criteria = new Criteria();
+		 String provider = mLocationManager.getBestProvider(criteria, true);
+         Location location = mLocationManager.getLastKnownLocation(provider);
+         
+         double latitude = location.getLatitude();
+         double longitude = location.getLongitude();
+         LatLng currentPosition = new LatLng(latitude, longitude);
+         
+         mCurrentLocation = mMap.addMarker(new MarkerOptions()
+         .position(currentPosition)
+         .title("Votre position")
+         .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));
+         
+         if(location!=null)
+             onLocationChanged(location);
+         mLocationManager.requestLocationUpdates(provider, UPDATE_FREQUENCY, 0, this);
 	}
-	
-	public void populateMap(List<Marker> markers){
-			for (Marker marker : markers) 
-				marker.setVisible(true);			
-		}
-	
-	public void unPopulateMap(List<Marker> markers){
-			for (Marker marker : markers) 
-				marker.setVisible(false);
-		}
-	
+		
 	public void setUpMarkers(){
 		mServicesMarkers = new ArrayList<Marker>();
         mRestaurationMarkers = new ArrayList<Marker>();
@@ -159,6 +165,60 @@ public class MapActivity extends Activity {
 				mServicesMarkers.add(marker);
         	}
         }
+	}
+
+	public void goToPosition(Position pos){
+		CameraPosition position  = new CameraPosition.Builder()
+	    	.target(new LatLng(pos.getLat(),pos.getLng()))
+	    	.zoom(AT_POSITION_ZOOM)                   
+	    	.bearing(MAP_BEARING)               
+	    	.build();                  
+		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+	}
+	
+	public void populateMap(List<Marker> markers){
+			for (Marker marker : markers) 
+				marker.setVisible(true);			
+		}
+	
+	public void unPopulateMap(List<Marker> markers){
+			for (Marker marker : markers) 
+				marker.setVisible(false);
+		}
+
+	@Override
+    public void onLocationChanged(Location location) {
+		mCurrentLocation.remove();
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng currentPosition = new LatLng(latitude, longitude);
+        mCurrentLocation = mMap.addMarker(new MarkerOptions()
+        .position(currentPosition)
+        .title("Votre position")
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
+    }
+	
+	public boolean isGpsEnabled(){
+		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+		return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+	
+	@Override
+	public void onProviderDisabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 	

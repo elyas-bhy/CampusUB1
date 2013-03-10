@@ -15,20 +15,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class HomeActivity extends ListActivity {
 	
 	private FilterDialog mFilterDialog;
+	private Resources mResources;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		mFilterDialog = new FilterDialog(this);
-        Resources res = getResources();
-        String[] values = new String[] { res.getString(R.string.events), 
-        								 res.getString(R.string.directory),
-        								 res.getString(R.string.schedule),
-        								 res.getString(R.string.map)};
+		mResources= getResources();
+        String[] values = new String[] { mResources.getString(R.string.events), 
+        								 mResources.getString(R.string.directory),
+        								 mResources.getString(R.string.schedule),
+        								 mResources.getString(R.string.map)};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
     }
@@ -50,7 +52,10 @@ public class HomeActivity extends ListActivity {
     			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
     			break;
     		case 3: // Map
-    			startActivity(new Intent(HomeActivity.this, MapActivity.class));
+    			if(CampusUB1App.persistence.isOnline())
+    				startActivity(new Intent(HomeActivity.this, MapActivity.class));
+    			else
+    				Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
     			break;
     		default:
     			break;

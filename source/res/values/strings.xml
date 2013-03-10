@@ -29,6 +29,7 @@
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>
     <string name="no_play_services">Please make sure you have the Play Store Service installed</string>
+    <string name="no_gps">Can\'t find GPS signal</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>
