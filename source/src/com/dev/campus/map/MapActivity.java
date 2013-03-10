@@ -111,25 +111,25 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 	
 	public void setUpLocationServices(){
-		 if(!isGpsEnabled())
-			 Toast.makeText(this,mResources.getString(R.string.no_gps), Toast.LENGTH_LONG).show();
 		 mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		 Criteria criteria = new Criteria();
 		 String provider = mLocationManager.getBestProvider(criteria, true);
          Location location = mLocationManager.getLastKnownLocation(provider);
-         
+         criteria.setAccuracy(Criteria.ACCURACY_FINE);
          double latitude = location.getLatitude();
          double longitude = location.getLongitude();
          LatLng currentPosition = new LatLng(latitude, longitude);
-         
          mCurrentLocation = mMap.addMarker(new MarkerOptions()
          .position(currentPosition)
          .title("Votre position")
-         .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));
-         
+         .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));        
          if(location!=null)
              onLocationChanged(location);
-         mLocationManager.requestLocationUpdates(provider, UPDATE_FREQUENCY, 0, this);
+		 if(isGpsEnabled())
+			 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		 else
+			 mLocationManager.requestLocationUpdates(provider, UPDATE_FREQUENCY, 0, this);
+
 	}
 		
 	public void setUpMarkers(){
@@ -204,15 +204,21 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 	
 	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onProviderDisabled(String provider) {
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		   if (isGpsEnabled()) 
+			   mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+		   else 
+			   mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);	    		
 	}
 
 	@Override
-	public void onProviderEnabled(String arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onProviderEnabled(String provider) {
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		  if (isGpsEnabled())
+			  mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		  else 
+			  mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);			
 	}
 
 	@Override
