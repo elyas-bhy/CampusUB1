@@ -73,7 +73,8 @@ public class SubscribeDialog extends AlertDialog {
 				mSelectedItems.add(UB1_INDEX);
 			if (CampusUB1App.persistence.isSubscribedLabri())
 				mSelectedItems.add(LABRI_INDEX);
-			
+
+			setCancelable(false);
 			setTitle(R.string.select_establishment);
 			setMultiChoiceItems(R.array.establishments_array, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -119,6 +120,8 @@ public class SubscribeDialog extends AlertDialog {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					mSelectedItems.clear();
+					if (redirectionEnabled)
+						mContext.finish();
 				}
 			});
 		}

@@ -92,6 +92,7 @@ public class FilterDialog extends AlertDialog {
 			
 			final CharSequence[] items = itemsList.toArray(new CharSequence[itemsList.size()]);
 			
+			setCancelable(false);
 			setTitle(R.string.filter_results);
 			setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
 
