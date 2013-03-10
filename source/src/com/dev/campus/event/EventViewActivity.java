@@ -1,7 +1,6 @@
 package com.dev.campus.event;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 import com.dev.campus.R;
 
@@ -66,10 +65,8 @@ public class EventViewActivity extends FragmentActivity {
 		calIntent.setType("vnd.android.cursor.item/event");
 		calIntent.putExtra(Events.TITLE, event.getTitle());
 		calIntent.putExtra(Events.DESCRIPTION, details);
-		//TODO date and time of beginning
-		GregorianCalendar calDate = new GregorianCalendar(2013, 2, 1, 18, 0);
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calDate.getTimeInMillis());
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calDate.getTimeInMillis());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getDate().getTime());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getDate().getTime());
 		startActivity(calIntent);
 	}
 	
