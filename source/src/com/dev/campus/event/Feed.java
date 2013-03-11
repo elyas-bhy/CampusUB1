@@ -23,9 +23,11 @@ public enum Feed {
 	
 	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php");
 	
+	
 	public enum FeedType {
 		UB1_FEED,
-		LABRI_FEED;
+		LABRI_FEED,
+		LABRI_FEED_HTML;
 	}
 	
 	private FeedType mType;

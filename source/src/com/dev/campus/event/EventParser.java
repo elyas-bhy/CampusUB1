@@ -37,7 +37,7 @@ public class EventParser {
 		mParser = factory.newPullParser();
 		mContext = context;
 	}
-	
+
 	public ArrayList<Event> getEvents() {
 		return mEvents;
 	}
@@ -100,11 +100,13 @@ public class EventParser {
 					eventType = mParser.nextToken();
 				}
 			}
+			//else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
+				//events = EventHtmlParser.parse(events, this.mCategory);
 		}
-
 		mEvents = events;
 		mEventDates = dates;
 	}
+
 
 	public boolean isLatestVersion(Category category, List<Date> dates) throws IOException, XmlPullParserException, ParseException {
 		int i = 0;
@@ -133,6 +135,8 @@ public class EventParser {
 		return true;
 	}
 
+
+
 	public void saveEvents() throws XmlPullParserException {
 		ObjectOutputStream oos = null;
 		try {
@@ -140,8 +144,8 @@ public class EventParser {
 			history.getParentFile().createNewFile();
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
-			
 			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(mEvents, mEventDates);
+
 			oos.writeObject(map);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  

@@ -17,15 +17,8 @@ public class Event implements Serializable {
 	private String mTime;
 	private String mDetails;
 	private FeedType mSource;
-	
-	public Event() {
-		mCategory = null;
-		mTitle = null;
-		mDate = null;
-		mTime = null;
-		mDetails = null;
-		mSource = null;
-	}
+	private String mLocation;
+
 	
 	public String getCategory() {
 		return mCategory;
@@ -82,7 +75,15 @@ public class Event implements Serializable {
 	public void setSource(FeedType source) {
 		mSource = source;
 	}
+
+	public String getLocation(){
+		return mLocation;
+	}
 	
+	public void setLocation(String loc){
+		mLocation = loc;
+	}
+
 	public String getStringDate() {
 		String d = mDate.toString().substring(0,11);
 		if (this.mDate.getHours() != 0)
@@ -96,4 +97,5 @@ public class Event implements Serializable {
 			return evt2.getDate().compareTo(evt1.getDate());
 		}
 	}
+
 }
