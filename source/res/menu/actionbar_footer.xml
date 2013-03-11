@@ -4,8 +4,7 @@
         android:id="@+id/checkbox_show_past_events"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_overflow"
-        android:title="@string/menu_settings"
+        android:icon="@drawable/btn_check_on_holo_light"
         android:checkable="true"
         android:checked="true"/>
     
@@ -15,7 +14,7 @@
         android:showAsAction="always"
         android:icon="@drawable/ic_content_read"
         android:checkable="true"
-        android:checked="true"/>
+        android:checked="false"/>
     
     <item
         android:id="@+id/menu_refresh"

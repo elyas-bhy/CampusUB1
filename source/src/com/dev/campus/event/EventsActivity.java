@@ -128,17 +128,31 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			startActivity(new Intent(EventsActivity.this, SettingsActivity.class));
-			return true;
-		case R.id.menu_filters:
-			mFilterDialog.showDialog();
-			return true;
 		case R.id.menu_refresh:
 			update();
 			return true;
 		case android.R.id.home:
 			finish();
+			return true;
+		case R.id.checkbox_show_unread_only:
+			if (item.isChecked()) {
+				item.setIcon(R.drawable.ic_content_read);
+				item.setChecked(false);
+			} else {
+				item.setIcon(R.drawable.ic_content_unread);
+				item.setChecked(true);
+			}
+			//TODO update view
+			return true;
+		case R.id.checkbox_show_past_events:
+			if (item.isChecked()) {
+				item.setIcon(R.drawable.btn_check_off_holo_light);
+				item.setChecked(false);
+			} else {
+				item.setIcon(R.drawable.btn_check_on_holo_light);
+				item.setChecked(true);
+			}
+			//TODO update view
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
