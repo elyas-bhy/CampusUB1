@@ -40,7 +40,7 @@ public class TimeExtractor {
 		return sdf.parse(date);
 	}
 
-	public static Date getCorrectDate(String date, String text) throws ParseException{
+	public static Date getCorrectDate(String date, String text) throws ParseException {
 		String[] time = parseTime(text);
 		String format = "EEE, d MMM yyyy HH:mm:ss Z";
 		Date d = createDate(date, format);
