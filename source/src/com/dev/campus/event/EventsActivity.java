@@ -13,14 +13,17 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -57,9 +60,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		setupActionBar();
 		mResources = getResources();
 
 		mHandler = new Handler();
@@ -81,6 +82,29 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		listView.setAdapter(mEventAdapter);
 		update();
 	}
+	
+	private void setupActionBar() {
+		mActionBar = getActionBar();
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
+								   | ActionBar.DISPLAY_SHOW_CUSTOM);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
+		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(EventsActivity.this, SettingsActivity.class));
+			}
+		});
+		customActionBarView.findViewById(R.id.menu_filters).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mFilterDialog.showDialog();
+			}
+		});
+		mActionBar.setCustomView(customActionBarView);
+	}
 
 	@Override
 	protected void onResume() {
@@ -97,7 +121,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.with_actionbar_refresh, menu);
+		getMenuInflater().inflate(R.menu.actionbar_footer, menu);
 		return true;
 	}
 

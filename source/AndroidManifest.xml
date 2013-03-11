@@ -62,7 +62,8 @@
         </activity>
         <activity
             android:name="com.dev.campus.event.EventsActivity"
-            android:label="@string/title_activity_events" >
+            android:label="@string/title_activity_events"
+            android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity
             android:name="com.dev.campus.directory.DirectoryActivity"
