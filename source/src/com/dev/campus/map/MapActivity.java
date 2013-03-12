@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Resources;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,9 +29,8 @@ import android.widget.Toast;
 public class MapActivity extends Activity implements LocationListener {
 
 	//Used CameraPosition attributes
-	private final int MAP_BEARING = 69;
-	private final int SETUP_ZOOM = 16;
-	private final int AT_POSITION_ZOOM = 19;
+	private final int BEARING = 69;
+	private final int ZOOM = 16;
 	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
 
@@ -89,8 +87,8 @@ public class MapActivity extends Activity implements LocationListener {
 	public void setUpMap() {
 		CameraPosition UB1Position = new CameraPosition.Builder()
 		.target(MAP_CENTER)
-		.zoom(SETUP_ZOOM)                   
-		.bearing(MAP_BEARING)               
+		.zoom(ZOOM)                   
+		.bearing(BEARING)               
 		.build();  
 
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map_UB1)).getMap();
@@ -101,9 +99,7 @@ public class MapActivity extends Activity implements LocationListener {
 
 	public void setUpLocationServices() {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		String provider = mLocationManager.getBestProvider(criteria, true);
+		String provider = getNewProvider();
 		Location location = mLocationManager.getLastKnownLocation(provider);
 		double latitude = location.getLatitude();
 		double longitude = location.getLongitude();
@@ -116,21 +112,12 @@ public class MapActivity extends Activity implements LocationListener {
 		
 		if (location != null)
 			onLocationChanged(location);
-		if (isGpsEnabled())
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		else
-			mLocationManager.requestLocationUpdates(provider, UPDATE_FREQUENCY, 0, this);
-
 	}
 
 	public void setUpMarkers() {
 		mServicesMarkers = new ArrayList<Marker>();
 		mRestaurationMarkers = new ArrayList<Marker>();
 		mBuildingsMarkers = new ArrayList<Marker>();
-		mServices.setChecked(true);
-		mRestauration.setChecked(true);
-		mBuildings.setChecked(true);
-		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()
 			.position(new LatLng(pos.getLat(), pos.getLng()))
@@ -150,15 +137,6 @@ public class MapActivity extends Activity implements LocationListener {
 				mServicesMarkers.add(marker);
 			}
 		}
-	}
-
-	public void goToPosition(Position pos) {
-		CameraPosition position  = new CameraPosition.Builder()
-		.target(new LatLng(pos.getLat(),pos.getLng()))
-		.zoom(AT_POSITION_ZOOM)                   
-		.bearing(MAP_BEARING)               
-		.build();                  
-		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 	}
 
 	public void populateMap(List<Marker> markers, boolean checked) {
@@ -181,22 +159,28 @@ public class MapActivity extends Activity implements LocationListener {
 		return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 
+	public String getNewProvider(){
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		String provider;
+		if (isGpsEnabled()) {
+			provider = LocationManager.GPS_PROVIDER;
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+		}
+		else {
+			provider = LocationManager.NETWORK_PROVIDER;
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);	
+		}
+		return provider;
+	}
+
 	@Override
 	public void onProviderDisabled(String provider) {
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		if (isGpsEnabled()) 
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		else 
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);	    		
+		getNewProvider(); 		
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		if (isGpsEnabled())
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		else 
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);			
+		getNewProvider();		
 	}
 
 	@Override

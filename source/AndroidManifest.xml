@@ -77,10 +77,10 @@
             android:name="com.dev.campus.event.EventViewActivity"
             android:label="@string/title_activity_events" >
         </activity>
-
-          <activity
+        <activity
             android:name="com.dev.campus.map.MapActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps"
+            android:theme="@android:style/Theme.Holo" >
         </activity>
         
         <meta-data
