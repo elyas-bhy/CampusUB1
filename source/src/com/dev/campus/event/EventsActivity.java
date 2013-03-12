@@ -16,9 +16,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,6 +106,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	}
 	
 	private void setupSlidingMenu() {
+		//Initialize SlidingMenu parameters
 		mSlidingMenu = getSlidingMenu();
         mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
@@ -117,14 +118,18 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
         //Create and populate a Category adapter
 		ArrayList<Category> categories = new ArrayList<Category>();
 		categories.addAll(Arrays.asList(Category.values()));
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1, categories);
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, R.layout.simple_list_item, categories);
         
         //Assign adapter to slide_menu list view
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View slideMenu = inflater.inflate(R.layout.slide_menu, null);
-        ListView listView = (ListView) slideMenu.findViewById(R.id.slide_menu);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        ListView menuView = (ListView) slideMenu.findViewById(R.id.slide_menu);
+        menuView.setAdapter(adapter);
+        
+        //Select first category
+        menuView.setItemChecked(0, true);
+        
+        menuView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -135,7 +140,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mSlidingMenu.showContent();
 			}
 		});
-        setBehindContentView(listView);
+        setBehindContentView(menuView);
 	}
 	
 	@Override
