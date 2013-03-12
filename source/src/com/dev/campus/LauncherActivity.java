@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HelperActivity extends Activity {
+public class LauncherActivity extends Activity {
 
 	private SubscribeDialog mSubscribeDialog;
 
@@ -44,7 +44,7 @@ public class HelperActivity extends Activity {
  	public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
     		case R.id.menu_settings:
-    			startActivity(new Intent(HelperActivity.this, SettingsActivity.class));
+    			startActivity(new Intent(LauncherActivity.this, SettingsActivity.class));
     			return true;
     		default:
     			break;
