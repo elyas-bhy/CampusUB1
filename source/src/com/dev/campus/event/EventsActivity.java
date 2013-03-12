@@ -16,7 +16,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -134,8 +133,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-		    	Category category = (Category) parent.getItemAtPosition(position);
-				mCategory = category;
+				mCategory = (Category) parent.getItemAtPosition(position);
 				update();
 				mSlidingMenu.showContent();
 			}
