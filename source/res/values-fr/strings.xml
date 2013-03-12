@@ -25,6 +25,8 @@
     <string name="no_tel">Aucun numero disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
     <string name="no_gps">Pas de signal GPS</string>
+    <string name="showing_upcoming_events">Affichage des événements à venir</string>
+    <string name="showing_all_events">Affichage de tous les événements</string>
 
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
@@ -41,12 +43,12 @@
     <string name="events">Evénements</string>
     <string name="directory">Annuaire</string>
     <string name="schedule">Emploi du temps</string>
-    <string name="map">Plan du Campus</string>
+    <string name="map">Plan du campus</string>
 
     <!-- Directory strings -->
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
-    <string name="website_icon">Website icon</string>
+    <string name="website_icon">Site web</string>
     
     <!-- Map strings -->
     <string name="campus_restauration">Restauration</string>

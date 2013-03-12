@@ -30,6 +30,8 @@
     <string name="no_email">No email address for this contact</string>
     <string name="no_play_services">Please make sure you have the Play Store Service installed</string>
     <string name="no_gps">Can\'t find GPS signal</string>
+    <string name="showing_upcoming_events">Showing upcoming events only</string>
+    <string name="showing_all_events">Showing all events</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>
@@ -53,7 +55,7 @@
     <!-- Directory strings -->
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="website_icon">Website icon</string>
+    <string name="website_icon">Website</string>
 	
     <!-- Map strings -->
     <string name="campus_restauration">Catering</string>
