@@ -61,7 +61,8 @@
     <string name="campus_restauration">Catering</string>
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Buildings</string>
-    
+    <string name="your_position">Your position</string>
+       
     <!-- Preferences -->
     <string name="preferences_category">Preferences</string>
     <string name="other_category">Other</string>

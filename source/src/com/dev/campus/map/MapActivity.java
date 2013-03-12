@@ -22,6 +22,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -55,6 +57,27 @@ public class MapActivity extends Activity implements LocationListener {
 		setUpMarkers();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.map, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_campus_pos:
+			goToPosition(MAP_CENTER);
+			return true;	
+		case R.id.menu_my_pos:
+			goToPosition(mCurrentLocation.getPosition());
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+			
+	
 	public void onCheckboxClicked(View view) {
 		switch(view.getId()) {
 		case R.id.services_check:
@@ -107,7 +130,7 @@ public class MapActivity extends Activity implements LocationListener {
 		
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
-		.title("Votre position")
+		.title(mResources.getString(R.string.your_position))
 		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));   
 		
 		if (location != null)
@@ -144,13 +167,22 @@ public class MapActivity extends Activity implements LocationListener {
 			marker.setVisible(checked);			
 	}
 
+	public void goToPosition(LatLng pos) {
+		CameraPosition position  = new CameraPosition.Builder()
+		.target(pos)
+		.zoom(ZOOM)                   
+		.bearing(BEARING)               
+		.build();                  
+		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+	}
+	
 	@Override
 	public void onLocationChanged(Location location) {
 		mCurrentLocation.remove();
 		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
-		.title("Votre position")
+		.title(mResources.getString(R.string.your_position))
 		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
 	}
 

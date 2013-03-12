@@ -16,6 +16,7 @@
     <string name="filter_results">Filtrez vos résultats</string>
     <string name="events_loading">Chargement des événements</string>
     <string name="please_wait">Veuillez patienter</string>
+    <string name="contacts_loading">Chargement des contacts</string>
 
     <!-- Toasts -->
     <string name="showing_history">Affichage de l\'historique</string>
@@ -54,6 +55,7 @@
     <string name="campus_restauration">Restauration</string>
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Bâtiments</string>
+    <string name="your_position">Votre position</string>
 
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
