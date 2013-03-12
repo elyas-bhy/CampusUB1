@@ -45,6 +45,9 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	private final int PICK_CATEGORY = 10;
 	private final int updateFrequency = 60000; // Update frequency (ms)
 	
+	private boolean mShowPastEvents = true;
+	private boolean mShowUnreadOnly = false;
+	
 	private ArrayList<Event> mEvents;
 	private ArrayList<Event> mSortedEvents;
 	private Category mCategory;
@@ -131,9 +134,11 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		case R.id.menu_refresh:
 			update();
 			return true;
+			
 		case android.R.id.home:
 			finish();
 			return true;
+			
 		case R.id.checkbox_show_unread_only:
 			if (item.isChecked()) {
 				item.setIcon(R.drawable.ic_content_read);
@@ -142,18 +147,24 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 				item.setIcon(R.drawable.ic_content_unread);
 				item.setChecked(true);
 			}
+			mShowUnreadOnly = item.isChecked();
 			//TODO update view
 			return true;
+			
 		case R.id.checkbox_show_past_events:
 			if (item.isChecked()) {
 				item.setIcon(R.drawable.btn_check_off_holo_light);
 				item.setChecked(false);
+				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
 			} else {
 				item.setIcon(R.drawable.btn_check_on_holo_light);
 				item.setChecked(true);
+				Toast.makeText(this, R.string.showing_upcoming_events, Toast.LENGTH_SHORT).show();
 			}
-			//TODO update view
+			mShowPastEvents = item.isChecked();
+			reloadEvents();
 			return true;
+			
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -175,22 +186,27 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	private void pauseUpdateTimer() {
 		mHandler.removeCallbacks(mUpdateRunnable);
 	}*/
-
-	public void reloadEvents() {
+	
+	private void sortEvents() {
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
-		TextView headerView = (TextView) findViewById(R.id.event_list_header);
-		headerView.setText(mCategory.toString());
-		mEventAdapter.clear();
-
 		if (mEvents != null) {
 			for (Event event : mEvents) {
 				if ((event.getSource().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1())
-				 || (event.getSource().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()))
-					sortedEvents.add(event);
+				 || (event.getSource().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri())) {
+					if (!mShowPastEvents || (mShowPastEvents && event.getDate().getTime() >= System.currentTimeMillis()))
+						sortedEvents.add(event);
+				}
 			}
 		}
 		Collections.sort(sortedEvents, new Event.EventComparator());
 		mSortedEvents = sortedEvents;
+	}
+
+	public void reloadEvents() {
+		TextView headerView = (TextView) findViewById(R.id.event_list_header);
+		headerView.setText(mCategory.toString());
+		sortEvents();
+		mEventAdapter.clear();
 		mEventAdapter.addAll(mSortedEvents);
 		mEventAdapter.notifyDataSetChanged();
 	}
@@ -250,9 +266,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
 			intent.putExtra(EXTRA_EVENTS, mSortedEvents);
 			intent.putExtra(EXTRA_EVENTS_INDEX, position-1);	
-			//substract 1 so as to have a correct 
-			//reference relative to the list of events 
-			//(i.e. without the category as first item)
+			//substract 1 to discount the category item
 			startActivity(intent);
 		}
 	}
