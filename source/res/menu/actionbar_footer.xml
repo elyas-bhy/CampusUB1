@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/checkbox_show_past_events"
+        android:id="@+id/checkbox_show_upcoming_events"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/btn_check_on_holo_light"
+        android:icon="@drawable/btn_check_off_holo_light"
         android:checkable="true"
-        android:checked="true"/>
+        android:checked="false"/>
     
     <item
         android:id="@+id/checkbox_show_unread_only"

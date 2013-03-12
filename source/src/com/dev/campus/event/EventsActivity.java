@@ -5,13 +5,13 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ActionBar;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,8 +26,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.campus.CampusUB1App;
@@ -35,17 +35,17 @@ import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingListActivity;
 
-public class EventsActivity extends ListActivity implements OnItemClickListener {
+public class EventsActivity extends SlidingListActivity implements OnItemClickListener {
 
-	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
 	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
 	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
 	
-	private final int PICK_CATEGORY = 10;
 	private final int updateFrequency = 60000; // Update frequency (ms)
 	
-	private boolean mShowPastEvents = true;
+	private boolean mShowUpcomingEvents = false;
 	private boolean mShowUnreadOnly = false;
 	
 	private ArrayList<Event> mEvents;
@@ -54,19 +54,16 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	private ActionBar mActionBar;
 	private Resources mResources;
-	private Handler mHandler;
+	private SlidingMenu mSlidingMenu;
 	
 	private FilterDialog mFilterDialog;
 	private EventAdapter mEventAdapter;
 	private EventParser mEventParser;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setupActionBar();
 		mResources = getResources();
-
-		mHandler = new Handler();
 		mFilterDialog = new FilterDialog(this);
 		mCategory = Category.MAIN_EVENTS;
 
@@ -75,15 +72,14 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
-
-		ListView listView = getListView();
-		View header = (View)getLayoutInflater().inflate(R.layout.event_list_header, listView, false);
-		listView.addHeaderView(header, null, true);
-		listView.setOnItemClickListener(this);
+		
+		setupActionBar();
+		setupSlidingMenu();
 
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
+		ListView listView = getListView();
+		listView.setOnItemClickListener(this);
 		listView.setAdapter(mEventAdapter);
-		update();
 	}
 	
 	private void setupActionBar() {
@@ -108,23 +104,58 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		});
 		mActionBar.setCustomView(customActionBarView);
 	}
+	
+	private void setupSlidingMenu() {
+		mSlidingMenu = getSlidingMenu();
+        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
+        mSlidingMenu.setShadowDrawable(R.drawable.shadow);
+        mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mSlidingMenu.setFadeDegree(0.35f);
+        setSlidingActionBarEnabled(false);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		//startUpdateTimer();
+        //Create and populate a Category adapter
+		ArrayList<Category> categories = new ArrayList<Category>();
+		categories.addAll(Arrays.asList(Category.values()));
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1, categories);
+        
+        //Assign adapter to slide_menu list view
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View slideMenu = inflater.inflate(R.layout.slide_menu, null);
+        ListView listView = (ListView) slideMenu.findViewById(R.id.slide_menu);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+		    	Category category = (Category) parent.getItemAtPosition(position);
+				mCategory = category;
+				update();
+				mSlidingMenu.showContent();
+			}
+		});
+        setBehindContentView(listView);
 	}
-
+	
 	@Override
-	protected void onPause() {
-		super.onPause();
-		//pauseUpdateTimer();
+	public void onBackPressed() {
+		if (mSlidingMenu.isMenuShowing())
+			mSlidingMenu.showContent();
+		else
+			super.onBackPressed();
+	}
+	
+	@Override
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		update();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.actionbar_footer, menu);
+		mSlidingMenu.showMenu();
 		return true;
 	}
 
@@ -136,7 +167,10 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			return true;
 			
 		case android.R.id.home:
-			finish();
+			if (mSlidingMenu.isMenuShowing())
+				mSlidingMenu.showContent();
+			else
+				finish();
 			return true;
 			
 		case R.id.checkbox_show_unread_only:
@@ -151,7 +185,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			//TODO update view
 			return true;
 			
-		case R.id.checkbox_show_past_events:
+		case R.id.checkbox_show_upcoming_events:
 			if (item.isChecked()) {
 				item.setIcon(R.drawable.btn_check_off_holo_light);
 				item.setChecked(false);
@@ -161,7 +195,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 				item.setChecked(true);
 				Toast.makeText(this, R.string.showing_upcoming_events, Toast.LENGTH_SHORT).show();
 			}
-			mShowPastEvents = item.isChecked();
+			mShowUpcomingEvents = item.isChecked();
 			reloadEvents();
 			return true;
 			
@@ -169,23 +203,6 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-	/*private Runnable mUpdateRunnable = new Runnable() {
-		@Override 
-		public void run() {
-			if (CampusUB1App.persistence.isWifiConnected())
-				update();
-			mHandler.postDelayed(mUpdateRunnable, updateFrequency);
-		}
-	};
-
-	private void startUpdateTimer() {
-		mUpdateRunnable.run();
-	}
-
-	private void pauseUpdateTimer() {
-		mHandler.removeCallbacks(mUpdateRunnable);
-	}*/
 	
 	private void sortEvents() {
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
@@ -193,7 +210,7 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			for (Event event : mEvents) {
 				if ((event.getSource().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1())
 				 || (event.getSource().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri())) {
-					if (!mShowPastEvents || (mShowPastEvents && event.getDate().getTime() >= System.currentTimeMillis()))
+					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getDate().getTime() >= System.currentTimeMillis()))
 						sortedEvents.add(event);
 				}
 			}
@@ -203,8 +220,6 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 	}
 
 	public void reloadEvents() {
-		TextView headerView = (TextView) findViewById(R.id.event_list_header);
-		headerView.setText(mCategory.toString());
 		sortEvents();
 		mEventAdapter.clear();
 		mEventAdapter.addAll(mSortedEvents);
@@ -259,30 +274,12 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if (position == 0) {
-			//Categories index
-			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);
-		} else {
-			Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
-			intent.putExtra(EXTRA_EVENTS, mSortedEvents);
-			intent.putExtra(EXTRA_EVENTS_INDEX, position-1);	
-			//substract 1 to discount the category item
-			startActivity(intent);
-		}
+		Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
+		intent.putExtra(EXTRA_EVENTS, mSortedEvents);
+		intent.putExtra(EXTRA_EVENTS_INDEX, position);
+		startActivity(intent);
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PICK_CATEGORY) {
-			if (resultCode == RESULT_OK) {
-				Category category = (Category) data.getSerializableExtra(EXTRA_CATEGORY);
-				if (category != null) {
-					mCategory = category;
-					update();
-				}
-			}
-		}
-	}
+	
 
 	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Event>, ArrayList<Date>>, Void, Void> {
 
