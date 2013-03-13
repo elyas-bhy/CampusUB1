@@ -11,6 +11,10 @@
     <string name="menu_add_to_contacts">Add to contacts</string>
     <string name="menu_website">Go to website</string>
     <string name="menu_complete_action">Complete action using</string>
+    <string name="menu_read">Mark as read</string>
+    <string name="menu_unread">Mark as unread</string>
+    <string name="menu_star">Add star</string>
+    <string name="menu_unstar">Remove star</string>
 
     <!-- Dialogs -->
     <string name="ok">OK</string>
