@@ -54,11 +54,11 @@ public enum Position {
 	RU1("m47",PositionType.RESTAURATION, "Restaurant universitaire 1", 44.806447,-0.603122),
 	RU2("m48",PositionType.RESTAURATION, "Restaurant universitaire 2", 44.800071,-0.611348),
 	RU3("m49",PositionType.RESTAURATION, "Restaurant universitaire 3", 44.791803,-0.613818),
-	CAFETARIA("m50",PositionType.RESTAURATION,"Cafétaria la Soucoupe", 44.807514,-0.598852),
+	CAFETARIA("m50",PositionType.RESTAURATION,"CafÃ©taria la Soucoupe", 44.807514,-0.598852),
 	FAC_KEBAB("m51",PositionType.RESTAURATION, "Fac kebab", 44.809636,-0.591653),
 	
-	BU("m52",PositionType.SERVICE,"Bibliothèque universitaire", 44.80649,-0.602167),
-	MEDECINE_PREVENTIVE("m53",PositionType.SERVICE,"Médecine préventive", 44.800467,-0.610549);
+	BU("m52",PositionType.SERVICE,"BibliothÃ¨que universitaire", 44.80649,-0.602167),
+	MEDECINE_PREVENTIVE("m53",PositionType.SERVICE,"MÃ©decine prÃ©ventive", 44.800467,-0.610549);
 	
 	public enum PositionType {
 		BUILDING("building_marker"),
