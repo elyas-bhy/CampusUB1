@@ -16,6 +16,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -83,6 +84,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	
 	private void setupActionBar() {
 		mActionBar = getActionBar();
+		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
 								   | ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -131,8 +133,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
         menuView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				mCategory = (Category) parent.getItemAtPosition(position);
 				update();
 				mSlidingMenu.showContent();

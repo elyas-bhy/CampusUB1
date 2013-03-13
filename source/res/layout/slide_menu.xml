@@ -4,4 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:choiceMode="singleChoice"
-    android:background="@color/dark_metal_grey" />
+    android:background="@color/metal_grey"
+    android:divider="@color/dark_metal_grey"
+    android:dividerHeight="1dp" />
