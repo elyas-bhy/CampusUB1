@@ -53,8 +53,7 @@ public class EventParser {
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
 		for (Feed feed : mCategory.getFeeds()) {
-			if ((feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1())
-			 || (feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri())) {
+			if (feed.getType().isFiltered()) {
 				setInput(feed);
 				Event event = new Event();
 				Date buildDate = new Date(0);
