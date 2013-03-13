@@ -56,6 +56,8 @@
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Bâtiments</string>
     <string name="your_position">Votre position</string>
+    <string name="map_search">Rechercher</string>
+    <string name="map_not_found">Aucun résultat trouvé</string>
 
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>

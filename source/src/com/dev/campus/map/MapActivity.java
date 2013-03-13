@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Resources;
@@ -26,13 +27,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 public class MapActivity extends Activity implements LocationListener {
 
 	//Used CameraPosition attributes
 	private final int BEARING = 69;
-	private final int ZOOM = 16;
+	private final int DEFAULT_ZOOM = 16;
+	private final int SEARCH_ZOOM = 18;
 	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
 
@@ -60,6 +63,8 @@ public class MapActivity extends Activity implements LocationListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.map, menu);
+		SearchView searchView = (SearchView) menu.findItem(R.id.map_search).getActionView();
+		searchView.setOnQueryTextListener(queryTextListener);		
 		return true;
 	}
 	
@@ -67,10 +72,10 @@ public class MapActivity extends Activity implements LocationListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_campus_pos:
-			goToPosition(MAP_CENTER);
+			goToPosition(MAP_CENTER,DEFAULT_ZOOM);
 			return true;	
 		case R.id.menu_my_pos:
-			goToPosition(mCurrentLocation.getPosition());
+			goToPosition(mCurrentLocation.getPosition(),DEFAULT_ZOOM);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -92,6 +97,25 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
+	@SuppressLint("DefaultLocale")
+	public void searchPosition(String input){
+		boolean found = false;
+		for (Position pos : Position.values()){
+			if(pos.getName().toLowerCase().equals(input.toLowerCase())){
+				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
+				found = true;
+				break;
+			}
+			if(pos.getName().toLowerCase().contains(input.toLowerCase())){
+				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
+				found = true;
+				break;
+			}
+		}
+		if(!found)
+			Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
+	}
+	
 	public void checkGooglePlayServicesAvailability() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
@@ -110,7 +134,7 @@ public class MapActivity extends Activity implements LocationListener {
 	public void setUpMap() {
 		CameraPosition UB1Position = new CameraPosition.Builder()
 		.target(MAP_CENTER)
-		.zoom(ZOOM)                   
+		.zoom(DEFAULT_ZOOM)                   
 		.bearing(BEARING)               
 		.build();  
 
@@ -167,10 +191,10 @@ public class MapActivity extends Activity implements LocationListener {
 			marker.setVisible(checked);			
 	}
 
-	public void goToPosition(LatLng pos) {
+	public void goToPosition(LatLng pos,int zoom) {
 		CameraPosition position  = new CameraPosition.Builder()
 		.target(pos)
-		.zoom(ZOOM)                   
+		.zoom(zoom)                   
 		.bearing(BEARING)               
 		.build();                  
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
@@ -219,4 +243,18 @@ public class MapActivity extends Activity implements LocationListener {
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
 	}
+	
+	final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+	    @Override
+	    public boolean onQueryTextChange(String text) {
+	    	//Do something
+	        return true;
+	    }
+
+	    @Override
+	    public boolean onQueryTextSubmit(String query) {
+	    	searchPosition(query);
+	        return true;
+	    }
+	};
 }
