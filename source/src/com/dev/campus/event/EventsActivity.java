@@ -33,7 +33,6 @@ import android.widget.Toast;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
-import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingListActivity;

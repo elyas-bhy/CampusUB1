@@ -59,16 +59,20 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-
+		
+		mDirectoryManager = new DirectoryManager();
+		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
+		
 		ListView listview = getListView();
 		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
 		listview.addHeaderView(header, null, false);
-
-		mDirectoryManager = new DirectoryManager();
-		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 		listview.setAdapter(mDirectoryAdapter);
 		listview.setOnItemClickListener(this);
-
+		
+		initSearchButton();
+	}
+	
+	private void initSearchButton() {
 		OnEditorActionListener searchAction = new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -96,7 +100,6 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.with_actionbar, menu);
 		return true;
 	}
