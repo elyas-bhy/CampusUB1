@@ -55,9 +55,11 @@
     <string name="campus_restauration">Restauration</string>
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Bâtiments</string>
-    <string name="your_position">Votre position</string>
     <string name="map_search">Rechercher</string>
     <string name="map_not_found">Aucun résultat trouvé</string>
+    <string name="positions">Positions</string>
+    <string name="my_position">Ma position</string>
+    <string name="campus_position">Position du campus</string>
 
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>

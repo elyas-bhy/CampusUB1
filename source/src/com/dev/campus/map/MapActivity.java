@@ -75,7 +75,7 @@ public class MapActivity extends Activity implements LocationListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.map, menu);
+		getMenuInflater().inflate(R.menu.map_menu, menu);
 		SearchView searchView = (SearchView) menu.findItem(R.id.map_search).getActionView();
 		searchView.setOnQueryTextListener(queryTextListener);		
 		return true;
@@ -202,7 +202,7 @@ public class MapActivity extends Activity implements LocationListener {
 		
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
-		.title(mResources.getString(R.string.your_position))
+		.title(mResources.getString(R.string.my_position))
 		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));   
 		
 		if (location != null)
@@ -273,7 +273,7 @@ public class MapActivity extends Activity implements LocationListener {
 		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
-		.title(mResources.getString(R.string.your_position))
+		.title(mResources.getString(R.string.my_position))
 		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
 	}
 
