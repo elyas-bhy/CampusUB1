@@ -18,62 +18,69 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class HomeActivity extends ListActivity {
-	
+
 	private FilterDialog mFilterDialog;
 	private Resources mResources;
-	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mFilterDialog = new FilterDialog(this);
 		mResources= getResources();
-		String[] menu = mResources.getStringArray(R.array.main_menu);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item, menu);
-        getListView().setBackgroundResource(R.color.metal_grey);
-        getListView().setDivider(mResources.getDrawable(R.color.dark_metal_grey));
-        getListView().setDividerHeight(1);
-        setListAdapter(adapter);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.with_actionbar, menu);
-        return true;
-    }
-    
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-    	switch (position) {
-    		case 0: // Events
-				startActivity(new Intent(HomeActivity.this, EventsActivity.class));
-    			break;
-    		case 1: // Directory
-    			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
-    			break;
-    		case 3: // Map
-    			if(CampusUB1App.persistence.isOnline())
-    				startActivity(new Intent(HomeActivity.this, MapActivity.class));
-    			else
-    				Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
-    			break;
-    		default:
-    			break;
-    	}
-    }
-    
-    @Override
- 	public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    		case R.id.menu_settings:
-    			startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
-    			return true;
-    		case R.id.menu_filters:
-    			mFilterDialog.showDialog();
-    			return true;
-    		default:
-    			return super.onOptionsItemSelected(item);
-    	}
-    }
-    
+		//ListView styling
+		ListView listView = getListView();
+		listView.setBackgroundResource(R.color.metal_grey);
+		listView.setDivider(mResources.getDrawable(R.color.dark_metal_grey));
+		listView.setDividerHeight(1);
+		
+		//Setup adapter
+		String[] menu = mResources.getStringArray(R.array.main_menu);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item, menu);
+		setListAdapter(adapter);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		return true;
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		switch (position) {
+		case 0: // Events
+			startActivity(new Intent(HomeActivity.this, EventsActivity.class));
+			break;
+		case 1: // Directory
+			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
+			break;
+		case 2: // Schedule
+			//TODO
+			break;
+		case 3: // Map
+			if(CampusUB1App.persistence.isOnline())
+				startActivity(new Intent(HomeActivity.this, MapActivity.class));
+			else
+				Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
+			return true;
+		case R.id.menu_filters:
+			mFilterDialog.showDialog();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 }
