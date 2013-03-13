@@ -56,8 +56,8 @@ public class MapActivity extends Activity implements LocationListener {
 		mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
 		checkGooglePlayServicesAvailability();
 		setUpMap();
-		setUpLocationServices();
 		setUpMarkers();
+		setUpLocationServices();
 	}
 
 	@Override
@@ -115,11 +115,45 @@ public class MapActivity extends Activity implements LocationListener {
 		boolean found = false;
 		for (Position pos : Position.values()){
 			if(pos.getName().toLowerCase().equals(input.toLowerCase())){
+				ArrayList<Marker> markerType = null;
+				switch(pos.getType()) {
+				case BUILDING:
+					markerType = mBuildingsMarkers;
+					break;
+				case RESTAURATION:
+					markerType= mRestaurationMarkers;
+					break;
+				case SERVICE:
+					markerType = mServicesMarkers;	
+					break;
+				}
+				for(Marker marker : markerType)
+					if(pos.getmID().equals(marker.getId())){
+						marker.setVisible(true);
+						marker.showInfoWindow();
+					}
 				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
 				found = true;
 				break;
 			}
 			if(pos.getName().toLowerCase().contains(input.toLowerCase())){
+				ArrayList<Marker> markerType = null;
+				switch(pos.getType()) {
+				case BUILDING:
+					markerType = mBuildingsMarkers;
+					break;
+				case RESTAURATION:
+					markerType = mRestaurationMarkers;
+					break;
+				case SERVICE:
+					markerType = mServicesMarkers;	
+					break;
+				}
+				for(Marker marker : markerType)
+					if(pos.getmID().equals(marker.getId())){
+						marker.setVisible(true);
+						marker.showInfoWindow();
+					}
 				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
 				found = true;
 				break;
