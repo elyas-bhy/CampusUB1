@@ -61,6 +61,19 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+		getNewProvider();
+	}
+	
+	@Override     
+    protected void onPause() {  
+		super.onPause(); 
+		mLocationManager.removeUpdates(this);
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.map, menu);
 		SearchView searchView = (SearchView) menu.findItem(R.id.map_search).getActionView();
@@ -147,6 +160,7 @@ public class MapActivity extends Activity implements LocationListener {
 	public void setUpLocationServices() {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		String provider = getNewProvider();
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
 		Location location = mLocationManager.getLastKnownLocation(provider);
 		double latitude = location.getLatitude();
 		double longitude = location.getLongitude();
@@ -200,16 +214,6 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 	}
 	
-	@Override
-	public void onLocationChanged(Location location) {
-		mCurrentLocation.remove();
-		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-		mCurrentLocation = mMap.addMarker(new MarkerOptions()
-		.position(currentPosition)
-		.title(mResources.getString(R.string.your_position))
-		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
-	}
-
 	public boolean isGpsEnabled() {
 		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
 		return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -230,6 +234,16 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 
 	@Override
+	public void onLocationChanged(Location location) {
+		mCurrentLocation.remove();
+		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+		mCurrentLocation = mMap.addMarker(new MarkerOptions()
+		.position(currentPosition)
+		.title(mResources.getString(R.string.your_position))
+		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
+	}
+
+	@Override
 	public void onProviderDisabled(String provider) {
 		getNewProvider(); 		
 	}
@@ -243,18 +257,18 @@ public class MapActivity extends Activity implements LocationListener {
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
 	}
-	
-	final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-	    @Override
-	    public boolean onQueryTextChange(String text) {
-	    	//Do something
-	        return true;
-	    }
 
-	    @Override
-	    public boolean onQueryTextSubmit(String query) {
-	    	searchPosition(query);
-	        return true;
-	    }
+	final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+		@Override
+		public boolean onQueryTextChange(String text) {
+			//Do something
+			return true;
+		}
+
+		@Override
+		public boolean onQueryTextSubmit(String query) {
+			searchPosition(query);
+			return true;
+		}
 	};
 }
