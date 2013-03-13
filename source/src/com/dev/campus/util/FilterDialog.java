@@ -123,8 +123,10 @@ public class FilterDialog extends AlertDialog {
 					CampusUB1App.persistence.setFilterLabri(filter_labri);
 					
 					//Find a better workaround for this (getClass() ?)
-					if (mContext instanceof EventsActivity)
+					if (mContext instanceof EventsActivity) {
 						((EventsActivity)mContext).reloadEvents();
+						((EventsActivity)mContext).showContent();
+					}
 					else if (mContext instanceof DirectoryActivity)
 						((DirectoryActivity)mContext).reloadContacts();
 				}

@@ -168,6 +168,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		switch (item.getItemId()) {
 		case R.id.menu_refresh:
 			update();
+			mSlidingMenu.showContent();
 			return true;
 			
 		case android.R.id.home:
@@ -187,6 +188,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			}
 			mShowUnreadOnly = item.isChecked();
 			//TODO update view
+			mSlidingMenu.showContent();
 			return true;
 			
 		case R.id.checkbox_show_upcoming_events:
@@ -201,6 +203,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			}
 			mShowUpcomingEvents = item.isChecked();
 			reloadEvents();
+			mSlidingMenu.showContent();
 			return true;
 			
 		default:
