@@ -27,11 +27,11 @@ public class HomeActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 		mFilterDialog = new FilterDialog(this);
 		mResources= getResources();
-        String[] values = new String[] { mResources.getString(R.string.events), 
-        								 mResources.getString(R.string.directory),
-        								 mResources.getString(R.string.schedule),
-        								 mResources.getString(R.string.map)};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
+		String[] menu = mResources.getStringArray(R.array.main_menu);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item, menu);
+        getListView().setBackgroundResource(R.color.metal_grey);
+        getListView().setDivider(mResources.getDrawable(R.color.dark_metal_grey));
+        getListView().setDividerHeight(1);
         setListAdapter(adapter);
     }
 
