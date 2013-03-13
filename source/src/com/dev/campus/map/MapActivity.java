@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -39,12 +41,15 @@ public class MapActivity extends Activity implements LocationListener {
 	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
 
-	private CheckBox mServices, mRestauration, mBuildings;
+	private LocationManager mLocationManager;
 	private Resources mResources;
 	private GoogleMap mMap;
-	private LocationManager mLocationManager;
-	private Marker mCurrentLocation;
+	
 	private ArrayList<Marker> mServicesMarkers, mRestaurationMarkers, mBuildingsMarkers;
+	private CheckBox mServices, mRestauration, mBuildings;
+	
+	private Marker mCurrentLocation;
+	private SearchView mSearchView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +60,9 @@ public class MapActivity extends Activity implements LocationListener {
 		mRestauration = (CheckBox) findViewById(R.id.restauration_check);
 		mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
 		checkGooglePlayServicesAvailability();
-		setUpMap();
-		setUpMarkers();
-		setUpLocationServices();
+		setupMap();
+		setupMarkers();
+		setupLocationServices();
 	}
 
 	@Override
@@ -76,8 +81,8 @@ public class MapActivity extends Activity implements LocationListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.map_menu, menu);
-		SearchView searchView = (SearchView) menu.findItem(R.id.map_search).getActionView();
-		searchView.setOnQueryTextListener(queryTextListener);		
+		mSearchView = (SearchView) menu.findItem(R.id.map_search).getActionView();
+		mSearchView.setOnQueryTextListener(mQueryTextListener);		
 		return true;
 	}
 	
@@ -178,7 +183,7 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
-	public void setUpMap() {
+	public void setupMap() {
 		CameraPosition UB1Position = new CameraPosition.Builder()
 		.target(MAP_CENTER)
 		.zoom(DEFAULT_ZOOM)                   
@@ -191,7 +196,7 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
 	}
 
-	public void setUpLocationServices() {
+	public void setupLocationServices() {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		String provider = getNewProvider();
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
@@ -209,7 +214,7 @@ public class MapActivity extends Activity implements LocationListener {
 			onLocationChanged(location);
 	}
 
-	public void setUpMarkers() {
+	public void setupMarkers() {
 		mServicesMarkers = new ArrayList<Marker>();
 		mRestaurationMarkers = new ArrayList<Marker>();
 		mBuildingsMarkers = new ArrayList<Marker>();
@@ -288,11 +293,11 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 
 	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 	}
 
-	final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+	final SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
 		@Override
 		public boolean onQueryTextChange(String text) {
 			//Do something
@@ -302,6 +307,12 @@ public class MapActivity extends Activity implements LocationListener {
 		@Override
 		public boolean onQueryTextSubmit(String query) {
 			searchPosition(query);
+			//Hide soft keyboard
+			if (getCurrentFocus() != null) {
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+				mSearchView.clearFocus();
+			}
 			return true;
 		}
 	};
