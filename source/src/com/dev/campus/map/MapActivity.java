@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -50,16 +51,21 @@ public class MapActivity extends Activity implements LocationListener {
 	
 	private Marker mCurrentLocation;
 	private SearchView mSearchView;
+	private ActionBar mActionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		mResources = getResources();
+		mActionBar = getActionBar();
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		
 		mServices = (CheckBox) findViewById(R.id.services_check);
 		mRestauration = (CheckBox) findViewById(R.id.restauration_check);
 		mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
 		checkGooglePlayServicesAvailability();
+		
 		setupMap();
 		setupMarkers();
 		setupLocationServices();
