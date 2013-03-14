@@ -5,62 +5,64 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
+
+import android.app.ActionBar;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
-import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingListActivity;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.app.ActionBar;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+public class EventsActivity extends SlidingListActivity implements OnItemClickListener {
 
-public class EventsActivity extends ListActivity implements OnItemClickListener {
-
-	public static final String EXTRA_CATEGORY = "com.dev.campus.CATEGORY";
-	public static final String EXTRA_EVENT = "com.dev.campus.EVENT";
+	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
+	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
 	
-	private final int PICK_CATEGORY = 10;
 	private final int updateFrequency = 60000; // Update frequency (ms)
 	
-	private List<Event> mEvents;
+	private boolean mShowUpcomingEvents = false;
+	private boolean mShowUnreadOnly = false;
+	
+	private ArrayList<Event> mEvents;
+	private ArrayList<Event> mSortedEvents;
 	private Category mCategory;
 
 	private ActionBar mActionBar;
 	private Resources mResources;
-	private Handler mHandler;
+	private SlidingMenu mSlidingMenu;
 	
 	private FilterDialog mFilterDialog;
 	private EventAdapter mEventAdapter;
 	private EventParser mEventParser;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-
-		mHandler = new Handler();
 		mFilterDialog = new FilterDialog(this);
 		mCategory = Category.MAIN_EVENTS;
 
@@ -69,152 +71,222 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
-
-		ListView listView = getListView();
-		View header = (View)getLayoutInflater().inflate(R.layout.event_list_header, listView, false);
-		listView.addHeaderView(header, null, true);
-		listView.setOnItemClickListener(this);
+		
+		setupActionBar();
+		setupSlidingMenu();
 
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
+		ListView listView = getListView();
+		listView.setOnItemClickListener(this);
 		listView.setAdapter(mEventAdapter);
-		startUpdateTimer();
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		startUpdateTimer();
+	
+	private void setupActionBar() {
+		mActionBar = getActionBar();
+		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
+								   | ActionBar.DISPLAY_SHOW_CUSTOM);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
+		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(EventsActivity.this, SettingsActivity.class));
+			}
+		});
+		customActionBarView.findViewById(R.id.menu_filters).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mFilterDialog.showDialog();
+			}
+		});
+		mActionBar.setCustomView(customActionBarView);
 	}
+	
+	private void setupSlidingMenu() {
+		//Initialize SlidingMenu parameters
+		mSlidingMenu = getSlidingMenu();
+        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
+        mSlidingMenu.setShadowDrawable(R.drawable.shadow);
+        mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mSlidingMenu.setFadeDegree(0.35f);
+        setSlidingActionBarEnabled(false);
 
+        //Create and populate a Category adapter
+		ArrayList<Category> categories = new ArrayList<Category>();
+		categories.addAll(Arrays.asList(Category.values()));
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, R.layout.simple_list_item, categories);
+        
+        //Assign adapter to slide_menu list view
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View slideMenu = inflater.inflate(R.layout.slide_menu, null);
+        ListView menuView = (ListView) slideMenu.findViewById(R.id.slide_menu);
+        menuView.setAdapter(adapter);
+        
+        //Select first category
+        menuView.setItemChecked(0, true);
+        
+        menuView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mCategory = (Category) parent.getItemAtPosition(position);
+				update();
+				mSlidingMenu.showContent();
+			}
+		});
+        setBehindContentView(menuView);
+	}
+	
 	@Override
-	protected void onPause() {
-		super.onPause();
-		pauseUpdateTimer();
+	public void onBackPressed() {
+		if (mSlidingMenu.isMenuShowing())
+			mSlidingMenu.showContent();
+		else
+			super.onBackPressed();
+	}
+	
+	@Override
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		update();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.with_actionbar_refresh, menu);
+		getMenuInflater().inflate(R.menu.actionbar_footer, menu);
+		mSlidingMenu.showMenu();
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			startActivity(new Intent(EventsActivity.this, SettingsActivity.class));
-			return true;
-		case R.id.menu_filters:
-			mFilterDialog.showDialog();
-			return true;
 		case R.id.menu_refresh:
 			update();
+			mSlidingMenu.showContent();
 			return true;
+			
 		case android.R.id.home:
-			finish();
+			if (mSlidingMenu.isMenuShowing())
+				mSlidingMenu.showContent();
+			else
+				finish();
 			return true;
+			
+		case R.id.checkbox_show_unread_only:
+			if (item.isChecked()) {
+				item.setIcon(R.drawable.ic_content_read);
+				item.setChecked(false);
+			} else {
+				item.setIcon(R.drawable.ic_content_unread);
+				item.setChecked(true);
+			}
+			mShowUnreadOnly = item.isChecked();
+			//TODO update view
+			mSlidingMenu.showContent();
+			return true;
+			
+		case R.id.checkbox_show_upcoming_events:
+			if (item.isChecked()) {
+				item.setIcon(R.drawable.btn_check_off_holo_light);
+				item.setChecked(false);
+				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
+			} else {
+				item.setIcon(R.drawable.btn_check_on_holo_light);
+				item.setChecked(true);
+				Toast.makeText(this, R.string.showing_upcoming_events, Toast.LENGTH_SHORT).show();
+			}
+			mShowUpcomingEvents = item.isChecked();
+			reloadEvents();
+			mSlidingMenu.showContent();
+			return true;
+			
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-	private Runnable mUpdateRunnable = new Runnable() {
-		@Override 
-		public void run() {
-			if (CampusUB1App.persistence.isWifiConnected())
-				update();
-			mHandler.postDelayed(mUpdateRunnable, updateFrequency);
+	
+	private void sortEvents() {
+		ArrayList<Event> sortedEvents = new ArrayList<Event>();
+		if (mEvents != null) {
+			for (Event event : mEvents) {
+				if (event.getSource().isFiltered()) {
+					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getDate().getTime() >= System.currentTimeMillis()))
+						sortedEvents.add(event);
+				}
+			}
 		}
-	};
-
-	private void startUpdateTimer() {
-		mUpdateRunnable.run();
-	}
-
-	private void pauseUpdateTimer() {
-		mHandler.removeCallbacks(mUpdateRunnable);
+		Collections.sort(sortedEvents, new Event.EventComparator());
+		mSortedEvents = sortedEvents;
 	}
 
 	public void reloadEvents() {
-		TextView headerView = (TextView) findViewById(R.id.event_list_header);
-		headerView.setText(mCategory.toString());
+		sortEvents();
 		mEventAdapter.clear();
-
-		if (mEvents != null) {
-			for (Event event : mEvents) {
-				if ((event.getSource().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1())
-				 || (event.getSource().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()))
-					mEventAdapter.add(event);
-			}
-		}
+		mEventAdapter.addAll(mSortedEvents);
 		mEventAdapter.notifyDataSetChanged();
 	}
-
+	
+	public String getHistoryPath() {
+		int sub1 = CampusUB1App.persistence.isSubscribedUB1()? 1 : 0;
+		int sub2 = CampusUB1App.persistence.isSubscribedLabri()? 1 : 0;
+		return getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + sub1 + sub2 + ".dat";
+	}
+	
 	@SuppressWarnings("unchecked")
-	public void update() {
-		File file = new File(getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + ".dat");
-		SimpleEntry<List<Event>,List<Date>> feedsEntry = null;
+	private SimpleEntry<ArrayList<Event>, ArrayList<Date>> readEventsHistory() {
+		File file = new File(getHistoryPath());
+		SimpleEntry<ArrayList<Event>, ArrayList<Date>> feedsEntry = null;
 
 		if (file.exists()) {
 			try {
-				FileInputStream fint = new FileInputStream(file);
-				ObjectInputStream ois = new ObjectInputStream(fint);
-				feedsEntry = (SimpleEntry<List<Event>,List<Date>>)ois.readObject();
+				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+				feedsEntry = (SimpleEntry<ArrayList<Event>, ArrayList<Date>>) ois.readObject();
 				ois.close();
 			} catch (Exception e) { 
 				e.printStackTrace();
 			}
+		}
+		return feedsEntry;
+	}
 
+	@SuppressWarnings("unchecked")
+	public void update() {
+		SimpleEntry<ArrayList<Event>, ArrayList<Date>> feedsEntry = readEventsHistory();
+		
+		if (feedsEntry != null) {
 			if (CampusUB1App.persistence.isOnline()) {
-				//TODO
-				//check if latest version, and start update task only if needed
-				//otherwise, just load history
-				new UpdateFeedsTask().execute(); //temporary
+				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
 				mEvents = feedsEntry.getKey();
 				reloadEvents();
-				Toast.makeText(this, "Affichage de l'historique!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, mResources.getString(R.string.showing_history), Toast.LENGTH_SHORT).show();
 			}
 		}
-
 		else {
 			if (CampusUB1App.persistence.isOnline()) {
 				new UpdateFeedsTask().execute();
-				Toast.makeText(this, "Mise à jour effectuée!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, mResources.getString(R.string.update_complete), Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(this, "Echec de connection!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-		if (position == 0) {
-			//Categories index
-			startActivityForResult(new Intent(EventsActivity.this, CategoryActivity.class), PICK_CATEGORY);
-		} else {
-			Event item = (Event) getListView().getAdapter().getItem(position);
-			Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
-			intent.putExtra(EXTRA_EVENT, item);
-			startActivity(intent);
-		}
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
+		intent.putExtra(EXTRA_EVENTS, mSortedEvents);
+		intent.putExtra(EXTRA_EVENTS_INDEX, position);
+		startActivity(intent);
 	}
+	
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PICK_CATEGORY) {
-			if (resultCode == RESULT_OK) {
-				Category category = (Category) data.getSerializableExtra(EXTRA_CATEGORY);
-				if (category != null) {
-					mCategory = category;
-					update();
-				}
-			}
-		}
-	}
-
-	private class UpdateFeedsTask extends AsyncTask<Category, Void, Void> {
+	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Event>, ArrayList<Date>>, Void, Void> {
 
 		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
 
@@ -228,8 +300,16 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 		}
 
 		@Override
-		protected Void doInBackground(Category... params) {
+		protected Void doInBackground(SimpleEntry<ArrayList<Event>, ArrayList<Date>>... entries) {
 			try {
+				//check if latest version, and update only if needed
+				//otherwise, just load history
+				if (entries.length > 0) {
+					if (mEventParser.isLatestVersion(mCategory, entries[0].getValue())) {
+						mEvents = entries[0].getKey();
+						return null;
+					}
+				}
 				mEventParser.parseEvents(mCategory);
 				mEventParser.saveEvents();
 				mEvents = mEventParser.getEvents();
@@ -251,4 +331,5 @@ public class EventsActivity extends ListActivity implements OnItemClickListener 
 			super.onCancelled();
 		}
 	}
+	
 }

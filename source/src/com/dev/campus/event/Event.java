@@ -1,6 +1,8 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Date;
 
 import com.dev.campus.event.Feed.FeedType;
 
@@ -11,19 +13,12 @@ public class Event implements Serializable {
 	private String mCategory;
 	private String mTitle;
 	private String mDescription;
-	private String mDate;
+	private Date mDate;
 	private String mTime;
 	private String mDetails;
 	private FeedType mSource;
-	
-	public Event() {
-		mCategory = null;
-		mTitle = null;
-		mDate = null;
-		mTime = null;
-		mDetails = null;
-		mSource = null;
-	}
+	private String mLocation;
+
 	
 	public String getCategory() {
 		return mCategory;
@@ -49,11 +44,11 @@ public class Event implements Serializable {
 		mDescription = description;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return mDate;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		mDate = date;
 	}
 
@@ -79,6 +74,28 @@ public class Event implements Serializable {
 
 	public void setSource(FeedType source) {
 		mSource = source;
+	}
+
+	public String getLocation(){
+		return mLocation;
+	}
+	
+	public void setLocation(String loc){
+		mLocation = loc;
+	}
+
+	public String getStringDate() {
+		String d = mDate.toString().substring(0,11);
+		if (this.mDate.getHours() != 0)
+			d += mDate.toString().substring(11, 16) + " ";
+		return d + mDate.toString().substring(24);
+	}
+	
+	static class EventComparator implements Comparator<Event> {
+		@Override
+		public int compare(Event evt1, Event evt2) {
+			return evt2.getDate().compareTo(evt1.getDate());
+		}
 	}
 
 }

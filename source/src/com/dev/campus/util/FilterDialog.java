@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.dev.campus.directory.DirectoryActivity;
 import com.dev.campus.event.EventsActivity;
 
 import android.app.Activity;
@@ -91,6 +92,7 @@ public class FilterDialog extends AlertDialog {
 			
 			final CharSequence[] items = itemsList.toArray(new CharSequence[itemsList.size()]);
 			
+			setCancelable(false);
 			setTitle(R.string.filter_results);
 			setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -121,8 +123,12 @@ public class FilterDialog extends AlertDialog {
 					CampusUB1App.persistence.setFilterLabri(filter_labri);
 					
 					//Find a better workaround for this (getClass() ?)
-					if (mContext instanceof EventsActivity)
+					if (mContext instanceof EventsActivity) {
 						((EventsActivity)mContext).reloadEvents();
+						((EventsActivity)mContext).showContent();
+					}
+					else if (mContext instanceof DirectoryActivity)
+						((DirectoryActivity)mContext).reloadContacts();
 				}
 			});
 			

@@ -1,5 +1,7 @@
 package com.dev.campus.event;
 
+import com.dev.campus.CampusUB1App;
+
 public enum Feed {
 	
 	UB1_NEWS_ALL(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=114"),
@@ -23,9 +25,16 @@ public enum Feed {
 	
 	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php");
 	
+	
 	public enum FeedType {
 		UB1_FEED,
-		LABRI_FEED;
+		LABRI_FEED,
+		LABRI_FEED_HTML;
+		
+		public boolean isFiltered() {
+			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
+				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri());
+		}
 	}
 	
 	private FeedType mType;

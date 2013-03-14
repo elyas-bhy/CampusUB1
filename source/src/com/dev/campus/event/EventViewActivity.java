@@ -1,6 +1,6 @@
 package com.dev.campus.event;
 
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
 import com.dev.campus.R;
 
@@ -8,39 +8,33 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-public class EventViewActivity extends Activity {
+public class EventViewActivity extends FragmentActivity {
 	
 	private ActionBar mActionBar;
-	private Event mEvent;
+	private ArrayList<Event> mEvents;
+	private EventPagerAdapter mEventPagerAdapter;
+	private ViewPager mViewPager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_view);
-
-		mEvent = (Event) getIntent().getSerializableExtra(EventsActivity.EXTRA_EVENT);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		
-		ImageView icon = (ImageView) findViewById(R.id.event_view_icon);
-		TextView title = (TextView) findViewById(R.id.event_view_title);
-		TextView category= (TextView) findViewById(R.id.event_view_category);
-		TextView date= (TextView) findViewById(R.id.event_view_date);
-		TextView details = (TextView) findViewById(R.id.event_view_details);
 
-		icon.setImageResource(R.drawable.ic_test);
-		title.setText(mEvent.getTitle());
-		category.setText(mEvent.getCategory());
-		date.setText(mEvent.getDate());
-		details.setText(Html.fromHtml(mEvent.getDetails()));
+		int currentIndex = getIntent().getIntExtra(EventsActivity.EXTRA_EVENTS_INDEX, 0);
+		mEvents = (ArrayList<Event>) getIntent().getSerializableExtra(EventsActivity.EXTRA_EVENTS);
+		mEventPagerAdapter = new EventPagerAdapter(getSupportFragmentManager(), mEvents);
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mEventPagerAdapter);
+		mViewPager.setCurrentItem(currentIndex);
 	}
 
 	@Override
@@ -57,24 +51,22 @@ public class EventViewActivity extends Activity {
 				finish();
 				return true;
 			case R.id.menu_calendar:
-				addToCalendar();
+				addToCalendar(mEvents.get(mViewPager.getCurrentItem()));
 				return true;
 			default:
     			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	public void addToCalendar() {
+	public void addToCalendar(Event event) {
 		//Strip HTML tags and carriage returns from event details
-		String details = Html.fromHtml(mEvent.getDetails()).toString().replace("\n", " ");
+		String details = Html.fromHtml(event.getDetails()).toString().replace("\n", " ");
 		Intent calIntent = new Intent(Intent.ACTION_INSERT);
 		calIntent.setType("vnd.android.cursor.item/event");
-		calIntent.putExtra(Events.TITLE, mEvent.getTitle());
+		calIntent.putExtra(Events.TITLE, event.getTitle());
 		calIntent.putExtra(Events.DESCRIPTION, details);
-		//TODO date and time of beginning
-		GregorianCalendar calDate = new GregorianCalendar(2013, 2, 1, 18, 0);
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calDate.getTimeInMillis());
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calDate.getTimeInMillis());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getDate().getTime());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getDate().getTime());
 		startActivity(calIntent);
 	}
 	

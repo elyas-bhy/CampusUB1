@@ -6,4 +6,11 @@
         <item>@string/labri</item>
     </string-array>
     
+    <string-array name="main_menu">
+        <item>@string/events</item>
+        <item>@string/directory</item>
+        <item>@string/schedule</item>
+        <item>@string/map</item>
+    </string-array>
+    
 </resources>

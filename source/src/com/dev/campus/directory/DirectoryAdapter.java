@@ -5,10 +5,12 @@ import java.util.List;
 import com.dev.campus.R;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DirectoryAdapter extends ArrayAdapter<Contact> {
@@ -26,6 +28,7 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 		TextView name;
 		TextView tel;
 		TextView email;
+		ImageView website;
 	}
 
 	@Override
@@ -39,6 +42,7 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 
 			contactHolder = new ContactHolder();
 			contactHolder.name = (TextView) row.findViewById(R.id.contact_name);
+			contactHolder.website = (ImageView) row.findViewById(R.id.contact_website);
 			contactHolder.tel = (TextView) row.findViewById(R.id.contact_tel);
 			contactHolder.email = (TextView) row.findViewById(R.id.contact_email);
 			row.setTag(contactHolder);
@@ -52,6 +56,12 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 		contactHolder.name.setText(contact.getLastName().toUpperCase() + " " + contact.getFirstName());
 		contactHolder.tel.setText(contact.getTel());
 		contactHolder.email.setText(contact.getEmail());
+
+		Drawable drawableWebsite = mContext.getResources().getDrawable(R.drawable.website);
+		contactHolder.website.setImageDrawable(drawableWebsite);
+		if (contact.getWebsite() == null || contact.getWebsite().equals("")) {
+			contactHolder.website.getDrawable().mutate().setColorFilter(null);
+		}
 
 		return row;
 	}

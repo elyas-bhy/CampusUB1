@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Menus -->
     <string name="menu_settings">Paramètres</string>
-    
+    <string name="menu_calendar">Rajouter au calendrier</string>
+    <string name="menu_call">Appeler</string>
+    <string name="menu_mail">Envoyer un e-mail</string>
+    <string name="menu_add_to_contacts">Ajouter contact</string>
+    <string name="menu_website">Visiter le site web</string>
+    <string name="menu_complete_action">Effectuer l\'action en utilisant</string>
+
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
     <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="filter_results">Filtrez vos résultats</string>
     <string name="events_loading">Chargement des événements</string>
-    <string name="events_please_wait">Veuillez patienter</string>
-    
+    <string name="please_wait">Veuillez patienter</string>
+    <string name="contacts_loading">Chargement des contacts</string>
+
+    <!-- Toasts -->
+    <string name="showing_history">Affichage de l\'historique</string>
+    <string name="update_complete">Mise à jour effectuée</string>
+    <string name="connection_failed">Echec de connection</string>
+    <string name="no_website">Aucun site web disponible pour ce contact</string>
+    <string name="no_tel">Aucun numero disponible pour ce contact</string>
+    <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
+    <string name="no_gps">Pas de signal GPS</string>
+    <string name="showing_upcoming_events">Affichage des événements à venir</string>
+    <string name="showing_all_events">Affichage de tous les événements</string>
+
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
-    
+
     <!-- Activity titles -->
     <string name="title_activity_home">Accueil</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_events">Evénements</string>
     <string name="title_activity_directory">Annuaire</string>
-    
-    <!-- Servies -->
+    <string name="title_activity_categories">Categories</string>
+    <string name="title_activity_maps">Plan du Campus</string>
+
+    <!-- Services -->
     <string name="events">Evénements</string>
     <string name="directory">Annuaire</string>
-    <string name="schedule">Emploi du Temps</string>
-    <string name="map">Plan du Campus</string>   
-    
+    <string name="schedule">Emploi du temps</string>
+    <string name="map">Plan du campus</string>
+
     <!-- Directory strings -->
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
+    <string name="website_icon">Site web</string>
     
+    <!-- Map strings -->
+    <string name="campus_restauration">Restauration</string>
+    <string name="campus_services">Services</string>
+    <string name="campus_buildings">Bâtiments</string>
+    <string name="map_search">Rechercher</string>
+    <string name="map_not_found">Aucun résultat trouvé</string>
+    <string name="positions">Positions</string>
+    <string name="my_position">Ma position</string>
+    <string name="campus_position">Position du campus</string>
+
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
     <string name="other_category">Autres</string>
@@ -37,7 +69,7 @@
     <string name="subscriptions_summary">Gérer ses abonnements</string>
     <string name="filters_title">Filtres</string>
     <string name="filters_summary">Gérer ses filtres</string>
-    
+
     <!-- Event categories -->
     <string name="category_main_events">Actualités</string>
     <string name="category_formation">Formation</string>
@@ -47,5 +79,5 @@
     <string name="category_student_life">Vie étudiante</string>
     <string name="category_companies">Entreprises</string>
     <string name="category_press">Presse</string>
-    
+
 </resources>

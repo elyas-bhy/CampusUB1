@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/checkbox_show_upcoming_events"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/btn_check_off_holo_light"
+        android:checkable="true"
+        android:checked="false"/>
+    
+    <item
+        android:id="@+id/checkbox_show_unread_only"
+        android:orderInCategory="90"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_content_read"
+        android:checkable="true"
+        android:checked="false"/>
+    
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="80"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_refresh"/>
+
+</menu>
