@@ -12,7 +12,6 @@ import java.util.Date;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -45,22 +44,21 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
 	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
 	
-	private final int updateFrequency = 60000; // Update frequency (ms)
-	
 	private boolean mShowUpcomingEvents = false;
 	private boolean mShowUnreadOnly = false;
 	
 	private ArrayList<Event> mEvents;
 	private ArrayList<Event> mSortedEvents;
 	private Category mCategory;
-
-	private ActionBar mActionBar;
-	private Resources mResources;
-	private SlidingMenu mSlidingMenu;
 	
 	private FilterDialog mFilterDialog;
 	private EventAdapter mEventAdapter;
 	private EventParser mEventParser;
+
+	private ActionBar mActionBar;
+	private Resources mResources;
+	private MenuItem mRefreshMenuItem;
+	private SlidingMenu mSlidingMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -132,9 +130,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
         ListView menuView = (ListView) slideMenu.findViewById(R.id.slide_menu);
         menuView.setAdapter(adapter);
         
-        //Select first category
         menuView.setItemChecked(0, true);
-        
         menuView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -155,17 +151,13 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		else
 			super.onBackPressed();
 	}
-	
-	@Override
-	public void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		update();
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.actionbar_footer, menu);
+		mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
 		mSlidingMenu.showMenu();
+		update();
 		return true;
 	}
 
@@ -295,15 +287,9 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Event>, ArrayList<Date>>, Void, Void> {
 
-		private ProgressDialog progressDialog = new ProgressDialog(EventsActivity.this);
-
 		@Override
 		protected void onPreExecute() {
-			progressDialog.setTitle(mResources.getString(R.string.events_loading));
-			progressDialog.setMessage(mResources.getString(R.string.please_wait));
-			progressDialog.setIndeterminate(true);
-			progressDialog.setCancelable(false);
-			progressDialog.show();
+			mRefreshMenuItem.setActionView(R.layout.actionar_refresh_progress);
 		}
 
 		@Override
@@ -329,12 +315,12 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		@Override
 		protected void onPostExecute(Void result) {
 			reloadEvents();
-			progressDialog.dismiss();
+			mRefreshMenuItem.setActionView(null);
 		}
 
 		@Override
 		protected void onCancelled() {
-			progressDialog.dismiss();
+			mRefreshMenuItem.setActionView(null);
 			super.onCancelled();
 		}
 	}
