@@ -2,21 +2,28 @@ package com.dev.campus.home;
 
 public class HomeEntryItem {
 	
-	private String title;
+	private int mIconResourceId;
+	private String mTitle;
 	private boolean isSection;
 	
 	public HomeEntryItem() {
-		this.title = "";
-		this.isSection = true;
+		mIconResourceId = 0;
+		mTitle = "";
+		isSection = true;
 	}
 	
-	public HomeEntryItem(String title) {
-		this.title = title;
-		this.isSection = false;
+	public HomeEntryItem(int iconResourceId, String title) {
+		mIconResourceId = iconResourceId;
+		mTitle = title;
+		isSection = false;
 	}
 	
 	public String getTitle() {
-		return title;
+		return mTitle;
+	}
+	
+	public int getIconResourceId() {
+		return mIconResourceId;
 	}
 	
 	public boolean isSection() {

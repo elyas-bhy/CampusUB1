@@ -46,13 +46,13 @@ public class HomeActivity extends ListActivity {
 		
 		//Setup adapter items
 		ArrayList<HomeEntryItem> items = new ArrayList<HomeEntryItem>();
-		items.add(new HomeEntryItem(mResources.getString(R.string.events)));
-		items.add(new HomeEntryItem(mResources.getString(R.string.directory)));
-		items.add(new HomeEntryItem(mResources.getString(R.string.schedule)));
-		items.add(new HomeEntryItem(mResources.getString(R.string.map)));
+		items.add(new HomeEntryItem(R.drawable.ic_menu_events, mResources.getString(R.string.events)));
+		items.add(new HomeEntryItem(R.drawable.ic_menu_directory, mResources.getString(R.string.directory)));
+		items.add(new HomeEntryItem(R.drawable.ic_menu_schedule, mResources.getString(R.string.schedule)));
+		items.add(new HomeEntryItem(R.drawable.ic_menu_maps, mResources.getString(R.string.map)));
 		items.add(new HomeEntryItem());	//separator
-		items.add(new HomeEntryItem(mResources.getString(R.string.ub1)));
-		items.add(new HomeEntryItem(mResources.getString(R.string.labri)));
+		items.add(new HomeEntryItem(R.drawable.ic_menu_bdx1, mResources.getString(R.string.ub1)));
+		items.add(new HomeEntryItem(R.drawable.ic_menu_labri, mResources.getString(R.string.labri)));
 		
 		setListAdapter(new HomeEntryAdapter(this, items));
 	}
