@@ -6,11 +6,16 @@
     <color name="white">#FFF</color>
     <color name="black">#000</color>
     
+    <color name="white_light">#EBEBEB</color>
     <color name="white_stale">#D1D1D1</color>
-    <color name="blue_light">#2095C7</color>
-    <color name="grey_metal">#515556</color>
-    <color name="grey_metal_dark">#3B4141</color>
-    <color name="grey_metal_dark_divider">#323838</color>
+    
+    <color name="blue_light">#26B0EB</color>
     <color name="holo_dark_black">#222222</color>
+    
+    <color name="grey_metal">#515556</color>
+    <color name="grey_metal_dark">#4F4F4F</color>
+    <color name="grey_separator">#DBDBDB</color>
+    <color name="grey_divider">#D9D9D9</color>
+    <color name="grey_metal_dark_divider">#3D3D3D</color>
     
 </resources>

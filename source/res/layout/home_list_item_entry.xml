@@ -7,13 +7,13 @@
         android:id="@+id/home_list_item_entry_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/slidemenu_selector"
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
         android:paddingRight="?android:attr/listPreferredItemPaddingRight"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textSize="19sp"
-        android:textColor="@color/white_stale" />
+        android:background="@drawable/home_list_selector"
+        android:textColor="@color/black"
+        android:textSize="19sp" />
 
 </LinearLayout>
