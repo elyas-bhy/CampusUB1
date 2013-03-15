@@ -3,23 +3,23 @@ package com.dev.campus.home;
 public class HomeEntryItem {
 	
 	private int mIconResourceId;
-	private String mTitle;
+	private int mTitleResourceId;
 	private boolean isSection;
 	
 	public HomeEntryItem() {
 		mIconResourceId = 0;
-		mTitle = "";
+		mTitleResourceId = 0;
 		isSection = true;
 	}
 	
-	public HomeEntryItem(int iconResourceId, String title) {
+	public HomeEntryItem(int iconResourceId, int titleResourceId) {
 		mIconResourceId = iconResourceId;
-		mTitle = title;
+		mTitleResourceId = titleResourceId;
 		isSection = false;
 	}
 	
-	public String getTitle() {
-		return mTitle;
+	public int getTitleResourceId() {
+		return mTitleResourceId;
 	}
 	
 	public int getIconResourceId() {

@@ -40,7 +40,7 @@ public class HomeEntryAdapter extends ArrayAdapter<HomeEntryItem> {
 				row = mLayoutInflater.inflate(R.layout.home_list_item_entry, null);
 				ImageView icon = (ImageView) row.findViewById(R.id.home_list_item_entry_icon);
 				TextView title = (TextView) row.findViewById(R.id.home_list_item_entry_title);
-				title.setText(item.getTitle());
+				title.setText(item.getTitleResourceId());
 				icon.setImageResource(item.getIconResourceId());
 			}
 		}
