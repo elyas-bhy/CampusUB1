@@ -5,9 +5,12 @@
     <color name="blue">#009</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
-    <color name="light_blue">#2095C7</color>
-    <color name="metal_grey">#676973</color>
-    <color name="dark_metal_grey">#393A3D</color>
+    
+    <color name="white_stale">#D1D1D1</color>
+    <color name="blue_light">#2095C7</color>
+    <color name="grey_metal">#515556</color>
+    <color name="grey_metal_dark">#3B4141</color>
+    <color name="grey_metal_dark_divider">#323838</color>
     <color name="holo_dark_black">#222222</color>
     
 </resources>

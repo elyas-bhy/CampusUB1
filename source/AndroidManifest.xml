@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dev.campus.HomeActivity"
+            android:name="com.dev.campus.home.HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
         <activity

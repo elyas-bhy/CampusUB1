@@ -3,14 +3,14 @@
 
     <item
         android:state_pressed="true"
-        android:drawable="@color/light_blue" />
+        android:drawable="@color/blue_light" />
     
     <item
         android:state_checked="true"
-        android:drawable="@color/light_blue" />
+        android:drawable="@color/blue_light" />
     
     <item
         android:state_checked="false"
-        android:drawable="@color/metal_grey" />
+        android:drawable="@color/grey_metal_dark" />
 
 </selector>
