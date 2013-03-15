@@ -101,6 +101,9 @@ public class MapActivity extends Activity implements LocationListener {
 		case R.id.menu_my_pos:
 			goToPosition(mCurrentLocation.getPosition(),DEFAULT_ZOOM);
 			return true;
+		case android.R.id.home:
+			finish();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -139,7 +142,7 @@ public class MapActivity extends Activity implements LocationListener {
 					break;
 				}
 				for(Marker marker : markerType)
-					if(pos.getmID().equals(marker.getId())){
+					if(pos.getId().equals(marker.getId())){
 						marker.setVisible(true);
 						marker.showInfoWindow();
 						break;

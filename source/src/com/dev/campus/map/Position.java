@@ -76,14 +76,14 @@ public enum Position {
 		}
 	}
 	
-	private String mID;
+	private String mId;
 	private PositionType mType;
 	private String mName;
 	private double mLat;
 	private double mLng;
 	
 	private Position(String id,PositionType type,String name, double lat, double lng) {
-		mID = id;
+		mId = id;
 		mType = type;
 		mName = name;
 		mLat = lat;
@@ -106,8 +106,8 @@ public enum Position {
 		return mType;
 	}
 
-	public String getmID() {
-		return mID;
+	public String getId() {
+		return mId;
 	}
 
 }
