@@ -1,7 +1,7 @@
 package com.dev.campus;
 
+import com.dev.campus.home.HomeActivity;
 import com.dev.campus.util.SubscribeDialog;
-import com.dev.campus.HomeActivity;
 import com.dev.campus.R;
 
 import android.os.Bundle;
