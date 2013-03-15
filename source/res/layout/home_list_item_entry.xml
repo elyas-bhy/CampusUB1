@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/home_list_bg_selector">
     
     <ImageView 
         android:id="@+id/home_list_item_entry_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
         android:scaleType="centerInside"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"/>
 
@@ -23,7 +23,6 @@
         android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
         android:paddingRight="?android:attr/listPreferredItemPaddingRight"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:background="@drawable/home_list_bg_selector"
         android:textColor="@drawable/home_list_text_selector"
         android:textSize="19sp" />
 
