@@ -116,7 +116,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
         //Create and populate a Category adapter
 		ArrayList<Category> categories = new ArrayList<Category>();
 		categories.addAll(Arrays.asList(Category.values()));
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, R.layout.simple_list_item, categories);
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, R.layout.slidemenu_list_item, categories);
         
         //Assign adapter to slide_menu list view
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

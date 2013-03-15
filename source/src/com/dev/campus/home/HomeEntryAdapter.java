@@ -18,7 +18,7 @@ public class HomeEntryAdapter extends ArrayAdapter<HomeEntryItem> {
 	private LayoutInflater mLayoutInflater;
 
 	public HomeEntryAdapter(Activity context, ArrayList<HomeEntryItem> items) {
-		super(context, R.layout.simple_list_item, items);
+		super(context, 0, items);
 		mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mItems = items;
 	}
@@ -28,7 +28,7 @@ public class HomeEntryAdapter extends ArrayAdapter<HomeEntryItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
 		final HomeEntryItem item = mItems.get(position);
-		
+
 		if (item != null) {
 			if (item.isSection()) {
 				row = mLayoutInflater.inflate(R.layout.home_list_item_separator, null);

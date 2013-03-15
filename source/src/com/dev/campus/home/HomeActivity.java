@@ -37,9 +37,12 @@ public class HomeActivity extends ListActivity {
 
 		//ListView styling
 		ListView listView = getListView();
-		listView.setBackgroundResource(R.color.grey_metal_dark);
-		listView.setDivider(mResources.getDrawable(R.color.grey_metal_dark_divider));
+		listView.setBackgroundResource(R.color.white_light);
+		listView.setDivider(mResources.getDrawable(R.color.grey_divider));
 		listView.setDividerHeight(1);
+		
+		View header = (View) getLayoutInflater().inflate(R.layout.home_header, listView, false);
+		listView.addHeaderView(header, null, false);
 		
 		//Setup adapter items
 		ArrayList<HomeEntryItem> items = new ArrayList<HomeEntryItem>();
@@ -63,26 +66,26 @@ public class HomeActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		switch (position) {
-		case 0: // Events
+		case 1: // Events
 			startActivity(new Intent(HomeActivity.this, EventsActivity.class));
 			break;
-		case 1: // Directory
+		case 2: // Directory
 			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
 			break;
-		case 2: // Schedule
+		case 3: // Schedule
 			//TODO
 			break;
-		case 3: // Map
+		case 4: // Map
 			if(CampusUB1App.persistence.isOnline())
 				startActivity(new Intent(HomeActivity.this, MapActivity.class));
 			else
 				Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
 			break;
-		case 5: // UB1 website
+		case 6: // UB1 website
 			Intent browserUB1 = new Intent(Intent.ACTION_VIEW, Uri.parse(UB1_HOMEPAGE));
 			startActivity(browserUB1);
 			break;
-		case 6: // LaBRI website
+		case 7: // LaBRI website
 			Intent browserLabri = new Intent(Intent.ACTION_VIEW, Uri.parse(LABRI_HOMEPAGE));
 			startActivity(browserLabri);
 			break;
