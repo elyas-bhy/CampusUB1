@@ -5,6 +5,6 @@
         android:id="@+id/menu_calendar"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_event"/>
+        android:icon="@drawable/ic_new_event"/>
 
 </menu>
