@@ -135,7 +135,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	}
 
 	public void callContact() {
-		Intent callIntent = new Intent(Intent.ACTION_CALL);
+		Intent callIntent = new Intent(Intent.ACTION_DIAL);
 		callIntent.setData(Uri.parse("tel:" + mContact.getTel()));
 		startActivity(callIntent);
 	}
