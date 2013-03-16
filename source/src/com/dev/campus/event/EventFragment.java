@@ -5,6 +5,8 @@ import com.dev.campus.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,11 @@ public class EventFragment extends Fragment {
 		((TextView) rootView.findViewById(R.id.event_view_title)).setText(mEvent.getTitle());
 		((TextView) rootView.findViewById(R.id.event_view_category)).setText(mEvent.getCategory());
 		((TextView) rootView.findViewById(R.id.event_view_date)).setText(mEvent.getStringDate());
-		((TextView) rootView.findViewById(R.id.event_view_details)).setText(Html.fromHtml(mEvent.getDetails()));
+
+		TextView detailsView = (TextView) rootView.findViewById(R.id.event_view_details);
+		detailsView.setText(Html.fromHtml(mEvent.getDetails()));
+		Linkify.addLinks(detailsView, Linkify.EMAIL_ADDRESSES);
+		detailsView.setMovementMethod(LinkMovementMethod.getInstance());
 		return rootView;
 	}
 
