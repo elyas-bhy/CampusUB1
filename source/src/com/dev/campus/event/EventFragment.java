@@ -8,7 +8,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class EventFragment extends Fragment {
@@ -25,8 +24,6 @@ public class EventFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_event, container, false);
-		
-		((ImageView) rootView.findViewById(R.id.event_view_icon)).setImageResource(R.drawable.ic_test);
 		((TextView) rootView.findViewById(R.id.event_view_title)).setText(mEvent.getTitle());
 		((TextView) rootView.findViewById(R.id.event_view_category)).setText(mEvent.getCategory());
 		((TextView) rootView.findViewById(R.id.event_view_date)).setText(mEvent.getStringDate());
