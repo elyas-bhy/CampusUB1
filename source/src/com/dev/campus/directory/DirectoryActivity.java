@@ -69,9 +69,6 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		listview.setAdapter(mDirectoryAdapter);
 		listview.setOnItemClickListener(this);
 		
-		EditText firstname = (EditText) header.findViewById(R.id.edit_text_first_name);
-		firstname.requestFocus();
-		
 		initSearchButton();
 	}
 	
