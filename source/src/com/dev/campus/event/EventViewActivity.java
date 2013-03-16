@@ -61,7 +61,7 @@ public class EventViewActivity extends FragmentActivity {
 	public void addToCalendar(Event event) {
 		//Strip HTML tags and carriage returns from event details
 		String details = Html.fromHtml(event.getDetails()).toString().replace("\n", " ");
-		Intent calIntent = new Intent(Intent.ACTION_INSERT);
+		Intent calIntent = new Intent(Intent.ACTION_EDIT);
 		calIntent.setType("vnd.android.cursor.item/event");
 		calIntent.putExtra(Events.TITLE, event.getTitle());
 		calIntent.putExtra(Events.DESCRIPTION, details);
