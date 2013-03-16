@@ -54,8 +54,20 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 		Contact contact = contacts.get(position);
 
 		contactHolder.name.setText(contact.getLastName().toUpperCase() + " " + contact.getFirstName());
-		contactHolder.tel.setText(contact.getTel());
-		contactHolder.email.setText(contact.getEmail());
+
+		if (contact.getTel() != null) {
+			contactHolder.tel.setText(contact.getTel());
+		}
+		else {
+			contactHolder.tel.setText(R.string.tel_not_specified);
+		}
+
+		if (contact.getEmail() != null) {
+			contactHolder.email.setText(contact.getEmail());
+		}
+		else {
+			contactHolder.email.setText(R.string.email_not_specified);
+		}
 
 		Drawable drawableWebsite = mContext.getResources().getDrawable(R.drawable.website);
 		contactHolder.website.setImageDrawable(drawableWebsite);
