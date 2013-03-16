@@ -18,7 +18,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="First Name"
+            android:hint="@string/first_name"
             android:inputType="text"
             android:imeOptions="actionSearch" />
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:ems="10"
-            android:hint="Last Name"
+            android:hint="@string/last_name"
             android:inputType="text"
             android:imeOptions="actionSearch" />
     </LinearLayout>
