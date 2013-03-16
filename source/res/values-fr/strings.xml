@@ -50,7 +50,8 @@
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
     <string name="website_icon">Site web</string>
-    
+    <string name="tel_not_specified">Aucun numéro de téléphone spécifié</string>
+    <string name="email_not_specified">Aucune adresse email spécifiée</string>
     <!-- Map strings -->
     <string name="campus_restauration">Restauration</string>
     <string name="campus_services">Services</string>

@@ -61,8 +61,10 @@ public class DirectoryManager {
 			for (int contact_nb = 0; contact_nb < entryCount; contact_nb++) {
 				SearchResultEntry entry = searchResult.getSearchEntries().get(contact_nb);
 				Contact contact = new Contact();
-				contact.setEmail(entry.getAttributeValue("mail"));
-				contact.setTel(entry.getAttributeValue("telephoneNumber"));
+				if (!entry.getAttributeValue("mail").equals(""))
+					contact.setEmail(entry.getAttributeValue("mail"));
+				if (!entry.getAttributeValue("telephoneNumber").equals("Non renseigne"))
+					contact.setTel(entry.getAttributeValue("telephoneNumber"));
 				contact.setFirstName(entry.getAttributeValue("givenName"));
 				contact.setLastName(entry.getAttributeValue("sn"));
 				contact.setType(ContactType.UB1_CONTACT);
@@ -122,11 +124,14 @@ public class DirectoryManager {
 				else if(i % 8 == 2) { // Email
 					String email = td.getElementsByTag("a").attr("href");
 					email = email.substring(7); // remove: "mailto:"
-					contact.setEmail(email);
+					if (!email.equals(""))
+						contact.setEmail(email);
 				}
 				else if (i % 8 == 3) { // Telephone, Default : "+33 (0)5 40 00 "
-					if (!buffer.equals("+33 (0)5 40 00")) {
-						contact.setTel(buffer);
+					String tel = buffer;
+					if (!tel.equals("+33 (0)5 40 00")) {
+						tel = tel.replaceAll("\\(0\\)", "");
+						contact.setTel(tel);
 					}
 				}
 				else if (i % 8 == 7) { // Website

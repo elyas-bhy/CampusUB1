@@ -60,7 +60,9 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="website_icon">Website</string>
-	
+    <string name="tel_not_specified">No telephone number specified</string>
+    <string name="email_not_specified">No email address spécified</string>
+
     <!-- Map strings -->
     <string name="campus_restauration">Catering</string>
     <string name="campus_services">Services</string>
@@ -70,7 +72,7 @@
     <string name="positions">Positions</string>
     <string name="my_position">My position</string>
     <string name="campus_position">Campus position</string>
-       
+
     <!-- Preferences -->
     <string name="preferences_category">Preferences</string>
     <string name="other_category">Other</string>
