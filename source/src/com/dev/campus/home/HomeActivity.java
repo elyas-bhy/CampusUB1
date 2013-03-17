@@ -45,16 +45,16 @@ public class HomeActivity extends ListActivity {
 		listView.addHeaderView(header, null, false);
 		
 		//Setup adapter items
-		ArrayList<HomeEntryItem> items = new ArrayList<HomeEntryItem>();
+		ArrayList<HomeItem> items = new ArrayList<HomeItem>();
 		items.add(new HomeEntryItem(R.drawable.ic_menu_events, R.string.events));
 		items.add(new HomeEntryItem(R.drawable.ic_menu_directory, R.string.directory));
 		items.add(new HomeEntryItem(R.drawable.ic_menu_schedule, R.string.schedule));
 		items.add(new HomeEntryItem(R.drawable.ic_menu_maps, R.string.map));
-		items.add(new HomeEntryItem());	//separator
+		items.add(new HomeSeparatorItem());	//separator
 		items.add(new HomeEntryItem(R.drawable.ic_menu_bdx1, R.string.ub1));
 		items.add(new HomeEntryItem(R.drawable.ic_menu_labri, R.string.labri));
 		
-		setListAdapter(new HomeEntryAdapter(this, items));
+		setListAdapter(new HomeAdapter(this, items));
 	}
 
 	@Override
@@ -82,12 +82,10 @@ public class HomeActivity extends ListActivity {
 				Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
 			break;
 		case 6: // UB1 website
-			Intent browserUB1 = new Intent(Intent.ACTION_VIEW, Uri.parse(UB1_HOMEPAGE));
-			startActivity(browserUB1);
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UB1_HOMEPAGE)));
 			break;
 		case 7: // LaBRI website
-			Intent browserLabri = new Intent(Intent.ACTION_VIEW, Uri.parse(LABRI_HOMEPAGE));
-			startActivity(browserLabri);
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(LABRI_HOMEPAGE)));
 			break;
 		default:
 			break;
