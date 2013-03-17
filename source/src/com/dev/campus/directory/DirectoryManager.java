@@ -61,9 +61,9 @@ public class DirectoryManager {
 			for (int contact_nb = 0; contact_nb < entryCount; contact_nb++) {
 				SearchResultEntry entry = searchResult.getSearchEntries().get(contact_nb);
 				Contact contact = new Contact();
-				if (!(entry.getAttributeValue("mail") == null) && !entry.getAttributeValue("mail").equals(""))
+				if ((entry.getAttributeValue("mail") != null) && !entry.getAttributeValue("mail").equals(""))
 					contact.setEmail(entry.getAttributeValue("mail"));
-				if (!(entry.getAttributeValue("telephoneNumber") == null) && !entry.getAttributeValue("telephoneNumber").equals("Non renseigne"))
+				if ((entry.getAttributeValue("telephoneNumber") != null) && !entry.getAttributeValue("telephoneNumber").equals("Non renseigne"))
 					contact.setTel(entry.getAttributeValue("telephoneNumber"));
 				contact.setFirstName(entry.getAttributeValue("givenName"));
 				contact.setLastName(entry.getAttributeValue("sn"));
@@ -87,7 +87,7 @@ public class DirectoryManager {
 
 		for (Contact c : mLabriContacts) {
 			if (removeAccents(c.getFirstName()).toLowerCase().contains(firstName)
-					&& removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
+			 && removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
 				matchingContacts.add(c);
 			}
 		}
