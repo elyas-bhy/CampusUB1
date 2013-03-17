@@ -123,38 +123,6 @@ public class MapActivity extends Activity implements LocationListener {
 			break;
 		}
 	}
-
-	@SuppressLint("DefaultLocale")
-	public void searchPosition(String input){
-		boolean found = false;
-		for (Position pos : Position.values()){
-			if((pos.getName().toLowerCase().equals(input.toLowerCase()) || (pos.getName().toLowerCase().contains(input.toLowerCase())))){
-				ArrayList<Marker> markerType = null;
-				switch(pos.getType()) {
-				case BUILDING:
-					markerType = mBuildingsMarkers;
-					break;
-				case RESTAURATION:
-					markerType= mRestaurationMarkers;
-					break;
-				case SERVICE:
-					markerType = mServicesMarkers;	
-					break;
-				}
-				for(Marker marker : markerType)
-					if(pos.getId().equals(marker.getId())){
-						marker.setVisible(true);
-						marker.showInfoWindow();
-						break;
-					}
-				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
-				found = true;
-				break;
-			}
-		}
-		if(!found)
-			Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
-	}
 	
 	public void checkGooglePlayServicesAvailability() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -206,6 +174,7 @@ public class MapActivity extends Activity implements LocationListener {
 		mServicesMarkers = new ArrayList<Marker>();
 		mRestaurationMarkers = new ArrayList<Marker>();
 		mBuildingsMarkers = new ArrayList<Marker>();
+		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()
 			.position(new LatLng(pos.getLat(), pos.getLng()))
@@ -227,9 +196,9 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
-	public void populateMap(List<Marker> markers, boolean checked) {
+	public void populateMap(List<Marker> markers, boolean isChecked) {
 		for (Marker marker : markers)
-			marker.setVisible(checked);			
+			marker.setVisible(isChecked);			
 	}
 
 	public void goToPosition(LatLng pos,int zoom) {
@@ -262,8 +231,8 @@ public class MapActivity extends Activity implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		mCurrentLocation.remove();
 		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+		mCurrentLocation.remove();
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
 		.title(mResources.getString(R.string.my_position))
@@ -284,11 +253,42 @@ public class MapActivity extends Activity implements LocationListener {
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 	}
+	
+	@SuppressLint("DefaultLocale")
+	public void searchPosition(String input){
+		for (Position pos : Position.values()) {
+			if ((pos.getName().toLowerCase().equals(input.toLowerCase())
+			 || (pos.getName().toLowerCase().contains(input.toLowerCase())))) {
+				ArrayList<Marker> markerType = null;
+				switch(pos.getType()) {
+				case BUILDING:
+					markerType = mBuildingsMarkers;
+					break;
+				case RESTAURATION:
+					markerType= mRestaurationMarkers;
+					break;
+				case SERVICE:
+					markerType = mServicesMarkers;	
+					break;
+				}
+				
+				for (Marker marker : markerType) {
+					if (pos.getId().equals(marker.getId())) {
+						marker.setVisible(true);
+						marker.showInfoWindow();
+						break;
+					}
+				}
+				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
+				return;
+			}
+		}
+		Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
+	}
 
 	final SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
 		@Override
 		public boolean onQueryTextChange(String text) {
-			//Do something
 			return true;
 		}
 

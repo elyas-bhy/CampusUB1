@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 public class DirectoryAdapter extends ArrayAdapter<Contact> {
 
-	private List<Contact> contacts;
+	private List<Contact> mContacts;
 	private Activity mContext;
 
 	public DirectoryAdapter(Activity context, List<Contact> contacts) {
 		super(context, R.layout.directory_list_item, contacts);
 		mContext = context;
-		this.contacts = contacts;
+		mContacts = contacts;
 	}
 
 	private static class ContactHolder {
@@ -51,21 +51,18 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 			contactHolder = (ContactHolder) row.getTag();
 		}
 
-		Contact contact = contacts.get(position);
-
+		Contact contact = mContacts.get(position);
 		contactHolder.name.setText(contact.getLastName().toUpperCase() + " " + contact.getFirstName());
 
 		if (contact.getTel() != null) {
 			contactHolder.tel.setText(contact.getTel());
-		}
-		else {
+		} else {
 			contactHolder.tel.setText(R.string.tel_not_specified);
 		}
 
 		if (contact.getEmail() != null) {
 			contactHolder.email.setText(contact.getEmail());
-		}
-		else {
+		} else {
 			contactHolder.email.setText(R.string.email_not_specified);
 		}
 
