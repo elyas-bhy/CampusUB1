@@ -13,9 +13,9 @@
     <color name="holo_dark_black">#222222</color>
     
     <color name="grey_metal">#515556</color>
-    <color name="grey_metal_dark">#4F4F4F</color>
+    <color name="grey_metal_dark">#636363</color>
     <color name="grey_separator">#DBDBDB</color>
     <color name="grey_divider">#CCCCCC</color>
-    <color name="grey_metal_dark_divider">#3D3D3D</color>
+    <color name="grey_metal_dark_divider">#535353</color>
     
 </resources>
