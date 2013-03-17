@@ -1,5 +1,6 @@
 package com.dev.campus.map;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -258,9 +259,8 @@ public class MapActivity extends Activity implements LocationListener {
 	public void searchPosition(String input){
 		for (Position pos : Position.values()) {
 			for(int i=0; i<pos.getSuggestions().length;i++)
-				if ((pos.getSuggestions()[i].toLowerCase().equals(input.toLowerCase())
-						|| (pos.getSuggestions()[i].toLowerCase().startsWith(input.toLowerCase()))
-						|| (pos.getSuggestions()[i].toLowerCase().contains(input.toLowerCase())))){
+				if ((removeAccents(pos.getSuggestions()[i].toLowerCase()).equals((removeAccents(input.toLowerCase())))
+						|| ((removeAccents(pos.getSuggestions()[i].toLowerCase()).startsWith((removeAccents(input.toLowerCase()))))))){
 					ArrayList<Marker> markerType = null;
 					switch(pos.getType()) {
 					case BUILDING:
@@ -287,6 +287,12 @@ public class MapActivity extends Activity implements LocationListener {
 		Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
 	}
 
+	public String removeAccents(String str) {
+		str = Normalizer.normalize(str, Normalizer.Form.NFD);
+		str = str.replaceAll("[^\\p{ASCII}]", "");
+		return str;
+	}
+	
 	final SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
 		@Override
 		public boolean onQueryTextChange(String text) {
