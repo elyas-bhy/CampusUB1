@@ -20,9 +20,9 @@
             android:ems="10"
             android:hint="@string/first_name"
             android:imeOptions="actionSearch"
-            android:inputType="text" />
-
-        <requestFocus />
+            android:inputType="text" >
+            <requestFocus />
+        </EditText>
 
         <EditText
             android:id="@+id/edit_text_last_name"
