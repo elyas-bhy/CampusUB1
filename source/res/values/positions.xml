@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="batiment_A1">
+        <item>Batiment A1</item>
+        <item>A1</item>
+        <item>UFR Physique</item>
+    </string-array>
+    <string-array name="batiment_A2">
+        <item>Batiment A2</item>
+        <item>A2</item>
+        <item>CRMT</item>
+    </string-array>
+    <string-array name="batiment_A3">
+        <item>Batiment A3</item>
+        <item>A3</item>
+    </string-array>
+    <string-array name="batiment_A4">
+        <item>Batiment A4</item>
+        <item>A4</item>
+    </string-array>
+    <string-array name="batiment_A5">
+        <item>Batiment A5</item>
+        <item>A5</item>
+        <item>AMIE</item>
+    </string-array>
+    <string-array name="batiment_A6">
+        <item>Batiment A6</item>
+        <item>A6</item>
+    </string-array>
+    <string-array name="batiment_A7">
+        <item>Batiment A7</item>
+        <item>A7</item>
+    </string-array>
+    <string-array name="batiment_A8">
+        <item>Batiment A8</item>
+        <item>A8</item>
+    </string-array>
+    <string-array name="batiment_A9">
+        <item>Batiment A9</item>
+        <item>A9</item>
+        <item>Amphithéâtre Kastler</item>
+        <item>Amphithéâtre de Physique</item>
+    </string-array>
+    <string-array name="batiment_A10">
+        <item>Batiment A10</item>
+        <item>A10</item>
+        <item>Amphithéâtre de Chimie</item>
+        <item>Grand Amphithéâtre de Chimie</item>
+        <item>ALC1</item>
+    </string-array>
+    <string-array name="batiment_A11">
+        <item>Batiment A11</item>
+        <item>A11</item>
+        <item>UFR Chimie</item>
+    </string-array>
+    <string-array name="batiment_A12">
+        <item>Batiment A12</item>
+        <item>A12</item>
+    </string-array>
+    <string-array name="batiment_A13">
+        <item>Batiment A13</item>
+        <item>A13</item>
+        <item>Castelterrefort</item>
+    </string-array>
+    <string-array name="batiment_A14">
+        <item>Batiment A14</item>
+        <item>A14</item>
+    </string-array>
+    <string-array name="batiment_A16">
+        <item>Batiment A16</item>
+        <item>A16</item>
+    </string-array>
+    <string-array name="batiment_A17">
+        <item>Batiment A17</item>
+        <item>A17</item>
+    </string-array>
+    <string-array name="batiment_A18">
+        <item>Batiment A18</item>
+        <item>A18</item>
+    </string-array>
+    <string-array name="batiment_A19">
+        <item>Batiment A19</item>
+        <item>A19</item>
+    </string-array>
+    <string-array name="batiment_A20">
+        <item>Batiment A20</item>
+        <item>A20</item>
+    </string-array>
+    <string-array name="batiment_A21">
+        <item>Batiment A21</item>
+        <item>A21</item>
+        <item>Espace Oméga</item>
+    </string-array>
+    <string-array name="batiment_A22">
+        <item>Batiment A22</item>
+        <item>A22</item>
+        <item>Batiment licence</item>
+        <item>Amphithéâtre Henri Poincaré</item>
+        <item>Amphithéâtre Rosalind Franklin</item>
+        <item>Amphithéâtre Thomas Edison</item>
+        <item>Amphithéâtre Charles Darwin</item>
+        <item>Amphithéâtre Alfred Wegener</item>
+    </string-array>
+    <string-array name="batiment_A27">
+        <item>Batiment A27</item>
+        <item>A27</item>
+        <item>LaBRI</item>
+    </string-array>
+    <string-array name="batiment_A28">
+        <item>Batiment A28</item>
+        <item>A28</item>
+        <item>CREMI</item>
+    </string-array>
+    <string-array name="batiment_A29">
+        <item>Batiment A29</item>
+        <item>A29</item>
+        <item>Amphithéâtre A</item>
+        <item>Amphithéâtre B</item>
+        <item>Amphithéâtre C</item>
+        <item>Amphithéâtre D</item>
+        <item>Amphithéâtre E</item>
+    </string-array>
+    <string-array name="batiment_A30">
+        <item>Batiment A30</item>
+        <item>A30</item>
+    </string-array>
+    <string-array name="batiment_A31">
+        <item>Batiment A31</item>
+        <item>A31</item>
+        <item>IXL</item>
+    </string-array>
+    <string-array name="batiment_A32">
+        <item>Batiment A32</item>
+        <item>A32</item>
+        <item>SUAS</item>
+    </string-array>
+    <string-array name="batiment_A33">
+        <item>Batiment A33</item>
+        <item>A33</item>
+        <item>IMB</item>
+    </string-array>
+    <string-array name="batiment_A36">
+        <item>Batiment A36</item>
+        <item>A36</item>
+    </string-array>
+    <string-array name="batiment_A38">
+        <item>Batiment A38</item>
+        <item>A38</item>
+    </string-array>
+    <string-array name="batiment_A39">
+        <item>Batiment A39</item>
+        <item>A39</item>
+    </string-array>
+    <string-array name="batiment_B1">
+        <item>Batiment B1</item>
+        <item>B1</item>
+    </string-array>
+    <string-array name="batiment_B2">
+        <item>Batiment B2</item>
+        <item>B2</item>
+    </string-array>
+    <string-array name="batiment_B3">
+        <item>Batiment B3</item>
+        <item>B3</item>
+    </string-array>
+    <string-array name="batiment_B4">
+        <item>Batiment B4</item>
+        <item>B4</item>
+    </string-array>
+    <string-array name="batiment_B5">
+        <item>Batiment B5</item>
+        <item>B5</item>
+        <item>UFR Sciences Biologiques</item>
+        <item>Amphithéâtre Biologie Animale</item>
+    </string-array>
+    <string-array name="batiment_B6">
+        <item>Batiment B6</item>
+        <item>B6</item>
+        <item>Grand Amphithéâtre</item>
+    </string-array>
+    <string-array name="batiment_B7">
+        <item>Batiment B7</item>
+        <item>B7</item>
+    </string-array>
+    <string-array name="batiment_B8">
+        <item>Batiment B8</item>
+        <item>B8</item>
+        <item>Recherche Biologie Cellulaire et Moléculaire</item>
+    </string-array>
+    <string-array name="batiment_B9">
+        <item>Batiment B9</item>
+        <item>B9</item>
+    </string-array>
+    <string-array name="batiment_B13">
+        <item>Batiment B13</item>
+        <item>B13</item>
+        <item>IECB</item>
+    </string-array>
+    <string-array name="batiment_B14">
+        <item>Batiment B14</item>
+        <item>B14</item>
+        <item>ISTAB</item>
+    </string-array>
+    <string-array name="batiment_B15">
+        <item>Batiment B15</item>
+        <item>B15</item>
+    </string-array>
+    <string-array name="batiment_B16">
+        <item>Batiment B16</item>
+        <item>B16</item>
+        <item>Amphithéâtre Géologie</item>
+    </string-array>
+    <string-array name="batiment_B17">
+        <item>Batiment B17</item>
+        <item>B17</item>
+        <item>ENSEGID</item>
+    </string-array>
+    <string-array name="batiment_B18">
+        <item>Batiment B18</item>
+        <item>B18</item>
+    </string-array>
+    <string-array name="batiment_B19">
+        <item>Batiment B19</item>
+        <item>B19</item>
+    </string-array>
+    <string-array name="INRIA">
+        <item>INRIA</item>
+    </string-array>
+    <string-array name="SCRIME">
+        <item>SCRIME</item>
+        <item>Maison Elise</item>
+    </string-array>
+    <string-array name="RU1">
+        <item>Restaurant universitaire 1</item>
+        <item>RU1</item>
+    </string-array>
+    <string-array name="RU2">
+        <item>Restaurant universitaire 2</item>
+        <item>RU2</item>
+    </string-array>
+    <string-array name="RU3">
+        <item>Restaurant universitaire 3</item>
+        <item>RU3</item>
+    </string-array>
+    <string-array name="cafetaria">
+        <item>Cafétaria la Soucoupe</item>
+        <item>Cafette</item>
+    </string-array>
+    <string-array name="fac_kebab">
+        <item>Fac Kebab</item>
+    </string-array>
+    <string-array name="supermarche_casino">
+        <item>Supermarché casino</item>
+    </string-array>
+    <string-array name="le_48">
+        <item>Le 48</item>
+    </string-array>
+    <string-array name="le_carpe_diem">
+        <item>Le carpe Diem</item>
+    </string-array>
+    <string-array name="le_cafe_bleu">
+        <item>Le café bleu</item>
+    </string-array>
+    <string-array name="ed_wood_cafe">
+        <item>Ed Wood Café</item>
+    </string-array>
+    <string-array name="peppino_pizza">
+        <item>Peppino pizza</item>
+        <item>Pizzeria</item>
+    </string-array>
+    <string-array name="yamato">
+        <item>Restaurant Japonais: Yamato</item>
+    </string-array>
+    <string-array name="mc_donalds">
+        <item>McDonald\'s</item>
+        <item>MacDonald\'s</item>
+    </string-array>
+    <string-array name="BU">
+        <item>Bibliothèque universitaire</item>
+        <item>BU</item>
+    </string-array>
+    <string-array name="medecine_preventive">
+        <item>Médecine préventive</item>
+    </string-array>
+    <string-array name="clinique_béthanie">
+        <item>Clinique béthanie</item>
+    </string-array>
+    <string-array name="CROUS">
+        <item>Centre régional des Oeuvres Universitaires</item>
+        <item>CROUS</item>
+    </string-array>
+
+</resources>

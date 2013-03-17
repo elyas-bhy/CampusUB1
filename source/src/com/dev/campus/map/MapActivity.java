@@ -257,31 +257,32 @@ public class MapActivity extends Activity implements LocationListener {
 	@SuppressLint("DefaultLocale")
 	public void searchPosition(String input){
 		for (Position pos : Position.values()) {
-			if ((pos.getName().toLowerCase().equals(input.toLowerCase())
-			 || (pos.getName().toLowerCase().contains(input.toLowerCase())))) {
-				ArrayList<Marker> markerType = null;
-				switch(pos.getType()) {
-				case BUILDING:
-					markerType = mBuildingsMarkers;
-					break;
-				case RESTAURATION:
-					markerType= mRestaurationMarkers;
-					break;
-				case SERVICE:
-					markerType = mServicesMarkers;	
-					break;
-				}
-				
-				for (Marker marker : markerType) {
-					if (pos.getId().equals(marker.getId())) {
-						marker.setVisible(true);
-						marker.showInfoWindow();
+			for(int i=0; i<pos.getSuggestions().length;i++)
+				if ((pos.getSuggestions()[i].toLowerCase().equals(input.toLowerCase())
+						|| (pos.getSuggestions()[i].toLowerCase().startsWith(input.toLowerCase()))
+						|| (pos.getSuggestions()[i].toLowerCase().contains(input.toLowerCase())))){
+					ArrayList<Marker> markerType = null;
+					switch(pos.getType()) {
+					case BUILDING:
+						markerType = mBuildingsMarkers;
+						break;
+					case RESTAURATION:
+						markerType= mRestaurationMarkers;
+						break;
+					case SERVICE:
+						markerType = mServicesMarkers;	
 						break;
 					}
+					for (Marker marker : markerType) {
+						if (pos.getId().equals(marker.getId())) {
+							marker.setVisible(true);
+							marker.showInfoWindow();
+							break;
+						}
+					}
+					goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
+					return;
 				}
-				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
-				return;
-			}
 		}
 		Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
 	}
