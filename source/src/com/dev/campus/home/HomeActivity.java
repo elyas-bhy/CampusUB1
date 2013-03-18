@@ -76,10 +76,10 @@ public class HomeActivity extends ListActivity {
 			//TODO
 			break;
 		case 4: // Map
-			if(CampusUB1App.persistence.isOnline())
+			if (CampusUB1App.persistence.isConnected())
 				startActivity(new Intent(HomeActivity.this, MapActivity.class));
 			else
-				Toast.makeText(this,mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();  
+				Toast.makeText(this, R.string.connection_required, Toast.LENGTH_SHORT).show();  
 			break;
 		case 6: // UB1 website
 			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UB1_HOMEPAGE)));

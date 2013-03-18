@@ -20,6 +20,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.view.ContextMenu;
@@ -154,7 +155,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 	public void addToContacts() {
 		String contactFullName =  mContact.getFirstName() + " " + mContact.getLastName();
-		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT,ContactsContract.Contacts.CONTENT_URI);
+		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT, ContactsContract.Contacts.CONTENT_URI);
 		intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
 		intent.putExtra(ContactsContract.Intents.Insert.NAME, contactFullName);	
 		if (mContact.hasTel())
@@ -229,7 +230,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog.setTitle(mResources.getString(R.string.contacts_loading));
+			progressDialog.setTitle(R.string.contacts_loading);
 			progressDialog.setMessage(mResources.getString(R.string.please_wait));
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(false);
