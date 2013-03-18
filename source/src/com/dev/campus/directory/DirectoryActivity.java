@@ -234,6 +234,14 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 			progressDialog.setMessage(mResources.getString(R.string.please_wait));
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(false);
+			progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+									mResources.getString(R.string.cancel),
+									new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					cancel(true);
+				}
+			});
 			progressDialog.show();
 		}
 
