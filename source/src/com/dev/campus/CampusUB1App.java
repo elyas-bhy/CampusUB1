@@ -5,6 +5,7 @@ import com.dev.campus.util.Persistence;
 import android.app.Application;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 public class CampusUB1App extends Application {
 
@@ -44,6 +45,14 @@ public class CampusUB1App extends Application {
 
 	public static void LogD(String message) {
 		if (DEBUG) Log.d(TAG, message);
+	}
+	
+	public void showToast(String msg) {
+		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+	}
+
+	public void showToast(int resid) {
+		Toast.makeText(this, resid, Toast.LENGTH_LONG).show();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -19,12 +20,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +47,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private final int SEARCH_ZOOM = 18;
 	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
+	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
 
 	private LocationManager mLocationManager;
 	private Resources mResources;
@@ -57,32 +63,36 @@ public class MapActivity extends Activity implements LocationListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_map);
-		mResources = getResources();
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
-		
-		mServices = (CheckBox) findViewById(R.id.services_check);
-		mRestauration = (CheckBox) findViewById(R.id.restauration_check);
-		mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
-		checkGooglePlayServicesAvailability();
-		
-		setupMap();
-		setupMarkers();
-		setupLocationServices();
+		if(isGooglePlayServicesAvailable()){
+			setContentView(R.layout.activity_map);
+			mResources = getResources();
+			mActionBar = getActionBar();
+			mActionBar.setDisplayHomeAsUpEnabled(true);
+
+			mServices = (CheckBox) findViewById(R.id.services_check);
+			mRestauration = (CheckBox) findViewById(R.id.restauration_check);
+			mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
+
+			setupMap();
+			setupMarkers();
+			setupLocationServices();
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		getNewProvider();
+		 if (mLocationManager != null) {
+			 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+			 getNewProvider();
+		 }
 	}
 	
 	@Override     
     protected void onPause() {  
-		super.onPause(); 
-		mLocationManager.removeUpdates(this);
+		super.onPause();
+		if (mLocationManager != null) 
+			mLocationManager.removeUpdates(this);		
 	}
 	
 	@Override
@@ -125,19 +135,36 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 	
-	public void checkGooglePlayServicesAvailability() {
+	public boolean isGooglePlayServicesAvailable() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
 		if (status != ConnectionResult.SUCCESS) {
-			int requestCode = 10;
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,requestCode);
-			if (status == ConnectionResult.SERVICE_MISSING 
-			 || status== ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED 
-			 || status == ConnectionResult.SERVICE_DISABLED)
-				dialog.show();
-			else
-				Toast.makeText(this, mResources.getString(R.string.no_play_services), Toast.LENGTH_SHORT).show();    
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+			alertDialogBuilder
+			.setTitle(R.string.play_services)
+			.setMessage(R.string.need_play_services)
+			.setCancelable(false)
+			.setPositiveButton(R.string.install, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					finish();
+					try{		
+						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_SERVICES_URL));
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+						intent.setPackage("com.android.vending");
+						startActivity(intent);
+						}
+					catch (ActivityNotFoundException e){
+						CampusUB1App.getInstance().showToast(R.string.no_playStore);
+					}
+				}})
+			.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					finish();
+				}})
+			.create()
+			.show();
+			return false;
 		}
+		return true;
 	}
 
 	public void setupMap() {
