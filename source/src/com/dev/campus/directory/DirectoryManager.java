@@ -69,6 +69,7 @@ public class DirectoryManager {
 		for (int i = 0; i < entryCount; i++) {
 			SearchResultEntry entry = searchResult.getSearchEntries().get(i);
 			Contact contact = new Contact();
+			
 			if ((entry.getAttributeValue(ATTR_MAIL) != null) && !entry.getAttributeValue(ATTR_MAIL).equals(""))
 				contact.setEmail(entry.getAttributeValue(ATTR_MAIL));
 			if ((entry.getAttributeValue(ATTR_TEL) != null) && !entry.getAttributeValue(ATTR_TEL).equals("Non renseigne"))

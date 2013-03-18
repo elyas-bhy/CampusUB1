@@ -269,14 +269,15 @@
         <item>RU3</item>
     </string-array>
     <string-array name="cafetaria">
-        <item>Cafétaria la Soucoupe</item>
+        <item>Cafétéria la Soucoupe</item>
         <item>Cafette</item>
+        <item>Soucoupe</item>
     </string-array>
     <string-array name="fac_kebab">
         <item>Fac Kebab</item>
     </string-array>
     <string-array name="supermarche_casino">
-        <item>Supermarché casino</item>
+        <item>Supermarché Casino</item>
         <item>Casino</item>
     </string-array>
     <string-array name="le_48">
@@ -284,10 +285,10 @@
         <item>48</item>
     </string-array>
     <string-array name="le_carpe_diem">
-        <item>Le carpe Diem</item>
+        <item>Le Carpe Diem</item>
     </string-array>
     <string-array name="le_cafe_bleu">
-        <item>Le café bleu</item>
+        <item>Le Café Bleu</item>
     </string-array>
     <string-array name="ed_wood_cafe">
         <item>Ed Wood Café</item>
@@ -303,6 +304,7 @@
     <string-array name="mc_donalds">
         <item>McDonald\'s</item>
         <item>MacDonald\'s</item>
+        <item>McDo</item>
     </string-array>
     <string-array name="BU">
         <item>Bibliothèque universitaire</item>
@@ -312,10 +314,10 @@
         <item>Médecine préventive</item>
     </string-array>
     <string-array name="clinique_béthanie">
-        <item>Clinique béthanie</item>
+        <item>Clinique Béthanie</item>
     </string-array>
     <string-array name="CROUS">
-        <item>Centre régional des Oeuvres Universitaires</item>
+        <item>Centre Régional des Oeuvres Universitaires</item>
         <item>CROUS</item>
     </string-array>
 

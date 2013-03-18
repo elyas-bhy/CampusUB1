@@ -46,6 +46,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private final int DEFAULT_ZOOM = 16;
 	private final int SEARCH_ZOOM = 18;
 	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
+	
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
 	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
 
@@ -60,15 +61,16 @@ public class MapActivity extends Activity implements LocationListener {
 	private SearchView mSearchView;
 	private ActionBar mActionBar;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(isGooglePlayServicesAvailable()){
+		mResources = getResources();
+		mActionBar = getActionBar();
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		
+		if (isGooglePlayServicesAvailable()) {
 			setContentView(R.layout.activity_map);
-			mResources = getResources();
-			mActionBar = getActionBar();
-			mActionBar.setDisplayHomeAsUpEnabled(true);
-
 			mServices = (CheckBox) findViewById(R.id.services_check);
 			mRestauration = (CheckBox) findViewById(R.id.restauration_check);
 			mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
@@ -119,7 +121,6 @@ public class MapActivity extends Activity implements LocationListener {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-			
 	
 	public void onCheckboxClicked(View view) {
 		switch(view.getId()) {
@@ -144,19 +145,20 @@ public class MapActivity extends Activity implements LocationListener {
 			.setMessage(R.string.need_play_services)
 			.setCancelable(false)
 			.setPositiveButton(R.string.install, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog,int id) {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
 					finish();
-					try{		
+					try {		
 						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_SERVICES_URL));
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 						intent.setPackage("com.android.vending");
 						startActivity(intent);
-						}
-					catch (ActivityNotFoundException e){
-						CampusUB1App.getInstance().showToast(R.string.no_playStore);
+					} catch (ActivityNotFoundException e) {
+						CampusUB1App.getInstance().showToast(R.string.no_play_store);
 					}
 				}})
-			.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					finish();
 				}})
@@ -248,11 +250,11 @@ public class MapActivity extends Activity implements LocationListener {
 		String provider;
 		if (isGpsEnabled()) {
 			provider = LocationManager.GPS_PROVIDER;
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+			mLocationManager.requestLocationUpdates(provider, 0, 0,  this);
 		}
 		else {
 			provider = LocationManager.NETWORK_PROVIDER;
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);	
+			mLocationManager.requestLocationUpdates(provider, UPDATE_FREQUENCY, 0, this);	
 		}
 		return provider;
 	}
@@ -283,11 +285,10 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 	
 	@SuppressLint("DefaultLocale")
-	public void searchPosition(String input){
+	public void searchPosition(String input) {
 		for (Position pos : Position.values()) {
-			for(int i=0; i<pos.getSuggestions().length;i++)
-				if ((removeAccents(pos.getSuggestions()[i].toLowerCase()).equals((removeAccents(input.toLowerCase())))
-						|| ((removeAccents(pos.getSuggestions()[i].toLowerCase()).startsWith((removeAccents(input.toLowerCase()))))))){
+			for (int i = 0; i < pos.getSuggestions().length; i++) {
+				if (reformatString(pos.getSuggestions()[i]).startsWith(reformatString(input))) {
 					ArrayList<Marker> markerType = null;
 					switch(pos.getType()) {
 					case BUILDING:
@@ -297,7 +298,7 @@ public class MapActivity extends Activity implements LocationListener {
 						markerType= mRestaurationMarkers;
 						break;
 					case SERVICE:
-						markerType = mServicesMarkers;	
+						markerType = mServicesMarkers;
 						break;
 					}
 					for (Marker marker : markerType) {
@@ -307,17 +308,19 @@ public class MapActivity extends Activity implements LocationListener {
 							break;
 						}
 					}
-					goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
+					goToPosition(new LatLng(pos.getLat(), pos.getLng()), SEARCH_ZOOM);
 					return;
 				}
+			}
 		}
-		Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, R.string.map_not_found, Toast.LENGTH_SHORT).show();
 	}
 
-	public String removeAccents(String str) {
+	public String reformatString(String str) {
+		//strip accents
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
-		return str;
+		return str.toLowerCase();
 	}
 	
 	final SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {

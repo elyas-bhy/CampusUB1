@@ -73,7 +73,7 @@ public class Persistence {
 		return state == NetworkInfo.State.CONNECTED;
 	}
 	
-	public boolean isOnline() {
+	public boolean isConnected() {
 		return isMobileConnected() || isWifiConnected();
 	}
 	

@@ -26,15 +26,16 @@
 
     <!-- Toasts -->
     <string name="showing_history">Showing offline history</string>
-    <string name="update_complete">Update complete</string>
+    <string name="updating_events">Updating events</string>
     <string name="connection_failed">Connection failed</string>
+    <string name="connection_required">An active Internet connection is required</string>
     <string name="no_website">No website for this contact</string>
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>
     <string name="no_gps">Can\'t find GPS signal</string>
     <string name="showing_upcoming_events">Showing upcoming events only</string>
     <string name="showing_all_events">Showing all events</string>
-    <string name="no_playStore">Google Play Store not installed on your device</string>
+    <string name="no_play_store">Google Play Store is not installed on your device</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>

@@ -251,20 +251,20 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		SimpleEntry<ArrayList<Event>, ArrayList<Date>> feedsEntry = readEventsHistory();
 		
 		if (feedsEntry != null) {
-			if (CampusUB1App.persistence.isOnline()) {
+			if (CampusUB1App.persistence.isConnected()) {
 				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
 				mEvents = feedsEntry.getKey();
 				reloadEvents();
-				Toast.makeText(this, mResources.getString(R.string.showing_history), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.showing_history, Toast.LENGTH_SHORT).show();
 			}
 		}
 		else {
-			if (CampusUB1App.persistence.isOnline()) {
+			if (CampusUB1App.persistence.isConnected()) {
 				new UpdateFeedsTask().execute();
-				Toast.makeText(this, mResources.getString(R.string.update_complete), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.updating_events, Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(this, mResources.getString(R.string.connection_failed), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
@@ -282,7 +282,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 		@Override
 		protected void onPreExecute() {
-			mRefreshMenuItem.setActionView(R.layout.actionar_refresh_progress);
+			mRefreshMenuItem.setActionView(R.layout.progressbar_refresh);
 		}
 
 		@Override
