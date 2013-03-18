@@ -89,12 +89,12 @@ public class DirectoryManager {
 			firstName = "";
 		if (lastName == null)
 			lastName = "";
-		firstName = removeAccents(firstName).toLowerCase();
-		lastName = removeAccents(lastName).toLowerCase();
+		firstName = reformatString(firstName);
+		lastName = reformatString(lastName);
 
 		for (Contact c : mLabriContacts) {
-			if (removeAccents(c.getFirstName()).toLowerCase().contains(firstName)
-					&& removeAccents(c.getLastName()).toLowerCase().contains(lastName)) {
+			if (reformatString(c.getFirstName()).contains(firstName)
+			 && reformatString(c.getLastName()).contains(lastName)) {
 				matchingContacts.add(c);
 			}
 		}
@@ -143,9 +143,9 @@ public class DirectoryManager {
 					if (!email.equals(""))
 						contact.setEmail(email);
 				}
-				else if (i % 8 == 3) { // Telephone, Default : "+33 (0)5 40 00 "
+				else if (i % 8 == 3) { // Telephone
 					String tel = buffer;
-					if (!tel.equals("+33 (0)5 40 00")) {
+					if (!tel.equals("+33 (0)5 40 00")) { // Default value: "+33 (0)5 40 00 "
 						tel = tel.replaceAll("\\(0\\)", "");
 						contact.setTel(tel);
 					}
@@ -164,10 +164,11 @@ public class DirectoryManager {
 		mLabriContacts = allContacts;
 	}
 
-	public String removeAccents(String str) {
+	public String reformatString(String str) {
+		//strip accents
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
-		return str;
+		return str.toLowerCase();
 	}
 
 	public String capitalize(String str) {

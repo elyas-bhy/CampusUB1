@@ -50,6 +50,9 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	private List<Contact> mSearchResult;
 	private DirectoryAdapter mDirectoryAdapter;
 	private DirectoryManager mDirectoryManager;
+	
+	private EditText mViewFirstName;
+	private EditText mViewLastName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +62,19 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-		
+
 		mDirectoryManager = new DirectoryManager();
 		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
-		
+
 		ListView listview = getListView();
 		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
 		listview.addHeaderView(header, null, false);
 		listview.setAdapter(mDirectoryAdapter);
 		listview.setOnItemClickListener(this);
-		
+
 		initSearchButton();
 	}
-	
+
 	private void initSearchButton() {
 		OnEditorActionListener searchAction = new TextView.OnEditorActionListener() {
 			@Override
@@ -84,10 +87,10 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 			}
 		};
 
-		EditText firstNameEditText = (EditText) findViewById(R.id.edit_text_first_name);
-		EditText lastNameEditText = (EditText) findViewById(R.id.edit_text_last_name);
-		firstNameEditText.setOnEditorActionListener(searchAction);
-		lastNameEditText.setOnEditorActionListener(searchAction);
+		mViewFirstName = (EditText) findViewById(R.id.edit_text_first_name);
+		mViewLastName = (EditText) findViewById(R.id.edit_text_last_name);
+		mViewFirstName.setOnEditorActionListener(searchAction);
+		mViewLastName.setOnEditorActionListener(searchAction);
 
 		ImageButton searchButton = (ImageButton) findViewById(R.id.button_search_directory);
 		searchButton.setOnClickListener(new OnClickListener() {
@@ -126,11 +129,13 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	}
 
 	public void startSearchTask() {
-		new SearchResultTask().execute();
-		//Hide soft keyboard
-		if (getCurrentFocus() != null) {
-			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		if (mViewFirstName.getText().toString().length() + mViewLastName.getText().length() > 0) {
+			new SearchResultTask().execute();
+			//Hide soft keyboard
+			if (getCurrentFocus() != null) {
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+			}
 		}
 	}
 
@@ -143,7 +148,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	public void emailContact() {
 		Intent emailIntent = new Intent(Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");  
-		emailIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {mContact.getEmail()});
+		emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {mContact.getEmail()});
 		startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
 	}
 
@@ -233,19 +238,16 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			final String firstName = ((TextView) findViewById(R.id.edit_text_first_name)).getText().toString();
-			final String lastName = ((TextView) findViewById(R.id.edit_text_last_name)).getText().toString();
-
-			int searchMinChar = 1;
+			final String firstName = mViewFirstName.getText().toString();
+			final String lastName = mViewLastName.getText().toString();
 			List<Contact> searchResult = new ArrayList<Contact>();
-			if (firstName.length() >= searchMinChar || lastName.length() >= searchMinChar) {
-				try {
-					searchResult = mDirectoryManager.searchContact(firstName, lastName);
-				} catch (LDAPException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
+			try {
+				searchResult = mDirectoryManager.searchContact(firstName, lastName);
+			} catch (LDAPException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			mSearchResult = searchResult;
 			return null;
