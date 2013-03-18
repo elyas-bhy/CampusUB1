@@ -247,9 +247,6 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 					e.printStackTrace();
 				}
 			}
-			else {
-				//Toast.makeText(mContext, searchMinChar+" charactères minimum!", Toast.LENGTH_SHORT).show();
-			}
 			mSearchResult = searchResult;
 			return null;
 		}
