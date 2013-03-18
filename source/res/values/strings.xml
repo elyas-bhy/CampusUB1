@@ -24,6 +24,9 @@
     <string name="events_loading">Loading events</string>
     <string name="contacts_loading">Loading contacts</string>
     <string name="please_wait">Please wait</string>
+    <string name="install">Install</string>
+    <string name="play_services">Google Play Services</string>
+    <string name="need_play_services">The map requires Google Play Services to be installed</string>
 
     <!-- Toasts -->
     <string name="showing_history">Showing offline history</string>
@@ -32,10 +35,10 @@
     <string name="no_website">No website for this contact</string>
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>
-    <string name="no_play_services">Please make sure you have the Play Store Service installed</string>
     <string name="no_gps">Can\'t find GPS signal</string>
     <string name="showing_upcoming_events">Showing upcoming events only</string>
     <string name="showing_all_events">Showing all events</string>
+    <string name="no_playStore">Google Play Store not installed on your device</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>

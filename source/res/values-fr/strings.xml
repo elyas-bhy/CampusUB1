@@ -17,6 +17,8 @@
     <string name="events_loading">Chargement des événements</string>
     <string name="please_wait">Veuillez patienter</string>
     <string name="contacts_loading">Chargement des contacts</string>
+    <string name="install">Installer</string>
+    <string name="need_play_services">Le plan nécessite que Google Play Services soit installé</string>
 
     <!-- Toasts -->
     <string name="showing_history">Affichage de l\'historique</string>
@@ -28,6 +30,7 @@
     <string name="no_gps">Pas de signal GPS</string>
     <string name="showing_upcoming_events">Affichage des événements à venir</string>
     <string name="showing_all_events">Affichage de tous les événements</string>
+    <string name="no_playStore">Google Play Store n\'est pas installé sur votre appareil</string>
 
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
