@@ -21,8 +21,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- Calendar permissions -->
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <!-- Calling permissions -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- Contacts read and write permissions -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
