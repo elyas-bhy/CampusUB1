@@ -28,26 +28,29 @@
         <CheckBox
             android:id="@+id/services_check"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:checked="true"
             android:onClick="onCheckboxClicked"
-            android:text="@string/campus_services" />
+            android:text="@string/campus_services"  
+            android:textSize="13sp" />
 
         <CheckBox
-            android:id="@+id/restauration_check"
+            android:id="@+id/restaurants_check"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:checked="true"
             android:onClick="onCheckboxClicked"
-            android:text="@string/campus_restauration" />
+            android:text="@string/campus_restaurants" 
+            android:textSize="13sp" />
 
         <CheckBox
             android:id="@+id/buildings_check"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:checked="true"
             android:onClick="onCheckboxClicked"
-            android:text="@string/campus_buildings" />
+            android:text="@string/campus_buildings"  
+            android:textSize="13sp" />
     </RadioGroup>
 
 </LinearLayout>

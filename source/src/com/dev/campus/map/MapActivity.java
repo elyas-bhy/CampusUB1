@@ -54,7 +54,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private Resources mResources;
 	private GoogleMap mMap;
 	
-	private ArrayList<Marker> mServicesMarkers, mRestaurationMarkers, mBuildingsMarkers;
+	private ArrayList<Marker> mServicesMarkers, mRestaurantsMarkers, mBuildingsMarkers;
 	private CheckBox mServices, mRestauration, mBuildings;
 	
 	private Marker mCurrentLocation;
@@ -72,7 +72,7 @@ public class MapActivity extends Activity implements LocationListener {
 		if (isGooglePlayServicesAvailable()) {
 			setContentView(R.layout.activity_map);
 			mServices = (CheckBox) findViewById(R.id.services_check);
-			mRestauration = (CheckBox) findViewById(R.id.restauration_check);
+			mRestauration = (CheckBox) findViewById(R.id.restaurants_check);
 			mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
 
 			setupMap();
@@ -109,10 +109,10 @@ public class MapActivity extends Activity implements LocationListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_campus_pos:
-			goToPosition(MAP_CENTER,DEFAULT_ZOOM);
+			goToPosition(MAP_CENTER, DEFAULT_ZOOM);
 			return true;	
 		case R.id.menu_my_pos:
-			goToPosition(mCurrentLocation.getPosition(),DEFAULT_ZOOM);
+			goToPosition(mCurrentLocation.getPosition(), DEFAULT_ZOOM);
 			return true;
 		case android.R.id.home:
 			finish();
@@ -127,8 +127,8 @@ public class MapActivity extends Activity implements LocationListener {
 		case R.id.services_check:
 			populateMap(mServicesMarkers, mServices.isChecked());
 			break;
-		case R.id.restauration_check:
-			populateMap(mRestaurationMarkers, mRestauration.isChecked());
+		case R.id.restaurants_check:
+			populateMap(mRestaurantsMarkers, mRestauration.isChecked());
 			break;
 		case R.id.buildings_check:
 			populateMap(mBuildingsMarkers, mBuildings.isChecked());
@@ -202,13 +202,13 @@ public class MapActivity extends Activity implements LocationListener {
 
 	public void setupMarkers() {
 		mServicesMarkers = new ArrayList<Marker>();
-		mRestaurationMarkers = new ArrayList<Marker>();
+		mRestaurantsMarkers = new ArrayList<Marker>();
 		mBuildingsMarkers = new ArrayList<Marker>();
 		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()
 			.position(new LatLng(pos.getLat(), pos.getLng()))
-			.icon(BitmapDescriptorFactory.fromResource(mResources.getIdentifier(pos.getType().getDrawableId(), "drawable", getPackageName())))
+			.icon(BitmapDescriptorFactory.fromResource(pos.getType().getDrawableId()))
 			.draggable(false)
 			.title(pos.getName());
 			Marker marker = mMap.addMarker(options);
@@ -217,8 +217,8 @@ public class MapActivity extends Activity implements LocationListener {
 			case BUILDING:
 				mBuildingsMarkers.add(marker);
 				break;
-			case RESTAURATION:
-				mRestaurationMarkers.add(marker);
+			case RESTAURANT:
+				mRestaurantsMarkers.add(marker);
 				break;
 			case SERVICE:
 				mServicesMarkers.add(marker);
@@ -231,7 +231,7 @@ public class MapActivity extends Activity implements LocationListener {
 			marker.setVisible(isChecked);			
 	}
 
-	public void goToPosition(LatLng pos,int zoom) {
+	public void goToPosition(LatLng pos, int zoom) {
 		CameraPosition position  = new CameraPosition.Builder()
 		.target(pos)
 		.zoom(zoom)                   
@@ -294,8 +294,8 @@ public class MapActivity extends Activity implements LocationListener {
 					case BUILDING:
 						markerType = mBuildingsMarkers;
 						break;
-					case RESTAURATION:
-						markerType= mRestaurationMarkers;
+					case RESTAURANT:
+						markerType= mRestaurantsMarkers;
 						break;
 					case SERVICE:
 						markerType = mServicesMarkers;
