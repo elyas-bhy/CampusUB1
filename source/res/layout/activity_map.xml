@@ -17,8 +17,7 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/radio_group"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="#323232"
@@ -31,17 +30,9 @@
             android:layout_height="match_parent"
             android:checked="true"
             android:onClick="onCheckboxClicked"
-            android:text="@string/campus_services"  
-            android:textSize="13sp" />
-
-        <CheckBox
-            android:id="@+id/restaurants_check"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:checked="true"
-            android:onClick="onCheckboxClicked"
-            android:text="@string/campus_restaurants" 
-            android:textSize="13sp" />
+            android:text="@string/campus_services"
+            android:textSize="13sp"
+            android:layout_alignParentLeft="true" />
 
         <CheckBox
             android:id="@+id/buildings_check"
@@ -49,8 +40,21 @@
             android:layout_height="match_parent"
             android:checked="true"
             android:onClick="onCheckboxClicked"
-            android:text="@string/campus_buildings"  
+            android:text="@string/campus_buildings"
+            android:textSize="13sp"
+            android:layout_alignParentRight="true" />
+
+        <CheckBox
+            android:id="@+id/restaurants_check"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:checked="true"
+            android:onClick="onCheckboxClicked"
+            android:text="@string/campus_restaurants"
             android:textSize="13sp" />
-    </RadioGroup>
+
+    </RelativeLayout>
 
 </LinearLayout>
