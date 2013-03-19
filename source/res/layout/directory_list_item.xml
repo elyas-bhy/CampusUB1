@@ -15,8 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:textStyle="bold"
-            android:textColor="#242424"
+            android:textColor="#171717"
             android:textSize="14sp" />
 
         <TextView
