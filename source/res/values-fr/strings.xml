@@ -58,7 +58,7 @@
     <string name="email_not_specified">Aucune adresse email spécifiée</string>
 
     <!-- Map strings -->
-    <string name="campus_restauration">Restauration</string>
+    <string name="campus_restaurants">Restauration</string>
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Bâtiments</string>
     <string name="map_search">Rechercher</string>
