@@ -45,7 +45,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private final int BEARING = 69;
 	private final int DEFAULT_ZOOM = 16;
 	private final int SEARCH_ZOOM = 18;
-	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
+	private final int UPDATE_FREQUENCY = 3000; //Update frequency (ms)
 	
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
 	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
@@ -186,8 +186,8 @@ public class MapActivity extends Activity implements LocationListener {
 			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
 		
 		// Register both listeners
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  this);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
 		
 		// Initially use network provider
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
