@@ -51,7 +51,6 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_events">Events</string>
     <string name="title_activity_directory">Directory</string>
-    <string name="title_activity_categories">Categories</string>
     <string name="title_activity_maps">Campus Map</string>
 
     <!-- Services -->

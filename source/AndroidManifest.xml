@@ -46,7 +46,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.dev.campus.LauncherActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,33 +57,41 @@
         </activity>
         <activity
             android:name="com.dev.campus.home.HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize" >
         </activity>
         <activity
             android:name="com.dev.campus.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Holo" >
         </activity>
         <activity
             android:name="com.dev.campus.event.EventsActivity"
             android:label="@string/title_activity_events"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity
             android:name="com.dev.campus.directory.DirectoryActivity"
-            android:label="@string/title_activity_directory" >
-        </activity>
-        <activity
-            android:name="com.dev.campus.event.CategoryActivity"
-            android:label="@string/title_activity_categories" >
+            android:label="@string/title_activity_directory"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize" >
         </activity>
         <activity
             android:name="com.dev.campus.event.EventViewActivity"
-            android:label="@string/title_activity_events" >
+            android:label="@string/title_activity_events"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize" >
         </activity>
         <activity
             android:name="com.dev.campus.map.MapActivity"
             android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/map_activity_style" >
         </activity>
         
