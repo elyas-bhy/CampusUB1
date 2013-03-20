@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -79,6 +81,9 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
 		ListView listView = getListView();
 		listView.setOnItemClickListener(this);
+		android.util.Log.d("Ryan", "Setting longClick listener");
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setMultiChoiceModeListener(new EventMultiChoiceModeListener(listView));
 		listView.setAdapter(mEventAdapter);
 	}
 	
@@ -139,14 +144,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mSlidingMenu.showContent();
 			}
 		});
-        
-        menuView.setOnLongClickListener(new View.OnLongClickListener() {
 
-			@Override
-			public boolean onLongClick(View view) {
-				// TODO Auto-generated method stub
-				return false;
-			}});
         setBehindContentView(menuView);
 	}
 	

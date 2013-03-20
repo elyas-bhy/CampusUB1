@@ -18,6 +18,8 @@ public class Event implements Serializable {
 	private String mDetails;
 	private FeedType mSource;
 	private String mLocation;
+	private boolean mRead;
+	private boolean mStarred;
 
 	
 	public String getCategory() {
@@ -82,6 +84,22 @@ public class Event implements Serializable {
 	
 	public void setLocation(String loc){
 		mLocation = loc;
+	}
+	
+	public boolean isRead() {
+		return mRead;
+	}
+	
+	public void setRead(boolean b) {
+		mRead = b;
+	}
+	
+	public boolean isStarred() {
+		return mStarred;
+	}
+	
+	public void setStarred(boolean b) {
+		mStarred = b;
 	}
 
 	public String getStringDate() {
