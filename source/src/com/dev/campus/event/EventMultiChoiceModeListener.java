@@ -56,7 +56,7 @@ public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 
 	@Override
 	public void onDestroyActionMode(ActionMode arg0) {
-
+		
 	}
 
 	@Override
@@ -70,15 +70,12 @@ public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 			boolean checked) {
 		Event evt = (Event) view.getItemAtPosition(position);
 		if(checked) {
-			view.getChildAt(position).setBackgroundColor(Color.RED);
 			if(!events.contains(evt))
 				events.add(evt);
 		} else {
-			view.getChildAt(position).setBackgroundColor(Color.WHITE);
 			if(events.contains(evt))
 				events.remove(evt);
 		}
-		android.util.Log.d("Ryan", "item checked at position : " + position + " with id : " + id);
 	}
 
 }
