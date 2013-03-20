@@ -182,6 +182,9 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 
 	public void setupLocationServices() {
+		if(!isGpsEnabled())
+			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
+		
 		// Register both listeners
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  this);
@@ -247,11 +250,8 @@ public class MapActivity extends Activity implements LocationListener {
 
 	public void getNewProvider() {
 		mLocationManager.removeUpdates(this);
-		if (isGpsEnabled()) {
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		} else {
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);	
-		}
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
 	}
 
 	@Override
@@ -276,7 +276,6 @@ public class MapActivity extends Activity implements LocationListener {
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
 	}
 	
 	@SuppressLint("DefaultLocale")
