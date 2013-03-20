@@ -10,10 +10,12 @@
         <item>Bâtiment A2</item>
         <item>A2</item>
         <item>CRMT</item>
+        <item>CERMUB</item>
     </string-array>
     <string-array name="batiment_A3">
         <item>Bâtiment A3</item>
         <item>A3</item>
+        <item>Ateliers</item>
     </string-array>
     <string-array name="batiment_A4">
         <item>Bâtiment A4</item>
@@ -23,6 +25,7 @@
         <item>Bâtiment A5</item>
         <item>A5</item>
         <item>AMIE</item>
+        <item>CRI</item>
     </string-array>
     <string-array name="batiment_A6">
         <item>Bâtiment A6</item>
@@ -59,6 +62,8 @@
         <item>Bâtiment A11</item>
         <item>A11</item>
         <item>UFR Chimie</item>
+        <item>Institut du Pin SMURFIT</item>
+        <item>SMURFIT</item>
     </string-array>
     <string-array name="batiment_A12">
         <item>Bâtiment A12</item>
@@ -72,6 +77,13 @@
     <string-array name="batiment_A14">
         <item>Bâtiment A14</item>
         <item>A14</item>
+        <item>Atelier menuiserie</item>
+    </string-array>
+    <string-array name="batiment_A15">
+        <item>Bâtiment A15</item>
+        <item>A15</item>
+        <item>ENSC</item>
+        <item>Faculté d\'oenologie</item>
     </string-array>
     <string-array name="batiment_A16">
         <item>Bâtiment A16</item>
@@ -101,6 +113,7 @@
     <string-array name="batiment_A22">
         <item>Bâtiment A22</item>
         <item>A22</item>
+        <item>Espace Alpha</item>
         <item>Bâtiment licence</item>
         <item>Amphithéâtre Henri Poincaré</item>
         <item>Henri Poincaré</item>
@@ -150,6 +163,7 @@
         <item>Bâtiment A31</item>
         <item>A31</item>
         <item>IXL</item>
+        <item>Micro éléctronique</item>
     </string-array>
     <string-array name="batiment_A32">
         <item>Bâtiment A32</item>
@@ -160,6 +174,7 @@
         <item>Bâtiment A33</item>
         <item>A33</item>
         <item>IMB</item>
+        <item>Amphi Math</item>
     </string-array>
     <string-array name="batiment_A36">
         <item>Bâtiment A36</item>
@@ -172,6 +187,7 @@
     <string-array name="batiment_A39">
         <item>Bâtiment A39</item>
         <item>A39</item>
+        <item>Conciergerie</item>
     </string-array>
     <string-array name="batiment_B1">
         <item>Bâtiment B1</item>
@@ -184,6 +200,7 @@
     <string-array name="batiment_B3">
         <item>Bâtiment B3</item>
         <item>B3</item>
+        <item>Animalerie</item>
     </string-array>
     <string-array name="batiment_B4">
         <item>Bâtiment B4</item>
@@ -253,6 +270,7 @@
     </string-array>
     <string-array name="SCRIME">
         <item>SCRIME</item>
+        <item>A40</item>
         <item>Maison Elise</item>
     </string-array>
     <string-array name="RU1">
@@ -268,7 +286,7 @@
         <item>Restaurant universitaire 3</item>
         <item>RU3</item>
     </string-array>
-    <string-array name="cafetaria">
+    <string-array name="cafeteria">
         <item>Cafétéria la Soucoupe</item>
         <item>Cafette</item>
         <item>Soucoupe</item>
@@ -295,7 +313,6 @@
     </string-array>
     <string-array name="peppino_pizza">
         <item>Peppino pizza</item>
-        <item>Pizzeria</item>
     </string-array>
     <string-array name="yamato">
         <item>Restaurant Japonais: Yamato</item>
@@ -306,9 +323,16 @@
         <item>MacDonald\'s</item>
         <item>McDo</item>
     </string-array>
+    <string-array name="kiosque_pizza">
+        <item>Kiosque à pizza</item>
+    </string-array>
+    <string-array name="boite_pizza">
+        <item>Boite à pizza</item>
+    </string-array>
     <string-array name="BU">
         <item>Bibliothèque universitaire</item>
         <item>BU</item>
+        <item>B20</item>
     </string-array>
     <string-array name="medecine_preventive">
         <item>Médecine préventive</item>
