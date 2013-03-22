@@ -45,7 +45,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private final int BEARING = 69;
 	private final int DEFAULT_ZOOM = 16;
 	private final int SEARCH_ZOOM = 18;
-	private final int UPDATE_FREQUENCY = 3000; //Update frequency (ms)
+	private final int UPDATE_FREQUENCY = 5000; //Update frequency (ms)
 	
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
 	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
@@ -90,9 +90,9 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 	
 	@Override     
-    protected void onPause() {  
+	protected void onPause() {  
 		super.onPause();
-		if (mLocationManager != null) 
+		if (mLocationManager != null)
 			mLocationManager.removeUpdates(this);		
 	}
 	
@@ -181,25 +181,25 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
 	}
 
-	public void setupLocationServices() {
+	public void setupLocationServices() {	
 		if(!isGpsEnabled())
 			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
-		
-		// Register both listeners
+
+		// Register listeners	
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
-		
+
 		// Initially use network provider
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		double latitude = location.getLatitude();
 		double longitude = location.getLongitude();
 		LatLng currentPosition = new LatLng(latitude, longitude);
-		
+
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
 		.title(mResources.getString(R.string.my_position))
 		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));   
-		
+
 		if (location != null)
 			onLocationChanged(location);
 	}
@@ -242,40 +242,6 @@ public class MapActivity extends Activity implements LocationListener {
 		.bearing(BEARING)               
 		.build();                  
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
-	}
-	
-	public boolean isGpsEnabled() {
-		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-	}
-
-	public void getNewProvider() {
-		mLocationManager.removeUpdates(this);
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-		mCurrentLocation.remove();
-		mCurrentLocation = mMap.addMarker(new MarkerOptions()
-		.position(currentPosition)
-		.title(mResources.getString(R.string.my_position))
-		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		getNewProvider(); 		
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		getNewProvider();		
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 	
 	@SuppressLint("DefaultLocale")
@@ -335,4 +301,35 @@ public class MapActivity extends Activity implements LocationListener {
 			return true;
 		}
 	};
+
+	public boolean isGpsEnabled() {
+		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+
+	public void getNewProvider() {
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {	
+		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+		mCurrentLocation.remove();
+		mCurrentLocation = mMap.addMarker(new MarkerOptions()
+		.position(currentPosition)
+		.title(mResources.getString(R.string.my_position))
+		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));  
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {		
+	}
 }
