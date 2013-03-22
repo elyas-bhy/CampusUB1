@@ -54,7 +54,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		Spinner schedule_spinner = (Spinner) findViewById(R.id.schedule_spinner);
 		schedule_spinner.setOnItemSelectedListener(new spinnerOnItemSelectedListener());
-		// schedule_spinner.performClick();
+		//schedule_spinner.performClick();
 	}
 
 	@Override
@@ -94,34 +94,26 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
-	private class ListGroupTask extends AsyncTask<Void, Void, Void> {
-
-		private String url;
-
-		public ListGroupTask(String url) {
-			this.url = url;
-		}
+	private class ListGroupTask extends AsyncTask<String, Void, Void> {
 
 		@Override
-		protected Void doInBackground(Void... arg0) {
-
-			try {
-				mListScheduleGroup = new ScheduleParser().parseFeed(url);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+		protected Void doInBackground(String... urls) {
+			if (urls.length > 0) {
+				try {
+					mListScheduleGroup = new ScheduleParser().parseFeed(urls[0]);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-
 			return null;
 		}
-
 
 		@Override
 		protected void onPostExecute(Void result) {
 			reloadScheduleGroup();
 		}
-
 	}
 
 	private class spinnerOnItemSelectedListener implements OnItemSelectedListener {
@@ -141,13 +133,12 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			else if (pos == 3) { // Master Semestre 2
 				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml";
 			}
-			new ListGroupTask(url).execute();
+			new ListGroupTask().execute(url);
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
 
 		}
-
 	}
 }
