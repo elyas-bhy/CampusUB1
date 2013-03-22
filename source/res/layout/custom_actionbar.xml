@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textSize="20sp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:maxLines="1"
         android:ellipsize="end"
         android:gravity="left"/>

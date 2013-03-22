@@ -20,7 +20,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#323232"
+        android:background="@color/holo_dark_black"
         android:orientation="horizontal"
         android:padding="4dp" >
 
