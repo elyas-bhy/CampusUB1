@@ -8,6 +8,7 @@ import com.dev.campus.SettingsActivity;
 import com.dev.campus.directory.DirectoryActivity;
 import com.dev.campus.event.EventsActivity;
 import com.dev.campus.map.MapActivity;
+import com.dev.campus.schedule.ScheduleActivity;
 import com.dev.campus.util.FilterDialog;
 
 import android.net.Uri;
@@ -73,7 +74,7 @@ public class HomeActivity extends ListActivity {
 			startActivity(new Intent(HomeActivity.this, DirectoryActivity.class));
 			break;
 		case 3: // Schedule
-			//TODO
+			startActivity(new Intent(HomeActivity.this, ScheduleActivity.class));
 			break;
 		case 4: // Map
 			if (CampusUB1App.persistence.isConnected())

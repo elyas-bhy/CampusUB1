@@ -41,6 +41,7 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_events">Evénements</string>
     <string name="title_activity_directory">Annuaire</string>
+    <string name="title_activity_scheduler">Emploi du temps</string>
     <string name="title_activity_maps">Plan du Campus</string>
 
     <!-- Services -->
@@ -84,5 +85,15 @@
     <string name="category_student_life">Vie étudiante</string>
     <string name="category_companies">Entreprises</string>
     <string name="category_press">Presse</string>
+
+    <!-- Schedule Spinner -->
+    <string name="schedule_spinner_title">Sélectionnez une filière</string>
+
+    <string-array name="schedule_spinner">
+        <item>Licence Semestre 1</item>
+        <item>Licence Semestre 2</item>
+        <item>Master Semestre 1</item>
+        <item>Master Semestre 2</item>
+    </string-array>
 
 </resources>
