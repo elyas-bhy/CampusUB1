@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	private ActionBar mActionBar;
 	private Resources mResources;
+	private Context mContext;
 	private FilterDialog mFilterDialog;
 	private ScheduleAdapter mScheduleAdapter;
 	private ScheduleGroup mScheduleGroup;
@@ -44,6 +46,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
+		mContext = getBaseContext();
 		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<ScheduleGroup>());
 
 		ListView listview = getListView();
@@ -69,6 +72,8 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		Log.d("LogTag", mScheduleGroup.getGroup());
 		Log.d("LogTag", mScheduleGroup.getUrl());
 		//TODO Export selected schedule
+		new ParseScheduleTask().execute();
+
 	}
 
 	@Override
@@ -116,22 +121,45 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
+	private class ParseScheduleTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... args) {
+			try {
+				new ScheduleParser().parseSchedule(mContext, mScheduleGroup.getUrl());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+
+		}
+	}
+
 	private class spinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			String url = "";
-			if (pos == 0) { // Licence Semestre 1
+			if (pos == 1) { // Licence Semestre 1
 				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre1/finder.xml";
 			}
-			else if (pos == 1) { // Licence Semestre 2
+			else if (pos == 2) { // Licence Semestre 2
 				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre2/finder.xml";
 			}
-			else if (pos == 2) { // Master Semestre 1
+			else if (pos == 3) { // Master Semestre 1
 				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml";
 			}
-			else if (pos == 3) { // Master Semestre 2
+			else if (pos == 4) { // Master Semestre 2
 				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml";
+			}
+			else {
+				return;
 			}
 			new ListGroupTask().execute(url);
 		}

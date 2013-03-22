@@ -90,6 +90,7 @@
     <string name="schedule_spinner_title">Sélectionnez une filière</string>
 
     <string-array name="schedule_spinner">
+        <item></item>
         <item>Licence Semestre 1</item>
         <item>Licence Semestre 2</item>
         <item>Master Semestre 1</item>
