@@ -18,7 +18,8 @@
             android:id="@+id/event_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="#0C1259"
+            android:textStyle="bold"
+            android:textColor="@color/blue_title"
             android:textSize="14sp" />
 
         <TextView
