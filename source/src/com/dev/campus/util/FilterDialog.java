@@ -128,7 +128,7 @@ public class FilterDialog extends AlertDialog {
 						((EventsActivity)mContext).showContent();
 					}
 					else if (mContext instanceof DirectoryActivity)
-						((DirectoryActivity)mContext).reloadContacts();
+						((DirectoryActivity)mContext).reloadContent();
 				}
 			});
 			

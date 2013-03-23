@@ -170,7 +170,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		startActivity(browserIntent);
 	}
 
-	public void reloadContacts() {
+	public void reloadContent() {
 		ArrayList<Contact> sortedContacts = new ArrayList<Contact>();
 		mDirectoryAdapter.clear();
 
@@ -264,7 +264,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 		@Override
 		protected void onPostExecute(Void result) {
-			reloadContacts();
+			reloadContent();
 			progressDialog.dismiss();
 		}
 
