@@ -1,6 +1,8 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -109,11 +111,27 @@ public class Event implements Serializable {
 		return d + mDate.toString().substring(24);
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if(!(o instanceof Event))
+			return false;
+		
+		MessageDigest md;
+		String s1 = mTitle.toString() + mDate.toString();
+		String s2 = ((Event)o).getTitle().toString() + ((Event)o).getDate().toString();
+		try {
+			md = MessageDigest.getInstance("SHA");
+			return MessageDigest.isEqual(md.digest(s1.getBytes()), md.digest(s2.getBytes()));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	static class EventComparator implements Comparator<Event> {
 		@Override
 		public int compare(Event evt1, Event evt2) {
 			return evt2.getDate().compareTo(evt1.getDate());
 		}
 	}
-
 }

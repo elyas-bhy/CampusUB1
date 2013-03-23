@@ -79,7 +79,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
 		ListView listView = getListView();
 		listView.setOnItemClickListener(this);
-		android.util.Log.d("Ryan", "Setting longClick listener");
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		listView.setMultiChoiceModeListener(new EventMultiChoiceModeListener(listView));
 		listView.setAdapter(mEventAdapter);
@@ -303,7 +302,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 						return null;
 					}
 				}
-				mEventParser.parseEvents(mCategory);
+				mEventParser.parseEvents(mCategory, entries[0].getKey());
 				mEventParser.saveEvents();
 				mEvents = mEventParser.getEvents();
 			} catch (Exception e) {

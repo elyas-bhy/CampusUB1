@@ -48,7 +48,7 @@ public class EventParser {
 		mParser.setInput(stream, null);
 	}
 
-	public void parseEvents(Category category) throws XmlPullParserException, IOException, ParseException {
+	public void parseEvents(Category category, ArrayList<Event> existingEvents) throws XmlPullParserException, IOException, ParseException {
 		mCategory = category;
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
@@ -59,6 +59,7 @@ public class EventParser {
 				Date buildDate = new Date(0);
 
 				int eventType = mParser.getEventType();
+				parseLoop:
 				while (eventType != XmlPullParser.END_DOCUMENT) {
 					if (eventType == XmlPullParser.START_TAG) {
 						if (mParser.getName().equals("lastBuildDate")) {
@@ -92,6 +93,10 @@ public class EventParser {
 							event.setCategory(mCategory.toString());
 							event.setSource(feed.getType());
 							if (!event.getTitle().equals("")) {
+								if(existingEvents.contains(event)) {
+									android.util.Log.d("Ryan", "breaking loop");
+									break parseLoop;
+								}
 								events.add(event);
 							}
 						}
@@ -102,10 +107,15 @@ public class EventParser {
 			//else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
 				//events = EventHtmlParser.parse(events, this.mCategory);
 		}
+		for(Event evt : existingEvents)
+			android.util.Log.d("Ryan", "existing: " + evt.toString());
+		for(Event evt : events)
+			android.util.Log.d("Ryan", "new: " + evt.toString());
+		
 		mEvents = events;
+		mEvents.addAll(existingEvents);
 		mEventDates = dates;
 	}
-
 
 	public boolean isLatestVersion(Category category, List<Date> dates) throws IOException, XmlPullParserException, ParseException {
 		int i = 0;
@@ -141,7 +151,7 @@ public class EventParser {
 		try {
 			File history = new File(mContext.getHistoryPath());
 			history.getParentFile().createNewFile();
-			FileOutputStream fout = new FileOutputStream(history);
+			FileOutputStream fout = new FileOutputStream(history/*, true*/);
 			oos = new ObjectOutputStream(fout);
 			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(mEvents, mEventDates);
 
