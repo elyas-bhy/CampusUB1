@@ -31,7 +31,6 @@ import android.widget.Spinner;
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
 
 	private ActionBar mActionBar;
-	private Resources mResources;
 	private Context mContext;
 	private FilterDialog mFilterDialog;
 	private ScheduleAdapter mScheduleAdapter;
@@ -45,8 +44,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mFilterDialog = new FilterDialog(this);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mResources = getResources();
-		mContext = getBaseContext();
+		mContext = this;
 		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<ScheduleGroup>());
 
 		ListView listview = getListView();

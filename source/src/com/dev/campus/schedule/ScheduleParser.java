@@ -31,7 +31,7 @@ public class ScheduleParser {
 			Elements link = resource.select("link[class=xml]");
 			String xmlLink = link.attr("href");
 			group.setGroup(name.text());
-			group.setUrl(url.substring(0, 67)+xmlLink);
+			group.setUrl(url.substring(0, url.length()-10)+xmlLink); // remove "finder.xml" to url and append file link
 			allGroups.add(group);
 		}
 
@@ -57,8 +57,8 @@ public class ScheduleParser {
 				calGroup += groupItem.text()+"\n";
 			}
 
-			String calTitle = (calType == "") ? calModule : calType+" "+calModule ;
-			String calDesc  = calGroup+"Prof: "+calStaff+"\n" ;
+			String calTitle = (calType.equals("")) ? calModule : calType+" "+calModule ;
+			String calDesc  = (calStaff.equals("")) ? calGroup+"\n" : calGroup+"Prof: "+calStaff+"\n" ;
 
 			if (!calDate.equals("") && !calStartTime.equals("") && !calEndTime.equals("")) {
 				Log.d("LogTag", "date: "+calDate);
