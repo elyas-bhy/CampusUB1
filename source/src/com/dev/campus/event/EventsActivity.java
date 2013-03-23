@@ -90,7 +90,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mActionBar = getActionBar();
 		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
-				| ActionBar.DISPLAY_SHOW_CUSTOM);
+																  | ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
 		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
@@ -136,11 +136,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				try {
-					saveEvents();
-				} catch (Exception e){
-					CampusUB1App.LogD("saving failed");
-				}
+				saveEvents();
 				mCategory = (Category) parent.getItemAtPosition(position);
 				update();
 				mSlidingMenu.showContent();
@@ -277,11 +273,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	@Override
 	public void onPause() {
-		try {
-			saveEvents();
-		} catch (Exception e) {
-			CampusUB1App.LogD("saving events failed during pause");
-		}
+		saveEvents();
 		super.onPause();
 	}
 
@@ -347,7 +339,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		return feedsEntry;
 	}
 
-	public void saveEvents() throws XmlPullParserException {
+	public void saveEvents() {
 		ObjectOutputStream oos = null;
 		try {
 			File history = new File(getHistoryPath());
