@@ -38,6 +38,7 @@
     <string name="no_email">No email address for this contact</string>
     <string name="no_gps">Activate GPS for a more accurate localisation</string>
     <string name="showing_upcoming_events">Showing upcoming events only</string>
+    <string name="showing_unread_events">Showing unread events only</string>
     <string name="showing_all_events">Showing all events</string>
     <string name="no_play_store">Google Play Store is not installed on your device</string>
 

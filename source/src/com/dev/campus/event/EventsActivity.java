@@ -182,9 +182,11 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			if (item.isChecked()) {
 				item.setIcon(R.drawable.ic_content_read);
 				item.setChecked(false);
+				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
 			} else {
 				item.setIcon(R.drawable.ic_content_unread);
 				item.setChecked(true);
+				Toast.makeText(this, R.string.showing_unread_events, Toast.LENGTH_SHORT).show();
 			}
 			mShowUnreadOnly = item.isChecked();
 			reloadContent();

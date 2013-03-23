@@ -29,8 +29,9 @@
     <string name="no_tel">Aucun numero disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
     <string name="showing_upcoming_events">Affichage des événements à venir</string>
-    <string name="no_gps">Activez le GPS pour une localisation plus précise</string>
+    <string name="showing_unread_events">Affichage des événements non lus</string>
     <string name="showing_all_events">Affichage de tous les événements</string>
+    <string name="no_gps">Activez le GPS pour une localisation plus précise</string>
     <string name="no_play_store">Google Play Store n\'est pas installé sur votre appareil</string>
 
     <!-- Establishments -->
