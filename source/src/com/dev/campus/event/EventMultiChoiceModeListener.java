@@ -13,29 +13,29 @@ import com.dev.campus.R;
 
 public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 	
-	private ArrayList<Event> events;
-	private ListView view;
+	private ArrayList<Event> mSelectedEvents;
+	private ListView mListView;
 	
-	public EventMultiChoiceModeListener(ListView lv) {
-		events = new ArrayList<Event>();
-		view = lv;
+	public EventMultiChoiceModeListener(ListView listView) {
+		mSelectedEvents = new ArrayList<Event>();
+		mListView = listView;
 	}
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		for(Event evt : events) {
-			switch(item.getItemId()) {
+		for (Event event : mSelectedEvents) {
+			switch (item.getItemId()) {
 			case R.id.menu_read:
-				evt.setRead(true);
+				event.setRead(true);
 				break;
 			case R.id.menu_unread:
-				evt.setRead(false);
+				event.setRead(false);
 				break;
 			case R.id.menu_star:
-				evt.setStarred(true);
+				event.setStarred(true);
 				break;
 			case R.id.menu_unstar:
-				evt.setStarred(false);
+				event.setStarred(false);
 				break;
 			}
 		}
@@ -46,34 +46,29 @@ public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		MenuInflater inflater = mode.getMenuInflater();
-        inflater.inflate(R.menu.event_contextual, menu);
+        inflater.inflate(R.menu.event_contextual_actionbar, menu);
         return true;
-
 	}
 
 	@Override
-	public void onDestroyActionMode(ActionMode arg0) {
-		events.clear();
+	public void onDestroyActionMode(ActionMode mode) {
+		mSelectedEvents.clear();
 	}
 
 	@Override
-	public boolean onPrepareActionMode(ActionMode arg0, Menu arg1) {
-		// TODO Auto-generated method stub
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 		return false;
 	}
 
 	@Override
-	public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
-			boolean checked) {
-		Event evt = (Event) view.getItemAtPosition(position);
-		if(checked) {
-			if(!events.contains(evt)) {
-				android.util.Log.d("Ryan", "adding to checked list: " + evt);
-				events.add(evt);
-			}
+	public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+		Event evt = (Event) mListView.getItemAtPosition(position);
+		if (checked) {
+			if (!mSelectedEvents.contains(evt))
+				mSelectedEvents.add(evt);
 		} else {
-			if(events.contains(evt))
-				events.remove(evt);
+			if (mSelectedEvents.contains(evt))
+				mSelectedEvents.remove(evt);
 		}
 	}
 
