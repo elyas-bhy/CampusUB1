@@ -7,17 +7,20 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.TimeZone;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.util.Log;
 
 
@@ -67,20 +70,29 @@ public class ScheduleParser {
 
 			// Following code convert date parsed to integer and then to Date format
 			// by extracting day, month and year value from date type : 30/12/2013
-			Date calRealDate = null;
+			//Date calRealDate = null;
+			Date calStartDate = null;
+			Date calEndDate = null;
 			if (calDate.length() == 10) {
 				int calDayValue = Integer.parseInt(calDate.substring(0, 2)) + Integer.parseInt(calDay);
 				int calMonthValue = Integer.parseInt(calDate.substring(3, 5));
 				int calYearValue = Integer.parseInt(calDate.substring(6, 10));
-				calRealDate = new Date(calYearValue, calMonthValue, calDayValue);
+				//calRealDate = new Date(calYearValue, calMonthValue, calDayValue);
+				int calStartHourValue = Integer.parseInt(calStartTime.substring(0, 2));
+				int calStartMinValue = Integer.parseInt(calStartTime.substring(3, 5));
+				int calEndHourValue = Integer.parseInt(calEndTime.substring(0, 2));
+				int calEndMinValue = Integer.parseInt(calEndTime.substring(3, 5));
+				calStartDate = new Date(calYearValue, calMonthValue, calDayValue, calStartHourValue, calStartMinValue);
+				calEndDate = new Date(calYearValue, calMonthValue, calDayValue, calEndHourValue, calEndMinValue);
 			}
 
 			String calTitle = (calType.equals("")) ? calModule : calType+" "+calModule ;
 			String calDesc  = (calNotes.equals("")) ? "" : calNotes+"\n" ;
 			calDesc = (calStaff.equals("")) ? calDesc+calGroup+"\n" : calDesc+calGroup+"Prof: "+calStaff+"\n" ;
 
-			if (!calDate.equals("") && !calNotes.equals("") && !calStartTime.equals("") && !calEndTime.equals("")) {
-				Log.d("LogTag", "date: "+SimpleDateFormat.getDateInstance(DateFormat.SHORT).format(calRealDate));
+			if (!calDate.equals("") && !calStartTime.equals("") && !calEndTime.equals("")) {
+
+				Log.d("LogTag", "date: "+SimpleDateFormat.getDateInstance(DateFormat.SHORT).format(calStartDate));
 				Log.d("LogTag", "startTime: "+calStartTime);
 				Log.d("LogTag", "endTime: "+calEndTime);
 				Log.d("LogTag", "type: "+calType);
@@ -88,29 +100,46 @@ public class ScheduleParser {
 				Log.d("LogTag", "room: "+calRoom);
 				Log.d("LogTag", "staff: "+calStaff);
 				Log.d("LogTag", "group: "+calGroup);
-				Log.d("LogTag", " ");
+				Log.d("LogTag", "   ------------   ");
 				Log.d("LogTag", "calTitle: "+calTitle);
 				Log.d("LogTag", "calDesc: "+calDesc);
 				Log.d("LogTag", " ");
 
-				/*
-				// Temporary Code
-				Intent intent = new Intent(Intent.ACTION_EDIT);
-				intent.setType("vnd.android.cursor.item/event");
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.putExtra("beginTime", calStartTime);
-				intent.putExtra("endTime", calEndTime);
-				intent.putExtra("title", calTitle);
-				intent.putExtra("description", calDesc);
-				intent.putExtra("eventLocation", calRoom);
-				intent.putExtra("allDay", true);
-				intent.putExtra("rrule", "FREQ=YEARLY");
-				context.startActivity(intent);
+				synchronizeCalendar(1, context, calTitle, calDesc, calRoom, calStartDate.getTime(), calEndDate.getTime()); 
 
 				break; // To treat only one event
-				 */
 			}
 		}
 
 	}
+
+	private void synchronizeCalendar(long calID, Context context, String title, String desc, String location, long startTime, long endTime) {
+		try {
+			ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+			//new batch operation
+			ops.add(ContentProviderOperation.newInsert(Events.CONTENT_URI)
+					.withValue(Events.DTSTART, startTime) //long
+					.withValue(Events.DTEND, endTime) //long
+					.withValue(Events.TITLE, title) //String
+					.withValue(Events.EVENT_LOCATION, location) //String
+					.withValue(Events.DESCRIPTION, desc) //String
+					.withValue(Events.CALENDAR_ID, calID) //long
+					.withValue(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID()) //String
+					.build());
+
+			if (ops.size() > 0) {
+				ContentResolver cr = context.getContentResolver();
+				ContentProviderResult[] results = cr.applyBatch(CalendarContract.AUTHORITY, ops);
+				for (ContentProviderResult result : results) {
+					Log.v("LogTag", "addBatchEvent: " + result.uri.toString());
+				}
+			} else {
+				Log.w("LogTag", "No batch operations found! Do nothing");
+			}
+
+		} catch (Exception e) {
+			Log.e("LogTag", "synchronizeCalendar", e);
+		}
+	}
+	
 }
