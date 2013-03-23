@@ -17,7 +17,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.util.TimeExtractor;
 import com.dev.campus.event.Feed.FeedType;
 
@@ -28,7 +27,6 @@ public class EventParser {
 	private Category mCategory;
 	private EventsActivity mContext;
 	
-	private ArrayList<Event> mEvents;
 	private ArrayList<Date> mEventDates;
 
 	public EventParser(EventsActivity context) throws XmlPullParserException {
@@ -38,17 +36,14 @@ public class EventParser {
 		mContext = context;
 	}
 
-	public ArrayList<Event> getEvents() {
-		return mEvents;
-	}
-
 	private void setInput(Feed feed) throws IOException, XmlPullParserException {
 		URL url = new URL(feed.getUrl());
 		InputStream stream = url.openStream();
 		mParser.setInput(stream, null);
 	}
 
-	public void parseEvents(Category category, ArrayList<Event> existingEvents) throws XmlPullParserException, IOException, ParseException {
+	public ArrayList<Event> parseEvents(Category category, ArrayList<Event> existingEvents) 
+			throws XmlPullParserException, IOException, ParseException {
 		mCategory = category;
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
@@ -107,16 +102,15 @@ public class EventParser {
 				//events = EventHtmlParser.parse(events, this.mCategory);
 		}
 		
-		mEvents = events;
-		mEvents.addAll(existingEvents);
 		mEventDates = dates;
+		events.addAll(existingEvents);
+		return events;
 	}
 
 	public boolean isLatestVersion(Category category, List<Date> dates) throws IOException, XmlPullParserException, ParseException {
 		int i = 0;
 		for (Feed feed : category.getFeeds()) {
-			if ((feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1())
-			 || (feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri())) {
+			if (feed.getType().isFiltered()) {
 				setInput(feed);
 				Date buildDate;
 				
@@ -141,15 +135,14 @@ public class EventParser {
 
 
 
-	public void saveEvents() throws XmlPullParserException {
+	public void saveEvents(ArrayList<Event> events) throws XmlPullParserException {
 		ObjectOutputStream oos = null;
 		try {
 			File history = new File(mContext.getHistoryPath());
 			history.getParentFile().createNewFile();
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
-			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(mEvents, mEventDates);
-
+			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(events, mEventDates);
 			oos.writeObject(map);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  

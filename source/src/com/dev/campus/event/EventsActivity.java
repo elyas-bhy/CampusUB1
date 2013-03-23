@@ -23,11 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -135,8 +132,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				try {
-					android.util.Log.d("Ryan", "Saving on category click");
-					mEventParser.saveEvents();
+					mEventParser.saveEvents(mEvents);
 				} catch (Exception e){
 					CampusUB1App.LogD("saving failed");
 				}
@@ -289,23 +285,11 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		intent.putExtra(EXTRA_EVENTS_INDEX, position);
 		startActivity(intent);
 	}
-	
-	@Override
-	public void onStop(){
-		try {
-			android.util.Log.d("Ryan", "Saving on Stop");
-			mEventParser.saveEvents();
-		} catch (Exception e) {
-			CampusUB1App.LogD("saving events failed during stop");
-		}
-		super.onStop();
-	}
-	
+
 	@Override
 	public void onPause() {
 		try {
-			android.util.Log.d("Ryan", "Saving on Pause");
-			mEventParser.saveEvents();
+			mEventParser.saveEvents(mEvents);
 		} catch (Exception e) {
 			CampusUB1App.LogD("saving events failed during pause");
 		}
@@ -327,16 +311,14 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 				
-				if (entries.length > 0) { // existing events have been detected
-					existingEvents = entries[0].getKey(); // put the existing events in the arrayList
+				if (entries.length > 0) {
+					existingEvents = entries[0].getKey(); // retrieve existing events
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getValue())) {
 						mEvents = entries[0].getKey();
 						return null;
 					}
 				}
-				mEventParser.parseEvents(mCategory, existingEvents);
-				mEventParser.saveEvents();
-				mEvents = mEventParser.getEvents();
+				mEvents = mEventParser.parseEvents(mCategory, existingEvents);
 			} catch (Exception e) {
 				CampusUB1App.LogD(e.toString());
 			}
