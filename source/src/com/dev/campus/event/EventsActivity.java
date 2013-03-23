@@ -190,7 +190,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				item.setChecked(true);
 			}
 			mShowUnreadOnly = item.isChecked();
-			//TODO update view
+			reloadContent();
 			mSlidingMenu.showContent();
 			return true;
 			
@@ -205,7 +205,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				Toast.makeText(this, R.string.showing_upcoming_events, Toast.LENGTH_SHORT).show();
 			}
 			mShowUpcomingEvents = item.isChecked();
-			reloadEvents();
+			reloadContent();
 			mSlidingMenu.showContent();
 			return true;
 			
@@ -220,7 +220,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			for (Event event : mEvents) {
 				if (event.getSource().isFiltered()) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getDate().getTime() >= System.currentTimeMillis()))
-						sortedEvents.add(event);
+						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
+							sortedEvents.add(event);
 				}
 			}
 		}
@@ -228,7 +229,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mSortedEvents = sortedEvents;
 	}
 
-	public void reloadEvents() {
+	public void reloadContent() {
 		sortEvents();
 		mEventAdapter.clear();
 		mEventAdapter.addAll(mSortedEvents);
@@ -267,7 +268,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
 				mEvents = feedsEntry.getKey();
-				reloadEvents();
+				reloadContent();
 				Toast.makeText(this, R.string.showing_history, Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -344,7 +345,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 		@Override
 		protected void onPostExecute(Void result) {
-			reloadEvents();
+			reloadContent();
 			mRefreshMenuItem.setActionView(null);
 		}
 

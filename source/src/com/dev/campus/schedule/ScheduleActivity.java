@@ -91,7 +91,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
-	public void reloadScheduleGroup() {
+	public void reloadContent() {
 		mScheduleAdapter.clear();
 		mScheduleAdapter.addAll(mListScheduleGroup);
 		mScheduleAdapter.notifyDataSetChanged();
@@ -115,7 +115,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		@Override
 		protected void onPostExecute(Void result) {
-			reloadScheduleGroup();
+			reloadContent();
 		}
 	}
 
