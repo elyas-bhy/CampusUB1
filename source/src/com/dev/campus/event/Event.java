@@ -115,17 +115,11 @@ public class Event implements Serializable {
 	public boolean equals(Object o){
 		if(!(o instanceof Event))
 			return false;
-		
-		MessageDigest md;
+
 		String s1 = mTitle.toString() + mDate.toString();
 		String s2 = ((Event)o).getTitle().toString() + ((Event)o).getDate().toString();
-		try {
-			md = MessageDigest.getInstance("SHA");
-			return MessageDigest.isEqual(md.digest(s1.getBytes()), md.digest(s2.getBytes()));
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return false;
+		
+		return s1.equals(s2);
 	}
 	
 	static class EventComparator implements Comparator<Event> {

@@ -2,7 +2,6 @@ package com.dev.campus.event;
 
 import java.util.ArrayList;
 
-import android.graphics.Color;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListView;
 
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 
 public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
@@ -40,10 +38,9 @@ public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 				evt.setStarred(false);
 				break;
 			}
-			mode.finish();
-			return true;
 		}
-		return false;
+		mode.finish();
+		return true;
 	}
 
 	@Override
@@ -56,7 +53,7 @@ public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 
 	@Override
 	public void onDestroyActionMode(ActionMode arg0) {
-		
+		events.clear();
 	}
 
 	@Override
@@ -70,8 +67,10 @@ public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 			boolean checked) {
 		Event evt = (Event) view.getItemAtPosition(position);
 		if(checked) {
-			if(!events.contains(evt))
+			if(!events.contains(evt)) {
+				android.util.Log.d("Ryan", "adding to checked list: " + evt);
 				events.add(evt);
+			}
 		} else {
 			if(events.contains(evt))
 				events.remove(evt);

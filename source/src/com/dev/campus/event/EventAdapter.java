@@ -5,6 +5,7 @@ import java.util.List;
 import com.dev.campus.R;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,12 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
+		
+		if(!event.isRead())
+			eventHolder.title.setTypeface(Typeface.DEFAULT_BOLD);
+		else
+			eventHolder.title.setTypeface(Typeface.DEFAULT);
+		
 		eventHolder.title.setText(event.getTitle());
 		eventHolder.date.setText(event.getStringDate());
 		eventHolder.category.setText(event.getCategory());

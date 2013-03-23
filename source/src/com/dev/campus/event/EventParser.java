@@ -94,7 +94,6 @@ public class EventParser {
 							event.setSource(feed.getType());
 							if (!event.getTitle().equals("")) {
 								if(existingEvents.contains(event)) {
-									android.util.Log.d("Ryan", "breaking loop");
 									break parseLoop;
 								}
 								events.add(event);
@@ -107,10 +106,6 @@ public class EventParser {
 			//else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
 				//events = EventHtmlParser.parse(events, this.mCategory);
 		}
-		for(Event evt : existingEvents)
-			android.util.Log.d("Ryan", "existing: " + evt.toString());
-		for(Event evt : events)
-			android.util.Log.d("Ryan", "new: " + evt.toString());
 		
 		mEvents = events;
 		mEvents.addAll(existingEvents);
@@ -151,7 +146,7 @@ public class EventParser {
 		try {
 			File history = new File(mContext.getHistoryPath());
 			history.getParentFile().createNewFile();
-			FileOutputStream fout = new FileOutputStream(history/*, true*/);
+			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
 			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(mEvents, mEventDates);
 
