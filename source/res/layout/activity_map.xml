@@ -28,21 +28,23 @@
             android:id="@+id/services_check"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:checked="true"
             android:onClick="onCheckboxClicked"
             android:text="@string/campus_services"
-            android:textSize="13sp"
-            android:layout_alignParentLeft="true" />
+            android:textSize="13sp" />
 
         <CheckBox
             android:id="@+id/buildings_check"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:checked="true"
             android:onClick="onCheckboxClicked"
             android:text="@string/campus_buildings"
-            android:textSize="13sp"
-            android:layout_alignParentRight="true" />
+            android:textSize="13sp" />
 
         <CheckBox
             android:id="@+id/restaurants_check"

@@ -86,7 +86,7 @@ public class MapActivity extends Activity implements LocationListener {
 	protected void onResume() {
 		super.onResume();
 		 if (mLocationManager != null)
-			 getNewProvider();
+			 getNewProviders();
 	}
 	
 	@Override     
@@ -186,8 +186,7 @@ public class MapActivity extends Activity implements LocationListener {
 			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
 
 		// Register listeners	
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
+		getNewProviders();
 
 		// Initially use network provider
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -306,7 +305,7 @@ public class MapActivity extends Activity implements LocationListener {
 		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 
-	public void getNewProvider() {
+	public void getNewProviders() {
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
 	}
