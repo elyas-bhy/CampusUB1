@@ -124,7 +124,7 @@ public class FilterDialog extends AlertDialog {
 					
 					//Find a better workaround for this (getClass() ?)
 					if (mContext instanceof EventsActivity) {
-						((EventsActivity)mContext).reloadEvents();
+						((EventsActivity)mContext).reloadContent();
 						((EventsActivity)mContext).showContent();
 					}
 					else if (mContext instanceof DirectoryActivity)
