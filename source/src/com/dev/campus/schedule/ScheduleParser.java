@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,24 +48,39 @@ public class ScheduleParser {
 		Document xmlDoc = Jsoup.parse(input, "CP1252", url);
 
 		for (Element span : xmlDoc.select("event[date]")) {
-			String calDate = span.attr("date");
 			String calStartTime = span.select("starttime").text();
 			String calEndTime = span.select("endtime").text();
 			String calType = span.select("category").text();
 			String calModule = span.select("module").text();
 			String calRoom = span.select("room").text();
 			String calStaff = span.select("staff").text();
+			String calNotes = span.select("notes").text();
 			String calGroup = "";
 			Elements group = span.select("group");
 			for (Element groupItem : group.select("item")) {
 				calGroup += groupItem.text()+"\n";
 			}
 
-			String calTitle = (calType.equals("")) ? calModule : calType+" "+calModule ;
-			String calDesc  = (calStaff.equals("")) ? calGroup+"\n" : calGroup+"Prof: "+calStaff+"\n" ;
+			// Calculate real date
+			String calDate = span.attr("date");
+			String calDay = span.select("day").text();
 
-			if (!calDate.equals("") && !calStartTime.equals("") && !calEndTime.equals("")) {
-				Log.d("LogTag", "date: "+calDate);
+			// Following code convert date parsed to integer and then to Date format
+			// by extracting day, month and year value from date type : 30/12/2013
+			Date calRealDate = null;
+			if (calDate.length() == 10) {
+				int calDayValue = Integer.parseInt(calDate.substring(0, 2)) + Integer.parseInt(calDay);
+				int calMonthValue = Integer.parseInt(calDate.substring(3, 5));
+				int calYearValue = Integer.parseInt(calDate.substring(6, 10));
+				calRealDate = new Date(calYearValue, calMonthValue, calDayValue);
+			}
+
+			String calTitle = (calType.equals("")) ? calModule : calType+" "+calModule ;
+			String calDesc  = (calNotes.equals("")) ? "" : calNotes+"\n" ;
+			calDesc = (calStaff.equals("")) ? calDesc+calGroup+"\n" : calDesc+calGroup+"Prof: "+calStaff+"\n" ;
+
+			if (!calDate.equals("") && !calNotes.equals("") && !calStartTime.equals("") && !calEndTime.equals("")) {
+				Log.d("LogTag", "date: "+SimpleDateFormat.getDateInstance(DateFormat.SHORT).format(calRealDate));
 				Log.d("LogTag", "startTime: "+calStartTime);
 				Log.d("LogTag", "endTime: "+calEndTime);
 				Log.d("LogTag", "type: "+calType);
