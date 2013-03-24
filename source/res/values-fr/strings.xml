@@ -12,6 +12,7 @@
 
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
+    <string name="warning">Attention</string>
     <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="filter_results">Filtrez vos résultats</string>
     <string name="events_loading">Chargement des événements</string>
@@ -19,6 +20,7 @@
     <string name="contacts_loading">Chargement des contacts</string>
     <string name="install">Installer</string>
     <string name="need_play_services">Le plan nécessite que Google Play Services soit installé</string>
+    <string name="schedule_confirm_content">Tous les événements seront exportés dans le calendrier par défaut. Êtes-vous sûr de vouloir continuer?</string>
 
     <!-- Toasts -->
     <string name="showing_history">Affichage de l\'historique</string>

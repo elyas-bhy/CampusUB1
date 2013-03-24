@@ -14,8 +14,10 @@ import com.dev.campus.util.FilterDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,8 +77,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		mScheduleGroup = (ScheduleGroup) parent.getItemAtPosition(position);
-		Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.schedule_exporting), Toast.LENGTH_SHORT).show();
-		new ParseScheduleTask().execute();
+		new ScheduleConfirmDialog(mContext);
 	}
 
 	@Override
@@ -177,4 +178,27 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		}
 	}
+
+	private class ScheduleConfirmDialog extends AlertDialog.Builder {
+
+		public ScheduleConfirmDialog(Context context) {
+			super(context);
+			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+			builder.setMessage(R.string.schedule_confirm_content)
+			.setTitle(R.string.warning)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.schedule_exporting), Toast.LENGTH_SHORT).show();
+					new ParseScheduleTask().execute();
+				}
+			})
+			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+
+				}
+			});
+			builder.show();
+		}
+	}
+
 }
