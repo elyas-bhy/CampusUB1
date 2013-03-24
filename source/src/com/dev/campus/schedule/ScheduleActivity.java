@@ -17,7 +17,6 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,21 +30,29 @@ import android.widget.Spinner;
 
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
 
+	private final String LS1_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre1/finder.xml";
+	private final String LS2_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre2/finder.xml";
+	private final String MS1_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml";
+	private final String MS2_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml";
+
 	private ActionBar mActionBar;
 	private Context mContext;
 	private FilterDialog mFilterDialog;
+
+	private ScheduleParser mScheduleParser;
 	private ScheduleAdapter mScheduleAdapter;
 	private ScheduleGroup mScheduleGroup;
-	private List<ScheduleGroup> mListScheduleGroup;
+	private List<ScheduleGroup> mScheduleGroups;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		mFilterDialog = new FilterDialog(this);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
+
 		mContext = this;
+		mScheduleParser = new ScheduleParser();
 		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<ScheduleGroup>());
 
 		ListView listview = getListView();
@@ -54,9 +61,9 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		listview.setAdapter(mScheduleAdapter);
 		listview.setOnItemClickListener(this);
 
-		Spinner schedule_spinner = (Spinner) findViewById(R.id.schedule_spinner);
-		schedule_spinner.setOnItemSelectedListener(new spinnerOnItemSelectedListener());
-		//schedule_spinner.performClick();
+		Spinner spinner = (Spinner) findViewById(R.id.schedule_spinner);
+		spinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener());
+		spinner.performClick();
 	}
 
 	@Override
@@ -94,7 +101,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	public void reloadContent() {
 		mScheduleAdapter.clear();
-		mScheduleAdapter.addAll(mListScheduleGroup);
+		mScheduleAdapter.addAll(mScheduleGroups);
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
@@ -104,7 +111,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		protected Void doInBackground(String... urls) {
 			if (urls.length > 0) {
 				try {
-					mListScheduleGroup = new ScheduleParser().parseFeed(urls[0]);
+					mScheduleGroups = mScheduleParser.parseFeed(urls[0]);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -125,7 +132,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		@Override
 		protected Void doInBackground(Void... args) {
 			try {
-				new ScheduleParser().parseSchedule(mContext, mScheduleGroup.getUrl());
+				mScheduleParser.parseSchedule(mContext, mScheduleGroup.getUrl());
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -142,25 +149,28 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
-	private class spinnerOnItemSelectedListener implements OnItemSelectedListener {
+	private class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 			String url = "";
-			if (pos == 1) { // Licence Semestre 1
-				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre1/finder.xml";
-			}
-			else if (pos == 2) { // Licence Semestre 2
-				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre2/finder.xml";
-			}
-			else if (pos == 3) { // Master Semestre 1
-				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml";
-			}
-			else if (pos == 4) { // Master Semestre 2
-				url = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml";
-			}
-			else {
+			switch (position) {
+			case 0:	//dummy item
+				mScheduleGroups = new ArrayList<ScheduleGroup>();
+				reloadContent();
 				return;
+			case 1:
+				url = LS1_URL;
+				break;
+			case 2:
+				url = LS2_URL;
+				break;
+			case 3:
+				url = MS1_URL;
+				break;
+			case 4:
+				url = MS2_URL;
+				break;
 			}
 			new ListGroupTask().execute(url);
 		}

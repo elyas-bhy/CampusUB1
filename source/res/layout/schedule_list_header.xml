@@ -8,7 +8,7 @@
     <Spinner
         android:id="@+id/schedule_spinner"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:entries="@array/schedule_spinner"
         android:prompt="@string/schedule_spinner_title"
         android:spinnerMode="dialog" />

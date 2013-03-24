@@ -99,10 +99,10 @@
     <string name="action_settings">Settings</string>
 
     <!-- Schedule Spinner -->
-    <string name="schedule_spinner_title">Choose a sector</string>
+    <string name="schedule_spinner_title">Select your current semester</string>
 
     <string-array name="schedule_spinner">
-        <item></item>
+        <item>None</item>
         <item>Licence Semestre 1</item>
         <item>Licence Semestre 2</item>
         <item>Master Semestre 1</item>

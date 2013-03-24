@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -27,11 +25,13 @@ import android.util.Log;
 
 
 public class ScheduleParser {
+	
+	private final String CHARSET = "CP1252";
 
 	public ArrayList<ScheduleGroup> parseFeed(String url) throws MalformedURLException, IOException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
-		Document xmlDoc = Jsoup.parse(input, "CP1252", url);
+		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
 
 		ArrayList<ScheduleGroup> allGroups = new ArrayList<ScheduleGroup>();
 		for (Element resource : xmlDoc.select("resource")) {
@@ -50,7 +50,8 @@ public class ScheduleParser {
 	public void parseSchedule(Context context, String url) throws MalformedURLException, IOException, ParseException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
-		Document xmlDoc = Jsoup.parse(input, "CP1252", url);
+		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyH:m");
 
 		for (Element span : xmlDoc.select("event[date]")) {
 			String calStartTime = span.select("starttime").text();
@@ -69,9 +70,8 @@ public class ScheduleParser {
 			// Calculate real dates
 			String calParseDate = span.attr("date");
 			String calDay = span.select("day").text();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyH:m");
-			Date startDate = dateFormat.parse(calParseDate+calStartTime);
-			Date endDate = dateFormat.parse(calParseDate+calEndTime);
+			Date startDate = dateFormat.parse(calParseDate + calStartTime);
+			Date endDate = dateFormat.parse(calParseDate + calEndTime);
 			long calStartDate = startDate.getTime() + 86400000*Integer.parseInt(calDay); // 86400000 : number of milliseconds per day
 			long calEndDate = endDate.getTime() + 86400000*Integer.parseInt(calDay);
 

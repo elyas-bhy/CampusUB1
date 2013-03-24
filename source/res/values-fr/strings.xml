@@ -88,10 +88,10 @@
     <string name="category_press">Presse</string>
 
     <!-- Schedule Spinner -->
-    <string name="schedule_spinner_title">Sélectionnez une filière</string>
+    <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>
 
     <string-array name="schedule_spinner">
-        <item></item>
+        <item>Aucun</item>
         <item>Licence Semestre 1</item>
         <item>Licence Semestre 2</item>
         <item>Master Semestre 1</item>
