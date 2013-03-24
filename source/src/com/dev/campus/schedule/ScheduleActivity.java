@@ -68,7 +68,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		getMenuInflater().inflate(R.menu.default_actionbar, menu);
 		return true;
 	}
 

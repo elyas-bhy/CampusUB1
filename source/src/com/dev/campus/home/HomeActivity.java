@@ -60,7 +60,7 @@ public class HomeActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		getMenuInflater().inflate(R.menu.filters_actionbar, menu);
 		return true;
 	}
 
