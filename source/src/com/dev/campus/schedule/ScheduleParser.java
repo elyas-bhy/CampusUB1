@@ -16,7 +16,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.provider.CalendarContract;
@@ -92,24 +91,18 @@ public class ScheduleParser {
 						.build());
 			}
 		}
-		synchronizeCalendar(context, scheduleEvents);
+		batchInsertEvents(context, scheduleEvents);
 
 	}
 
-	private void synchronizeCalendar(Context context, ArrayList<ContentProviderOperation> ops) {
+	private void batchInsertEvents(Context context, ArrayList<ContentProviderOperation> ops) {
 		try {
 			if (ops.size() > 0) {
 				ContentResolver cr = context.getContentResolver();
-				ContentProviderResult[] results = cr.applyBatch(CalendarContract.AUTHORITY, ops);
-				for (ContentProviderResult result : results) {
-					Log.v("LogTag", "addBatchEvent: " + result.uri.toString());
-				}
-			} else {
-				Log.w("LogTag", "No batch operations found! Do nothing");
+				cr.applyBatch(CalendarContract.AUTHORITY, ops);
 			}
-
 		} catch (Exception e) {
-			Log.e("LogTag", "synchronizeCalendar", e);
+			Log.e("LogTag", "batch insert failed: ", e);
 		}
 	}
 

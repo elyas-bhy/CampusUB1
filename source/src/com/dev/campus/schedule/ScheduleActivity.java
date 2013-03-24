@@ -143,7 +143,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		@Override
 		protected void onPostExecute(Void result) {
-			Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.schedule_exported), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.schedule_exported, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -188,8 +188,9 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			.setTitle(R.string.warning)
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.schedule_exporting), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), R.string.schedule_exporting, Toast.LENGTH_SHORT).show();
 					new ParseScheduleTask().execute();
+					finish();
 				}
 			})
 			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
