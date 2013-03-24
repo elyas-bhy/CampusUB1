@@ -25,7 +25,7 @@ import android.util.Log;
 
 
 public class ScheduleParser {
-	
+
 	private final String CHARSET = "CP1252";
 
 	public ArrayList<ScheduleGroup> parseFeed(String url) throws MalformedURLException, IOException {
@@ -52,6 +52,7 @@ public class ScheduleParser {
 		InputStream input = new URL(url).openStream();
 		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyH:m");
+		ArrayList<ContentProviderOperation> scheduleEvents = new ArrayList<ContentProviderOperation>();
 
 		for (Element span : xmlDoc.select("event[date]")) {
 			String calStartTime = span.select("starttime").text();
@@ -80,40 +81,23 @@ public class ScheduleParser {
 			calDesc = (calStaff.equals("")) ? calDesc+calGroup+"\n" : calDesc+calGroup+"Prof: "+calStaff+"\n" ;
 
 			if (calStartDate > 0 && !calTitle.equals("")) {
-				/*
-				Log.d("LogTag", "date: "+calStartDate);
-				Log.d("LogTag", "startTime: "+calStartTime);
-				Log.d("LogTag", "endTime: "+calEndTime);
-				Log.d("LogTag", "type: "+calType);
-				Log.d("LogTag", "module: "+calModule);
-				Log.d("LogTag", "room: "+calRoom);
-				Log.d("LogTag", "staff: "+calStaff);
-				Log.d("LogTag", "group: "+calGroup);
-				Log.d("LogTag", "   ------------   ");
-				Log.d("LogTag", "calTitle: "+calTitle);
-				Log.d("LogTag", "calDesc: "+calDesc);
-				Log.d("LogTag", " ");
-				 */
-				synchronizeCalendar(1, context, calTitle, calDesc, calRoom, calStartDate, calEndDate); 
+				scheduleEvents.add(ContentProviderOperation.newInsert(Events.CONTENT_URI)
+						.withValue(Events.DTSTART, calStartDate) // long
+						.withValue(Events.DTEND, calEndDate) // long
+						.withValue(Events.TITLE, calTitle) // String
+						.withValue(Events.EVENT_LOCATION, calRoom) // String
+						.withValue(Events.DESCRIPTION, calDesc) // String
+						.withValue(Events.CALENDAR_ID, 1) // long
+						.withValue(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID()) // String
+						.build());
 			}
 		}
+		synchronizeCalendar(context, scheduleEvents);
 
 	}
 
-	private void synchronizeCalendar(long calID, Context context, String title, String desc, String location, long startTime, long endTime) {
+	private void synchronizeCalendar(Context context, ArrayList<ContentProviderOperation> ops) {
 		try {
-			ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-			//new batch operation
-			ops.add(ContentProviderOperation.newInsert(Events.CONTENT_URI)
-					.withValue(Events.DTSTART, startTime) //long
-					.withValue(Events.DTEND, endTime) //long
-					.withValue(Events.TITLE, title) //String
-					.withValue(Events.EVENT_LOCATION, location) //String
-					.withValue(Events.DESCRIPTION, desc) //String
-					.withValue(Events.CALENDAR_ID, calID) //long
-					.withValue(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID()) //String
-					.build());
-
 			if (ops.size() > 0) {
 				ContentResolver cr = context.getContentResolver();
 				ContentProviderResult[] results = cr.applyBatch(CalendarContract.AUTHORITY, ops);

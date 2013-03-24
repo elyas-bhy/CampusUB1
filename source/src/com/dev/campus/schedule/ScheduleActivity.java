@@ -17,7 +17,6 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
@@ -75,11 +75,8 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		mScheduleGroup = (ScheduleGroup) parent.getItemAtPosition(position);
-		Log.d("LogTag", mScheduleGroup.getGroup());
-		Log.d("LogTag", mScheduleGroup.getUrl());
-		//TODO Export selected schedule
+		Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.schedule_exporting), Toast.LENGTH_SHORT).show();
 		new ParseScheduleTask().execute();
-
 	}
 
 	@Override
@@ -145,7 +142,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		@Override
 		protected void onPostExecute(Void result) {
-
+			Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.schedule_exported), Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -155,7 +152,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 			String url = "";
 			switch (position) {
-			case 0:	//dummy item
+			case 0:	// dummy item
 				mScheduleGroups = new ArrayList<ScheduleGroup>();
 				reloadContent();
 				return;
