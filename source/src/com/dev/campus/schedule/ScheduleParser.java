@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -45,7 +47,7 @@ public class ScheduleParser {
 		return allGroups;
 	}
 
-	public void parseSchedule(Context context, String url) throws MalformedURLException, IOException {
+	public void parseSchedule(Context context, String url) throws MalformedURLException, IOException, ParseException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
 		Document xmlDoc = Jsoup.parse(input, "CP1252", url);
@@ -64,35 +66,22 @@ public class ScheduleParser {
 				calGroup += groupItem.text()+"\n";
 			}
 
-			// Calculate real date
-			String calDate = span.attr("date");
+			// Calculate real dates
+			String calParseDate = span.attr("date");
 			String calDay = span.select("day").text();
-
-			// Following code convert date parsed to integer and then to Date format
-			// by extracting day, month and year value from date type : 30/12/2013
-			//Date calRealDate = null;
-			Date calStartDate = null;
-			Date calEndDate = null;
-			if (calDate.length() == 10) {
-				int calDayValue = Integer.parseInt(calDate.substring(0, 2)) + Integer.parseInt(calDay);
-				int calMonthValue = Integer.parseInt(calDate.substring(3, 5));
-				int calYearValue = Integer.parseInt(calDate.substring(6, 10));
-				//calRealDate = new Date(calYearValue, calMonthValue, calDayValue);
-				int calStartHourValue = Integer.parseInt(calStartTime.substring(0, 2));
-				int calStartMinValue = Integer.parseInt(calStartTime.substring(3, 5));
-				int calEndHourValue = Integer.parseInt(calEndTime.substring(0, 2));
-				int calEndMinValue = Integer.parseInt(calEndTime.substring(3, 5));
-				calStartDate = new Date(calYearValue, calMonthValue, calDayValue, calStartHourValue, calStartMinValue);
-				calEndDate = new Date(calYearValue, calMonthValue, calDayValue, calEndHourValue, calEndMinValue);
-			}
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyH:m");
+			Date startDate = dateFormat.parse(calParseDate+calStartTime);
+			Date endDate = dateFormat.parse(calParseDate+calEndTime);
+			long calStartDate = startDate.getTime() + 86400000*Integer.parseInt(calDay); // 86400000 : number of milliseconds per day
+			long calEndDate = endDate.getTime() + 86400000*Integer.parseInt(calDay);
 
 			String calTitle = (calType.equals("")) ? calModule : calType+" "+calModule ;
 			String calDesc  = (calNotes.equals("")) ? "" : calNotes+"\n" ;
 			calDesc = (calStaff.equals("")) ? calDesc+calGroup+"\n" : calDesc+calGroup+"Prof: "+calStaff+"\n" ;
 
-			if (!calDate.equals("") && !calStartTime.equals("") && !calEndTime.equals("")) {
-
-				Log.d("LogTag", "date: "+SimpleDateFormat.getDateInstance(DateFormat.SHORT).format(calStartDate));
+			if (calStartDate > 0 && !calTitle.equals("")) {
+				/*
+				Log.d("LogTag", "date: "+calStartDate);
 				Log.d("LogTag", "startTime: "+calStartTime);
 				Log.d("LogTag", "endTime: "+calEndTime);
 				Log.d("LogTag", "type: "+calType);
@@ -104,10 +93,8 @@ public class ScheduleParser {
 				Log.d("LogTag", "calTitle: "+calTitle);
 				Log.d("LogTag", "calDesc: "+calDesc);
 				Log.d("LogTag", " ");
-
-				synchronizeCalendar(1, context, calTitle, calDesc, calRoom, calStartDate.getTime(), calEndDate.getTime()); 
-
-				break; // To treat only one event
+				 */
+				synchronizeCalendar(1, context, calTitle, calDesc, calRoom, calStartDate, calEndDate); 
 			}
 		}
 
@@ -141,5 +128,5 @@ public class ScheduleParser {
 			Log.e("LogTag", "synchronizeCalendar", e);
 		}
 	}
-	
+
 }

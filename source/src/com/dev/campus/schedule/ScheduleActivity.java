@@ -3,6 +3,7 @@ package com.dev.campus.schedule;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +129,8 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			return null;
