@@ -35,27 +35,27 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	private final String MS1_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml";
 	private final String MS2_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml";
 
-	private ActionBar mActionBar;
 	private Context mContext;
+	private ActionBar mActionBar;
 	private ProgressBar mProgressBar;
 
+	private Group mSelectedGroup;
+	private List<Group> mGroups;
 	private ScheduleParser mScheduleParser;
 	private ScheduleAdapter mScheduleAdapter;
-	private ScheduleGroup mScheduleGroup;
-	private List<ScheduleGroup> mScheduleGroups;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.schedule_list);
+		setContentView(R.layout.layout_list);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		mContext = this;
 		mScheduleParser = new ScheduleParser();
-		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<ScheduleGroup>());
+		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<Group>());
 		
-		mProgressBar = (ProgressBar) findViewById(R.id.schedule_progressbar);
+		mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 		mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setIndeterminate(true);
 
@@ -78,7 +78,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		mScheduleGroup = (ScheduleGroup) parent.getItemAtPosition(position);
+		mSelectedGroup = (Group) parent.getItemAtPosition(position);
 		new ScheduleConfirmDialog(mContext);
 	}
 
@@ -103,11 +103,11 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	public void reloadContent() {
 		mScheduleAdapter.clear();
-		mScheduleAdapter.addAll(mScheduleGroups);
+		mScheduleAdapter.addAll(mGroups);
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
-	private class ListGroupTask extends AsyncTask<String, Void, Void> {
+	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -119,7 +119,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		protected Void doInBackground(String... urls) {
 			if (urls.length > 0) {
 				try {
-					mScheduleGroups = mScheduleParser.parseFeed(urls[0]);
+					mGroups = mScheduleParser.fetchGroups(urls[0]);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -158,7 +158,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 				url = MS2_URL;
 				break;
 			}
-			new ListGroupTask().execute(url);
+			new FetchGroupsTask().execute(url);
 		}
 
 		@Override
@@ -177,7 +177,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					Intent importService = new Intent(ScheduleActivity.this, ScheduleImportService.class);
-					importService.setData(Uri.parse(mScheduleGroup.getUrl()));
+					importService.setData(Uri.parse(mSelectedGroup.getUrl()));
 					mContext.startService(importService);
 					finish();
 				}

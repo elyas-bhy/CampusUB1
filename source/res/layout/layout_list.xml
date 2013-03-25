@@ -18,7 +18,7 @@
         android:orientation="vertical" >
 
         <ProgressBar
-            android:id="@+id/schedule_progressbar"
+            android:id="@+id/progressbar"
             style="?android:progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

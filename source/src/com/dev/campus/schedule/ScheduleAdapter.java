@@ -5,28 +5,25 @@ import java.util.List;
 import com.dev.campus.R;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ScheduleAdapter extends ArrayAdapter<ScheduleGroup> {
+public class ScheduleAdapter extends ArrayAdapter<Group> {
 
-	private List<ScheduleGroup> mScheduleGroups;
+	private List<Group> mGroups;
 	private Activity mContext;
 
-	public ScheduleAdapter(Activity context, List<ScheduleGroup> scheduleGroups) {
+	public ScheduleAdapter(Activity context, List<Group> scheduleGroups) {
 		super(context, R.layout.schedule_list_group, scheduleGroups);
 		mContext = context;
-		mScheduleGroups = scheduleGroups;
+		mGroups = scheduleGroups;
 	}
 
 	private static class ScheduleHolder {
 		TextView group;
-		TextView url;
 	}
 
 	@Override
@@ -40,16 +37,14 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleGroup> {
 
 			scheduleHolder = new ScheduleHolder();
 			scheduleHolder.group = (TextView) row.findViewById(R.id.schedule_group);
-			//scheduleHolder.url = (TextView) row.findViewById(R.id.schedule_url);
 			row.setTag(scheduleHolder);
 
 		} else {
 			scheduleHolder = (ScheduleHolder) row.getTag();
 		}
 
-		ScheduleGroup scheduleGroup = mScheduleGroups.get(position);
-		scheduleHolder.group.setText(scheduleGroup.getGroup());
-		//scheduleHolder.url.setText(scheduleGroup.getUrl());
+		Group scheduleGroup = mGroups.get(position);
+		scheduleHolder.group.setText(scheduleGroup.getTitle());
 
 		return row;
 	}

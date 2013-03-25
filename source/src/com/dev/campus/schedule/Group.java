@@ -1,16 +1,16 @@
 package com.dev.campus.schedule;
 
-public class ScheduleGroup {
+public class Group {
 
-	private String group;
+	private String title;
 	private String url;
 
-	public String getGroup() {
-		return group;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getUrl() {

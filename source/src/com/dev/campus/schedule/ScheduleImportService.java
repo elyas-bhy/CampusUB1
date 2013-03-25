@@ -1,7 +1,6 @@
 package com.dev.campus.schedule;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 
 import com.dev.campus.R;
@@ -34,8 +33,6 @@ public class ScheduleImportService extends IntentService {
 		showToast(R.string.schedule_importing);
 		try {
 			ScheduleParser.parseSchedule(intent.getDataString());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
