@@ -24,7 +24,10 @@ public enum Feed {
 	UB1_EVENTS_EXPOSITIONS(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=116"),
 	
 	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php"),
-	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "http://www.labri.fr/public/actu/accueil.php");
+	LABRI_COLLOQUES(FeedType.LABRI_FEED_HTML, "colloques"),
+	LABRI_THESES(FeedType.LABRI_FEED_HTML, "theses"),
+	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "groupes"),
+	LABRI_AUTRES(FeedType.LABRI_FEED_HTML, "autres");
 	
 	
 	public enum FeedType {

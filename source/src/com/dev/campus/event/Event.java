@@ -128,4 +128,9 @@ public class Event implements Serializable {
 			return evt2.getDate().compareTo(evt1.getDate());
 		}
 	}
+	
+	public String toString(){
+		String res = "titre : " + mTitle + ", date :" + mDate + ", Location" + mLocation + ", Detail : " + mDetails + ", source : " + mSource + "\n";
+		return res;	
+	}
 }

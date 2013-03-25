@@ -100,10 +100,12 @@ public class EventParser {
 					eventType = mParser.nextToken();
 				}
 			}
-			else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
-				events.addAll(EventHtmlParser.parse(CampusUB1App.persistence.getNbMonth()));
+			else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri()){
+				CampusUB1App.LogD(feed.getUrl());
+				events.addAll(EventHtmlParser.parse(CampusUB1App.persistence.getNbMonth(), feed.getUrl()));
+				dates.add(new Date());
+			}
 		}
-		
 		events.addAll(existingEvents);
 		mParsedEvents = events;
 		mParsedEventDates = dates;
