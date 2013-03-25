@@ -90,6 +90,7 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
+    <string name="nbMonth_title">Upcoming events months</string>
 
     <!-- Event categories -->
     <string name="category_main_events">Main Events</string>

@@ -96,9 +96,11 @@ public class EventHtmlParser {
 					i++;
 				}
 			}
+			//CampusUB1App.LogD(ev.toString());
 			ev.setSource(FeedType.LABRI_FEED_HTML);
 			ev.setDate(date);
-			event.add(ev);
+			if ((ev.getTitle() != "") || (ev.getDetails() != ""))
+				event.add(ev);
 		}
 		return event;	
 	}

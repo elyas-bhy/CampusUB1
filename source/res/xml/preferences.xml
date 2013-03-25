@@ -13,6 +13,9 @@
             android:title="@string/filters_title"
             android:summary="@string/filters_summary"/>
         
+         <Preference
+            android:key="pref_nbMonth"
+            android:title="@string/nbMonth_title" />
     </PreferenceCategory>
     
     <PreferenceCategory 

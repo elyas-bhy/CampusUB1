@@ -14,6 +14,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SubscribeDialog mSubscribeDialog;
 	private FilterDialog mFilterDialog;
+	private NbMonth mNbMonth;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		addPreferencesFromResource(R.xml.preferences);
 		mSubscribeDialog = new SubscribeDialog(getActivity());
 		mFilterDialog = new FilterDialog(getActivity());
+		mNbMonth = new NbMonth(getActivity());
 	}
 	
 	@Override
@@ -36,6 +38,9 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		}
 		if (preference.getKey().equals(Persistence.PREF_SCREEN_FILTERS)) {
 			mFilterDialog.showDialog();
+		}
+		if (preference.getKey().equals(Persistence.PREF_NBMONTH)) {
+			mNbMonth.show();
 		}
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 		
