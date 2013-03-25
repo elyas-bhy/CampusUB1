@@ -16,7 +16,7 @@ public class Event implements Serializable {
 	private String mTitle;
 	private String mDescription;
 	private Date mDate;
-	private String mTime;
+	//private String mTime;
 	private String mDetails;
 	private FeedType mSource;
 	private String mLocation;
@@ -56,13 +56,13 @@ public class Event implements Serializable {
 		mDate = date;
 	}
 
-	public String getTime() {
+	/*public String getTime() {
 		return mTime;
 	}
 
 	public void setTime(String time) {
 		mTime = time;
-	}
+	}*/
 
 	public String getDetails() {
 		return mDetails;

@@ -12,6 +12,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.util.TimeExtractor;
 import com.dev.campus.event.Feed.FeedType;
 
@@ -47,6 +48,8 @@ public class EventParser {
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
 		for (Feed feed : category.getFeeds()) {
+			android.util.Log.d("Tatiana", "type de feed = " + feed.getType());
+			android.util.Log.d("Tatiana", "est HTML ?? = " + feed.isHTML());
 			if (feed.getType().isFiltered()) {
 				setInput(feed);
 				Event event = new Event();
@@ -97,8 +100,8 @@ public class EventParser {
 					eventType = mParser.nextToken();
 				}
 			}
-			//else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
-				//events = EventHtmlParser.parse(events, this.mCategory);
+			else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
+				events.addAll(EventHtmlParser.parse(CampusUB1App.persistence.getNbMonth()));
 		}
 		
 		events.addAll(existingEvents);

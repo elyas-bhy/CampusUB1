@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
+import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingListActivity;
@@ -90,7 +91,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mActionBar = getActionBar();
 		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
-																  | ActionBar.DISPLAY_SHOW_CUSTOM);
+				| ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
 		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
@@ -217,7 +218,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		if (mEvents != null) {
 			for (Event event : mEvents) {
-				if (event.getSource().isFiltered()) {
+				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getDate().getTime() >= System.currentTimeMillis()))
 						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
 							sortedEvents.add(event);
@@ -296,6 +297,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 				if (entries.length > 0) {
 					existingEvents = entries[0].getValue(); // retrieve existing events
+					CampusUB1App.LogD(entries[0].getValue() + "value");
+					CampusUB1App.LogD(entries[0].getKey()+ "key"); 
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
 						mEvents = existingEvents;
 						mEventDates = entries[0].getKey();
@@ -306,7 +309,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mEvents = mEventParser.getParsedEvents();
 				mEventDates = mEventParser.getParsedEventDates();
 			} catch (Exception e) {
-				CampusUB1App.LogD(e.toString());
+				CampusUB1App.LogD("poooo");
+				e.printStackTrace();
 			}
 			return null;
 		}

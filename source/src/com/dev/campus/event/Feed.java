@@ -23,7 +23,8 @@ public enum Feed {
 	UB1_EVENTS_CONFERENCES(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=113"),
 	UB1_EVENTS_EXPOSITIONS(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=116"),
 	
-	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php");
+	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php"),
+	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "http://www.labri.fr/public/actu/accueil.php");
 	
 	
 	public enum FeedType {
@@ -51,5 +52,9 @@ public enum Feed {
 	
 	public String getUrl() {
 		return mUrl;
+	}
+	
+	public boolean isHTML(){
+		return this.getType().equals(FeedType.LABRI_FEED_HTML);
 	}
 }
