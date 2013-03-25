@@ -28,7 +28,7 @@
     <string name="install">Install</string>
     <string name="play_services">Google Play Services</string>
     <string name="need_play_services">The map requires Google Play Services to be installed</string>
-    <string name="schedule_confirm_content">This will export all events to default calendar. Are you sure you want to proceed?</string>
+    <string name="schedule_confirm_content">This will import all events to the default calendar. Are you sure you want to proceed?</string>
 
     <!-- Toasts -->
     <string name="showing_history">Showing offline history</string>
@@ -43,8 +43,8 @@
     <string name="showing_unread_events">Showing unread events only</string>
     <string name="showing_all_events">Showing all events</string>
     <string name="no_play_store">Google Play Store is not installed on your device</string>
-    <string name="schedule_exporting">Exporting schedule</string>
-    <string name="schedule_exported">Successfully exported schedule</string>
+    <string name="schedule_importing">Importing schedule</string>
+    <string name="schedule_import_complete">Schedule successfully imported</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>

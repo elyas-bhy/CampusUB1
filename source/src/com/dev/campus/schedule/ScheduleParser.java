@@ -15,9 +15,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.dev.campus.CampusUB1App;
+
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.util.Log;
@@ -25,7 +26,7 @@ import android.util.Log;
 
 public class ScheduleParser {
 
-	private final String CHARSET = "CP1252";
+	private static final String CHARSET = "CP1252";
 
 	public ArrayList<ScheduleGroup> parseFeed(String url) throws MalformedURLException, IOException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
@@ -46,7 +47,7 @@ public class ScheduleParser {
 		return allGroups;
 	}
 
-	public void parseSchedule(Context context, String url) throws MalformedURLException, IOException, ParseException {
+	public static void parseSchedule(String url) throws MalformedURLException, IOException, ParseException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
 		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
@@ -91,14 +92,14 @@ public class ScheduleParser {
 						.build());
 			}
 		}
-		batchInsertEvents(context, scheduleEvents);
+		batchInsertEvents(scheduleEvents);
 
 	}
 
-	private void batchInsertEvents(Context context, ArrayList<ContentProviderOperation> ops) {
+	private static void batchInsertEvents(ArrayList<ContentProviderOperation> ops) {
 		try {
 			if (ops.size() > 0) {
-				ContentResolver cr = context.getContentResolver();
+				ContentResolver cr = CampusUB1App.getInstance().getContentResolver();
 				cr.applyBatch(CalendarContract.AUTHORITY, ops);
 			}
 		} catch (Exception e) {

@@ -20,7 +20,7 @@
     <string name="contacts_loading">Chargement des contacts</string>
     <string name="install">Installer</string>
     <string name="need_play_services">Le plan nécessite que Google Play Services soit installé</string>
-    <string name="schedule_confirm_content">Tous les événements seront exportés dans le calendrier par défaut. Êtes-vous sûr de vouloir continuer?</string>
+    <string name="schedule_confirm_content">Tous les événements seront importés dans le calendrier par défaut. Êtes-vous sûr de vouloir continuer?</string>
 
     <!-- Toasts -->
     <string name="showing_history">Affichage de l\'historique</string>
@@ -35,8 +35,8 @@
     <string name="showing_all_events">Affichage de tous les événements</string>
     <string name="no_gps">Activez le GPS pour une localisation plus précise</string>
     <string name="no_play_store">Google Play Store n\'est pas installé sur votre appareil</string>
-    <string name="schedule_exporting">Export de l\'emploi du temps en cours</string>
-    <string name="schedule_exported">Export de l\'emploi du temps terminé</string>
+    <string name="schedule_importing">Import de l\'emploi du temps en cours</string>
+    <string name="schedule_import_complete">Import de l\'emploi du temps terminé</string>
 
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>

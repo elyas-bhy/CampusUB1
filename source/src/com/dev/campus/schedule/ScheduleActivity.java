@@ -11,10 +11,12 @@ import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 import com.dev.campus.util.FilterDialog;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.IntentService;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -125,28 +127,6 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
-	private class ParseScheduleTask extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... args) {
-			try {
-				mScheduleParser.parseSchedule(mContext, mScheduleGroup.getUrl());
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			Toast.makeText(getApplicationContext(), R.string.schedule_exported, Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	private class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 		@Override
@@ -188,8 +168,9 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			.setTitle(R.string.warning)
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					Toast.makeText(getApplicationContext(), R.string.schedule_exporting, Toast.LENGTH_SHORT).show();
-					new ParseScheduleTask().execute();
+					Intent importService = new Intent(ScheduleActivity.this, ScheduleImportService.class);
+					importService.setData(Uri.parse(mScheduleGroup.getUrl()));
+					mContext.startService(importService);
 					finish();
 				}
 			})
