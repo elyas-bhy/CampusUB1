@@ -1,22 +1,18 @@
 package com.dev.campus.schedule;
 
-
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
-import com.dev.campus.util.FilterDialog;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.IntentService;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,8 +24,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
@@ -41,7 +37,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	private ActionBar mActionBar;
 	private Context mContext;
-	private FilterDialog mFilterDialog;
+	private ProgressBar mProgressBar;
 
 	private ScheduleParser mScheduleParser;
 	private ScheduleAdapter mScheduleAdapter;
@@ -51,13 +47,17 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mFilterDialog = new FilterDialog(this);
+		setContentView(R.layout.schedule_list);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		mContext = this;
 		mScheduleParser = new ScheduleParser();
 		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<ScheduleGroup>());
+		
+		mProgressBar = (ProgressBar) findViewById(R.id.schedule_progressbar);
+		mProgressBar.setVisibility(View.GONE);
+		mProgressBar.setIndeterminate(true);
 
 		ListView listview = getListView();
 		View header = (View) getLayoutInflater().inflate(R.layout.schedule_list_header, listview, false);
@@ -88,15 +88,17 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		case R.id.menu_settings:
 			startActivity(new Intent(ScheduleActivity.this, SettingsActivity.class));
 			return true;
-		case R.id.menu_filters:
-			mFilterDialog.showDialog();
-			return true;
 		case android.R.id.home:
 			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	public void clearContent() {
+		mScheduleAdapter.clear();
+		mScheduleAdapter.notifyDataSetChanged();
 	}
 
 	public void reloadContent() {
@@ -106,6 +108,12 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	}
 
 	private class ListGroupTask extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			clearContent();
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
 
 		@Override
 		protected Void doInBackground(String... urls) {
@@ -124,6 +132,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		@Override
 		protected void onPostExecute(Void result) {
 			reloadContent();
+			mProgressBar.setVisibility(View.GONE);
 		}
 	}
 
@@ -134,8 +143,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			String url = "";
 			switch (position) {
 			case 0:	// dummy item
-				mScheduleGroups = new ArrayList<ScheduleGroup>();
-				reloadContent();
+				clearContent();
 				return;
 			case 1:
 				url = LS1_URL;
