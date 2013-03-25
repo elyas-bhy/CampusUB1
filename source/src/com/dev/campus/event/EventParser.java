@@ -39,55 +39,45 @@ public class EventParser {
 		ArrayList<Event> events = new ArrayList<Event>();
 		ArrayList<Date> dates = new ArrayList<Date>();
 		for (Feed feed : category.getFeeds()) {
-			android.util.Log.d("Tatiana", "type de feed = " + feed.getType());
-			android.util.Log.d("Tatiana", "est HTML ?? = " + feed.isHTML());
 			if (feed.getType().isFiltered()) {
 				Event event;
 				Date buildDate = new Date(0);
 
-
 				String url = feed.getUrl();
 				InputStream input = new URL(url).openStream();
 				Document xmlDoc = Jsoup.parse(input, "UTF-8", url);
-				/*
 				if (xmlDoc.toString().contains("iso-8859-1")) {
-					xmlDoc = Jsoup.parse(input, "CP1252", url);
+					InputStream inputISO = new URL(url).openStream();
+					xmlDoc = Jsoup.parse(inputISO, "CP1252", url);
 				}
-				 */
 
-				String lastBuildDate = xmlDoc.select("lastbuilddate").text();
-				Log.d("LogTag", "lastBuildDate : \""+lastBuildDate+"\"");
+				String lastBuildDate = xmlDoc.select("lastBuildDate").text();
 				buildDate = TimeExtractor.createDate(lastBuildDate, "EEE, d MMM yyyy HH:mm:ss Z");
 				dates.add(buildDate);
 
 				for (Element item : xmlDoc.select("item")) {
-					//Log.d("LogTag", "----- item -----");
 					event = new Event();
 
 					String title = item.select("title").text();
 					event.setTitle(title);
-					//Log.d("LogTag", "- title : "+title);
 
 					String description = item.select("description").text();
 					event.setDescription(description);
-					//Log.d("LogTag", "- desc : "+description);
+
 					if (feed.getType().equals(FeedType.LABRI_FEED))
 						event.setDetails(description);
 
 					String content_encoded = item.select("content|encoded").text();
 					event.setDetails(content_encoded);
-					//Log.d("LogTag", "- content_enc : "+content_encoded);
 
 					Date d = null;
-					String pubDate = item.select("pubdate").text();
-					//Log.d("LogTag", "- date : "+pubDate);
+					String pubDate = item.select("pubDate").text();
 					d = TimeExtractor.getCorrectDate(pubDate, event.getDetails());
-					//Log.d("LogTag", d.toString());
 					event.setDate(d);
 
 					event.setCategory(category.toString());
 					event.setSource(feed.getType());
-					//Log.d("LogTag", "-> -"+event.getTitle()+"-"+event.getDate());
+
 					if (!event.getTitle().equals("")) {
 						if(existingEvents.contains(event)) {
 							break;
@@ -117,11 +107,10 @@ public class EventParser {
 				String url = feed.getUrl();
 				InputStream input = new URL(url).openStream();
 				Document xmlDoc = Jsoup.parse(input, "UTF-8", url);
-				/*
 				if (xmlDoc.toString().contains("iso-8859-1")) {
-					xmlDoc = Jsoup.parse(input, "CP1252", url);
+					InputStream inputISO = new URL(url).openStream();
+					xmlDoc = Jsoup.parse(inputISO, "CP1252", url);
 				}
-				 */
 
 				String lastBuildDate = xmlDoc.select("lastBuildDate").text();
 				buildDate = TimeExtractor.createDate(lastBuildDate, "EEE, d MMM yyyy HH:mm:ss Z");
