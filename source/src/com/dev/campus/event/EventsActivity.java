@@ -337,8 +337,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mEvents = mEventParser.getParsedEvents();
 				mEventDates = mEventParser.getParsedEventDates();
 			} catch (Exception e) {
-				CampusUB1App.LogD("poooo");
-				e.printStackTrace();
+				CampusUB1App.LogD(e.toString());
 			}
 			return null;
 		}

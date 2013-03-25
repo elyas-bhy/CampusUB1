@@ -2,7 +2,6 @@ package com.dev.campus.schedule;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,18 +27,18 @@ public class ScheduleParser {
 
 	private static final String CHARSET = "CP1252";
 
-	public ArrayList<ScheduleGroup> parseFeed(String url) throws MalformedURLException, IOException {
+	public ArrayList<Group> fetchGroups(String url) throws IOException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
 		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
 
-		ArrayList<ScheduleGroup> allGroups = new ArrayList<ScheduleGroup>();
+		ArrayList<Group> allGroups = new ArrayList<Group>();
 		for (Element resource : xmlDoc.select("resource")) {
-			ScheduleGroup group = new ScheduleGroup(); 
+			Group group = new Group(); 
 			Elements name = resource.select("name");
 			Elements link = resource.select("link[class=xml]");
 			String xmlLink = link.attr("href");
-			group.setGroup(name.text());
+			group.setTitle(name.text());
 			group.setUrl(url.substring(0, url.length()-10)+xmlLink); // remove "finder.xml" to url and append file link
 			allGroups.add(group);
 		}
@@ -47,7 +46,7 @@ public class ScheduleParser {
 		return allGroups;
 	}
 
-	public static void parseSchedule(String url) throws MalformedURLException, IOException, ParseException {
+	public static void parseSchedule(String url) throws IOException, ParseException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
 		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
