@@ -6,15 +6,6 @@
         <item>@string/labri</item>
     </string-array>
     
-    <string-array name="pref_nbMonth">
-         <item>1 mois</item>
-         <item>2 mois</item>
-         <item>3 mois</item>
-         <item>4 mois</item>
-         <item>5 mois</item>
-         <item>6 mois</item>
-     </string-array>
-    
     <integer-array name="nbMonth">
          <item>1</item>
          <item>2</item>
