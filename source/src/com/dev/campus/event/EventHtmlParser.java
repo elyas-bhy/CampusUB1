@@ -19,14 +19,13 @@ import com.dev.campus.util.TimeExtractor;
 
 public class EventHtmlParser {
 
-	
-	public static ArrayList<Event> parse(int nbMois, String type) throws IOException{
-		
+	public static ArrayList<Event> parse(int nbMonth, String type) throws IOException {
+
 		ArrayList<Event> event = new ArrayList<Event>();
-		int j=0;
-		for (int i=0; i< nbMois; i++){
+		int j = 0;
+		for (int i=0; i<nbMonth; i++) {
 			Date d = new Date();
-			Long current = (d.getTime()/1000)+j;  // nb of seconds since the 1st January 1970
+			Long current = (d.getTime()/1000) + j;  // nb of seconds since the 1st January 1970
 			CampusUB1App.LogD("Date : " + current);
 			Connection.Response res = Jsoup.connect("http://www.labri.fr/public/actu/accueil.php")
 					.userAgent("Mozilla")
@@ -59,7 +58,7 @@ public class EventHtmlParser {
 			if (cases.isEmpty())
 				CampusUB1App.LogD("empty table");
 			else {
-				for (Element c : cases){
+				for (Element c : cases) {
 
 					switch (i) {	
 					case 0 :
@@ -76,8 +75,8 @@ public class EventHtmlParser {
 						String content = c.text();
 						String[] dateLoc = content.split(" ");
 						String loc = "";
-						for (int l=1; l<dateLoc.length; l++){
-							loc +=" " + dateLoc[l];
+						for (int l=1; l<dateLoc.length; l++) {
+							loc += " " + dateLoc[l];
 						}
 						ev.setLocation(loc);
 						String[] dateTab = TimeExtractor.parseTime(dateLoc[0]);
@@ -95,7 +94,7 @@ public class EventHtmlParser {
 			}
 			ev.setSource(FeedType.LABRI_FEED_HTML);
 			ev.setDate(date);
-			if ((ev.getTitle() != "") || (ev.getDetails() != ""))
+			if (!ev.getTitle().equals("") || !ev.getDetails().equals(""))
 				event.add(ev);
 		}
 		return event;	
