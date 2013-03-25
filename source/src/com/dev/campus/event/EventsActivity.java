@@ -72,11 +72,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mFilterDialog = new FilterDialog(this);
 		mCategory = Category.MAIN_EVENTS;
 
-		try {
-			mEventParser = new EventParser();
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-		}
+
+		mEventParser = new EventParser();
 
 		setupActionBar();
 		setupSlidingMenu();
