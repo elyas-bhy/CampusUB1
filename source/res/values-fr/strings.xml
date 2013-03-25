@@ -91,6 +91,10 @@
     <string name="category_student_life">Vie étudiante</string>
     <string name="category_companies">Entreprises</string>
     <string name="category_press">Presse</string>
+    <string name="category_theses">Theses</string>
+    <string name="category_groupes">Groupes</string>
+	<string name="category_colloques">Colloques</string>
+	<string name="category_autres">Autres</string> 
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>
@@ -103,4 +107,12 @@
         <item>Master Semestre 2</item>
     </string-array>
 
+      <string-array name="pref_nbMonth">
+         <item>1 mois</item>
+         <item>2 mois</item>
+         <item>3 mois</item>
+         <item>4 mois</item>
+         <item>5 mois</item>
+         <item>6 mois</item>
+     </string-array>
 </resources>

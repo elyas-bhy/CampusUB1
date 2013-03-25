@@ -102,6 +102,10 @@
     <string name="category_companies">Companies</string>
     <string name="category_press">Press</string>
     <string name="action_settings">Settings</string>
+    <string name="category_theses">Theses</string>
+    <string name="category_groupes">Groupes</string>
+	<string name="category_colloques">Seminars</string>
+	<string name="category_autres">Other</string> 
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Select your current semester</string>
@@ -113,5 +117,13 @@
         <item>Master Semestre 1</item>
         <item>Master Semestre 2</item>
     </string-array>
-
+    
+  <string-array name="pref_nbMonth">
+         <item>1 month</item>
+         <item>2 months</item>
+         <item>3 months</item>
+         <item>4 months</item>
+         <item>5 months</item>
+         <item>6 months</item>
+     </string-array>
 </resources>
