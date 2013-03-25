@@ -80,6 +80,7 @@
     <string name="subscriptions_summary">Gérer ses abonnements</string>
     <string name="filters_title">Filtres</string>
     <string name="filters_summary">Gérer ses filtres</string>
+    <string name="nbMonth_title">Choisir la durée des événements</string>
 
     <!-- Event categories -->
     <string name="category_main_events">Actualités</string>
