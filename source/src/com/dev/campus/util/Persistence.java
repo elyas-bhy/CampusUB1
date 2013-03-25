@@ -15,7 +15,9 @@ public class Persistence {
 	public static final String PREF_SUBSCRIBE_LABRI = "pref_subscribe_labri";
 	public static final String PREF_FILTER_UB1 = "pref_filter_ub1";
 	public static final String PREF_FILTER_LABRI = "pref_filter_labri";
+	public static final String PREF_NBMONTH = "pref_nbMonth";
 	
+	public static int MaxNbMonth = 6;
 	
 	private ConnectivityManager conMan;
 	private SharedPreferences shared_prefs;
@@ -60,6 +62,15 @@ public class Persistence {
 	
 	public void setFilterLabri(boolean on) {
 		prefs_editor.putBoolean(PREF_FILTER_LABRI, on);
+		prefs_editor.commit();
+	}
+
+	public int getNbMonth(){
+		return shared_prefs.getInt(PREF_NBMONTH, 3);
+	}
+	
+	public void setNbMonth(int nb){
+		prefs_editor.putInt(PREF_NBMONTH, nb);
 		prefs_editor.commit();
 	}
 

@@ -14,11 +14,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.dev.campus.CampusUB1App;
+import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.TimeExtractor;
 
 public class EventHtmlParser {
 
-	// pour faire le document complet contenant les evenement voulus pour les nb prochains mois
+	
 	public static ArrayList<Event> parse(int nbMois) throws IOException{ 
 		
 		ArrayList<Event> event = new ArrayList<Event>();
@@ -26,15 +27,15 @@ public class EventHtmlParser {
 		for (int i=0; i< nbMois; i++){
 			Date d = new Date();
 			Long current = (d.getTime()/1000)+j;  // nb of seconds since the 1st January 1970
-			System.out.println("Date : " + current);
+			CampusUB1App.LogD("Date : " + current);
 			Connection.Response res = Jsoup.connect("http://www.labri.fr/public/actu/accueil.php")
 					.userAgent("Mozilla")
 					.data("choix_intervalle", "mois")
 					.data("mois", current.toString())
-					.data("colloques", "1")
-					.data("groupes", "1")
-					.data("autres", "1")
-					.data("theses", "1")
+					//.data("colloques", "1")
+					//.data("groupes", "1")
+					//.data("autres", "1")
+					//.data("theses", "1")
 					.data("tous", "1")
 					.referrer("http://www.labri.fr/public/actu/index.php")
 					.method(Method.POST)
@@ -49,7 +50,7 @@ public class EventHtmlParser {
 	public static ArrayList<Event> parseDoc(Document doc, ArrayList<Event> event){
 
 		Elements tabBase = doc.getElementsByTag("table");
-		Element evt = tabBase.remove(0);
+		Element evt = tabBase.remove(0); // nothing to do with evt
 		Element evt1 = tabBase.remove(0);
 		Element evt2 = tabBase.remove(0);
 		for (Element ev0 : tabBase){
@@ -95,6 +96,7 @@ public class EventHtmlParser {
 					i++;
 				}
 			}
+			ev.setSource(FeedType.LABRI_FEED_HTML);
 			ev.setDate(date);
 			event.add(ev);
 		}

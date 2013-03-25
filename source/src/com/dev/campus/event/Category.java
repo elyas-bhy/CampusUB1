@@ -6,7 +6,7 @@ import com.dev.campus.R;
 import android.content.res.Resources;
 
 public enum Category {
-	MAIN_EVENTS(R.string.category_main_events, Feed.UB1_NEWS_ALL, Feed.LABRI_NEWS),
+	MAIN_EVENTS(R.string.category_main_events, Feed.UB1_NEWS_ALL, Feed.LABRI_NEWS, Feed.LABRI_GROUPES),
 	UNIVERSITY(R.string.category_university, Feed.UB1_NEWS_UNIVERSITY),
 	FORMATION(R.string.category_formation, Feed.UB1_NEWS_FORMATION),
 	RESEARCH(R.string.category_research, Feed.UB1_NEWS_RESEARCH),
