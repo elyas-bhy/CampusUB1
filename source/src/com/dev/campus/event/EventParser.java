@@ -66,9 +66,8 @@ public class EventParser {
 
 					if (feed.getType().equals(FeedType.LABRI_FEED))
 						event.setDetails(description);
-
-					String content_encoded = item.select("content|encoded").text();
-					event.setDetails(content_encoded);
+					else
+						event.setDetails(item.select("content|encoded").text());
 
 					Date d = null;
 					String pubDate = item.select("pubDate").text();
