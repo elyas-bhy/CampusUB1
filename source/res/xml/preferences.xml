@@ -23,7 +23,7 @@
         android:title="@string/other_category">
         
         <Preference
-            android:key="about_pref"
+            android:key="pref_about"
             android:title="@string/about_title"/>
         
     </PreferenceCategory>

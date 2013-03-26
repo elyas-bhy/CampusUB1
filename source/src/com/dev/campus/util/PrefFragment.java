@@ -43,6 +43,9 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		if (preference.getKey().equals(Persistence.PREF_UPCOMING_EVENTS)) {
 			mUpcomingEventsDialog.show();
 		}
+		if (preference.getKey().equals(Persistence.PREF_ABOUT)) {
+			new AboutDialog(getActivity());
+		}
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 		
 	}
