@@ -13,8 +13,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -292,10 +290,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 
-				if (entries.length > 0) {
+				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					existingEvents = entries[0].getValue(); // retrieve existing events
-					CampusUB1App.LogD(entries[0].getValue() + "value");
-					CampusUB1App.LogD(entries[0].getKey()+ "key"); 
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
 						mEvents = existingEvents;
 						mBuildDates = entries[0].getKey();
