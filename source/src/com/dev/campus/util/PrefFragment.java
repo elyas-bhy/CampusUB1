@@ -14,7 +14,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SubscribeDialog mSubscribeDialog;
 	private FilterDialog mFilterDialog;
-	private NbMonth mNbMonth;
+	private UpcomingEventsDialog mUpcomingEventsDialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,13 +22,14 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		addPreferencesFromResource(R.xml.preferences);
 		mSubscribeDialog = new SubscribeDialog(getActivity());
 		mFilterDialog = new FilterDialog(getActivity());
-		mNbMonth = new NbMonth(getActivity());
+		mUpcomingEventsDialog = new UpcomingEventsDialog(getActivity());
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(PrefFragment.this);
+		getPreferenceManager().getSharedPreferences()
+		.registerOnSharedPreferenceChangeListener(PrefFragment.this);
 	}
 	
 	@Override
@@ -39,16 +40,15 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 		if (preference.getKey().equals(Persistence.PREF_SCREEN_FILTERS)) {
 			mFilterDialog.showDialog();
 		}
-		if (preference.getKey().equals(Persistence.PREF_NBMONTH)) {
-			mNbMonth.show();
+		if (preference.getKey().equals(Persistence.PREF_UPCOMING_EVENTS)) {
+			mUpcomingEventsDialog.show();
 		}
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 		
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		boolean state;
 		if (key.equals(Persistence.PREF_SUBSCRIBE_UB1)) {
 			state = CampusUB1App.persistence.isSubscribedUB1();
@@ -64,7 +64,8 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(PrefFragment.this);
+		getPreferenceManager().getSharedPreferences()
+		.unregisterOnSharedPreferenceChangeListener(PrefFragment.this);
 	}
 }
 

@@ -101,7 +101,7 @@ public class EventParser {
 	}
 
 	public void parseLabriSection(Category category, Feed feed, ArrayList<Event> existingEvents) throws IOException, ParseException {
-		int months = CampusUB1App.persistence.getNbMonth();
+		int months = CampusUB1App.persistence.getUpcomingEventsRange();
 		int timestamp = MONTH_SECONDS * months;
 		for (int i = 0; i < months; i++) {
 			Long current = System.currentTimeMillis() / 1000 + timestamp;

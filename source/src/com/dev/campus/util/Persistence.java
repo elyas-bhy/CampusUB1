@@ -15,9 +15,10 @@ public class Persistence {
 	public static final String PREF_SUBSCRIBE_LABRI = "pref_subscribe_labri";
 	public static final String PREF_FILTER_UB1 = "pref_filter_ub1";
 	public static final String PREF_FILTER_LABRI = "pref_filter_labri";
-	public static final String PREF_NBMONTH = "pref_nbMonth";
+	public static final String PREF_UPCOMING_EVENTS = "pref_upcoming_events";
 	
-	public static int MaxNbMonth = 6;
+	public static final int DEFAULT_UPCOMING_MONTHS = 3;
+	public static final int MAX_UPCOMING_MONTHS = 6;
 	
 	private ConnectivityManager conMan;
 	private SharedPreferences shared_prefs;
@@ -65,12 +66,12 @@ public class Persistence {
 		prefs_editor.commit();
 	}
 
-	public int getNbMonth(){
-		return shared_prefs.getInt(PREF_NBMONTH, 3);
+	public int getUpcomingEventsRange() {
+		return shared_prefs.getInt(PREF_UPCOMING_EVENTS, DEFAULT_UPCOMING_MONTHS);
 	}
 	
-	public void setNbMonth(int nb){
-		prefs_editor.putInt(PREF_NBMONTH, nb);
+	public void setUpcomingEventsRange(int months) {
+		prefs_editor.putInt(PREF_UPCOMING_EVENTS, months);
 		prefs_editor.commit();
 	}
 

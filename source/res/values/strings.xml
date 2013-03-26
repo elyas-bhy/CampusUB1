@@ -90,7 +90,8 @@
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
-    <string name="nbMonth_title">Upcoming events months</string>
+    <string name="upcoming_events_title">Range of upcoming events</string>
+    <string name="upcoming_events_summary">Set the range of months for which LaBRI events are fetched</string>
 
     <!-- Event categories -->
     <string name="category_main_events">Main Events</string>
@@ -104,8 +105,8 @@
     <string name="action_settings">Settings</string>
     <string name="category_theses">Theses</string>
     <string name="category_groupes">Groupes</string>
-	<string name="category_colloques">Seminars</string>
-	<string name="category_autres">Other</string> 
+    <string name="category_colloques">Seminars</string>
+    <string name="category_autres">Other</string>
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Select your current semester</string>
@@ -118,12 +119,14 @@
         <item>Master Semestre 2</item>
     </string-array>
     
-  <string-array name="pref_nbMonth">
-         <item>1 month</item>
-         <item>2 months</item>
-         <item>3 months</item>
-         <item>4 months</item>
-         <item>5 months</item>
-         <item>6 months</item>
-     </string-array>
+    <!-- LaBRI events of upcoming months -->
+    <string-array name="upcoming_events_strings">
+        <item>1 month</item>
+        <item>2 months</item>
+        <item>3 months</item>
+        <item>4 months</item>
+        <item>5 months</item>
+        <item>6 months</item>
+    </string-array>
+
 </resources>

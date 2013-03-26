@@ -77,10 +77,11 @@
     <string name="other_category">Autres</string>
     <string name="about_title">A propos</string>
     <string name="subscriptions_title">Abonnements</string>
-    <string name="subscriptions_summary">Gérer ses abonnements</string>
+    <string name="subscriptions_summary">Gestion des abonnements</string>
     <string name="filters_title">Filtres</string>
-    <string name="filters_summary">Gérer ses filtres</string>
-    <string name="nbMonth_title">Choisir la durée des événements</string>
+    <string name="filters_summary">Gestion des filtres</string>
+    <string name="upcoming_events_title">Période des prochains événements</string>
+    <string name="upcoming_events_summary">Définir la période des prochains mois pour laquelle récupérer les événements du LaBRI</string>
 
     <!-- Event categories -->
     <string name="category_main_events">Actualités</string>
@@ -93,8 +94,8 @@
     <string name="category_press">Presse</string>
     <string name="category_theses">Theses</string>
     <string name="category_groupes">Groupes</string>
-	<string name="category_colloques">Colloques</string>
-	<string name="category_autres">Autres</string> 
+    <string name="category_colloques">Colloques</string>
+    <string name="category_autres">Autres</string>
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>
@@ -106,13 +107,15 @@
         <item>Master Semestre 1</item>
         <item>Master Semestre 2</item>
     </string-array>
+    
+    <!-- LaBRI events of upcoming months -->
+    <string-array name="upcoming_events_strings">
+        <item>1 mois</item>
+        <item>2 mois</item>
+        <item>3 mois</item>
+        <item>4 mois</item>
+        <item>5 mois</item>
+        <item>6 mois</item>
+    </string-array>
 
-      <string-array name="pref_nbMonth">
-         <item>1 mois</item>
-         <item>2 mois</item>
-         <item>3 mois</item>
-         <item>4 mois</item>
-         <item>5 mois</item>
-         <item>6 mois</item>
-     </string-array>
 </resources>
