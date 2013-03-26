@@ -6,7 +6,7 @@
         <item>@string/labri</item>
     </string-array>
     
-    <integer-array name="nbMonth">
+    <integer-array name="upcoming_events_array">
          <item>1</item>
          <item>2</item>
          <item>3</item>
