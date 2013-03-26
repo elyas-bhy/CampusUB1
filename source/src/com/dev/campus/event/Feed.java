@@ -35,6 +35,11 @@ public enum Feed {
 		LABRI_FEED,
 		LABRI_FEED_HTML;
 		
+		public boolean isSubscribedRSS() {
+			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1()
+				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri());
+		}
+		
 		public boolean isFiltered() {
 			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
 				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri());

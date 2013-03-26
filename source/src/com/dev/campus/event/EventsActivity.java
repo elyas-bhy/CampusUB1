@@ -51,7 +51,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	private ArrayList<Event> mEvents;
 	private ArrayList<Event> mSortedEvents;
-	private ArrayList<Date> mEventDates;
+	private ArrayList<Date> mBuildDates;
 	private Category mCategory;
 
 	private FilterDialog mFilterDialog;
@@ -215,7 +215,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		if (mEvents != null) {
 			for (Event event : mEvents) {
-				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())) {
+				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri())) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getDate().getTime() >= System.currentTimeMillis()))
 						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
 							sortedEvents.add(event);
@@ -247,7 +247,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			if (CampusUB1App.persistence.isConnected()) {
 				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
-				mEventDates = feedsEntry.getKey();
+				mBuildDates = feedsEntry.getKey();
 				mEvents = feedsEntry.getValue();
 				reloadContent();
 				Toast.makeText(this, R.string.showing_history, Toast.LENGTH_SHORT).show();
@@ -298,13 +298,13 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 					CampusUB1App.LogD(entries[0].getKey()+ "key"); 
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
 						mEvents = existingEvents;
-						mEventDates = entries[0].getKey();
+						mBuildDates = entries[0].getKey();
 						return null;
 					}
 				}
 				mEventParser.parseEvents(mCategory, existingEvents);
 				mEvents = mEventParser.getParsedEvents();
-				mEventDates = mEventParser.getParsedEventDates();
+				mBuildDates = mEventParser.getParsedBuildDates();
 			} catch (Exception e) {
 				CampusUB1App.LogD(e.toString());
 			}
@@ -348,7 +348,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			history.getParentFile().createNewFile();
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
-			SimpleEntry<ArrayList<Date>, ArrayList<Event>> map = new SimpleEntry<ArrayList<Date>, ArrayList<Event>>(mEventDates, mEvents);
+			SimpleEntry<ArrayList<Date>, ArrayList<Event>> map = new SimpleEntry<ArrayList<Date>, ArrayList<Event>>(mBuildDates, mEvents);
 			oos.writeObject(map);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  
