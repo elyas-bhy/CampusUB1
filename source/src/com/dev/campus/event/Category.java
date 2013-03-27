@@ -2,7 +2,6 @@ package com.dev.campus.event;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
-import com.dev.campus.event.Feed.FeedType;
 
 import android.content.res.Resources;
 
@@ -16,7 +15,11 @@ public enum Category {
 	STUDENTS(R.string.category_student_life, Feed.UB1_NEWS_STUDENTS),
 	COMPANIES(R.string.category_companies, Feed.UB1_NEWS_COMPANIES),
 	PRESS(R.string.category_press, Feed.UB1_NEWS_PRESS),
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> Added missing categories.
 	// Events
 	EXPOSITION(R.string.category_exposition, Feed.UB1_EVENTS_EXPOSITIONS),
 	THESES(R.string.category_theses, Feed.UB1_EVENTS_THESES, Feed.LABRI_THESES),
