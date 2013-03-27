@@ -111,9 +111,10 @@
     <string name="category_press">Press</string>
     <string name="action_settings">Settings</string>
     <string name="category_theses">Theses</string>
-    <string name="category_groupes">Groupes</string>
+    <string name="category_groupes">Groups</string>
     <string name="category_colloques">Seminars</string>
     <string name="category_autres">Other</string>
+    <string name="category_exposition">Expositions</string>
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Select your current semester</string>
