@@ -17,9 +17,11 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -54,7 +56,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mContext = this;
 		mScheduleParser = new ScheduleParser();
 		mScheduleAdapter = new ScheduleAdapter(this, new ArrayList<Group>());
-		
+
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 		mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setIndeterminate(true);
@@ -79,7 +81,9 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		mSelectedGroup = (Group) parent.getItemAtPosition(position);
-		new ScheduleConfirmDialog(mContext);
+		registerForContextMenu(view);
+		view.setLongClickable(false);
+		openContextMenu(view);
 	}
 
 	@Override
@@ -95,7 +99,33 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.schedule_contextual, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		String urlXml = mSelectedGroup.getUrl();
+		switch (item.getItemId()) {
+		case R.id.menu_schedule_view_online:
+			String urlHtml = urlXml.substring(0, urlXml.length()-3) + "html"; // replace extension from xml to html
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlHtml)));
+			return true;
+		case R.id.menu_schedule_download:
+			String urlPdf = urlXml.substring(0, urlXml.length()-3) + "pdf"; // replace extension from xml to pdf
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPdf)));
+			return true;
+		case R.id.menu_schedule_import:
+			new ScheduleConfirmDialog(mContext);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
 	public void clearContent() {
 		mScheduleAdapter.clear();
 		mScheduleAdapter.notifyDataSetChanged();
@@ -107,8 +137,9 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
+
 	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
-		
+
 		@Override
 		protected void onPreExecute() {
 			clearContent();
@@ -135,6 +166,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			mProgressBar.setVisibility(View.GONE);
 		}
 	}
+
 
 	private class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
@@ -190,5 +222,4 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			builder.show();
 		}
 	}
-
 }

@@ -15,6 +15,9 @@
     <string name="menu_unread">Mark as unread</string>
     <string name="menu_star">Add star</string>
     <string name="menu_unstar">Remove star</string>
+    <string name="menu_schedule_view_online">View online</string>
+    <string name="menu_schedule_download">Download as PDF</string>
+    <string name="menu_schedule_import">Import to default calendar</string>
 
     <!-- Dialogs -->
     <string name="ok">OK</string>
