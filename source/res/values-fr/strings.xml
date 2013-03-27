@@ -99,6 +99,7 @@
     <string name="category_groupes">Groupes</string>
     <string name="category_colloques">Colloques</string>
     <string name="category_autres">Autres</string>
+    <string name="category_exposition">Expositions</string>
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>
