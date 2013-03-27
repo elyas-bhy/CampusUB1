@@ -9,6 +9,9 @@
     <string name="menu_add_to_contacts">Ajouter contact</string>
     <string name="menu_website">Visiter le site web</string>
     <string name="menu_complete_action">Effectuer l\'action en utilisant</string>
+    <string name="menu_schedule_view_online">Voir en ligne</string>
+    <string name="menu_schedule_download">Télécharger en PDF</string>
+    <string name="menu_schedule_import">Importer dans le calendrier</string>
 
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
@@ -107,7 +110,7 @@
         <item>Master Semestre 1</item>
         <item>Master Semestre 2</item>
     </string-array>
-    
+
     <!-- LaBRI events of upcoming months -->
     <string-array name="upcoming_events_strings">
         <item>1 mois</item>
