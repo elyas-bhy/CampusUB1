@@ -127,7 +127,6 @@
         <item>Master Semestre 1</item>
         <item>Master Semestre 2</item>
     </string-array>
-
     <!-- LaBRI events of upcoming months -->
     <string-array name="upcoming_events_strings">
         <item>1 month</item>
@@ -137,5 +136,4 @@
         <item>5 months</item>
         <item>6 months</item>
     </string-array>
-
 </resources>
