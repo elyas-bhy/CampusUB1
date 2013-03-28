@@ -6,6 +6,7 @@ import com.dev.campus.R;
 import android.content.res.Resources;
 
 public enum Category {
+
 	// News
 	MAIN_EVENTS(R.string.category_main_events, Feed.UB1_NEWS_ALL, Feed.LABRI_NEWS),
 	UNIVERSITY(R.string.category_university, Feed.UB1_NEWS_UNIVERSITY),
