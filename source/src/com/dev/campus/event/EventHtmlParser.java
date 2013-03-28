@@ -20,7 +20,7 @@ import com.dev.campus.util.TimeExtractor;
 public class EventHtmlParser {
 
 	
-	public static ArrayList<Event> parse(int nbMois) throws IOException{ 
+	public static ArrayList<Event> parse(int nbMois, String type) throws IOException{
 		
 		ArrayList<Event> event = new ArrayList<Event>();
 		int j=0;
@@ -32,27 +32,24 @@ public class EventHtmlParser {
 					.userAgent("Mozilla")
 					.data("choix_intervalle", "mois")
 					.data("mois", current.toString())
-					//.data("colloques", "1")
-					//.data("groupes", "1")
-					//.data("autres", "1")
-					//.data("theses", "1")
-					.data("tous", "1")
+					.data(type, "1")
 					.referrer("http://www.labri.fr/public/actu/index.php")
 					.method(Method.POST)
 					.execute();
 			Document doc = res.parse();
-			event = parseDoc(doc, event);
+			event.addAll(parseDoc(doc));
 			j+=2678400; // nb of seconds in a month (31 days)
 		}
 		return event;
 	}
 
-	public static ArrayList<Event> parseDoc(Document doc, ArrayList<Event> event){
+	public static ArrayList<Event> parseDoc(Document doc){
 
+		ArrayList<Event> event = new ArrayList<Event>();
 		Elements tabBase = doc.getElementsByTag("table");
-		Element evt = tabBase.remove(0); // nothing to do with evt
-		Element evt1 = tabBase.remove(0);
-		Element evt2 = tabBase.remove(0);
+		tabBase.remove(0);
+		tabBase.remove(0);
+		tabBase.remove(0);
 		for (Element ev0 : tabBase){
 			Event ev = new Event();
 			Elements cases = ev0.getElementsByTag("td");
@@ -96,7 +93,6 @@ public class EventHtmlParser {
 					i++;
 				}
 			}
-			//CampusUB1App.LogD(ev.toString());
 			ev.setSource(FeedType.LABRI_FEED_HTML);
 			ev.setDate(date);
 			if ((ev.getTitle() != "") || (ev.getDetails() != ""))
