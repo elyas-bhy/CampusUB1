@@ -86,6 +86,7 @@
     <string name="upcoming_events_title">Période des prochains événements</string>
     <string name="upcoming_events_summary">Définir la période des prochains mois pour laquelle récupérer les événements du LaBRI</string>
 
+
     <!-- Event categories -->
     <string name="category_main_events">Actualités</string>
     <string name="category_formation">Formation</string>
