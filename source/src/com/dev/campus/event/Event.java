@@ -16,7 +16,8 @@ public class Event implements Serializable {
 	private String mDetails;
 	private String mLocation;
 	private FeedType mSource;
-	private Date mDate;
+	private Date mStartDate;
+	private Date mEndDate;
 	private boolean mRead;
 	private boolean mStarred;
 
@@ -45,14 +46,22 @@ public class Event implements Serializable {
 		mDescription = description;
 	}
 
-	public Date getDate() {
-		return mDate;
+	public Date getStartDate() {
+		return mStartDate;
 	}
 
-	public void setDate(Date date) {
-		mDate = date;
+	public void setStartDate(Date date) {
+		mStartDate = date;
 	}
 
+	public Date getEndDate() {
+		return mEndDate;
+	}
+
+	public void setEndDate(Date date) {
+		mEndDate = date;
+	}
+	
 	public String getDetails() {
 		return mDetails;
 	}
@@ -94,10 +103,10 @@ public class Event implements Serializable {
 	}
 
 	public String getStringDate() {
-		String d = mDate.toString().substring(0,11);
-		if (this.mDate.getHours() != 0)
-			d += mDate.toString().substring(11, 16) + " ";
-		return d + mDate.toString().substring(24);
+		String d = mStartDate.toString().substring(0,11);
+		if (this.mStartDate.getHours() != 0)
+			d += mStartDate.toString().substring(11, 16) + " ";
+		return d + mStartDate.toString().substring(24);
 	}
 	
 	@Override
@@ -105,8 +114,8 @@ public class Event implements Serializable {
 		if(!(o instanceof Event))
 			return false;
 
-		String s1 = mTitle.toString() + mDate.toString();
-		String s2 = ((Event)o).getTitle().toString() + ((Event)o).getDate().toString();
+		String s1 = mTitle.toString() + mStartDate.toString();
+		String s2 = ((Event)o).getTitle().toString() + ((Event)o).getStartDate().toString();
 		
 		return s1.equals(s2);
 	}
@@ -114,12 +123,12 @@ public class Event implements Serializable {
 	static class EventComparator implements Comparator<Event> {
 		@Override
 		public int compare(Event evt1, Event evt2) {
-			return evt2.getDate().compareTo(evt1.getDate());
+			return evt2.getStartDate().compareTo(evt1.getStartDate());
 		}
 	}
 	
 	public String toString(){
-		String s = "[title: " + mTitle + ", date:" + mDate + ", location:" + mLocation 
+		String s = "[title: " + mTitle + ", date début :" + mStartDate  + ", date de fin : "+ mEndDate + ", location:" + mLocation 
 				+ ", details: " + mDetails + ", source: " + mSource + "]";
 		return s;	
 	}

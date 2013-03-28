@@ -65,8 +65,8 @@ public class EventViewActivity extends FragmentActivity {
 		calIntent.setType("vnd.android.cursor.item/event");
 		calIntent.putExtra(Events.TITLE, event.getTitle());
 		calIntent.putExtra(Events.DESCRIPTION, details);
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getDate().getTime());
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getDate().getTime());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStartDate().getTime());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getStartDate().getTime());
 		startActivity(calIntent);
 	}
 	
