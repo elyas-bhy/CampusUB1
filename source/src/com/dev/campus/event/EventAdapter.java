@@ -2,6 +2,7 @@ package com.dev.campus.event;
 
 import java.util.List;
 
+import com.dev.campus.R;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,26 +55,21 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
-
 		
-		if(event.getSource().equals(FeedType.UB1_FEED))
-			eventHolder.establishment.setText("Bordeaux 1");
-		else
-			eventHolder.establishment.setText("LaBRI");
+		eventHolder.title.setText(event.getTitle());
+		eventHolder.establishment.setText(event.getSource().getShortName());
+		eventHolder.date.setText(event.getStringDate());
+		eventHolder.description.setText(event.getDescription());
 		
 		if (event.isRead())
 			eventHolder.title.setTextColor(mContext.getResources().getColor(R.color.blue_title_read));
 		else
 			eventHolder.title.setTextColor(mContext.getResources().getColor(R.color.blue_title));
 		
-		if(event.isStarred())
+		if (event.isStarred())
 			eventHolder.star.setImageResource(R.drawable.ic_star_dark);
 		else
 			eventHolder.star.setImageResource(R.drawable.ic_unstar_dark);
-		
-		eventHolder.title.setText(event.getTitle());
-		eventHolder.date.setText(event.getStringDate());
-		eventHolder.description.setText(event.getDescription());
 		
 		return row;
 	}

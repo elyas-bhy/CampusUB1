@@ -31,9 +31,19 @@ public enum Feed {
 	
 	
 	public enum FeedType {
-		UB1_FEED,
-		LABRI_FEED,
-		LABRI_FEED_HTML;
+		UB1_FEED("Bordeaux 1"),
+		LABRI_FEED("LaBRI"),
+		LABRI_FEED_HTML("LaBRI");
+	
+		private String mShortName;
+		
+		private FeedType(String shortName) {
+			mShortName = shortName;
+		}
+		
+		public String getShortName() {
+			return mShortName;
+		}
 		
 		public boolean isSubscribedRSS() {
 			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1()
@@ -60,9 +70,5 @@ public enum Feed {
 	
 	public String getUrl() {
 		return mUrl;
-	}
-	
-	public boolean isHTML(){
-		return this.getType().equals(FeedType.LABRI_FEED_HTML);
 	}
 }
