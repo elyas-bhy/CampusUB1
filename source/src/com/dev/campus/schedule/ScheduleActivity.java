@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.IntentService;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -167,7 +168,6 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
-
 	private class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 		@Override
@@ -209,7 +209,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					Intent importService = new Intent(ScheduleActivity.this, ScheduleImportService.class);
-					importService.setData(Uri.parse(mSelectedGroup.getUrl()));
+					importService.setData(Uri.parse(mScheduleGroup.getUrl()));
 					mContext.startService(importService);
 					finish();
 				}
