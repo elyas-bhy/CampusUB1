@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -90,7 +92,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mActionBar = getActionBar();
 		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
-																  | ActionBar.DISPLAY_SHOW_CUSTOM);
+				| ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
 		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
@@ -270,7 +272,36 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
 		intent.putExtra(EXTRA_EVENTS, mSortedEvents);
 		intent.putExtra(EXTRA_EVENTS_INDEX, position);
-		startActivity(intent);
+		startActivityForResult(intent, 1);
+	}
+
+	public void toggleStar(View v) {
+		ListView listView = getListView();
+		int position = listView.getPositionForView(v);
+		Event evt = (Event) listView.getItemAtPosition(position);
+
+		if(evt.isStarred())
+			evt.setStarred(false);
+		else
+			evt.setStarred(true);
+		mEventAdapter.notifyDataSetChanged();
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == 1) {
+
+			if(resultCode == RESULT_OK){      
+				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra("result");
+				for(Event evt : result) {
+					if(evt.isRead())
+						if(mEvents.contains(evt)) {
+							mEvents.get(mEvents.indexOf(evt)).setRead(true);
+						}
+				}
+				mEventAdapter.notifyDataSetChanged();
+			}
+		}
 	}
 
 	@Override

@@ -2,10 +2,6 @@ package com.dev.campus.event;
 
 import java.util.List;
 
-import com.dev.campus.R;
-import com.dev.campus.event.Feed.FeedType;
-import com.google.android.gms.plus.model.people.Person.Image;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dev.campus.R;
+import com.dev.campus.event.Feed.FeedType;
 
 public class EventAdapter extends ArrayAdapter<Event> {
 	
@@ -55,6 +54,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
+
 		
 		if(event.getSource().equals(FeedType.UB1_FEED))
 			eventHolder.establishment.setText("Bordeaux 1");
