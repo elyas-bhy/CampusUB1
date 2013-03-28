@@ -5,10 +5,7 @@ import com.dev.campus.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-<<<<<<< HEAD
 import android.content.Intent;
-=======
->>>>>>> mergeproblems
 import android.view.LayoutInflater;
 
 public class AboutDialog extends AlertDialog.Builder {
