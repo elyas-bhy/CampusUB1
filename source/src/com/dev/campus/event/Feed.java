@@ -28,6 +28,7 @@ public enum Feed {
 	LABRI_THESES(FeedType.LABRI_FEED_HTML, "theses"),
 	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "groupes"),
 	LABRI_AUTRES(FeedType.LABRI_FEED_HTML, "autres");
+
 	
 	
 	public enum FeedType {
@@ -70,5 +71,9 @@ public enum Feed {
 	
 	public String getUrl() {
 		return mUrl;
+	}
+	
+	public boolean isHTML(){
+		return this.getType().equals(FeedType.LABRI_FEED_HTML);
 	}
 }

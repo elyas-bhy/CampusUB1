@@ -15,7 +15,6 @@ import org.jsoup.Connection.Method;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import android.annotation.SuppressLint;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.event.Feed.FeedType;
@@ -170,6 +169,7 @@ public class EventParser {
 				if (existingEvents.contains(event))
 					break;
 			mParsedEvents.add(event);
+
 		}
 	}
 

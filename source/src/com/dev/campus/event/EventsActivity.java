@@ -217,6 +217,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			for (Event event : mEvents) {
 				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri())) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis()))
+
 						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
 							sortedEvents.add(event);
 				}
@@ -323,6 +324,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					existingEvents = entries[0].getValue(); // retrieve existing events
+					CampusUB1App.LogD(entries[0].getValue() + "value");
+					CampusUB1App.LogD(entries[0].getKey()+ "key"); 
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
 						mEvents = existingEvents;
 						mBuildDates = entries[0].getKey();
@@ -333,7 +336,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mEvents = mEventParser.getParsedEvents();
 				mBuildDates = mEventParser.getParsedBuildDates();
 			} catch (Exception e) {
-				CampusUB1App.LogD(e.toString());
+				CampusUB1App.LogD("poooo");
+				e.printStackTrace();
 			}
 			return null;
 		}

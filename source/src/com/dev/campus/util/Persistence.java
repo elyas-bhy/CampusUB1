@@ -73,7 +73,6 @@ public class Persistence {
 
 	public void setUpcomingEventsRange(int months) {
 		prefs_editor.putInt(PREF_UPCOMING_EVENTS, months);
-		prefs_editor.commit();
 	}
 
 	public boolean isMobileConnected() {
