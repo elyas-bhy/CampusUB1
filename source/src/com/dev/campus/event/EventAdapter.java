@@ -3,10 +3,6 @@ package com.dev.campus.event;
 import java.util.List;
 
 import com.dev.campus.R;
-<<<<<<< HEAD
-
-=======
->>>>>>> mergeproblems
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
