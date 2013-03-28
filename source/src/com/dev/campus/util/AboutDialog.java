@@ -5,12 +5,16 @@ import com.dev.campus.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+<<<<<<< HEAD
 import android.content.Intent;
+=======
+>>>>>>> mergeproblems
 import android.view.LayoutInflater;
 
 public class AboutDialog extends AlertDialog.Builder {
 
 	public AboutDialog(final Context context) {
+
 		super(context);
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -23,6 +27,7 @@ public class AboutDialog extends AlertDialog.Builder {
 				emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"campusub1.dev@gmail.com"});
 				context.startActivity(Intent.createChooser(emailIntent, 
 											context.getResources().getString(R.string.menu_complete_action)));
+
 			}
 		});
 

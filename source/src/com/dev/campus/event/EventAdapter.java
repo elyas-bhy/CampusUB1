@@ -3,7 +3,10 @@ package com.dev.campus.event;
 import java.util.List;
 
 import com.dev.campus.R;
+<<<<<<< HEAD
 
+=======
+>>>>>>> mergeproblems
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dev.campus.R;
+import com.dev.campus.event.Feed.FeedType;
 
 public class EventAdapter extends ArrayAdapter<Event> {
 	
@@ -53,6 +59,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
+
 		eventHolder.title.setText(event.getTitle());
 		eventHolder.establishment.setText(event.getSource().getShortName());
 		eventHolder.date.setText(event.getStringDate());

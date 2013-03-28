@@ -81,9 +81,13 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		mSelectedGroup = (Group) parent.getItemAtPosition(position);
+<<<<<<< HEAD
 		registerForContextMenu(view);
 		view.setLongClickable(false);
 		openContextMenu(view);
+=======
+		new ScheduleConfirmDialog(mContext);
+>>>>>>> mergeproblems
 	}
 
 	@Override
@@ -98,6 +102,11 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	public void clearContent() {
+		mScheduleAdapter.clear();
+		mScheduleAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -137,9 +146,14 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
+<<<<<<< HEAD
 
 	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
 
+=======
+	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
+		
+>>>>>>> mergeproblems
 		@Override
 		protected void onPreExecute() {
 			clearContent();
@@ -166,7 +180,10 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			mProgressBar.setVisibility(View.GONE);
 		}
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> mergeproblems
 
 	private class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
