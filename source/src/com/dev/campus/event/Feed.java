@@ -28,7 +28,6 @@ public enum Feed {
 	LABRI_THESES(FeedType.LABRI_FEED_HTML, "theses"),
 	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "groupes"),
 	LABRI_AUTRES(FeedType.LABRI_FEED_HTML, "autres");
-
 	
 	
 	public enum FeedType {

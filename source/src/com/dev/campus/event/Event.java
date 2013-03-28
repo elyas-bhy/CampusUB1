@@ -130,6 +130,6 @@ public class Event implements Serializable {
 	public String toString(){
 		String s = "[title: " + mTitle + ", date début :" + mStartDate  + ", date de fin : "+ mEndDate + ", location:" + mLocation 
 				+ ", details: " + mDetails + ", source: " + mSource + "]";
-		return s;	
+		return s;
 	}
 }
