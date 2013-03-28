@@ -16,10 +16,14 @@ public enum Category {
 	COMPANIES(R.string.category_companies, Feed.UB1_NEWS_COMPANIES),
 	PRESS(R.string.category_press, Feed.UB1_NEWS_PRESS),
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 	
 >>>>>>> Added missing categories.
+=======
+	
+>>>>>>> a170b6d1d71c2253156e229dd46269835d11d2ed
 	// Events
 	EXPOSITION(R.string.category_exposition, Feed.UB1_EVENTS_EXPOSITIONS),
 	THESES(R.string.category_theses, Feed.UB1_EVENTS_THESES, Feed.LABRI_THESES),
