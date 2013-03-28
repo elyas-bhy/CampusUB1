@@ -61,7 +61,7 @@ public class Event implements Serializable {
 	public void setEndDate(Date date) {
 		mEndDate = date;
 	}
-
+	
 	public String getDetails() {
 		return mDetails;
 	}

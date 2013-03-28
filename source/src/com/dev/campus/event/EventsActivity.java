@@ -217,7 +217,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			for (Event event : mEvents) {
 				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri())) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis()))
-
 						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
 							sortedEvents.add(event);
 				}
@@ -286,7 +285,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 		if (requestCode == 1) {
 
 			if(resultCode == RESULT_OK){      

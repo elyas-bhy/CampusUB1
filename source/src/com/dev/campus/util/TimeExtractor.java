@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.dev.campus.CampusUB1App;
+
 @SuppressLint("SimpleDateFormat")
 public class TimeExtractor {
 
@@ -43,8 +45,7 @@ public class TimeExtractor {
 					}
 				}
 			}
-		}
-		else if (m2.find()) {
+		} else if (m2.find()) {
 			String s = m2.group();
 			if (s != null) {
 				s.toLowerCase();
