@@ -71,4 +71,8 @@ public enum Feed {
 	public String getUrl() {
 		return mUrl;
 	}
+	
+	public boolean isHTML(){
+		return this.getType().equals(FeedType.LABRI_FEED_HTML);
+	}
 }

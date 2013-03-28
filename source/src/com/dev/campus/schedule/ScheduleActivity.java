@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.IntentService;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -101,7 +102,33 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.schedule_contextual, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		String urlXml = mSelectedGroup.getUrl();
+		switch (item.getItemId()) {
+		case R.id.menu_schedule_view_online:
+			String urlHtml = urlXml.substring(0, urlXml.length()-3) + "html"; // replace extension from xml to html
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlHtml)));
+			return true;
+		case R.id.menu_schedule_download:
+			String urlPdf = urlXml.substring(0, urlXml.length()-3) + "pdf"; // replace extension from xml to pdf
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPdf)));
+			return true;
+		case R.id.menu_schedule_import:
+			new ScheduleConfirmDialog(mContext);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
 	public void clearContent() {
 		mScheduleAdapter.clear();
 		mScheduleAdapter.notifyDataSetChanged();
@@ -138,6 +165,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		mScheduleAdapter.addAll(mGroups);
 		mScheduleAdapter.notifyDataSetChanged();
 	}
+
 
 	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
 		@Override
@@ -208,7 +236,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					Intent importService = new Intent(ScheduleActivity.this, ScheduleImportService.class);
-					importService.setData(Uri.parse(mSelectedGroup.getUrl()));
+					importService.setData(Uri.parse(mScheduleGroup.getUrl()));
 					mContext.startService(importService);
 					finish();
 				}

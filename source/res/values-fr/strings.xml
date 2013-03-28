@@ -86,6 +86,7 @@
     <string name="upcoming_events_title">Période des prochains événements</string>
     <string name="upcoming_events_summary">Définir la période des prochains mois pour laquelle récupérer les événements du LaBRI</string>
 
+
     <!-- Event categories -->
     <string name="category_main_events">Actualités</string>
     <string name="category_formation">Formation</string>
@@ -111,7 +112,7 @@
         <item>Master Semestre 1</item>
         <item>Master Semestre 2</item>
     </string-array>
-    
+
     <!-- LaBRI events of upcoming months -->
     <string-array name="upcoming_events_strings">
         <item>1 mois</item>
@@ -121,6 +122,4 @@
         <item>5 mois</item>
         <item>6 mois</item>
     </string-array>
-
-
 </resources>

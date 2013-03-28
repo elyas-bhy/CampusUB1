@@ -46,7 +46,7 @@ public class ScheduleParser {
 		return allGroups;
 	}
 
-	public static void parseSchedule(String url) throws IOException, ParseException {
+	public static void parseSchedule(String url) throws MalformedURLException, IOException, ParseException {
 		// Cannot open iso-8859-1 encoding directly with Jsoup
 		InputStream input = new URL(url).openStream();
 		Document xmlDoc = Jsoup.parse(input, CHARSET, url);

@@ -15,7 +15,6 @@ import org.jsoup.Connection.Method;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import android.annotation.SuppressLint;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.event.Feed.FeedType;
@@ -85,8 +84,9 @@ public class EventParser {
 
 			Date d = null;
 			String pubDate = item.select("pubDate").text();
-			d = TimeExtractor.getCorrectDate(pubDate, event.getDetails());
-			event.setDate(d);
+			TimeExtractor.getCorrectDate(pubDate, event.getDetails(), event.getStartDate(), event.getEndDate());
+			
+			event.setStartDate(d);
 
 			event.setCategory(category.toString());
 			event.setSource(feed.getType());
@@ -121,6 +121,7 @@ public class EventParser {
 
 	@SuppressLint("SimpleDateFormat")
 	private void parseDoc(Document doc, Category category, ArrayList<Event> existingEvents) throws ParseException {
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
 		Elements tabBase = doc.getElementsByTag("table");
 		tabBase.remove(0);
@@ -130,12 +131,13 @@ public class EventParser {
 			int i = 0;
 			Event event = new Event();
 			Elements cases = element.getElementsByTag("td");
-			Date date = new Date();
+			Date dateStart = new Date();
+			Date dateEnd = new Date();
 			if (!cases.isEmpty()) {
 				for (Element c : cases) {
 					switch (i) {	
 					case 0 :
-						date = sdf.parse(c.text());						
+						dateStart = sdf.parse(c.text());						
 						break;
 					case 1:
 						event.setTitle(c.text());
@@ -148,9 +150,7 @@ public class EventParser {
 							loc += " " + dateLoc[l];
 						}
 						event.setLocation(loc);
-						String[] dateTab = TimeExtractor.parseTime(dateLoc[0]);
-						date.setHours(Integer.parseInt(dateTab[0]));
-						date.setMinutes(Integer.parseInt(dateTab[1]));
+						TimeExtractor.getDateLabri(dateLoc[0], dateStart, dateEnd);
 						break;
 					case 3:
 						event.setDetails(c.text());
@@ -163,11 +163,13 @@ public class EventParser {
 			}
 			event.setCategory(category.toString());
 			event.setSource(FeedType.LABRI_FEED_HTML);
-			event.setDate(date);
+			event.setStartDate(dateStart);
+			event.setEndDate(dateEnd);
 			if (!event.getTitle().equals("") || !event.getDetails().equals(""))
 				if (existingEvents.contains(event))
 					break;
 			mParsedEvents.add(event);
+
 		}
 	}
 

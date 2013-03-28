@@ -1,7 +1,6 @@
 package com.dev.campus.event;
 
 import java.util.List;
-
 import com.dev.campus.R;
 import android.app.Activity;
 import android.view.LayoutInflater;
