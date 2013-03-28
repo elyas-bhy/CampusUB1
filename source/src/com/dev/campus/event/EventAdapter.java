@@ -10,9 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dev.campus.R;
-import com.dev.campus.event.Feed.FeedType;
-
 public class EventAdapter extends ArrayAdapter<Event> {
 	
 	private Activity mContext;

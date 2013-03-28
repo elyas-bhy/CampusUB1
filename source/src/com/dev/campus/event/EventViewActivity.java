@@ -52,7 +52,6 @@ public class EventViewActivity extends FragmentActivity {
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
@@ -98,7 +97,7 @@ public class EventViewActivity extends FragmentActivity {
 		calIntent.putExtra(Events.TITLE, event.getTitle());
 		calIntent.putExtra(Events.DESCRIPTION, details);
 		calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStartDate().getTime());
-		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getStartDate().getTime());
+		calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEndDate().getTime());
 		startActivity(calIntent);
 	}
 	

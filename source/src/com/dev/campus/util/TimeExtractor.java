@@ -11,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dev.campus.CampusUB1App;
-
 @SuppressLint("SimpleDateFormat")
 public class TimeExtractor {
 
@@ -22,7 +20,7 @@ public class TimeExtractor {
 		String hours = "[0-2]?[0-9]";
 		String minutes = "[0-5][0-9]";
 		String interval = "de" + hours + "[hH\"heure\":](" + minutes + ")?" 
-				+ "à" + hours + "[hH\"heure\":](" + minutes + ")?";
+						+ "à" + hours + "[hH\"heure\":](" + minutes + ")?";
 		String time = hours + "[hH:](" + minutes + ")?";
 
 		Pattern p = Pattern.compile(interval);
@@ -30,11 +28,10 @@ public class TimeExtractor {
 		Matcher m = p.matcher(text);
 		Matcher m2 = p2.matcher(text);
 
-		if(m.find()) {
+		if (m.find()) {
 			String s = m.group();
 			if(s != null) {
-				s = s.toLowerCase();
-				s.replace("de", "");
+				s = s.toLowerCase().replace("de", "");
 				String[] tabDate = s.split("à");
 				for (int i=0; i<tabDate.length;i++){
 					if (tabDate[0].contains("h")) {
@@ -47,9 +44,9 @@ public class TimeExtractor {
 				}
 			}
 		}
-		else if (m2.find()){
-			String s = m.group();
-			if(s != null) {
+		else if (m2.find()) {
+			String s = m2.group();
+			if (s != null) {
 				s.toLowerCase();
 				// Split the time into a table to help with the management
 				if(s.contains("h")) {
@@ -73,7 +70,7 @@ public class TimeExtractor {
 		List<String[]> time = parseTime(text);
 		String format = "EEE, d MMM yyyy HH:mm:ss Z";
 		start = createDate(date, format);
-		end =createDate(date, format);
+		end = createDate(date, format);
 
 		if(time != null) {
 			if(time.get(0).length > 1) { // Means we have parsed minutes
@@ -106,7 +103,7 @@ public class TimeExtractor {
 		}
 	}
 	
-	public static void getDateLabri(String date, Date start, Date end){
+	public static void getDateLabri(String date, Date start, Date end) {
 		String[] tabDate = date.split("-");
 		String[] tabDate2 = tabDate[0].split(":");
 		String[] tabDate3 = tabDate[1].split(":");

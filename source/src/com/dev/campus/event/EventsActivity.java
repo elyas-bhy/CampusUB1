@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -286,6 +284,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mEventAdapter.notifyDataSetChanged();
 	}
 
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {
@@ -326,8 +325,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					existingEvents = entries[0].getValue(); // retrieve existing events
-					CampusUB1App.LogD(entries[0].getValue() + "value");
-					CampusUB1App.LogD(entries[0].getKey()+ "key"); 
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
 						mEvents = existingEvents;
 						mBuildDates = entries[0].getKey();
@@ -338,7 +335,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mEvents = mEventParser.getParsedEvents();
 				mBuildDates = mEventParser.getParsedBuildDates();
 			} catch (Exception e) {
-				CampusUB1App.LogD("poooo");
 				e.printStackTrace();
 			}
 			return null;
