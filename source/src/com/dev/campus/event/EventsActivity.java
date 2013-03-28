@@ -20,6 +20,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -163,6 +164,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_refresh:
+			saveEvents();
 			update();
 			mSlidingMenu.showContent();
 			return true;
@@ -284,7 +286,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 		if (requestCode == 1) {
 
 			if(resultCode == RESULT_OK){      
