@@ -2,18 +2,19 @@ package com.dev.campus.event;
 
 import java.util.ArrayList;
 
-import com.dev.campus.R;
-
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
-import android.app.ActionBar;
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.dev.campus.R;
 
 public class EventViewActivity extends FragmentActivity {
 	
@@ -35,6 +36,37 @@ public class EventViewActivity extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mEventPagerAdapter);
 		mViewPager.setCurrentItem(currentIndex);
+		setEventRead(currentIndex);
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int position) {
+				setEventRead(position);
+			}
+			
+			@Override
+			public void onPageScrolled(int position, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	public void setEventRead(int position) {
+		mEvents.get(position).setRead(true);
+	}
+	
+	@Override
+	public void finish() {
+		Intent intent = new Intent();
+		intent.putExtra("result", mEvents);
+		setResult(RESULT_OK, intent);
+		super.finish();
 	}
 
 	@Override
