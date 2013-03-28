@@ -100,6 +100,7 @@
     <string name="upcoming_events_title">Range of upcoming events</string>
     <string name="upcoming_events_summary">Set the range of months for which LaBRI events are fetched</string>
 
+
     <!-- Event categories -->
     <string name="category_main_events">Main Events</string>
     <string name="category_formation">Formation</string>
