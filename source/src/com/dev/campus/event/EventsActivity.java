@@ -13,13 +13,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,12 +29,14 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
+import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingListActivity;
@@ -50,7 +51,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	private ArrayList<Event> mEvents;
 	private ArrayList<Event> mSortedEvents;
-	private ArrayList<Date> mEventDates;
+	private ArrayList<Date> mBuildDates;
 	private Category mCategory;
 
 	private FilterDialog mFilterDialog;
@@ -69,11 +70,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mFilterDialog = new FilterDialog(this);
 		mCategory = Category.MAIN_EVENTS;
 
-		try {
-			mEventParser = new EventParser();
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-		}
+
+		mEventParser = new EventParser();
 
 		setupActionBar();
 		setupSlidingMenu();
@@ -136,11 +134,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				try {
-					saveEvents();
-				} catch (Exception e){
-					CampusUB1App.LogD("saving failed");
-				}
+				saveEvents();
 				mCategory = (Category) parent.getItemAtPosition(position);
 				update();
 				mSlidingMenu.showContent();
@@ -186,9 +180,11 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			if (item.isChecked()) {
 				item.setIcon(R.drawable.ic_content_read);
 				item.setChecked(false);
+				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
 			} else {
 				item.setIcon(R.drawable.ic_content_unread);
 				item.setChecked(true);
+				Toast.makeText(this, R.string.showing_unread_events, Toast.LENGTH_SHORT).show();
 			}
 			mShowUnreadOnly = item.isChecked();
 			reloadContent();
@@ -219,7 +215,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		if (mEvents != null) {
 			for (Event event : mEvents) {
-				if (event.getSource().isFiltered()) {
+				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri())) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getDate().getTime() >= System.currentTimeMillis()))
 						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
 							sortedEvents.add(event);
@@ -251,7 +247,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			if (CampusUB1App.persistence.isConnected()) {
 				new UpdateFeedsTask().execute(feedsEntry);
 			} else {
-				mEventDates = feedsEntry.getKey();
+				mBuildDates = feedsEntry.getKey();
 				mEvents = feedsEntry.getValue();
 				reloadContent();
 				Toast.makeText(this, R.string.showing_history, Toast.LENGTH_SHORT).show();
@@ -272,16 +268,41 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
 		intent.putExtra(EXTRA_EVENTS, mSortedEvents);
 		intent.putExtra(EXTRA_EVENTS_INDEX, position);
-		startActivity(intent);
+		startActivityForResult(intent, 1);
+	}
+
+	public void toggleStar(View v) {
+		ListView listView = getListView();
+		int position = listView.getPositionForView(v);
+		Event evt = (Event) listView.getItemAtPosition(position);
+
+		if(evt.isStarred())
+			evt.setStarred(false);
+		else
+			evt.setStarred(true);
+		mEventAdapter.notifyDataSetChanged();
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == 1) {
+
+			if(resultCode == RESULT_OK){      
+				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra("result");
+				for(Event evt : result) {
+					if(evt.isRead())
+						if(mEvents.contains(evt)) {
+							mEvents.get(mEvents.indexOf(evt)).setRead(true);
+						}
+				}
+				mEventAdapter.notifyDataSetChanged();
+			}
+		}
 	}
 
 	@Override
 	public void onPause() {
-		try {
-			saveEvents();
-		} catch (Exception e) {
-			CampusUB1App.LogD("saving events failed during pause");
-		}
+		saveEvents();
 		super.onPause();
 	}
 
@@ -300,17 +321,19 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 
-				if (entries.length > 0) {
+				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					existingEvents = entries[0].getValue(); // retrieve existing events
+					CampusUB1App.LogD(entries[0].getValue() + "value");
+					CampusUB1App.LogD(entries[0].getKey()+ "key"); 
 					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
 						mEvents = existingEvents;
-						mEventDates = entries[0].getKey();
+						mBuildDates = entries[0].getKey();
 						return null;
 					}
 				}
 				mEventParser.parseEvents(mCategory, existingEvents);
 				mEvents = mEventParser.getParsedEvents();
-				mEventDates = mEventParser.getParsedEventDates();
+				mBuildDates = mEventParser.getParsedBuildDates();
 			} catch (Exception e) {
 				CampusUB1App.LogD(e.toString());
 			}
@@ -347,14 +370,14 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		return feedsEntry;
 	}
 
-	public void saveEvents() throws XmlPullParserException {
+	public void saveEvents() {
 		ObjectOutputStream oos = null;
 		try {
 			File history = new File(getHistoryPath());
 			history.getParentFile().createNewFile();
 			FileOutputStream fout = new FileOutputStream(history);
 			oos = new ObjectOutputStream(fout);
-			SimpleEntry<ArrayList<Date>, ArrayList<Event>> map = new SimpleEntry<ArrayList<Date>, ArrayList<Event>>(mEventDates, mEvents);
+			SimpleEntry<ArrayList<Date>, ArrayList<Event>> map = new SimpleEntry<ArrayList<Date>, ArrayList<Event>>(mBuildDates, mEvents);
 			oos.writeObject(map);
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();  

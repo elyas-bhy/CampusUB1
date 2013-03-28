@@ -8,9 +8,11 @@
     
     <color name="white_light">#EBEBEB</color>
     <color name="white_stale">#D1D1D1</color>
+    <color name="holo_dark_black">#222222</color>
     
     <color name="blue_light">#26B0EB</color>
-    <color name="holo_dark_black">#222222</color>
+    <color name="blue_title">#0B2D78</color>
+    <color name="blue_title_read">#8D9BBA</color>
     
     <color name="grey_metal">#515556</color>
     <color name="grey_metal_dark">#636363</color>

@@ -3,14 +3,16 @@ package com.dev.campus.event;
 import java.util.List;
 
 import com.dev.campus.R;
-
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dev.campus.R;
+import com.dev.campus.event.Feed.FeedType;
 
 public class EventAdapter extends ArrayAdapter<Event> {
 	
@@ -19,9 +21,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
 	
 	private static class EventHolder {
 		TextView title;
+		TextView establishment;
 		TextView date;
-		TextView category;
 		TextView description;
+		ImageView star;
 	}
 	
 	public EventAdapter(Activity context, List<Event> events) {
@@ -41,9 +44,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
 			
 			eventHolder = new EventHolder();
 			eventHolder.title = (TextView) row.findViewById(R.id.event_title);
+			eventHolder.establishment = (TextView) row.findViewById(R.id.event_estb);
 			eventHolder.date = (TextView) row.findViewById(R.id.event_date);
-			eventHolder.category = (TextView) row.findViewById(R.id.event_category);
 			eventHolder.description = (TextView) row.findViewById(R.id.event_description);
+			eventHolder.star = (ImageView) row.findViewById(R.id.event_star);
 			row.setTag(eventHolder);
 			
 		} else {
@@ -51,16 +55,21 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
-		
-		if(!event.isRead())
-			eventHolder.title.setTypeface(Typeface.DEFAULT_BOLD);
-		else
-			eventHolder.title.setTypeface(Typeface.DEFAULT);
-		
+
 		eventHolder.title.setText(event.getTitle());
+		eventHolder.establishment.setText(event.getSource().getShortName());
 		eventHolder.date.setText(event.getStringDate());
-		eventHolder.category.setText(event.getCategory());
 		eventHolder.description.setText(event.getDescription());
+		
+		if (event.isRead())
+			eventHolder.title.setTextColor(mContext.getResources().getColor(R.color.blue_title_read));
+		else
+			eventHolder.title.setTextColor(mContext.getResources().getColor(R.color.blue_title));
+		
+		if (event.isStarred())
+			eventHolder.star.setImageResource(R.drawable.ic_star_dark);
+		else
+			eventHolder.star.setImageResource(R.drawable.ic_unstar_dark);
 		
 		return row;
 	}

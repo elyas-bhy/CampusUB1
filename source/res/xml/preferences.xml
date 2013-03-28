@@ -13,13 +13,17 @@
             android:title="@string/filters_title"
             android:summary="@string/filters_summary"/>
         
+         <Preference
+            android:key="pref_upcoming_events"
+            android:title="@string/upcoming_events_title"
+            android:summary="@string/upcoming_events_summary" />
     </PreferenceCategory>
     
     <PreferenceCategory 
         android:title="@string/other_category">
         
         <Preference
-            android:key="about_pref"
+            android:key="pref_about"
             android:title="@string/about_title"/>
         
     </PreferenceCategory>

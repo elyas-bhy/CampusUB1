@@ -1,8 +1,6 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -15,11 +13,10 @@ public class Event implements Serializable {
 	private String mCategory;
 	private String mTitle;
 	private String mDescription;
-	private Date mDate;
-	private String mTime;
 	private String mDetails;
-	private FeedType mSource;
 	private String mLocation;
+	private FeedType mSource;
+	private Date mDate;
 	private boolean mRead;
 	private boolean mStarred;
 
@@ -54,14 +51,6 @@ public class Event implements Serializable {
 
 	public void setDate(Date date) {
 		mDate = date;
-	}
-
-	public String getTime() {
-		return mTime;
-	}
-
-	public void setTime(String time) {
-		mTime = time;
 	}
 
 	public String getDetails() {
@@ -127,5 +116,11 @@ public class Event implements Serializable {
 		public int compare(Event evt1, Event evt2) {
 			return evt2.getDate().compareTo(evt1.getDate());
 		}
+	}
+	
+	public String toString(){
+		String s = "[title: " + mTitle + ", date:" + mDate + ", location:" + mLocation 
+				+ ", details: " + mDetails + ", source: " + mSource + "]";
+		return s;	
 	}
 }

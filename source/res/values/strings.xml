@@ -15,10 +15,14 @@
     <string name="menu_unread">Mark as unread</string>
     <string name="menu_star">Add star</string>
     <string name="menu_unstar">Remove star</string>
+    <string name="menu_schedule_view_online">View online</string>
+    <string name="menu_schedule_download">Download as PDF</string>
+    <string name="menu_schedule_import">Import to default calendar</string>
 
     <!-- Dialogs -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="warning">Warning</string>
     <string name="select_establishment">Select your establishments</string>
     <string name="filter_results">Filter your results</string>
     <string name="events_loading">Loading events</string>
@@ -27,6 +31,7 @@
     <string name="install">Install</string>
     <string name="play_services">Google Play Services</string>
     <string name="need_play_services">The map requires Google Play Services to be installed</string>
+    <string name="schedule_confirm_content">This will import all events to the default calendar. Are you sure you want to proceed?</string>
 
     <!-- Toasts -->
     <string name="showing_history">Showing offline history</string>
@@ -38,8 +43,11 @@
     <string name="no_email">No email address for this contact</string>
     <string name="no_gps">Activate GPS for a more accurate localisation</string>
     <string name="showing_upcoming_events">Showing upcoming events only</string>
+    <string name="showing_unread_events">Showing unread events only</string>
     <string name="showing_all_events">Showing all events</string>
     <string name="no_play_store">Google Play Store is not installed on your device</string>
+    <string name="schedule_importing">Importing schedule</string>
+    <string name="schedule_import_complete">Schedule successfully imported</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>
@@ -81,10 +89,16 @@
     <string name="preferences_category">Preferences</string>
     <string name="other_category">Other</string>
     <string name="about_title">About</string>
+    <string name="about_logo">Logo Campus UB1</string>
+    <string name="about_app_title">Campus UB1</string>
+    <string name="about_version">Version 1.0</string>
+    <string name="about_copyright">©2013 UB1 Team</string>
     <string name="subscriptions_title">Subscriptions</string>
     <string name="subscriptions_summary">Manage your subscribtions</string>
     <string name="filters_title">Filters</string>
     <string name="filters_summary">Manage your filters</string>
+    <string name="upcoming_events_title">Range of upcoming events</string>
+    <string name="upcoming_events_summary">Set the range of months for which LaBRI events are fetched</string>
 
     <!-- Event categories -->
     <string name="category_main_events">Main Events</string>
@@ -96,16 +110,31 @@
     <string name="category_companies">Companies</string>
     <string name="category_press">Press</string>
     <string name="action_settings">Settings</string>
+    <string name="category_theses">Theses</string>
+    <string name="category_groupes">Groups</string>
+    <string name="category_colloques">Seminars</string>
+    <string name="category_autres">Other</string>
+    <string name="category_exposition">Expositions</string>
 
     <!-- Schedule Spinner -->
-    <string name="schedule_spinner_title">Choose a sector</string>
+    <string name="schedule_spinner_title">Select your current semester</string>
 
     <string-array name="schedule_spinner">
-        <item></item>
+        <item>None</item>
         <item>Licence Semestre 1</item>
         <item>Licence Semestre 2</item>
         <item>Master Semestre 1</item>
         <item>Master Semestre 2</item>
+    </string-array>
+
+    <!-- LaBRI events of upcoming months -->
+    <string-array name="upcoming_events_strings">
+        <item>1 month</item>
+        <item>2 months</item>
+        <item>3 months</item>
+        <item>4 months</item>
+        <item>5 months</item>
+        <item>6 months</item>
     </string-array>
 
 </resources>

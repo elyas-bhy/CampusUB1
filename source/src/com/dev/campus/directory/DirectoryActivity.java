@@ -18,9 +18,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.app.ActionBar;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.view.ContextMenu;
@@ -37,18 +35,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 
 public class DirectoryActivity extends ListActivity implements OnItemClickListener {
 
-	private ActionBar mActionBar;
 	private Resources mResources;
+	private ActionBar mActionBar;
+	private ProgressBar mProgressBar;
 	private FilterDialog mFilterDialog;
 
 	private Contact mContact;
 	private List<Contact> mSearchResult;
+	private List<Contact> mSortedContacts;
 	private DirectoryAdapter mDirectoryAdapter;
 	private DirectoryManager mDirectoryManager;
 	
@@ -58,11 +59,16 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_list);
 
 		mFilterDialog = new FilterDialog(this);
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
+		
+		mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+		mProgressBar.setVisibility(View.GONE);
+		mProgressBar.setIndeterminate(true);
 
 		mDirectoryManager = new DirectoryManager();
 		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
@@ -77,7 +83,7 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	}
 
 	private void initSearchButton() {
-		OnEditorActionListener searchAction = new TextView.OnEditorActionListener() {
+		OnEditorActionListener onSearchAction = new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -90,8 +96,8 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 		mViewFirstName = (EditText) findViewById(R.id.edit_text_first_name);
 		mViewLastName = (EditText) findViewById(R.id.edit_text_last_name);
-		mViewFirstName.setOnEditorActionListener(searchAction);
-		mViewLastName.setOnEditorActionListener(searchAction);
+		mViewFirstName.setOnEditorActionListener(onSearchAction);
+		mViewLastName.setOnEditorActionListener(onSearchAction);
 
 		ImageButton searchButton = (ImageButton) findViewById(R.id.button_search_directory);
 		searchButton.setOnClickListener(new OnClickListener() {
@@ -104,10 +110,9 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.with_actionbar, menu);
+		getMenuInflater().inflate(R.menu.filters_actionbar, menu);
 		return true;
 	}
-
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -169,11 +174,9 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebsite()));
 		startActivity(browserIntent);
 	}
-
-	public void reloadContent() {
+	
+	public void sortContacts() {
 		ArrayList<Contact> sortedContacts = new ArrayList<Contact>();
-		mDirectoryAdapter.clear();
-
 		if (mSearchResult != null) {
 			for (Contact contact: mSearchResult) {
 				if ((contact.getType().equals(ContactType.UB1_CONTACT) && CampusUB1App.persistence.isFilteredUB1())
@@ -182,7 +185,18 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 			}
 		}
 		Collections.sort(sortedContacts, new Contact.ContactComparator());
-		mDirectoryAdapter.addAll(sortedContacts);
+		mSortedContacts = sortedContacts;
+	}
+	
+	public void clearContent() {
+		mDirectoryAdapter.clear();
+		mDirectoryAdapter.notifyDataSetChanged();
+	}
+
+	public void reloadContent() {
+		sortContacts();
+		mDirectoryAdapter.clear();
+		mDirectoryAdapter.addAll(mSortedContacts);
 		mDirectoryAdapter.notifyDataSetChanged();
 	}
 
@@ -226,23 +240,10 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 	private class SearchResultTask extends AsyncTask<Void, Void, Void> {
 
-		private ProgressDialog progressDialog = new ProgressDialog(DirectoryActivity.this);
-
 		@Override
 		protected void onPreExecute() {
-			progressDialog.setTitle(R.string.contacts_loading);
-			progressDialog.setMessage(mResources.getString(R.string.please_wait));
-			progressDialog.setIndeterminate(true);
-			progressDialog.setCancelable(false);
-			progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-									mResources.getString(R.string.cancel),
-									new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					cancel(true);
-				}
-			});
-			progressDialog.show();
+			clearContent();
+			mProgressBar.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -265,12 +266,12 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		@Override
 		protected void onPostExecute(Void result) {
 			reloadContent();
-			progressDialog.dismiss();
+			mProgressBar.setVisibility(View.GONE);
 		}
 
 		@Override
 		protected void onCancelled() {
-			progressDialog.dismiss();
+			mProgressBar.setVisibility(View.GONE);
 			super.onCancelled();
 		}
 	}
