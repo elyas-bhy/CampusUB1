@@ -16,7 +16,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.event.Feed.FeedType;
