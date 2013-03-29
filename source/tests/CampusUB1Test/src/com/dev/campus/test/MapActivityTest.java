@@ -1,12 +1,12 @@
-package com.dev.campus.map;
+package com.dev.campus.test;
 
 import com.dev.campus.map.MapActivity;
 import com.dev.campus.map.Position;
 
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
-import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.jayway.android.robotium.solo.Solo;
 
 public class MapActivityTest extends 
 	ActivityInstrumentationTestCase2<MapActivity> {
@@ -53,8 +53,6 @@ public class MapActivityTest extends
 		String secondSuggestion = mActivity.searchPosition("LaBRI");
 		assertEquals(firstSuggestion,secondSuggestion);
 	}
-	
-		
 }
 
 	
