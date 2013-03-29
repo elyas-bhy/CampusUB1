@@ -173,7 +173,6 @@ public class EventParser {
 				if (existingEvents.contains(event))
 					break;
 			if(event.getStartDate() == null)
-				Log.d("Ryan", "parseDoc");
 			mParsedEvents.add(event);
 
 		}
