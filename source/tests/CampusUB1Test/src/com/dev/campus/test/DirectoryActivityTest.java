@@ -33,7 +33,6 @@ public class DirectoryActivityTest extends
 	
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		//mSolo.finishOpenedActivities();
 	}
 	
 	public void testEditTextRequestFocus() {
@@ -41,7 +40,7 @@ public class DirectoryActivityTest extends
 	}
 	
 	public void testLabriSearchResult() {
-		final int FIRST_ITEM_INDEX = 1;	//offest by 1 due to header view being included
+		final int INITIAL_ITEM_INDEX = 1;	//offest by 1 due to header view being included
 		final ListAdapter adapter = mActivity.getListView().getAdapter();
 		
 		mSolo.clickOnView(mSolo.getView(R.id.menu_filters));
@@ -60,12 +59,12 @@ public class DirectoryActivityTest extends
 			
 			@Override
 			public boolean isSatisfied() {
-				return adapter.getCount() > FIRST_ITEM_INDEX;
+				return adapter.getCount() > INITIAL_ITEM_INDEX;
 			}
 		}, 60000);
 		assertTrue(mSolo.searchText("BLANC Xavier"));
 		
-		Contact xb = (Contact) adapter.getItem(FIRST_ITEM_INDEX);
+		Contact xb = (Contact) adapter.getItem(INITIAL_ITEM_INDEX);
 		assertTrue(xb != null);
 		assertEquals("Xavier", xb.getFirstName());
 		assertEquals("Blanc", xb.getLastName());
