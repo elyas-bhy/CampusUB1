@@ -6,12 +6,10 @@ import com.dev.campus.event.EventsActivity;
 import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.jayway.android.robotium.solo.Condition;
 import com.jayway.android.robotium.solo.Solo;
 
-import android.database.DataSetObserver;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
-import android.util.Log;
 import android.widget.ListView;
 
 public class EventsActivityTest extends 
@@ -19,6 +17,7 @@ public class EventsActivityTest extends
 
 	private Solo mSolo;
 	private EventsActivity mActivity;
+	private EventAdapter mEventAdapter;
 
 	public EventsActivityTest() {
 		super(EventsActivity.class);
@@ -27,6 +26,7 @@ public class EventsActivityTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		mActivity = getActivity();
+		mEventAdapter = (EventAdapter) mActivity.getListView().getAdapter();
 		mSolo = new Solo(getInstrumentation(), mActivity);
 		CampusUB1App.persistence.setFilterUB(true);
 		CampusUB1App.persistence.setFilterLabri(true);
@@ -34,7 +34,6 @@ public class EventsActivityTest extends
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		//mSolo.finishOpenedActivities();
 	}
 
 	public void testInitialCategory() {
@@ -42,38 +41,43 @@ public class EventsActivityTest extends
 		assertEquals(0, menuView.getCheckedItemPosition());
 	}
 
-	@UiThreadTest
 	public void testShowOnlyUB1Events() {
-		final EventAdapter adapter = (EventAdapter) mActivity.getListView().getAdapter();
-		adapter.registerDataSetObserver(new DataSetObserver() {
-			
-			@Override
-			public void onChanged() {
-				for(int i = 0; i < adapter.getCount(); i++) {
-					Log.d("TestCase", "item: " + i);
-					Event event = adapter.getItem(i);
-					assertEquals(FeedType.UB1_FEED, event.getSource());
-				}
-			}
-		});
-
-		CampusUB1App.persistence.setFilterLabri(false);
-		mActivity.update();
-		
-		try {
-			Thread.sleep(10000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		/*mSolo.clickOnView(mSolo.getView(R.id.menu_filters));
-		mSolo.waitForDialogToOpen(2000);
-		Log.d("TestCase", "before: " + CampusUB1App.persistence.isFilteredLabri());
-		Log.d("TestCase", "found: " + mSolo.searchText(mSolo.getString(R.string.labri)));
+		// Emulate toggling off all filters except UB1
+		mSolo.clickOnView(mSolo.getView(R.id.menu_filters));
+		mSolo.waitForDialogToOpen(1000);
 		mSolo.clickOnText(mSolo.getString(R.string.labri));
 		mSolo.clickOnButton(mSolo.getString(R.string.ok));
-		mSolo.waitForDialogToClose(2000);
-		Log.d("TestCase", "after: " + CampusUB1App.persistence.isFilteredLabri());*/
+		mSolo.waitForDialogToClose(1000);
+		mSolo.waitForCondition(new Condition() {
+			
+			@Override
+			public boolean isSatisfied() {
+				return mEventAdapter.getCount() > 0;
+			}
+		}, 10000);
+		
+		for (int i = 0; i < mEventAdapter.getCount(); i++) {
+			Event event = mEventAdapter.getItem(i);
+			assertEquals(FeedType.UB1_FEED, event.getSource());
+		}
+	}
+	
+	public void testMarkEventAsRead() {
+		mSolo.waitForCondition(new Condition() {
+			
+			@Override
+			public boolean isSatisfied() {
+				return mEventAdapter.getCount() > 0;
+			}
+		}, 10000);
+		mSolo.clickInList(1);
+		mSolo.waitForActivity("EventViewActivity");
+		mSolo.goBack();
+		mSolo.waitForActivity("EventsActivity");
+		
+		// Need to trigger saveEvents() first in UI thread
+		//assertTrue(mEventAdapter.getItem(0).isRead());
+		
 	}
 
 }
