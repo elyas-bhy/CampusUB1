@@ -69,8 +69,9 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 		mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setIndeterminate(true);
-
+		
 		mDirectoryManager = new DirectoryManager();
+		
 		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 
 		ListView listview = getListView();

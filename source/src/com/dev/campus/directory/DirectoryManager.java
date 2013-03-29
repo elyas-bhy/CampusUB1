@@ -15,6 +15,7 @@ import com.dev.campus.directory.Contact.ContactType;
 import com.unboundid.ldap.sdk.Control;
 import com.unboundid.ldap.sdk.Filter;
 import com.unboundid.ldap.sdk.LDAPConnection;
+import com.unboundid.ldap.sdk.LDAPConnectionPool;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.SearchRequest;
 import com.unboundid.ldap.sdk.SearchResult;
@@ -23,7 +24,8 @@ import com.unboundid.ldap.sdk.SearchScope;
 import com.unboundid.ldap.sdk.controls.SimplePagedResultsControl;
 
 public class DirectoryManager {
-
+	
+	private final int NUM_CONNECTIONS = 10;
 	private final int MAX_PAGE_SIZE = 10;
 	private final int UB1_LDAP_PORT = 389;
 	
@@ -34,11 +36,13 @@ public class DirectoryManager {
 	private final String ATTR_TEL = "telephoneNumber";
 	private final String ATTR_NAME = "givenName";
 	private final String ATTR_SURNAME = "sn";
+	private final String[] LDAPSearchAttributes = {ATTR_MAIL, ATTR_TEL, ATTR_NAME, ATTR_SURNAME};
 
 	private LDAPConnection LDAP;
+	private LDAPConnectionPool connectionPool;
+
 	private List<Contact> mLabriContacts;
-
-
+	
 	public List<Contact> searchContact(String firstName, String lastName) throws LDAPException, IOException {
 		ArrayList<Contact> searchResult = new ArrayList<Contact>();
 		if (CampusUB1App.persistence.isSubscribedUB1()) 
@@ -53,16 +57,18 @@ public class DirectoryManager {
 	}
 
 	public List<Contact> searchUB1(String firstName, String lastName) throws LDAPException {
+		if(LDAP == null || connectionPool == null){
+			LDAP = new LDAPConnection(UB1_LDAP_HOST, UB1_LDAP_PORT);
+			connectionPool = new LDAPConnectionPool(LDAP, NUM_CONNECTIONS);
+		}
+		
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
-		LDAP = new LDAPConnection(UB1_LDAP_HOST, UB1_LDAP_PORT);
-		String[] attributes = {ATTR_MAIL, ATTR_TEL, ATTR_NAME, ATTR_SURNAME};
 		Filter f = Filter.create("(&(" + ATTR_NAME + "=" + firstName + "*)("
 									   + ATTR_SURNAME + "=" + lastName + "*))");
-
-		SearchRequest searchRequest = new SearchRequest(UB1_BASE_DN, SearchScope.SUB, f, attributes);
-
+		
+		SearchRequest searchRequest = new SearchRequest(UB1_BASE_DN, SearchScope.SUB, f, LDAPSearchAttributes);
 		searchRequest.setControls(new Control[] { new SimplePagedResultsControl(MAX_PAGE_SIZE, null)});
-		SearchResult searchResult = LDAP.search(searchRequest);
+		SearchResult searchResult = connectionPool.search(searchRequest);
 		int entryCount = searchResult.getEntryCount();
 		
 		// Create Contact objects with the entries that are returned.

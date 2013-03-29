@@ -2,11 +2,11 @@ package com.dev.campus.event;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
-import com.dev.campus.event.Feed.FeedType;
 
 import android.content.res.Resources;
 
 public enum Category {
+	// News
 	MAIN_EVENTS(R.string.category_main_events, Feed.UB1_NEWS_ALL, Feed.LABRI_NEWS),
 	UNIVERSITY(R.string.category_university, Feed.UB1_NEWS_UNIVERSITY),
 	FORMATION(R.string.category_formation, Feed.UB1_NEWS_FORMATION, Feed.UB1_EVENTS_FORMATION),
