@@ -2,7 +2,6 @@ package com.dev.campus.schedule;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,11 +28,16 @@ public class ScheduleParser {
 	private static final String CHARSET = "CP1252";
 
 	public ArrayList<Group> fetchGroups(String url) throws IOException {
-		// Cannot open iso-8859-1 encoding directly with Jsoup
-		InputStream input = new URL(url).openStream();
-		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
-
 		ArrayList<Group> allGroups = new ArrayList<Group>();
+		Document xmlDoc;
+		try {
+			// Cannot open iso-8859-1 encoding directly with Jsoup
+			InputStream input = new URL(url).openStream();
+			xmlDoc = Jsoup.parse(input, CHARSET, url);
+		} catch(IOException e) {
+			throw e;
+		}
+
 		for (Element resource : xmlDoc.select("resource")) {
 			Group group = new Group(); 
 			Elements name = resource.select("name");
@@ -47,10 +51,16 @@ public class ScheduleParser {
 		return allGroups;
 	}
 
-	public static void parseSchedule(String url) throws MalformedURLException, IOException, ParseException {
-		// Cannot open iso-8859-1 encoding directly with Jsoup
-		InputStream input = new URL(url).openStream();
-		Document xmlDoc = Jsoup.parse(input, CHARSET, url);
+	public static void parseSchedule(String url) throws IOException, ParseException {
+		Document xmlDoc;
+		try {
+			// Cannot open iso-8859-1 encoding directly with Jsoup
+			InputStream input = new URL(url).openStream();
+			xmlDoc = Jsoup.parse(input, CHARSET, url);
+		} catch(IOException e) {
+			throw e;
+		}
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyyH:m");
 		ArrayList<ContentProviderOperation> scheduleEvents = new ArrayList<ContentProviderOperation>();
 

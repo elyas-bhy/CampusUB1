@@ -48,6 +48,8 @@
     <string name="no_play_store">Google Play Store is not installed on your device</string>
     <string name="schedule_importing">Importing schedule</string>
     <string name="schedule_import_complete">Schedule successfully imported</string>
+    <string name="schedule_import_failed_fetchgroup">Failed to retrieve schedule groups</string>
+    <string name="schedule_import_failed_parse">Failed to import schedule</string>
 
     <!-- Establishments -->
     <string name="labri">LaBRI</string>

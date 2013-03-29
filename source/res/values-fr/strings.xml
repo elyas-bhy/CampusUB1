@@ -40,6 +40,8 @@
     <string name="no_play_store">Google Play Store n\'est pas installé sur votre appareil</string>
     <string name="schedule_importing">Import de l\'emploi du temps en cours</string>
     <string name="schedule_import_complete">Import de l\'emploi du temps terminé</string>
+    <string name="schedule_import_failed_fetchgroup">Echec de la récupération de la liste des emplois du temps</string>
+    <string name="schedule_import_failed_parse">Echec de l\'import de l\'emploi du temps</string>
 
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>

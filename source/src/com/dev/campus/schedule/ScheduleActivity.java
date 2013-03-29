@@ -1,10 +1,9 @@
 package com.dev.campus.schedule;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
 
@@ -28,6 +27,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
@@ -152,10 +152,8 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			if (urls.length > 0) {
 				try {
 					mGroups = mScheduleParser.fetchGroups(urls[0]);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					cancel(true);
 				}
 			}
 			return null;
@@ -164,6 +162,15 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		@Override
 		protected void onPostExecute(Void result) {
 			reloadContent();
+			mProgressBar.setVisibility(View.GONE);
+		}
+
+		@Override
+		protected void onCancelled() {
+			mGroups = new ArrayList<Group>();
+			CampusUB1App.LogD("Failed to retrieve schedule");
+			Toast.makeText(mContext, R.string.schedule_import_failed_fetchgroup, Toast.LENGTH_SHORT).show();
+			clearContent();
 			mProgressBar.setVisibility(View.GONE);
 		}
 	}
