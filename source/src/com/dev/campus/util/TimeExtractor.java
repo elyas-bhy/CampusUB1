@@ -23,11 +23,11 @@ public class TimeExtractor {
 		ArrayList<String[]> dates = new ArrayList<String[]>();
 		String hours = "[0-2]?[0-9]";
 		String minutes = "[0-5][0-9]";
-		String interval = "de" + hours + "[hH\"heure\":](" + minutes + ")?" 
-				+ "à" + hours + "[hH\"heure\":](" + minutes + ")?";
+		String intervalle = "de " + hours + "[hH:](" + minutes + ")?" 
+				+ " [àa] " + hours + "[hH:](" + minutes + ")?";
 		String time = hours + "[hH:](" + minutes + ")?";
 
-		Pattern p = Pattern.compile(interval);
+		Pattern p = Pattern.compile(intervalle);
 		Pattern p2 = Pattern.compile(time);
 		Matcher m = p.matcher(text);
 		Matcher m2 = p2.matcher(text);
@@ -35,13 +35,16 @@ public class TimeExtractor {
 		if (m.find()) {
 			String s = m.group();
 			if(s != null) {
-				s = s.toLowerCase().replace("de", "");
-				String[] tabDate = s.split("à");
+				Log.d("Tatiana", "date double " + s);
+				s = s.toLowerCase().replace("de ", "");
+				String[] tabDate = s.split(" à ");
+				Log.d("Tatiana", "tabDate : " + String.valueOf(tabDate[0]) + " " + String.valueOf(tabDate[1]));
 				for (int i = 0; i < tabDate.length; i++) {
-					if (tabDate[0].contains("h")) {
-						dates.add(tabDate[0].split("h"));
-					}else if (tabDate[0].contains("heure")) {
-						dates.add(tabDate[0].split("heure"));
+					if (tabDate[i].contains("h")) {
+						String s2[] = tabDate[i].split("h");
+						Log.d("Tatiana", i + " " + String.valueOf(s2[0]));
+						dates.add(s2);
+						
 					} else {
 						dates.add(tabDate[0].split(":"));
 					}
@@ -52,9 +55,7 @@ public class TimeExtractor {
 			if (s != null) {
 				s.toLowerCase();
 				// Split the time into a table to help with the management
-				if (s.contains("heure")) {
-					dates.add(s.split("heure"));
-				} else if(s.contains("h")) {
+				if(s.contains("h")) {
 					String[] ss = s.split("h");
 					dates.add(ss);
 				} else {
