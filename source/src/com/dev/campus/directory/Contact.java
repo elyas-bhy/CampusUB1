@@ -11,7 +11,7 @@ public class Contact {
 	private String website;
 	private ContactType mType;
 
-	static enum ContactType {
+	public enum ContactType {
 		UB1_CONTACT, LABRI_CONTACT;
 	}
 	
@@ -55,16 +55,16 @@ public class Contact {
 		this.website = website;
 	}
 
-	public boolean hasTel(){
-		return (this.tel != null) && !((this.tel).equals("Non renseigne"));
+	public boolean hasTel() {
+		return (this.tel != null) && !((this.tel).equals(""));
 	}
 
-	public boolean hasEmail(){
+	public boolean hasEmail() {
 		return this.email != null && !(this.email).equals("");
 	}
 
-	public boolean hasWebsite(){
-		return this.website != null;
+	public boolean hasWebsite() {
+		return this.website != null && !(this.website).equals("");
 	}
 
 	public ContactType getType() {
