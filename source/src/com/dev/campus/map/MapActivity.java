@@ -244,11 +244,12 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 	
 	@SuppressLint("DefaultLocale")
-	public void searchPosition(String input) {
+	public String searchPosition(String input) {
 		for (Position pos : Position.values()) {
 			for (int i = 0; i < pos.getSuggestions().length; i++) {
 				if (reformatString(pos.getSuggestions()[i]).startsWith(reformatString(input))) {
 					ArrayList<Marker> markerType = null;
+					String markerId = null;
 					switch(pos.getType()) {
 					case BUILDING:
 						markerType = mBuildingsMarkers;
@@ -262,17 +263,19 @@ public class MapActivity extends Activity implements LocationListener {
 					}
 					for (Marker marker : markerType) {
 						if (pos.getId().equals(marker.getId())) {
+							markerId = marker.getId();
 							marker.setVisible(true);
 							marker.showInfoWindow();
 							break;
 						}
 					}
 					goToPosition(new LatLng(pos.getLat(), pos.getLng()), SEARCH_ZOOM);
-					return;
+					return markerId;
 				}
 			}
 		}
 		Toast.makeText(this, R.string.map_not_found, Toast.LENGTH_SHORT).show();
+		return null;
 	}
 
 	public String reformatString(String str) {
