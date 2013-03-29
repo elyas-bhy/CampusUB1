@@ -35,14 +35,11 @@ public class TimeExtractor {
 		if (m.find()) {
 			String s = m.group();
 			if(s != null) {
-				Log.d("Tatiana", "date double " + s);
 				s = s.toLowerCase().replace("de ", "");
 				String[] tabDate = s.split(" à ");
-				Log.d("Tatiana", "tabDate : " + String.valueOf(tabDate[0]) + " " + String.valueOf(tabDate[1]));
 				for (int i = 0; i < tabDate.length; i++) {
 					if (tabDate[i].contains("h")) {
 						String s2[] = tabDate[i].split("h");
-						Log.d("Tatiana", i + " " + String.valueOf(s2[0]));
 						dates.add(s2);
 						
 					} else {

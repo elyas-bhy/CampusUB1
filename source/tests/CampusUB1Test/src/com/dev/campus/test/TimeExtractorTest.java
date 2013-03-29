@@ -37,7 +37,7 @@ public class TimeExtractorTest extends TestCase {
 	
 	
 	public void testCreateDate(){
-		String date = "Mon, 2 Jan 2013 12:35:04 +0000";
+		String date = "Mon, 2 Jan 2013 12:35:04 +0100";
 		String format = "EEE, d MMM yyyy HH:mm:ss Z";
 		Date d = new Date();
 		try {
@@ -48,7 +48,7 @@ public class TimeExtractorTest extends TestCase {
 			assertEquals(2, d.getDate());
 			assertEquals(0, d.getMonth());
 			assertEquals(113, d.getYear()); // 2013-1900
-			assertEquals(0000, d.getTimezoneOffset());
+			assertEquals(-60, d.getTimezoneOffset());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
