@@ -29,6 +29,11 @@ public class EventParser {
 
 	private ArrayList<Event> mParsedEvents;
 	private ArrayList<Date> mParsedBuildDates;
+	
+	public EventParser() {
+		mParsedEvents = new ArrayList<Event>();
+		mParsedBuildDates = new ArrayList<Date>();
+	}
 
 	public ArrayList<Event> getParsedEvents() {
 		return mParsedEvents;
@@ -53,7 +58,7 @@ public class EventParser {
 		mParsedEvents.addAll(existingEvents);
 	}
 
-	private void parseRSS(Category category, Feed feed, ArrayList<Event> existingEvents) 
+	public void parseRSS(Category category, Feed feed, ArrayList<Event> existingEvents) 
 			throws IOException, ParseException {
 		Event event;
 		Date buildDate = new Date(0);
