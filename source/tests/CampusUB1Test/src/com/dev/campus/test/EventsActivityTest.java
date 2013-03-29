@@ -13,7 +13,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 
 public class EventsActivityTest extends 
-				ActivityInstrumentationTestCase2<EventsActivity> {
+ActivityInstrumentationTestCase2<EventsActivity> {
 
 	private Solo mSolo;
 	private EventsActivity mActivity;
@@ -49,22 +49,22 @@ public class EventsActivityTest extends
 		mSolo.clickOnButton(mSolo.getString(R.string.ok));
 		mSolo.waitForDialogToClose(1000);
 		mSolo.waitForCondition(new Condition() {
-			
+
 			@Override
 			public boolean isSatisfied() {
 				return mEventAdapter.getCount() > 0;
 			}
 		}, 10000);
-		
+
 		for (int i = 0; i < mEventAdapter.getCount(); i++) {
 			Event event = mEventAdapter.getItem(i);
 			assertEquals(FeedType.UB1_FEED, event.getSource());
 		}
 	}
-	
+
 	public void testMarkEventAsRead() {
 		mSolo.waitForCondition(new Condition() {
-			
+
 			@Override
 			public boolean isSatisfied() {
 				return mEventAdapter.getCount() > 0;
@@ -74,10 +74,9 @@ public class EventsActivityTest extends
 		mSolo.waitForActivity("EventViewActivity");
 		mSolo.goBack();
 		mSolo.waitForActivity("EventsActivity");
-		
+
 		// Need to trigger saveEvents() first in UI thread
 		//assertTrue(mEventAdapter.getItem(0).isRead());
-		
 	}
 
 }
