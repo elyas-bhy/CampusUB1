@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 
+import android.util.Log;
+
 import com.dev.campus.event.Feed.FeedType;
 
 public class Event implements Serializable {
@@ -114,8 +116,8 @@ public class Event implements Serializable {
 		if(!(o instanceof Event))
 			return false;
 
-		String s1 = mTitle.toString() + mStartDate.toString();
-		String s2 = ((Event)o).getTitle().toString() + ((Event)o).getStartDate().toString();
+		String s1 = "" + mTitle + mStartDate;
+		String s2 = "" + ((Event)o).getTitle() + ((Event)o).getStartDate();
 		
 		return s1.equals(s2);
 	}

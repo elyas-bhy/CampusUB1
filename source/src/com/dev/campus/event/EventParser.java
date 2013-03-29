@@ -16,6 +16,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import android.annotation.SuppressLint;
+import android.util.Log;
+
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.TimeExtractor;
@@ -82,11 +84,8 @@ public class EventParser {
 			else
 				event.setDetails(item.select("content|encoded").text());
 
-			Date d = null;
 			String pubDate = item.select("pubDate").text();
-			TimeExtractor.getCorrectDate(pubDate, event.getDetails(), event.getStartDate(), event.getEndDate());
-			
-			event.setStartDate(d);
+			TimeExtractor.getCorrectDate(pubDate, event);
 
 			event.setCategory(category.toString());
 			event.setSource(feed.getType());
@@ -168,6 +167,8 @@ public class EventParser {
 			if (!event.getTitle().equals("") || !event.getDetails().equals(""))
 				if (existingEvents.contains(event))
 					break;
+			if(event.getStartDate() == null)
+				Log.d("Ryan", "parseDoc");
 			mParsedEvents.add(event);
 
 		}

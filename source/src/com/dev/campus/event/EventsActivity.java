@@ -217,8 +217,9 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			for (Event event : mEvents) {
 				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri())) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis()))
-						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead()))
+						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead())) {
 							sortedEvents.add(event);
+						}
 				}
 			}
 		}
@@ -321,12 +322,14 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 
-				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
-					existingEvents = entries[0].getValue(); // retrieve existing events
-					if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
-						mEvents = existingEvents;
-						mBuildDates = entries[0].getKey();
-						return null;
+				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null){
+					if (entries[0].getKey().size() > 0 && entries[0].getValue().size() > 0) {
+						existingEvents = entries[0].getValue(); // retrieve existing events
+						if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
+							mEvents = existingEvents;
+							mBuildDates = entries[0].getKey();
+							return null;
+						}
 					}
 				}
 				mEventParser.parseEvents(mCategory, existingEvents);
