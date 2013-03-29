@@ -1,5 +1,6 @@
 package com.dev.campus.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,5 +75,24 @@ public class DirectoryManagerTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void testSearchContact() {
+		try {
+			contacts = manager.searchContact("Xavier", "Blanc");
+			assertTrue(contacts.size() > 1);
+			Contact xb1 = contacts.get(0);
+			Contact xb2 = contacts.get(1);
+			assertEquals(xb1.getFirstName(), xb2.getFirstName());
+			assertEquals(xb1.getLastName(), xb2.getLastName());
+			assertEquals(xb1.getTel(), xb2.getTel());
+		} catch (LDAPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
