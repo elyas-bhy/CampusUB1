@@ -294,8 +294,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1) {
 
-			if (resultCode == RESULT_OK){      
-				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra("EXTRA_RESULT");
+			if (resultCode == RESULT_OK) {      
+				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra(EXTRA_EVENTS_RESULT);
 				for (Event event : result) {
 					if (event.isRead()) {
 						if (mEvents.contains(event))
