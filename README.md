@@ -34,3 +34,5 @@ To set up this project, follow the steps below:
 2. Make sure the main project is referenced in the test project's build path, and that it is the only dependency (as the other libraries are already referenced in the main project).
 3. In the test project, go to *Properties* -> *Java Build Path* -> *Libraries* and add **robotium-solo-4.0.jar** as an external JAR.
 4. You should now be able to compile the project.
+
+Also, please note that since Google Maps is not supported on emulators, you will need to run all map-related tests on a real device.

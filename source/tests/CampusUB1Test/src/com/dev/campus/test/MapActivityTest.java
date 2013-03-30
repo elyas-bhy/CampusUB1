@@ -5,6 +5,8 @@ import com.dev.campus.map.Position;
 
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
+
 import com.dev.campus.R;
 import com.jayway.android.robotium.solo.Solo;
 
@@ -35,19 +37,22 @@ public class MapActivityTest extends
         assertNotNull(activity.findViewById(R.id.map_UB1));
     }
 	
-	public void testSearch(){
+    @UiThreadTest
+	public void testSearch() {
 		// Test if search for an existing position returns a correct result
 		String result = mActivity.searchPosition("LaBRI");
 		assertEquals(result, Position.BAT_A27.getId());
 	}
 	
-	public void testFakeSearch(){
+    @UiThreadTest
+	public void testFakeSearch() {
 		// Test if search for a non existant position returns null
 		String result = mActivity.searchPosition("PoneyLand");
 		assertNull(result);
 	}
 	
-	public void testSuggestions(){
+	@UiThreadTest
+	public void testSuggestions() {
 		// Test if suggestions for a given position belongs to the same marker 
 		String firstSuggestion = mActivity.searchPosition("A27");
 		String secondSuggestion = mActivity.searchPosition("LaBRI");
