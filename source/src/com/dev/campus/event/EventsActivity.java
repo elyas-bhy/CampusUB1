@@ -43,6 +43,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
 	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
+	public static final String EXTRA_EVENTS_RESULT = "com.dev.campus.EXTRA_EVENTS_RESULT";
 
 	private boolean mShowUpcomingEvents = false;
 	private boolean mShowUnreadOnly = false;
@@ -86,7 +87,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mActionBar = getActionBar();
 		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
-				| ActionBar.DISPLAY_SHOW_CUSTOM);
+								   | ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
 		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
@@ -134,6 +135,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				saveEvents();
 				mCategory = (Category) parent.getItemAtPosition(position);
+				clearContent();
 				update();
 				mSlidingMenu.showContent();
 			}
@@ -226,6 +228,11 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mSortedEvents = sortedEvents;
 	}
 
+	public void clearContent() {
+		mEventAdapter.clear();
+		mEventAdapter.notifyDataSetChanged();
+	}
+	
 	public void reloadContent() {
 		sortEvents();
 		mEventAdapter.clear();
@@ -287,13 +294,13 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1) {
 
-			if(resultCode == RESULT_OK){      
-				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra("result");
-				for(Event evt : result) {
-					if(evt.isRead())
-						if(mEvents.contains(evt)) {
-							mEvents.get(mEvents.indexOf(evt)).setRead(true);
-						}
+			if (resultCode == RESULT_OK){      
+				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra("EXTRA_RESULT");
+				for (Event event : result) {
+					if (event.isRead()) {
+						if (mEvents.contains(event))
+							mEvents.get(mEvents.indexOf(event)).setRead(true);
+					}
 				}
 				mEventAdapter.notifyDataSetChanged();
 			}
@@ -307,7 +314,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	}
 
 
-	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Date>, ArrayList<Event>>, Void, Void> {
+	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Date>, ArrayList<Event>>, Void, Boolean> {
 
 		@Override
 		protected void onPreExecute() {
@@ -315,19 +322,26 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		}
 
 		@Override
-		protected Void doInBackground(SimpleEntry<ArrayList<Date>, ArrayList<Event>>... entries) {
+		protected Boolean doInBackground(SimpleEntry<ArrayList<Date>, ArrayList<Event>>... entries) {
 			try {
 				//check if latest version, and update only if needed
 				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 
-				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null){
+				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					if (entries[0].getKey().size() > 0 && entries[0].getValue().size() > 0) {
-						existingEvents = entries[0].getValue(); // retrieve existing events
-						if (mEventParser.isLatestVersion(mCategory, entries[0].getKey())) {
-							mEvents = existingEvents;
-							mBuildDates = entries[0].getKey();
-							return null;
+						existingEvents = entries[0].getValue();
+						mEvents = existingEvents;
+						mBuildDates = entries[0].getKey();
+						// Show existing events and continue updating task
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								reloadContent();
+							}
+						});
+						if (mEventParser.isLatestVersion(mCategory, mBuildDates)) {
+							return false;
 						}
 					}
 				}
@@ -337,12 +351,13 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null;
+			return true;
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
-			reloadContent();
+		protected void onPostExecute(Boolean needsReload) {
+			if (needsReload)
+				reloadContent();
 			mRefreshMenuItem.setActionView(null);
 		}
 

@@ -63,7 +63,7 @@ public class EventViewActivity extends FragmentActivity {
 	@Override
 	public void finish() {
 		Intent intent = new Intent();
-		intent.putExtra("result", mEvents);
+		intent.putExtra(EventsActivity.EXTRA_EVENTS_RESULT, mEvents);
 		setResult(RESULT_OK, intent);
 		super.finish();
 	}
