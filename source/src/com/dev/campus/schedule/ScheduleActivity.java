@@ -192,7 +192,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			if (position == 0) {// dummy item
+			if (position == 0) {  // dummy item
 				clearContent();
 				return;
 			}

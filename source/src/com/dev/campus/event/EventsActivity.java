@@ -84,8 +84,6 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mResources = getResources();
 		mFilterDialog = new FilterDialog(this);
 		mCategory = Category.MAIN_EVENTS;
-
-
 		mEventParser = new EventParser();
 
 		setupActionBar();
@@ -297,12 +295,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	public void toggleStar(View v) {
 		ListView listView = getListView();
 		int position = listView.getPositionForView(v);
-		Event evt = (Event) listView.getItemAtPosition(position);
-
-		if(evt.isStarred())
-			evt.setStarred(false);
-		else
-			evt.setStarred(true);
+		Event event = (Event) listView.getItemAtPosition(position);
+		event.setStarred(!event.isStarred());
 		mEventAdapter.notifyDataSetChanged();
 	}
 
