@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013 CampusUB1 Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dev.campus.event;
 
 import java.io.Serializable;
@@ -13,11 +29,13 @@ public class Event implements Serializable {
 	private String mCategory;
 	private String mTitle;
 	private String mDescription;
-	private Date mDate;
-	private String mTime;
 	private String mDetails;
-	private FeedType mSource;
 	private String mLocation;
+	private FeedType mSource;
+	private Date mStartDate;
+	private Date mEndDate;
+	private boolean mRead;
+	private boolean mStarred;
 
 	
 	public String getCategory() {
@@ -44,22 +62,22 @@ public class Event implements Serializable {
 		mDescription = description;
 	}
 
-	public Date getDate() {
-		return mDate;
+	public Date getStartDate() {
+		return mStartDate;
 	}
 
-	public void setDate(Date date) {
-		mDate = date;
+	public void setStartDate(Date date) {
+		mStartDate = date;
 	}
 
-	public String getTime() {
-		return mTime;
+	public Date getEndDate() {
+		return mEndDate;
 	}
 
-	public void setTime(String time) {
-		mTime = time;
+	public void setEndDate(Date date) {
+		mEndDate = date;
 	}
-
+	
 	public String getDetails() {
 		return mDetails;
 	}
@@ -83,19 +101,48 @@ public class Event implements Serializable {
 	public void setLocation(String loc){
 		mLocation = loc;
 	}
+	
+	public boolean isRead() {
+		return mRead;
+	}
+	
+	public void setRead(boolean b) {
+		mRead = b;
+	}
+	
+	public boolean isStarred() {
+		return mStarred;
+	}
+	
+	public void setStarred(boolean b) {
+		mStarred = b;
+	}
 
 	public String getStringDate() {
-		String d = mDate.toString().substring(0,11);
-		if (this.mDate.getHours() != 0)
-			d += mDate.toString().substring(11, 16) + " ";
-		return d + mDate.toString().substring(24);
+		String d = mStartDate.toString().substring(0,11);
+		if (this.mStartDate.getHours() != 0)
+			d += mStartDate.toString().substring(11, 16) + " ";
+		return d + mStartDate.toString().substring(24);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof Event))
+			return false;
+		Event event = (Event) o;
+		return event.getTitle().equals(mTitle) && event.getStartDate().equals(mStartDate);
 	}
 	
 	static class EventComparator implements Comparator<Event> {
 		@Override
 		public int compare(Event evt1, Event evt2) {
-			return evt2.getDate().compareTo(evt1.getDate());
+			return evt2.getStartDate().compareTo(evt1.getStartDate());
 		}
 	}
-
+	
+	public String toString() {
+		String s = "[title: " + mTitle + ", startDate:" + mStartDate  + ", endDate: "+ mEndDate + ", location:" + mLocation 
+				+ ", details: " + mDetails + ", source: " + mSource + "]";
+		return s;
+	}
 }

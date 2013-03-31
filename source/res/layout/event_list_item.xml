@@ -1,49 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 CampusUB1 Development Team
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
-    
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:orientation="vertical" >
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical" >
         
-        <TextView 
-            android:id="@+id/event_title"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#0C1259" />
-        
-        <TextView 
-            android:id="@+id/event_date"
-            android:layout_width="fill_parent"
+            android:orientation="horizontal" >
+            
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:gravity="left"
+                android:orientation="horizontal" >
+                
+                <TextView
+                    android:id="@+id/event_estb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey_details"
+                    android:textSize="11sp" />
+            
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="0.50"
+                android:orientation="horizontal" >
+                
+                <TextView
+                    android:id="@+id/event_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey_details"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:id="@+id/event_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:clickable="true"
+                    android:onClick="toggleStar"
+                    android:src="@drawable/ic_unstar_dark" />
+			</LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#8A8A8A" />
-        
-        <TextView 
-            android:id="@+id/event_category"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#8A8A8A"
-            android:layout_marginBottom="1dp" />
-        
-        <TextView 
-            android:id="@+id/event_description"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#242424"
-            android:maxLines="5"
-            android:ellipsize="end"
-            android:layout_marginTop="1dp" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/event_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue_title"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/event_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:textColor="#242424"
+                android:textSize="14sp" />
+            
+        </LinearLayout>
         
     </LinearLayout>
 

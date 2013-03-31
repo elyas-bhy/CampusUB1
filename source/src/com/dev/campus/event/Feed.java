@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013 CampusUB1 Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dev.campus.event;
 
 import com.dev.campus.CampusUB1App;
@@ -23,17 +39,37 @@ public enum Feed {
 	UB1_EVENTS_CONFERENCES(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=113"),
 	UB1_EVENTS_EXPOSITIONS(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=116"),
 	
-	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php");
+	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php"),
+	LABRI_COLLOQUES(FeedType.LABRI_FEED_HTML, "colloques"),
+	LABRI_THESES(FeedType.LABRI_FEED_HTML, "theses"),
+	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "groupes"),
+	LABRI_AUTRES(FeedType.LABRI_FEED_HTML, "autres");
 	
 	
 	public enum FeedType {
-		UB1_FEED,
-		LABRI_FEED,
-		LABRI_FEED_HTML;
+		UB1_FEED("Bordeaux 1"),
+		LABRI_FEED("LaBRI"),
+		LABRI_FEED_HTML("LaBRI");
+	
+		private String mShortName;
+		
+		private FeedType(String shortName) {
+			mShortName = shortName;
+		}
+		
+		public String getShortName() {
+			return mShortName;
+		}
+		
+		public boolean isSubscribedRSS() {
+			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1()
+				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri());
+		}
 		
 		public boolean isFiltered() {
 			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
-				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri());
+				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()
+				 || this.equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri());
 		}
 	}
 	

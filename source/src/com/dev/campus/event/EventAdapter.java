@@ -1,9 +1,23 @@
+/*
+ * Copyright (C) 2013 CampusUB1 Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dev.campus.event;
 
 import java.util.List;
-
 import com.dev.campus.R;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +32,11 @@ public class EventAdapter extends ArrayAdapter<Event> {
 	private List<Event> mEvents;
 	
 	private static class EventHolder {
-		//ImageView icon;
 		TextView title;
+		TextView establishment;
 		TextView date;
-		TextView category;
 		TextView description;
+		ImageView star;
 	}
 	
 	public EventAdapter(Activity context, List<Event> events) {
@@ -41,11 +55,11 @@ public class EventAdapter extends ArrayAdapter<Event> {
 			row = inflater.inflate(R.layout.event_list_item, parent, false);
 			
 			eventHolder = new EventHolder();
-			eventHolder.title = (TextView)row.findViewById(R.id.event_title);
-			eventHolder.date = (TextView)row.findViewById(R.id.event_date);
-			eventHolder.category = (TextView)row.findViewById(R.id.event_category);
-			eventHolder.description = (TextView)row.findViewById(R.id.event_description);
-			//eventHolder.icon = (ImageView)row.findViewById(R.id.event_icon);
+			eventHolder.title = (TextView) row.findViewById(R.id.event_title);
+			eventHolder.establishment = (TextView) row.findViewById(R.id.event_estb);
+			eventHolder.date = (TextView) row.findViewById(R.id.event_date);
+			eventHolder.description = (TextView) row.findViewById(R.id.event_description);
+			eventHolder.star = (ImageView) row.findViewById(R.id.event_star);
 			row.setTag(eventHolder);
 			
 		} else {
@@ -53,11 +67,21 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		}
 		
 		Event event = mEvents.get(position);
+
 		eventHolder.title.setText(event.getTitle());
+		eventHolder.establishment.setText(event.getSource().getShortName());
 		eventHolder.date.setText(event.getStringDate());
-		eventHolder.category.setText(event.getCategory());
 		eventHolder.description.setText(event.getDescription());
-		//eventHolder.icon.setImageResource(R.drawable.ic_test);
+		
+		if (event.isRead())
+			eventHolder.title.setTextColor(mContext.getResources().getColor(R.color.blue_title_read));
+		else
+			eventHolder.title.setTextColor(mContext.getResources().getColor(R.color.blue_title));
+		
+		if (event.isStarred())
+			eventHolder.star.setImageResource(R.drawable.ic_star_dark);
+		else
+			eventHolder.star.setImageResource(R.drawable.ic_unstar_dark);
 		
 		return row;
 	}

@@ -1,8 +1,26 @@
+/*
+ * Copyright (C) 2013 CampusUB1 Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dev.campus.map;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -16,14 +34,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,49 +60,53 @@ public class MapActivity extends Activity implements LocationListener {
 	private final int BEARING = 69;
 	private final int DEFAULT_ZOOM = 16;
 	private final int SEARCH_ZOOM = 18;
-	private final int UPDATE_FREQUENCY = 20000; //Update frequency (ms)
+	private final int UPDATE_FREQUENCY = 5000; //Update frequency (ms)
+	
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
+	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
 
 	private LocationManager mLocationManager;
 	private Resources mResources;
 	private GoogleMap mMap;
 	
-	private ArrayList<Marker> mServicesMarkers, mRestaurationMarkers, mBuildingsMarkers;
+	private ArrayList<Marker> mServicesMarkers, mRestaurantsMarkers, mBuildingsMarkers;
 	private CheckBox mServices, mRestauration, mBuildings;
 	
 	private Marker mCurrentLocation;
 	private SearchView mSearchView;
-	private ActionBar mActionBar;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_map);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
 		
-		mServices = (CheckBox) findViewById(R.id.services_check);
-		mRestauration = (CheckBox) findViewById(R.id.restauration_check);
-		mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
-		checkGooglePlayServicesAvailability();
-		
-		setupMap();
-		setupMarkers();
-		setupLocationServices();
+		if (isGooglePlayServicesAvailable()) {
+			setContentView(R.layout.activity_map);
+			mServices = (CheckBox) findViewById(R.id.services_check);
+			mRestauration = (CheckBox) findViewById(R.id.restaurants_check);
+			mBuildings = (CheckBox) findViewById(R.id.buildings_check); 
+			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+			setupMap();
+			setupMarkers();
+			setupLocationServices();
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		getNewProvider();
+		 if (mLocationManager != null)
+			 getNewProviders();
 	}
 	
 	@Override     
-    protected void onPause() {  
-		super.onPause(); 
-		mLocationManager.removeUpdates(this);
+	protected void onPause() {  
+		super.onPause();
+		if (mLocationManager != null)
+			mLocationManager.removeUpdates(this);		
 	}
 	
 	@Override
@@ -96,76 +121,64 @@ public class MapActivity extends Activity implements LocationListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_campus_pos:
-			goToPosition(MAP_CENTER,DEFAULT_ZOOM);
+			goToPosition(MAP_CENTER, DEFAULT_ZOOM);
 			return true;	
 		case R.id.menu_my_pos:
-			goToPosition(mCurrentLocation.getPosition(),DEFAULT_ZOOM);
+			goToPosition(mCurrentLocation.getPosition(), DEFAULT_ZOOM);
+			return true;
+		case android.R.id.home:
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-			
 	
 	public void onCheckboxClicked(View view) {
 		switch(view.getId()) {
 		case R.id.services_check:
 			populateMap(mServicesMarkers, mServices.isChecked());
 			break;
-		case R.id.restauration_check:
-			populateMap(mRestaurationMarkers, mRestauration.isChecked());
+		case R.id.restaurants_check:
+			populateMap(mRestaurantsMarkers, mRestauration.isChecked());
 			break;
 		case R.id.buildings_check:
 			populateMap(mBuildingsMarkers, mBuildings.isChecked());
 			break;
 		}
 	}
-
-	@SuppressLint("DefaultLocale")
-	public void searchPosition(String input){
-		boolean found = false;
-		for (Position pos : Position.values()){
-			if((pos.getName().toLowerCase().equals(input.toLowerCase()) || (pos.getName().toLowerCase().contains(input.toLowerCase())))){
-				ArrayList<Marker> markerType = null;
-				switch(pos.getType()) {
-				case BUILDING:
-					markerType = mBuildingsMarkers;
-					break;
-				case RESTAURATION:
-					markerType= mRestaurationMarkers;
-					break;
-				case SERVICE:
-					markerType = mServicesMarkers;	
-					break;
-				}
-				for(Marker marker : markerType)
-					if(pos.getmID().equals(marker.getId())){
-						marker.setVisible(true);
-						marker.showInfoWindow();
-						break;
-					}
-				goToPosition(new LatLng(pos.getLat(),pos.getLng()),SEARCH_ZOOM);
-				found = true;
-				break;
-			}
-		}
-		if(!found)
-			Toast.makeText(this, mResources.getString(R.string.map_not_found), Toast.LENGTH_SHORT).show();
-	}
 	
-	public void checkGooglePlayServicesAvailability() {
+	public boolean isGooglePlayServicesAvailable() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
 		if (status != ConnectionResult.SUCCESS) {
-			int requestCode = 10;
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,requestCode);
-			if (status == ConnectionResult.SERVICE_MISSING 
-			 || status== ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED 
-			 || status == ConnectionResult.SERVICE_DISABLED)
-				dialog.show();
-			else
-				Toast.makeText(this, mResources.getString(R.string.no_play_services), Toast.LENGTH_SHORT).show();    
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+			alertDialogBuilder
+			.setTitle(R.string.play_services)
+			.setMessage(R.string.need_play_services)
+			.setCancelable(false)
+			.setPositiveButton(R.string.install, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					finish();
+					try {		
+						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_SERVICES_URL));
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+						intent.setPackage("com.android.vending");
+						startActivity(intent);
+					} catch (ActivityNotFoundException e) {
+						CampusUB1App.getInstance().showToast(R.string.no_play_store);
+					}
+				}})
+			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					finish();
+				}})
+			.create()
+			.show();
+			return false;
 		}
+		return true;
 	}
 
 	public void setupMap() {
@@ -181,32 +194,37 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
 	}
 
-	public void setupLocationServices() {
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		String provider = getNewProvider();
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
-		Location location = mLocationManager.getLastKnownLocation(provider);
+	public void setupLocationServices() {	
+		if(!isGpsEnabled())
+			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
+
+		// Register listeners	
+		getNewProviders();
+
+		// Initially use network provider
+		Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		double latitude = location.getLatitude();
 		double longitude = location.getLongitude();
 		LatLng currentPosition = new LatLng(latitude, longitude);
-		
+
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
 		.title(mResources.getString(R.string.my_position))
 		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));   
-		
+
 		if (location != null)
 			onLocationChanged(location);
 	}
 
 	public void setupMarkers() {
 		mServicesMarkers = new ArrayList<Marker>();
-		mRestaurationMarkers = new ArrayList<Marker>();
+		mRestaurantsMarkers = new ArrayList<Marker>();
 		mBuildingsMarkers = new ArrayList<Marker>();
+		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()
 			.position(new LatLng(pos.getLat(), pos.getLng()))
-			.icon(BitmapDescriptorFactory.fromResource(mResources.getIdentifier(pos.getType().getDrawableId(), "drawable", getPackageName())))
+			.icon(BitmapDescriptorFactory.fromResource(pos.getType().getDrawableId()))
 			.draggable(false)
 			.title(pos.getName());
 			Marker marker = mMap.addMarker(options);
@@ -215,8 +233,8 @@ public class MapActivity extends Activity implements LocationListener {
 			case BUILDING:
 				mBuildingsMarkers.add(marker);
 				break;
-			case RESTAURATION:
-				mRestaurationMarkers.add(marker);
+			case RESTAURANT:
+				mRestaurantsMarkers.add(marker);
 				break;
 			case SERVICE:
 				mServicesMarkers.add(marker);
@@ -224,12 +242,12 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
-	public void populateMap(List<Marker> markers, boolean checked) {
+	public void populateMap(List<Marker> markers, boolean isChecked) {
 		for (Marker marker : markers)
-			marker.setVisible(checked);			
+			marker.setVisible(isChecked);			
 	}
 
-	public void goToPosition(LatLng pos,int zoom) {
+	public void goToPosition(LatLng pos, int zoom) {
 		CameraPosition position  = new CameraPosition.Builder()
 		.target(pos)
 		.zoom(zoom)                   
@@ -238,54 +256,51 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 	}
 	
-	public boolean isGpsEnabled() {
-		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-		return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-	}
-
-	public String getNewProvider(){
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		String provider;
-		if (isGpsEnabled()) {
-			provider = LocationManager.GPS_PROVIDER;
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  this);
+	@SuppressLint("DefaultLocale")
+	public String searchPosition(String input) {
+		for (Position pos : Position.values()) {
+			for (int i = 0; i < pos.getSuggestions().length; i++) {
+				if (reformatString(pos.getSuggestions()[i]).startsWith(reformatString(input))) {
+					ArrayList<Marker> markerType = null;
+					String markerId = null;
+					switch(pos.getType()) {
+					case BUILDING:
+						markerType = mBuildingsMarkers;
+						break;
+					case RESTAURANT:
+						markerType= mRestaurantsMarkers;
+						break;
+					case SERVICE:
+						markerType = mServicesMarkers;
+						break;
+					}
+					for (Marker marker : markerType) {
+						if (pos.getId().equals(marker.getId())) {
+							markerId = marker.getId();
+							marker.setVisible(true);
+							marker.showInfoWindow();
+							break;
+						}
+					}
+					goToPosition(new LatLng(pos.getLat(), pos.getLng()), SEARCH_ZOOM);
+					return markerId;
+				}
+			}
 		}
-		else {
-			provider = LocationManager.NETWORK_PROVIDER;
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);	
-		}
-		return provider;
+		Toast.makeText(this, R.string.map_not_found, Toast.LENGTH_SHORT).show();
+		return null;
 	}
 
-	@Override
-	public void onLocationChanged(Location location) {
-		mCurrentLocation.remove();
-		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-		mCurrentLocation = mMap.addMarker(new MarkerOptions()
-		.position(currentPosition)
-		.title(mResources.getString(R.string.my_position))
-		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));      
+	public String reformatString(String str) {
+		//strip accents
+		str = Normalizer.normalize(str, Normalizer.Form.NFD);
+		str = str.replaceAll("[^\\p{ASCII}]", "");
+		return str.toLowerCase();
 	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		getNewProvider(); 		
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		getNewProvider();		
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-	}
-
+	
 	final SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
 		@Override
 		public boolean onQueryTextChange(String text) {
-			//Do something
 			return true;
 		}
 
@@ -301,4 +316,35 @@ public class MapActivity extends Activity implements LocationListener {
 			return true;
 		}
 	};
+
+	public boolean isGpsEnabled() {
+		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+
+	public void getNewProviders() {
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {	
+		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+		mCurrentLocation.remove();
+		mCurrentLocation = mMap.addMarker(new MarkerOptions()
+		.position(currentPosition)
+		.title(mResources.getString(R.string.my_position))
+		.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location_marker)));  
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {		
+	}
 }

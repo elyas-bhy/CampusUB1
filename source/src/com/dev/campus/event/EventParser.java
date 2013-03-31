@@ -1,164 +1,221 @@
+/*
+ * Copyright (C) 2013 CampusUB1 Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dev.campus.event;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.AbstractMap.SimpleEntry;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.Connection.Method;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import android.annotation.SuppressLint;
 
 import com.dev.campus.CampusUB1App;
-import com.dev.campus.util.TimeExtractor;
 import com.dev.campus.event.Feed.FeedType;
+import com.dev.campus.util.TimeExtractor;
 
 public class EventParser {
-
-	private XmlPullParser mParser;
-
-	private Category mCategory;
-	private EventsActivity mContext;
 	
-	private ArrayList<Event> mEvents;
-	private ArrayList<Date> mEventDates;
+	// number of seconds in a month (31 days)
+	private final int MONTH_SECONDS = 2678400;
 
-	public EventParser(EventsActivity context) throws XmlPullParserException {
-		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-		factory.setNamespaceAware(false);
-		mParser = factory.newPullParser();
-		mContext = context;
+	private ArrayList<Event> mParsedEvents;
+	private ArrayList<Date> mParsedBuildDates;
+	
+	public EventParser() {
+		mParsedEvents = new ArrayList<Event>();
+		mParsedBuildDates = new ArrayList<Date>();
 	}
 
-	public ArrayList<Event> getEvents() {
-		return mEvents;
+	public ArrayList<Event> getParsedEvents() {
+		return mParsedEvents;
 	}
 
-	private void setInput(Feed feed) throws IOException, XmlPullParserException {
-		URL url = new URL(feed.getUrl());
-		InputStream stream = url.openStream();
-		mParser.setInput(stream, null);
+	public ArrayList<Date> getParsedBuildDates() {
+		return mParsedBuildDates;
 	}
 
-	public void parseEvents(Category category) throws XmlPullParserException, IOException, ParseException {
-		mCategory = category;
-		ArrayList<Event> events = new ArrayList<Event>();
-		ArrayList<Date> dates = new ArrayList<Date>();
-		for (Feed feed : mCategory.getFeeds()) {
-			if (feed.getType().isFiltered()) {
-				setInput(feed);
-				Event event = new Event();
-				Date buildDate = new Date(0);
+	public void parseEvents(Category category, ArrayList<Event> existingEvents) throws IOException, ParseException {
+		mParsedEvents = new ArrayList<Event>();
+		mParsedBuildDates = new ArrayList<Date>();
+		for (Feed feed : category.getFeeds()) {
+			if (feed.getType().isSubscribedRSS()) {
+				parseRSS(category, feed, existingEvents);
+			}
+			else if (feed.getType().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isSubscribedLabri()) {
+				parseLabriSection(category, feed, existingEvents);
+			}
+		}
 
-				int eventType = mParser.getEventType();
-				while (eventType != XmlPullParser.END_DOCUMENT) {
-					if (eventType == XmlPullParser.START_TAG) {
-						if (mParser.getName().equals("lastBuildDate")) {
-							buildDate = TimeExtractor.createDate(mParser.nextText(), "EEE, d MMM yyyy HH:mm:ss Z");
-							dates.add(buildDate);
+		mParsedEvents.addAll(existingEvents);
+	}
+
+	public void parseRSS(Category category, Feed feed, ArrayList<Event> existingEvents) 
+			throws IOException, ParseException {
+		Event event;
+		Date buildDate = new Date(0);
+
+		String url = feed.getUrl();
+		InputStream input = new URL(url).openStream();
+		Document xmlDoc = Jsoup.parse(input, "UTF-8", url);
+		if (xmlDoc.toString().contains("iso-8859-1")) {
+			InputStream inputISO = new URL(url).openStream();
+			xmlDoc = Jsoup.parse(inputISO, "CP1252", url);
+		}
+
+		String lastBuildDate = xmlDoc.select("lastBuildDate").text();
+		buildDate = TimeExtractor.createDate(lastBuildDate, "EEE, d MMM yyyy HH:mm:ss Z");
+		mParsedBuildDates.add(buildDate);
+
+		for (Element item : xmlDoc.select("item")) {
+			event = new Event();
+
+			String title = item.select("title").text();
+			event.setTitle(title);
+
+			String description = item.select("description").text();
+			event.setDescription(description);
+
+			if (feed.getType().equals(FeedType.LABRI_FEED))
+				event.setDetails(description);
+			else
+				event.setDetails(item.select("content|encoded").text());
+
+			String pubDate = item.select("pubDate").text();
+			TimeExtractor.getCorrectDate(pubDate, event);
+
+			event.setCategory(category.toString());
+			event.setSource(feed.getType());
+
+			if (!event.getTitle().equals("")) {
+				if (existingEvents.contains(event)) {
+					break;
+				}
+				mParsedEvents.add(event);
+			}
+		}
+	}
+
+	public void parseLabriSection(Category category, Feed feed, ArrayList<Event> existingEvents) throws IOException, ParseException {
+		int months = CampusUB1App.persistence.getUpcomingEventsRange();
+		int timestamp = MONTH_SECONDS * months;
+		for (int i = 0; i < months; i++) {
+			Long current = System.currentTimeMillis() / 1000 + timestamp;
+			Connection.Response res = Jsoup.connect("http://www.labri.fr/public/actu/accueil.php")
+					.userAgent("Mozilla")
+					.data("choix_intervalle", "mois")
+					.data("mois", current.toString())
+					.data(feed.getUrl(), "1")
+					.referrer("http://www.labri.fr/public/actu/index.php")
+					.method(Method.POST)
+					.execute();
+			parseDoc(res.parse(), category, existingEvents);
+			timestamp -= MONTH_SECONDS;
+		}
+		mParsedBuildDates.add(new Date());
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	private void parseDoc(Document doc, Category category, ArrayList<Event> existingEvents) throws ParseException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+		Elements tabBase = doc.getElementsByTag("table");
+		tabBase.remove(0);
+		tabBase.remove(0);
+		tabBase.remove(0);
+		for (Element element : tabBase) {
+			int i = 0;
+			Event event = new Event();
+			Elements cases = element.getElementsByTag("td");
+			Date dateStart = new Date();
+			Date dateEnd = new Date();
+			if (!cases.isEmpty()) {
+				for (Element c : cases) {
+					switch (i) {	
+					case 0 :
+						dateStart = sdf.parse(c.text());						
+						break;
+					case 1:
+						event.setTitle(c.text());
+						break;
+					case 2:
+						String content = c.text();
+						String[] dateLoc = content.split(" ");
+						String loc = "";
+						for (int l = 1; l < dateLoc.length; l++) {
+							loc += " " + dateLoc[l];
 						}
-						if (mParser.getName().equals("item")) {
-							event = new Event();
-						} 
-						if (mParser.getName().equals("title")) {
-							event.setTitle(mParser.nextText());
-						} 
-						if (mParser.getName().equals("description")) {
-							String description = mParser.nextText();
-							event.setDescription(description);
-							if (feed.getType().equals(FeedType.LABRI_FEED))
-								event.setDetails(description);
-						} 
-						if (mParser.getName().equals("content:encoded")) {
-							event.setDetails(mParser.nextText());
-						}
-						if (mParser.getName().equals("pubDate")) {
-							Date d = null;
-							String text = mParser.nextText();
-							d = TimeExtractor.getCorrectDate(text, event.getDetails());
-							event.setDate(d);
-						}
+						event.setLocation(loc);
+						TimeExtractor.getDateLabri(dateLoc[0], dateStart, dateEnd);
+						break;
+					case 3:
+						event.setDetails(c.text());
+						break;
+					default :
+						break;
 					}
-					else if (eventType == XmlPullParser.END_TAG) {
-						if (mParser.getName().equals("item")) {
-							event.setCategory(mCategory.toString());
-							event.setSource(feed.getType());
-							if (!event.getTitle().equals("")) {
-								events.add(event);
-							}
-						}
-					}
-					eventType = mParser.nextToken();
+					i++;
 				}
 			}
-			//else if (feed.getType().equals(FeedType.LABRI_FEED_HTML)&& CampusUB1App.persistence.isFilteredLabri())
-				//events = EventHtmlParser.parse(events, this.mCategory);
+			event.setCategory(category.toString());
+			event.setSource(FeedType.LABRI_FEED_HTML);
+			event.setStartDate(dateStart);
+			event.setEndDate(dateEnd);
+			if (!event.getTitle().equals("") || !event.getDetails().equals(""))
+				if (existingEvents.contains(event))
+					break;
+			if(event.getStartDate() == null)
+			mParsedEvents.add(event);
+
 		}
-		mEvents = events;
-		mEventDates = dates;
 	}
 
-
-	public boolean isLatestVersion(Category category, List<Date> dates) throws IOException, XmlPullParserException, ParseException {
+	public boolean isLatestVersion(Category category, List<Date> dates) throws ParseException, IOException {
 		int i = 0;
 		for (Feed feed : category.getFeeds()) {
-			if ((feed.getType().equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isSubscribedUB1())
-			 || (feed.getType().equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isSubscribedLabri())) {
-				setInput(feed);
+			if (feed.getType().isSubscribedRSS()) {
 				Date buildDate;
-				
-				int eventType = mParser.getEventType();
-				while (eventType != XmlPullParser.END_DOCUMENT) {
-					if (eventType == XmlPullParser.START_TAG) {
-						if (mParser.getName().equals("lastBuildDate")) {
-							buildDate = TimeExtractor.createDate(mParser.nextText(), "EEE, d MMM yyyy HH:mm:ss Z");
-							if (dates.get(i++).getTime() != buildDate.getTime())
-								return false;
-						}
-					}
-					eventType = mParser.nextToken();
+				String url = feed.getUrl();
+				InputStream input = new URL(url).openStream();
+				Document xmlDoc = Jsoup.parse(input, "UTF-8", url);
+				if (xmlDoc.toString().contains("iso-8859-1")) {
+					InputStream inputISO = new URL(url).openStream();
+					xmlDoc = Jsoup.parse(inputISO, "CP1252", url);
 				}
-			} else {
-				//No build dates in HTML pages, so always update
+
+				String lastBuildDate = xmlDoc.select("lastBuildDate").text();
+				buildDate = TimeExtractor.createDate(lastBuildDate, "EEE, d MMM yyyy HH:mm:ss Z");
+				if (dates.get(i++).getTime() != buildDate.getTime())
+					return false;
+			}
+			else {
+				// Always return false for HTML-based events
 				return false;
 			}
 		}
 		return true;
-	}
-
-
-
-	public void saveEvents() throws XmlPullParserException {
-		ObjectOutputStream oos = null;
-		try {
-			File history = new File(mContext.getHistoryPath());
-			history.getParentFile().createNewFile();
-			FileOutputStream fout = new FileOutputStream(history);
-			oos = new ObjectOutputStream(fout);
-			SimpleEntry<ArrayList<Event>, ArrayList<Date>> map = new SimpleEntry<ArrayList<Event>, ArrayList<Date>>(mEvents, mEventDates);
-
-			oos.writeObject(map);
-		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();  
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			try {
-				if (oos != null) {
-					oos.flush();
-					oos.close();
-				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
 	}
 }

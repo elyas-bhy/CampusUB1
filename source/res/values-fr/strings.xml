@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 CampusUB1 Development Team
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
 <resources>
 
     <!-- Menus -->
@@ -9,25 +24,39 @@
     <string name="menu_add_to_contacts">Ajouter contact</string>
     <string name="menu_website">Visiter le site web</string>
     <string name="menu_complete_action">Effectuer l\'action en utilisant</string>
+    <string name="menu_schedule_view_online">Voir en ligne</string>
+    <string name="menu_schedule_download">Télécharger en PDF</string>
+    <string name="menu_schedule_import">Importer dans le calendrier</string>
 
     <!-- Dialogs -->
     <string name="cancel">Annuler</string>
+    <string name="warning">Attention</string>
     <string name="select_establishment">Sélectionnez vos établissements</string>
     <string name="filter_results">Filtrez vos résultats</string>
     <string name="events_loading">Chargement des événements</string>
     <string name="please_wait">Veuillez patienter</string>
     <string name="contacts_loading">Chargement des contacts</string>
+    <string name="install">Installer</string>
+    <string name="need_play_services">Le plan nécessite que Google Play Services soit installé</string>
+    <string name="schedule_confirm_content">Tous les événements seront importés dans le calendrier par défaut. Êtes-vous sûr de vouloir continuer?</string>
 
     <!-- Toasts -->
     <string name="showing_history">Affichage de l\'historique</string>
-    <string name="update_complete">Mise à jour effectuée</string>
+    <string name="updating_events">Mise à jour en cours</string>
     <string name="connection_failed">Echec de connection</string>
+    <string name="connection_required">Une connexion Internet active est requise</string>
     <string name="no_website">Aucun site web disponible pour ce contact</string>
-    <string name="no_tel">Aucun numero disponible pour ce contact</string>
+    <string name="no_tel">Aucun numéro disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
-    <string name="no_gps">Pas de signal GPS</string>
     <string name="showing_upcoming_events">Affichage des événements à venir</string>
+    <string name="showing_unread_events">Affichage des événements non lus</string>
     <string name="showing_all_events">Affichage de tous les événements</string>
+    <string name="no_gps">Activez le GPS pour une localisation plus précise</string>
+    <string name="no_play_store">Google Play Store n\'est pas installé sur votre appareil</string>
+    <string name="schedule_importing">Import de l\'emploi du temps en cours</string>
+    <string name="schedule_import_complete">Import de l\'emploi du temps terminé</string>
+    <string name="schedule_import_failed_fetchgroup">Echec de la récupération de la liste des emplois du temps</string>
+    <string name="schedule_import_failed_parse">Echec de l\'import de l\'emploi du temps</string>
 
     <!-- Establishments -->
     <string name="ub1">Université de Bordeaux 1</string>
@@ -37,7 +66,7 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_events">Evénements</string>
     <string name="title_activity_directory">Annuaire</string>
-    <string name="title_activity_categories">Categories</string>
+    <string name="title_activity_scheduler">Emploi du temps</string>
     <string name="title_activity_maps">Plan du Campus</string>
 
     <!-- Services -->
@@ -50,9 +79,11 @@
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
     <string name="website_icon">Site web</string>
-    
+    <string name="tel_not_specified">Aucun numéro de téléphone spécifié</string>
+    <string name="email_not_specified">Aucune adresse email spécifiée</string>
+
     <!-- Map strings -->
-    <string name="campus_restauration">Restauration</string>
+    <string name="campus_restaurants">Restauration</string>
     <string name="campus_services">Services</string>
     <string name="campus_buildings">Bâtiments</string>
     <string name="map_search">Rechercher</string>
@@ -66,9 +97,12 @@
     <string name="other_category">Autres</string>
     <string name="about_title">A propos</string>
     <string name="subscriptions_title">Abonnements</string>
-    <string name="subscriptions_summary">Gérer ses abonnements</string>
+    <string name="subscriptions_summary">Gestion des abonnements</string>
     <string name="filters_title">Filtres</string>
-    <string name="filters_summary">Gérer ses filtres</string>
+    <string name="filters_summary">Gestion des filtres</string>
+    <string name="upcoming_events_title">Période des prochains événements</string>
+    <string name="upcoming_events_summary">Définir la période des prochains mois pour laquelle récupérer les événements du LaBRI</string>
+
 
     <!-- Event categories -->
     <string name="category_main_events">Actualités</string>
@@ -79,5 +113,30 @@
     <string name="category_student_life">Vie étudiante</string>
     <string name="category_companies">Entreprises</string>
     <string name="category_press">Presse</string>
+    <string name="category_theses">Theses</string>
+    <string name="category_groupes">Groupes</string>
+    <string name="category_colloques">Colloques</string>
+    <string name="category_autres">Autres</string>
+    <string name="category_exposition">Expositions</string>
 
+    <!-- Schedule Spinner -->
+    <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>
+
+    <string-array name="schedule_spinner">
+        <item>Aucun</item>
+        <item>Licence Semestre 1</item>
+        <item>Licence Semestre 2</item>
+        <item>Master Semestre 1</item>
+        <item>Master Semestre 2</item>
+    </string-array>
+
+    <!-- LaBRI events of upcoming months -->
+    <string-array name="upcoming_events_strings">
+        <item>1 mois</item>
+        <item>2 mois</item>
+        <item>3 mois</item>
+        <item>4 mois</item>
+        <item>5 mois</item>
+        <item>6 mois</item>
+    </string-array>
 </resources>

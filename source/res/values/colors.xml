@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 CampusUB1 Development Team
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
 <resources>
     <color name="red">#900</color>
     <color name="green">#090</color>
     <color name="blue">#009</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
-    <color name="light_blue">#2095C7</color>
-    <color name="metal_grey">#676973</color>
-    <color name="dark_metal_grey">#393A3D</color>
+    
+    <color name="white_light">#EBEBEB</color>
+    <color name="white_stale">#D1D1D1</color>
     <color name="holo_dark_black">#222222</color>
+    
+    <color name="blue_light">#26B0EB</color>
+    <color name="blue_title">#0B2D78</color>
+    <color name="blue_title_read">#8D9BBA</color>
+    
+    <color name="grey_metal">#515556</color>
+    <color name="grey_metal_dark">#636363</color>
+    <color name="grey_separator">#DBDBDB</color>
+    <color name="grey_divider">#CCCCCC</color>
+    <color name="grey_metal_dark_divider">#535353</color>
+    
+    <color name="grey_details">#8A8A8A</color>
     
 </resources>

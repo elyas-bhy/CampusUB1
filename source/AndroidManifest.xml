@@ -4,9 +4,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- Features -->
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
 
     <!-- Internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,8 +21,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- Calendar permissions -->
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <!-- Calling permissions -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
     <!-- Contacts read and write permissions -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -44,7 +47,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.dev.campus.LauncherActivity"
-            android:label="@string/app_name" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,41 +57,56 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dev.campus.HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:name="com.dev.campus.home.HomeActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.dev.campus.SettingsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo" >
         </activity>
         <activity
             android:name="com.dev.campus.event.EventsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_events"
-            android:uiOptions="splitActionBarWhenNarrow">
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity
             android:name="com.dev.campus.directory.DirectoryActivity"
-            android:label="@string/title_activity_directory" >
-        </activity>
-        <activity
-            android:name="com.dev.campus.event.CategoryActivity"
-            android:label="@string/title_activity_categories" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_directory"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.dev.campus.event.EventViewActivity"
-            android:label="@string/title_activity_events" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_events"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.dev.campus.map.MapActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"
             android:theme="@style/map_activity_style" >
         </activity>
-        
+        <activity
+            android:name="com.dev.campus.schedule.ScheduleActivity"
+            android:label="@string/title_activity_scheduler" >
+        </activity>
+        <service
+            android:name="com.dev.campus.schedule.ScheduleImportService"
+            android:exported="false" >
+        </service>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/maps_api_debug_key" />
-   
     </application>
 
 </manifest>

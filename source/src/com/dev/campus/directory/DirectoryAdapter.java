@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013 CampusUB1 Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dev.campus.directory;
 
 import java.util.List;
@@ -15,13 +31,13 @@ import android.widget.TextView;
 
 public class DirectoryAdapter extends ArrayAdapter<Contact> {
 
-	private List<Contact> contacts;
+	private List<Contact> mContacts;
 	private Activity mContext;
 
 	public DirectoryAdapter(Activity context, List<Contact> contacts) {
 		super(context, R.layout.directory_list_item, contacts);
 		mContext = context;
-		this.contacts = contacts;
+		mContacts = contacts;
 	}
 
 	private static class ContactHolder {
@@ -51,11 +67,20 @@ public class DirectoryAdapter extends ArrayAdapter<Contact> {
 			contactHolder = (ContactHolder) row.getTag();
 		}
 
-		Contact contact = contacts.get(position);
-
+		Contact contact = mContacts.get(position);
 		contactHolder.name.setText(contact.getLastName().toUpperCase() + " " + contact.getFirstName());
-		contactHolder.tel.setText(contact.getTel());
-		contactHolder.email.setText(contact.getEmail());
+
+		if (contact.getTel() != null) {
+			contactHolder.tel.setText(contact.getTel());
+		} else {
+			contactHolder.tel.setText(R.string.tel_not_specified);
+		}
+
+		if (contact.getEmail() != null) {
+			contactHolder.email.setText(contact.getEmail());
+		} else {
+			contactHolder.email.setText(R.string.email_not_specified);
+		}
 
 		Drawable drawableWebsite = mContext.getResources().getDrawable(R.drawable.website);
 		contactHolder.website.setImageDrawable(drawableWebsite);
