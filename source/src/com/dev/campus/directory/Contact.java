@@ -25,7 +25,7 @@ public class Contact {
 	private String email;
 	private String tel;
 	private String website;
-	private ContactType mType;
+	private ContactType type;
 
 	public enum ContactType {
 		UB1_CONTACT, LABRI_CONTACT;
@@ -84,11 +84,11 @@ public class Contact {
 	}
 
 	public ContactType getType() {
-		return mType;
+		return type;
 	}
 
 	public void setType(ContactType type) {
-		mType = type;
+		this.type = type;
 	}
 	
 	static class ContactComparator implements Comparator<Contact> {

@@ -32,7 +32,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +58,6 @@ import android.widget.TextView.OnEditorActionListener;
 public class DirectoryActivity extends ListActivity implements OnItemClickListener {
 
 	private Resources mResources;
-	private ActionBar mActionBar;
 	private ProgressBar mProgressBar;
 	private FilterDialog mFilterDialog;
 
@@ -76,10 +74,8 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_list);
-
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mFilterDialog = new FilterDialog(this);
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
 		
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
@@ -87,7 +83,6 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		mProgressBar.setIndeterminate(true);
 		
 		mDirectoryManager = new DirectoryManager();
-		
 		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 
 		ListView listview = getListView();

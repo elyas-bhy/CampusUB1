@@ -68,7 +68,8 @@ public enum Feed {
 		
 		public boolean isFiltered() {
 			return (this.equals(FeedType.UB1_FEED) && CampusUB1App.persistence.isFilteredUB1()
-				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri());
+				 || this.equals(FeedType.LABRI_FEED) && CampusUB1App.persistence.isFilteredLabri()
+				 || this.equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri());
 		}
 	}
 	
@@ -86,9 +87,5 @@ public enum Feed {
 	
 	public String getUrl() {
 		return mUrl;
-	}
-	
-	public boolean isHTML(){
-		return this.getType().equals(FeedType.LABRI_FEED_HTML);
 	}
 }

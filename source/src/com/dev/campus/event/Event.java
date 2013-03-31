@@ -129,11 +129,8 @@ public class Event implements Serializable {
 	public boolean equals(Object o) {
 		if(!(o instanceof Event))
 			return false;
-
-		String s1 = "" + mTitle + mStartDate;
-		String s2 = "" + ((Event)o).getTitle() + ((Event)o).getStartDate();
-		
-		return s1.equals(s2);
+		Event event = (Event) o;
+		return event.getTitle().equals(mTitle) && event.getStartDate().equals(mStartDate);
 	}
 	
 	static class EventComparator implements Comparator<Event> {

@@ -39,7 +39,7 @@ import com.dev.campus.util.TimeExtractor;
 
 public class EventParser {
 	
-	// number of seconds since January 1st 1970
+	// number of seconds in a month (31 days)
 	private final int MONTH_SECONDS = 2678400;
 
 	private ArrayList<Event> mParsedEvents;
@@ -210,9 +210,9 @@ public class EventParser {
 				buildDate = TimeExtractor.createDate(lastBuildDate, "EEE, d MMM yyyy HH:mm:ss Z");
 				if (dates.get(i++).getTime() != buildDate.getTime())
 					return false;
-
 			}
 			else {
+				// Always return false for HTML-based events
 				return false;
 			}
 		}

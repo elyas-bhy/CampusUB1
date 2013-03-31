@@ -34,7 +34,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -75,15 +74,13 @@ public class MapActivity extends Activity implements LocationListener {
 	
 	private Marker mCurrentLocation;
 	private SearchView mSearchView;
-	private ActionBar mActionBar;
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mResources = getResources();
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
 		
 		if (isGooglePlayServicesAvailable()) {
 			setContentView(R.layout.activity_map);

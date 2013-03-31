@@ -55,7 +55,7 @@ public class DirectoryManager {
 	private final String[] LDAPSearchAttributes = {ATTR_MAIL, ATTR_TEL, ATTR_NAME, ATTR_SURNAME};
 
 	private LDAPConnection LDAP;
-	private LDAPConnectionPool connectionPool;
+	private LDAPConnectionPool mConnectionPool;
 
 	private List<Contact> mLabriContacts;
 	
@@ -73,9 +73,9 @@ public class DirectoryManager {
 	}
 
 	public List<Contact> searchUB1(String firstName, String lastName) throws LDAPException {
-		if(LDAP == null || connectionPool == null){
+		if (LDAP == null || mConnectionPool == null) {
 			LDAP = new LDAPConnection(UB1_LDAP_HOST, UB1_LDAP_PORT);
-			connectionPool = new LDAPConnectionPool(LDAP, NUM_CONNECTIONS);
+			mConnectionPool = new LDAPConnectionPool(LDAP, NUM_CONNECTIONS);
 		}
 		
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
@@ -84,7 +84,7 @@ public class DirectoryManager {
 		
 		SearchRequest searchRequest = new SearchRequest(UB1_BASE_DN, SearchScope.SUB, f, LDAPSearchAttributes);
 		searchRequest.setControls(new Control[] { new SimplePagedResultsControl(MAX_PAGE_SIZE, null)});
-		SearchResult searchResult = connectionPool.search(searchRequest);
+		SearchResult searchResult = mConnectionPool.search(searchRequest);
 		int entryCount = searchResult.getEntryCount();
 		
 		// Create Contact objects with the entries that are returned.
@@ -192,20 +192,5 @@ public class DirectoryManager {
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
 		return str.toLowerCase();
-	}
-
-	public String capitalize(String str) {
-		str = str.toLowerCase();
-		boolean charReplaced = false;
-		for (int k = 0; k < str.length(); k++) {
-			char currentChar = str.charAt(k);
-			if (currentChar < 97 || currentChar > 122) // detecting new word, currentChar not in [a-z]
-				charReplaced = false;
-			if (charReplaced == false && (currentChar > 96 && currentChar < 123)) { // currentChar in [a-z]
-				str = str.substring(0, k) + str.substring(k, k+1).toUpperCase() + str.substring(k+1); // capitalize currentChar in string
-				charReplaced = true;
-			}
-		}
-		return str;
 	}
 }

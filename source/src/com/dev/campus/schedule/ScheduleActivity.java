@@ -26,7 +26,6 @@ import com.dev.campus.SettingsActivity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -48,13 +47,13 @@ import android.widget.Toast;
 
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
 
-	private final String LS1_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre1/finder.xml";
-	private final String LS2_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre2/finder.xml";
-	private final String MS1_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml";
-	private final String MS2_URL = "http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml";
-
+	private final String[] SEMESTER_URLS = {
+		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre1/finder.xml", // LS1
+		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre2/finder.xml", // LS2
+		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml",  // MS1
+		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml"}; // MS2
+	
 	private Context mContext;
-	private ActionBar mActionBar;
 	private ProgressBar mProgressBar;
 
 	private Group mSelectedGroup;
@@ -66,8 +65,7 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_list);
-		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mContext = this;
 		mScheduleParser = new ScheduleParser();
@@ -156,7 +154,6 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
 
-		
 		@Override
 		protected void onPreExecute() {
 			clearContent();
@@ -195,25 +192,12 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			String url = "";
-			switch (position) {
-			case 0:	// dummy item
+			if (position == 0) {// dummy item
 				clearContent();
 				return;
-			case 1:
-				url = LS1_URL;
-				break;
-			case 2:
-				url = LS2_URL;
-				break;
-			case 3:
-				url = MS1_URL;
-				break;
-			case 4:
-				url = MS2_URL;
-				break;
 			}
-			new FetchGroupsTask().execute(url);
+			// offset position by 1 to compensate for dummy item
+			new FetchGroupsTask().execute(SEMESTER_URLS[position-1]);
 		}
 
 		@Override

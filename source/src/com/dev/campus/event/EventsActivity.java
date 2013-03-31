@@ -232,7 +232,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		if (mEvents != null) {
 			for (Event event : mEvents) {
-				if (event.getSource().isFiltered() || (event.getSource().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isFilteredLabri())) {
+				if (event.getSource().isFiltered()) {
 					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis()))
 						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead())) {
 							sortedEvents.add(event);
