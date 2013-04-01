@@ -187,9 +187,7 @@ public class EventParser {
 			if (!event.getTitle().equals("") || !event.getDetails().equals(""))
 				if (existingEvents.contains(event))
 					break;
-			if(event.getStartDate() == null)
 			mParsedEvents.add(event);
-
 		}
 	}
 
