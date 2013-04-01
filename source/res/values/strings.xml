@@ -91,6 +91,7 @@
     <string name="website_icon">Website</string>
     <string name="tel_not_specified">No telephone number specified</string>
     <string name="email_not_specified">No email address specified</string>
+    <string name="button_search">Search button</string>
 
     <!-- Map strings -->
     <string name="campus_restaurants">Restaurants</string>

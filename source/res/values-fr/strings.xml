@@ -81,6 +81,7 @@
     <string name="website_icon">Site web</string>
     <string name="tel_not_specified">Aucun numéro de téléphone spécifié</string>
     <string name="email_not_specified">Aucune adresse email spécifiée</string>
+    <string name="button_search">Bouton rechercher</string>
 
     <!-- Map strings -->
     <string name="campus_restaurants">Restauration</string>
