@@ -34,8 +34,8 @@ public class Persistence {
 	public static final String PREF_UPCOMING_EVENTS = "pref_upcoming_events";
 	public static final String PREF_ABOUT = "pref_about";
 
-	public static final int DEFAULT_UPCOMING_MONTHS = 3;
-	public static final int MAX_UPCOMING_MONTHS = 6;
+	public static final int DEFAULT_UPCOMING_MONTHS = 2;
+	public static final int MAX_UPCOMING_MONTHS = 4;
 
 	private ConnectivityManager conMan;
 	private SharedPreferences shared_prefs;
