@@ -50,7 +50,6 @@ import android.widget.Toast;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
-import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingListActivity;
@@ -343,7 +342,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 						existingEvents = entries[0].getValue();
 						mEvents = existingEvents;
 						mBuildDates = entries[0].getKey();
-						// Show existing events and continue updating task
+						// Display existing events and continue updating task
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
@@ -360,6 +359,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mBuildDates = mEventParser.getParsedBuildDates();
 			} catch (Exception e) {
 				e.printStackTrace();
+				cancel(true);
 			}
 			return true;
 		}
@@ -373,8 +373,10 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 		@Override
 		protected void onCancelled() {
+			clearContent();
+			mEvents.clear();
+			mBuildDates.clear();
 			mRefreshMenuItem.setActionView(null);
-			super.onCancelled();
 		}
 	}
 
