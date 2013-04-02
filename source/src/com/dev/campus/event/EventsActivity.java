@@ -196,7 +196,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				item.setChecked(false);
 				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
 			} else {
-				item.setIcon(R.drawable.ic_star);
+				item.setIcon(R.drawable.ic_star_highlight);
 				item.setChecked(true);
 				Toast.makeText(this, R.string.showing_starred_events, Toast.LENGTH_SHORT).show();
 			}
@@ -211,7 +211,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				item.setChecked(false);
 				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
 			} else {
-				item.setIcon(R.drawable.ic_content_unread);
+				item.setIcon(R.drawable.ic_content_unread_highlight);
 				item.setChecked(true);
 				Toast.makeText(this, R.string.showing_unread_events, Toast.LENGTH_SHORT).show();
 			}
