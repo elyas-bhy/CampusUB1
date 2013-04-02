@@ -65,8 +65,9 @@ public class DirectoryManager {
 			searchResult.addAll(searchUB1(firstName, lastName));
 
 		if (CampusUB1App.persistence.isSubscribedLabri()) {
-			if (mLabriContacts == null)
+			if (mLabriContacts == null || mLabriContacts.size() == 0) {
 				parseLabriDirectory();
+			}
 			searchResult.addAll(filterLabriResults(firstName, lastName));
 		}
 		return searchResult;
