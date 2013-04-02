@@ -57,6 +57,7 @@
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>
     <string name="no_gps">Activate GPS for a more accurate localisation</string>
+    <string name="showing_starred_events">Showing starred events only</string>
     <string name="showing_upcoming_events">Showing upcoming events only</string>
     <string name="showing_unread_events">Showing unread events only</string>
     <string name="showing_all_events">Showing all events</string>

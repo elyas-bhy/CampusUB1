@@ -48,6 +48,7 @@
     <string name="no_website">Aucun site web disponible pour ce contact</string>
     <string name="no_tel">Aucun numéro disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
+    <string name="showing_starred_events">Affichage des événements favoris</string>
     <string name="showing_upcoming_events">Affichage des événements à venir</string>
     <string name="showing_unread_events">Affichage des événements non lus</string>
     <string name="showing_all_events">Affichage de tous les événements</string>

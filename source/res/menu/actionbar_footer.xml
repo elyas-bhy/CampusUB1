@@ -25,8 +25,16 @@
         android:checked="false"/>
     
     <item
-        android:id="@+id/checkbox_show_unread_only"
+        android:id="@+id/checkbox_show_starred_events"
         android:orderInCategory="90"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_half_star"
+        android:checkable="true"
+        android:checked="false"/>
+    
+    <item
+        android:id="@+id/checkbox_show_unread_only"
+        android:orderInCategory="80"
         android:showAsAction="always"
         android:icon="@drawable/ic_content_read"
         android:checkable="true"
@@ -34,7 +42,7 @@
     
     <item
         android:id="@+id/menu_refresh"
-        android:orderInCategory="80"
+        android:orderInCategory="70"
         android:showAsAction="always"
         android:icon="@drawable/ic_refresh"/>
 

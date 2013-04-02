@@ -61,6 +61,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	public static final String EXTRA_EVENTS_RESULT = "com.dev.campus.EXTRA_EVENTS_RESULT";
 
 	private boolean mShowUpcomingEvents = false;
+	private boolean mShowStarredEvents = false;
 	private boolean mShowUnreadOnly = false;
 
 	private ArrayList<Event> mEvents;
@@ -189,6 +190,20 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			else
 				finish();
 			return true;
+		case R.id.checkbox_show_starred_events:
+			if (item.isChecked()) {
+				item.setIcon(R.drawable.ic_half_star);
+				item.setChecked(false);
+				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
+			} else {
+				item.setIcon(R.drawable.ic_star);
+				item.setChecked(true);
+				Toast.makeText(this, R.string.showing_starred_events, Toast.LENGTH_SHORT).show();
+			}
+			mShowStarredEvents = item.isChecked();
+			reloadContent();
+			mSlidingMenu.showContent();
+			return true;
 
 		case R.id.checkbox_show_unread_only:
 			if (item.isChecked()) {
@@ -229,11 +244,11 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		if (mEvents != null) {
 			for (Event event : mEvents) {
-				if (event.getSource().isFiltered()) {
-					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis()))
-						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead())) {
-							sortedEvents.add(event);
-						}
+				if (event.getSource().isFiltered() &&
+				   (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis())) &&
+				   (!mShowUnreadOnly 	|| (mShowUnreadOnly && !event.isRead())) &&
+				   (!mShowStarredEvents || (mShowStarredEvents && event.isStarred()))) {
+					sortedEvents.add(event);
 				}
 			}
 		}
