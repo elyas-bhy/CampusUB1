@@ -53,6 +53,7 @@
     <string name="updating_events">Updating events</string>
     <string name="connection_failed">Connection failed</string>
     <string name="connection_required">An active Internet connection is required</string>
+    <string name="no_matching_contacts">No matching contacts found</string>
     <string name="no_website">No website for this contact</string>
     <string name="no_tel">No telephone number for this contact</string>
     <string name="no_email">No email address for this contact</string>

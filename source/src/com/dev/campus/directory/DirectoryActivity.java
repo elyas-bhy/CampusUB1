@@ -52,6 +52,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
 
@@ -268,8 +269,10 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 				searchResult = mDirectoryManager.searchContact(firstName, lastName);
 			} catch (LDAPException e) {
 				e.printStackTrace();
+				cancel(true);
 			} catch (IOException e) {
 				e.printStackTrace();
+				cancel(true);
 			}
 			mSearchResult = searchResult;
 			return null;
@@ -277,13 +280,17 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 		@Override
 		protected void onPostExecute(Void result) {
-			reloadContent();
+			if(mSearchResult.size() < 1)
+				Toast.makeText(getBaseContext(), R.string.no_matching_contacts, Toast.LENGTH_SHORT).show();
+			else
+				reloadContent();
 			mProgressBar.setVisibility(View.GONE);
 		}
 
 		@Override
 		protected void onCancelled() {
 			mProgressBar.setVisibility(View.GONE);
+			Toast.makeText(getBaseContext(), R.string.connection_failed, Toast.LENGTH_SHORT).show();
 			super.onCancelled();
 		}
 	}

@@ -45,6 +45,7 @@
     <string name="updating_events">Mise à jour en cours</string>
     <string name="connection_failed">Echec de connection</string>
     <string name="connection_required">Une connexion Internet active est requise</string>
+    <string name="no_matching_contacts">Aucun contact n\'a été trouvé</string>
     <string name="no_website">Aucun site web disponible pour ce contact</string>
     <string name="no_tel">Aucun numéro disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
