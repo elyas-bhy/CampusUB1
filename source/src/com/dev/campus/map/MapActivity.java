@@ -18,10 +18,11 @@ package com.dev.campus.map;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.dev.campus.map.Position.PositionType;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -83,7 +84,7 @@ public class MapActivity extends Activity implements LocationListener {
 	private GoogleMap mMap;
 	private Marker mCurrentLocation;
 	private LocationManager mLocationManager;
-	private ArrayList<Marker> mServicesMarkers, mRestaurantsMarkers, mBuildingsMarkers;
+	private HashMap<PositionType, ArrayList<Marker>> mMarkers;
 	private CheckBox mServices, mRestauration, mBuildings;
 	
 	@Override
@@ -153,13 +154,13 @@ public class MapActivity extends Activity implements LocationListener {
 	public void onCheckboxClicked(View view) {
 		switch(view.getId()) {
 		case R.id.services_check:
-			populateMap(mServicesMarkers, mServices.isChecked());
+			populateMap(PositionType.SERVICE, mServices.isChecked());
 			break;
 		case R.id.restaurants_check:
-			populateMap(mRestaurantsMarkers, mRestauration.isChecked());
+			populateMap(PositionType.RESTAURANT, mRestauration.isChecked());
 			break;
 		case R.id.buildings_check:
-			populateMap(mBuildingsMarkers, mBuildings.isChecked());
+			populateMap(PositionType.BUILDING, mBuildings.isChecked());
 			break;
 		}
 	}
@@ -248,9 +249,10 @@ public class MapActivity extends Activity implements LocationListener {
 	 * Adds all the custom positions defined in Position.java as markers on the map
 	 */
 	public void setupMarkers() {
-		mServicesMarkers = new ArrayList<Marker>();
-		mRestaurantsMarkers = new ArrayList<Marker>();
-		mBuildingsMarkers = new ArrayList<Marker>();
+		mMarkers = new HashMap<PositionType, ArrayList<Marker>>();
+		mMarkers.put(PositionType.BUILDING, new ArrayList<Marker>());
+		mMarkers.put(PositionType.RESTAURANT, new ArrayList<Marker>());
+		mMarkers.put(PositionType.SERVICE, new ArrayList<Marker>());
 		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()
@@ -259,17 +261,7 @@ public class MapActivity extends Activity implements LocationListener {
 			.draggable(false)
 			.title(pos.getName());
 			Marker marker = mMap.addMarker(options);
-			
-			switch (pos.getType()) {
-			case BUILDING:
-				mBuildingsMarkers.add(marker);
-				break;
-			case RESTAURANT:
-				mRestaurantsMarkers.add(marker);
-				break;
-			case SERVICE:
-				mServicesMarkers.add(marker);
-			}
+			mMarkers.get(pos.getType()).add(marker);
 		}
 	}
 
@@ -278,8 +270,8 @@ public class MapActivity extends Activity implements LocationListener {
 	 * @param markers the collection of markers
 	 * @param isChecked new visibility state
 	 */
-	public void populateMap(List<Marker> markers, boolean isChecked) {
-		for (Marker marker : markers)
+	public void populateMap(PositionType type, boolean isChecked) {
+		for (Marker marker : mMarkers.get(type))
 			marker.setVisible(isChecked);			
 	}
 
@@ -310,19 +302,8 @@ public class MapActivity extends Activity implements LocationListener {
 		for (Position pos : Position.values()) {
 			for (int i = 0; i < pos.getSuggestions().length; i++) {
 				if (reformatString(pos.getSuggestions()[i]).startsWith(reformatString(input))) {
-					ArrayList<Marker> markerType = null;
+					ArrayList<Marker> markerType = mMarkers.get(pos.getType());
 					String markerId = null;
-					switch(pos.getType()) {
-					case BUILDING:
-						markerType = mBuildingsMarkers;
-						break;
-					case RESTAURANT:
-						markerType= mRestaurantsMarkers;
-						break;
-					case SERVICE:
-						markerType = mServicesMarkers;
-						break;
-					}
 					for (Marker marker : markerType) {
 						if (pos.getId().equals(marker.getId())) {
 							markerId = marker.getId();
