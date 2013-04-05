@@ -270,8 +270,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	}
 
 	/**
-	 * Sorts the list of displayed events based on current
-	 * activated filters
+	 * Sorts the list of displayed events based on current activated filters
 	 */
 	private void sortEvents() {
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();

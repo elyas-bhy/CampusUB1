@@ -29,6 +29,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Custom ListView adapter responsible for handling contact items
+ * @author CampusUB1 Development Team
+ *
+ */
 public class DirectoryAdapter extends ArrayAdapter<Contact> {
 
 	private List<Contact> mContacts;
