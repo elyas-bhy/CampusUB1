@@ -19,9 +19,24 @@ package com.dev.campus.home;
 import android.view.LayoutInflater;
 import android.view.View;
 
+/**
+ * Interface of home menu items
+ * @author CampusUB1 Development Team
+ *
+ */
 public interface HomeItem {
 	
+	/**
+	 * Returns the index of the calling HomeItem's type
+	 */
 	public int getViewType();
+	
+	/**
+	 * Wrapper method that implements adapter's getView method
+	 * @param inflater
+	 * @param convertView
+	 * @return
+	 */
 	public View getView(LayoutInflater inflater, View convertView);
 
 }

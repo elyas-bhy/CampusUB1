@@ -31,31 +31,36 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+/**
+ * Class responsible for the home activity UI and lifecycle,
+ * handles launch of implemented services
+ * @author CampusUB1 Development Team
+ *
+ */
 public class HomeActivity extends ListActivity {
 	
+	// Homepages URLs
 	private final String UB1_HOMEPAGE = "http://www.u-bordeaux1.fr/";
 	private final String LABRI_HOMEPAGE = "http://www.labri.fr/";
 
+	// Utilities
 	private FilterDialog mFilterDialog;
-	private Resources mResources;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFilterDialog = new FilterDialog(this);
-		mResources= getResources();
 
 		//ListView styling
 		ListView listView = getListView();
 		listView.setBackgroundResource(R.color.white_light);
-		listView.setDivider(mResources.getDrawable(R.color.grey_divider));
+		listView.setDivider(getResources().getDrawable(R.color.grey_divider));
 		listView.setDividerHeight(1);
 		
 		View header = (View) getLayoutInflater().inflate(R.layout.home_header, listView, false);
@@ -122,5 +127,4 @@ public class HomeActivity extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
 }

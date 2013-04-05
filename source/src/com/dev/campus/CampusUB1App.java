@@ -23,6 +23,11 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Base class for maintaining global application state. 
+ * @author CampusUB1 Development Team
+ *
+ */
 public class CampusUB1App extends Application {
 
 	/**
