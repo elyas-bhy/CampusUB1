@@ -21,6 +21,12 @@ import com.dev.campus.R;
 
 import android.content.res.Resources;
 
+/**
+ * Enumeration of all available categories.
+ * A Category can hold one or several feeds.
+ * @author CampusUB1 Development Team
+ *
+ */
 public enum Category {
 	// News
 	MAIN_EVENTS(R.string.category_main_events, Feed.UB1_NEWS_ALL, Feed.LABRI_NEWS),

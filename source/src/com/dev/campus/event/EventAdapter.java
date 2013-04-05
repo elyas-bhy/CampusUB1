@@ -26,6 +26,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Custom ListView adapter responsible for handling event items
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventAdapter extends ArrayAdapter<Event> {
 	
 	private Activity mContext;

@@ -22,6 +22,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+/**
+ * Custom implementation of adapter used for ViewPager
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventPagerAdapter extends FragmentStatePagerAdapter {
 	
 	private ArrayList<Event> mEvents;

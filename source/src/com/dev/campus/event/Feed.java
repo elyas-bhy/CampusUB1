@@ -18,8 +18,14 @@ package com.dev.campus.event;
 
 import com.dev.campus.CampusUB1App;
 
+/**
+ * Enumeration of all available feeds 
+ * @author CampusUB1 Development Team
+ *
+ */
 public enum Feed {
 	
+	// UB1 news RSS feeds
 	UB1_NEWS_ALL(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=114"),
 	UB1_NEWS_UNIVERSITY(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=100"),
 	UB1_NEWS_FORMATION(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=101"),
@@ -29,6 +35,7 @@ public enum Feed {
 	UB1_NEWS_COMPANIES(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=105"),
 	UB1_NEWS_PRESS(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=106"),
 	
+	// UB1 events RSS feeds
 	UB1_EVENTS_ALL(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=115"),
 	UB1_EVENTS_CONGRESS(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=107"),
 	UB1_EVENTS_FORMATION(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=108"),
@@ -39,7 +46,10 @@ public enum Feed {
 	UB1_EVENTS_CONFERENCES(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=113"),
 	UB1_EVENTS_EXPOSITIONS(FeedType.UB1_FEED, "http://www.u-bordeaux1.fr/index.php?type=116"),
 	
+	// LaBRI news RSS feeds
 	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php"),
+	
+	// LaBRI HTML-based feeds, use query keywords instead of URL
 	LABRI_COLLOQUES(FeedType.LABRI_FEED_HTML, "colloques"),
 	LABRI_THESES(FeedType.LABRI_FEED_HTML, "theses"),
 	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "groupes"),

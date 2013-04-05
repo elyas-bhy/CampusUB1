@@ -24,6 +24,11 @@ import java.util.Locale;
 
 import com.dev.campus.event.Feed.FeedType;
 
+/**
+ * Basic holder class for event data
+ * @author CampusUB1 Development Team
+ *
+ */
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 8284757527911114571L;
@@ -141,7 +146,8 @@ public class Event implements Serializable {
 	}
 	
 	public String toString() {
-		String s = "[title: " + mTitle + ", startDate:" + mStartDate  + ", endDate: "+ mEndDate + ", location:" + mLocation 
+		String s = "[title: " + mTitle + ", startDate:" + mStartDate  
+				+ ", endDate: "+ mEndDate + ", location:" + mLocation 
 				+ ", details: " + mDetails + ", source: " + mSource + "]";
 		return s;
 	}

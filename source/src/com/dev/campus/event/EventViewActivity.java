@@ -32,6 +32,11 @@ import android.view.MenuItem;
 
 import com.dev.campus.R;
 
+/**
+ * Activity responsible for displaying detailed views of events
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventViewActivity extends FragmentActivity {
 	
 	private ActionBar mActionBar;

@@ -66,6 +66,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
 	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
 	public static final String EXTRA_EVENTS_RESULT = "com.dev.campus.EXTRA_EVENTS_RESULT";
+	public static final int REQUEST_CODE = 1;
 
 	// Footer action bar filters
 	private boolean mShowUpcomingEvents = false;
@@ -104,7 +105,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		ActionBar actionBar = getActionBar();
 		actionBar.setSplitBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.holo_dark_black)));
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
-								   | ActionBar.DISPLAY_SHOW_CUSTOM);
+																 | ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
 		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
@@ -347,7 +348,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
 		intent.putExtra(EXTRA_EVENTS, mSortedEvents);
 		intent.putExtra(EXTRA_EVENTS_INDEX, position);
-		startActivityForResult(intent, 1);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 
 	/**
@@ -365,10 +366,10 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 1) {
-
+		if (requestCode == REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {      
 				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra(EXTRA_EVENTS_RESULT);
+				// Transfer state changes to mEvents
 				for (Event event : result) {
 					if (event.isRead()) {
 						if (mEvents.contains(event))
@@ -396,10 +397,9 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		@Override
 		protected Boolean doInBackground(SimpleEntry<ArrayList<Date>, ArrayList<Event>>... entries) {
 			try {
-				//check if latest version, and update only if needed
-				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 
+				//check if latest version, and update only if needed
 				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					if (entries[0].getKey().size() > 0 && entries[0].getValue().size() > 0) {
 						existingEvents = entries[0].getValue();
