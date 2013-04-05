@@ -54,27 +54,39 @@ import android.widget.CheckBox;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+/**
+ * Class responsible for the Map UI and lifecycle
+ * Handles the display of the map and it's custom markers which positions are given in the "Position.java" file
+ * Handles location services as well as custom positions search
+ * 
+ * @author CampusUB1 Development Team
+ */
+
 public class MapActivity extends Activity implements LocationListener {
 
-	//Used CameraPosition attributes
+	//Camera attributes
 	private final int BEARING = 69;
 	private final int DEFAULT_ZOOM = 16;
 	private final int SEARCH_ZOOM = 18;
-	private final int UPDATE_FREQUENCY = 5000; //Update frequency (ms)
-	
 	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
-	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
-
-	private LocationManager mLocationManager;
-	private Resources mResources;
-	private GoogleMap mMap;
 	
+	//Update interval in milliseconds
+	private final int UPDATE_FREQUENCY = 5000; 
+
+	//Essential data
+	private GoogleMap mMap;
+	private LocationManager mLocationManager;
+	
+	//Markers related data
 	private ArrayList<Marker> mServicesMarkers, mRestaurantsMarkers, mBuildingsMarkers;
 	private CheckBox mServices, mRestauration, mBuildings;
-	
 	private Marker mCurrentLocation;
+	
+	//Utility
+	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
+	private Resources mResources;
 	private SearchView mSearchView;
-
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +107,9 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
+	/**
+	 * Fresh registering of location listeners after resume
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -102,6 +117,9 @@ public class MapActivity extends Activity implements LocationListener {
 			 getNewProviders();
 	}
 	
+	/**
+	 * Remove location listeners on pause for battery saving
+	 */
 	@Override     
 	protected void onPause() {  
 		super.onPause();
@@ -148,6 +166,10 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 	
+	/**
+	 * Checks if GooglePlayServices are available on the device
+	 * If not, prompts the user for a fresh install 
+	 */
 	public boolean isGooglePlayServicesAvailable() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if (status != ConnectionResult.SUCCESS) {
@@ -180,7 +202,10 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Sets up the main map components, and centers camera to default position
+	 */
 	public void setupMap() {
 		CameraPosition UB1Position = new CameraPosition.Builder()
 		.target(MAP_CENTER)
@@ -194,6 +219,9 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
 	}
 
+	/**
+	 * Calculates last known position and registers location listeners
+	 */
 	public void setupLocationServices() {	
 		if(!isGpsEnabled())
 			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
@@ -216,6 +244,9 @@ public class MapActivity extends Activity implements LocationListener {
 			onLocationChanged(location);
 	}
 
+	/**
+	 * Adds all the custom positions located in "Position.java" as markers on the map
+	 */
 	public void setupMarkers() {
 		mServicesMarkers = new ArrayList<Marker>();
 		mRestaurantsMarkers = new ArrayList<Marker>();
@@ -242,11 +273,17 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
+	/**
+	 * Filters the visibility of markers
+	 */
 	public void populateMap(List<Marker> markers, boolean isChecked) {
 		for (Marker marker : markers)
 			marker.setVisible(isChecked);			
 	}
 
+	/**
+	 * Animates the camera to a given position
+	 */
 	public void goToPosition(LatLng pos, int zoom) {
 		CameraPosition position  = new CameraPosition.Builder()
 		.target(pos)
@@ -256,6 +293,12 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 	}
 	
+	/**
+	 * Looks up for a position that matches one of the database suggestions
+	 * and centers the camera on it if found
+	 * The suggestions list can be found in the "positions.xml" file
+	 * located in the res/values folder of the project
+	 */
 	@SuppressLint("DefaultLocale")
 	public String searchPosition(String input) {
 		for (Position pos : Position.values()) {
@@ -291,6 +334,9 @@ public class MapActivity extends Activity implements LocationListener {
 		return null;
 	}
 
+	/**
+	 * Removes accents from a string
+	 */
 	public String reformatString(String str) {
 		//strip accents
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
@@ -317,15 +363,24 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	};
 
+	/**
+	 * Checks if GPS is currently enabled on the device
+	 */
 	public boolean isGpsEnabled() {
 		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 
+	/**
+	 * Registers listeners for both GPS and NETWORK providers
+	 */
 	public void getNewProviders() {
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);
 	}
 
+	/**
+	 * Listener handling the user's actual position on the map
+	 */
 	@Override
 	public void onLocationChanged(Location location) {	
 		LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());

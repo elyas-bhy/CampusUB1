@@ -21,6 +21,11 @@ import com.dev.campus.R;
 
 import android.content.res.Resources;
 
+/**
+ * Class containing all the custom positions used in the MapActivity
+ * @author CampusUB1 Development Team
+ */
+
 public enum Position {
 	
 	BAT_A1(PositionType.BUILDING, R.array.batiment_A1, 44.808673,-0.591814),
