@@ -32,7 +32,7 @@ import android.content.res.Resources;
 
 /**
  * Custom AlertDialog class which handles filters management
- * @author elyas-bhy
+ * @author CampusUB1 Development Team
  *
  */
 public class FilterDialog extends AlertDialog {
@@ -68,8 +68,9 @@ public class FilterDialog extends AlertDialog {
 	}
 
 	/**
-	 * Custom AlertDialog builder class which provides filters management
-	 * @author elyas-bhy
+	 * Custom AlertDialog builder class which provides filters management,
+	 * based on current subscriptions
+	 * @author CampusUB1 Development Team
 	 *
 	 */
 	private class FilterDialogBuilder extends AlertDialog.Builder {
@@ -82,12 +83,12 @@ public class FilterDialog extends AlertDialog {
 		public FilterDialogBuilder(Activity context) {
 			super(context);
 			Resources res = context.getResources();
-			
 			mSelectedItems = new HashSet<Integer>();
 			boolean[] checkedItems = new boolean[2];
 			int index = 0;
 			ArrayList<String> itemsList = new ArrayList<String>();
 			
+			// Populate dialog items according to current subscriptions
 			if (CampusUB1App.persistence.isSubscribedUB1()) {
 				itemsList.add(res.getString(R.string.ub1));
 				if (CampusUB1App.persistence.isFilteredUB1()) {
@@ -138,7 +139,6 @@ public class FilterDialog extends AlertDialog {
 					CampusUB1App.persistence.setFilterUB(filter_ub1);
 					CampusUB1App.persistence.setFilterLabri(filter_labri);
 					
-					//Find a better workaround for this (getClass() ?)
 					if (mContext instanceof EventsActivity) {
 						((EventsActivity)mContext).reloadContent();
 						((EventsActivity)mContext).showContent();

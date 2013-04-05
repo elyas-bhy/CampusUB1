@@ -29,6 +29,12 @@ import java.util.regex.Pattern;
 
 import com.dev.campus.event.Event;
 
+/**
+ * Utility class for analyzing and extracting information
+ * about timing of events 
+ * @author CampusUB1 Development Team
+ *
+ */
 @SuppressLint("SimpleDateFormat")
 public class TimeExtractor {
 
@@ -121,6 +127,12 @@ public class TimeExtractor {
 		event.setEndDate(end);
 	}
 
+	/**
+	 * Extracts time from strings following the format HH:MM-HH:MM
+	 * @param date string formatted as HH:MM-HH:MM
+	 * @param start reference to the start date of the corresponding event
+	 * @param end reference to the end date of the corresponding event
+	 */
 	public static void getDateLabri(String date, Date start, Date end) {
 		String[] tabDate = date.split("-");
 		String[] tabDate2 = tabDate[0].split(":");

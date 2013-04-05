@@ -27,6 +27,12 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/**
+ * Utility dialog for setting the value of upcoming months for which
+ * the user wants to check for events
+ * @author CampusUB1 Development Team
+ *
+ */
 public class UpcomingEventsDialog extends Dialog 
 	implements Button.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
