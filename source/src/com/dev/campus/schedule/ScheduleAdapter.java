@@ -27,6 +27,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * Custom ListView adapter responsible for handling schedule group items
+ * @author CampusUB1 Development Team
+ *
+ */
 public class ScheduleAdapter extends ArrayAdapter<Group> {
 
 	private List<Group> mGroups;

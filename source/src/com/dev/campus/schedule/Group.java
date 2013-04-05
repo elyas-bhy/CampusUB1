@@ -16,6 +16,11 @@
 
 package com.dev.campus.schedule;
 
+/**
+ * Basic holder class for class group data
+ * @author CampusUB1 Development Team
+ *
+ */
 public class Group {
 
 	private String title;

@@ -44,20 +44,30 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
+/**
+ * Class responsible for the schedule activity UI and lifecycle,
+ * handles loading, viewing and saving of class schedules.
+ * 
+ * @author CampusUB1 Development Team
+ *
+ */
 public class ScheduleActivity extends ListActivity implements OnItemClickListener {
 
+	// URLs of formation semesters
 	private final String[] SEMESTER_URLS = {
 		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre1/finder.xml", // LS1
 		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Licence/Semestre2/finder.xml", // LS2
 		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre1/finder.xml",  // MS1
 		"http://www.disvu.u-bordeaux1.fr/et/edt_etudiants2/Master/Semestre2/finder.xml"}; // MS2
+
+	// Currently selected group
+	private Group mSelectedGroup;
+	// List of groups for a specified semester
+	private List<Group> mGroups;
 	
+	// Utilities
 	private Context mContext;
 	private ProgressBar mProgressBar;
-
-	private Group mSelectedGroup;
-	private List<Group> mGroups;
 	private ScheduleParser mScheduleParser;
 	private ScheduleAdapter mScheduleAdapter;
 
@@ -139,19 +149,30 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 			return super.onContextItemSelected(item);
 		}
 	}
-
+	
+	/**
+	 * Clears all items from the adapter view
+	 */
 	public void clearContent() {
 		mScheduleAdapter.clear();
 		mScheduleAdapter.notifyDataSetChanged();
 	}
-
+	
+	/**
+	 * Updates view of current items
+	 */
 	public void reloadContent() {
 		mScheduleAdapter.clear();
 		mScheduleAdapter.addAll(mGroups);
 		mScheduleAdapter.notifyDataSetChanged();
 	}
-
-
+	
+	/**
+	 * Worker thread responsible for retrieving the list of all
+	 * available groups for a specified semester
+	 * @author CampusUB1 Development Team
+	 *
+	 */
 	private class FetchGroupsTask extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -188,6 +209,11 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
+	/**
+	 * Custom OnItemSelectedListener used for semesters spinner
+	 * @author CampusUB1 Development Team
+	 *
+	 */
 	private class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 		@Override
@@ -206,6 +232,12 @@ public class ScheduleActivity extends ListActivity implements OnItemClickListene
 		}
 	}
 
+	/**
+	 * Custom confirmation dialog for importing a group schedule
+	 * to the default calendar of the device
+	 * @author CampusUB1 Development Team
+	 *
+	 */
 	private class ScheduleConfirmDialog extends AlertDialog.Builder {
 
 		public ScheduleConfirmDialog(Context context) {

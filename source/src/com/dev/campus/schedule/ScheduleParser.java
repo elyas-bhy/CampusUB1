@@ -38,11 +38,23 @@ import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.util.Log;
 
-
+/**
+ * Class responsible for parsing semester groups and schedule events,
+ * as well as providing integration with the device's default calendar.
+ * @author CampusUB1 Development Team
+ *
+ */
 public class ScheduleParser {
 
+	// Encoding character set
 	private static final String CHARSET = "CP1252";
 
+	/**
+	 * Parses the list of groups for a specified semester
+	 * @param url the URL of the specified semester
+	 * @return list of all groups available in the specified semester
+	 * @throws IOException
+	 */
 	public ArrayList<Group> fetchGroups(String url) throws IOException {
 		ArrayList<Group> allGroups = new ArrayList<Group>();
 		Document xmlDoc;
@@ -67,6 +79,13 @@ public class ScheduleParser {
 		return allGroups;
 	}
 
+	/**
+	 * Parses the events of a given schedule,
+	 * then inserts them to the default calendar
+	 * @param url the URL of the schedule to parse
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public static void parseSchedule(String url) throws IOException, ParseException {
 		Document xmlDoc;
 		try {
@@ -108,13 +127,13 @@ public class ScheduleParser {
 
 			if (calStartDate > 0 && !calTitle.equals("")) {
 				scheduleEvents.add(ContentProviderOperation.newInsert(Events.CONTENT_URI)
-						.withValue(Events.DTSTART, calStartDate) // long
-						.withValue(Events.DTEND, calEndDate) // long
-						.withValue(Events.TITLE, calTitle) // String
-						.withValue(Events.EVENT_LOCATION, calRoom) // String
-						.withValue(Events.DESCRIPTION, calDesc) // String
-						.withValue(Events.CALENDAR_ID, 1) // long
-						.withValue(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID()) // String
+						.withValue(Events.DTSTART, calStartDate)
+						.withValue(Events.DTEND, calEndDate)
+						.withValue(Events.TITLE, calTitle)
+						.withValue(Events.EVENT_LOCATION, calRoom)
+						.withValue(Events.DESCRIPTION, calDesc)
+						.withValue(Events.CALENDAR_ID, 1)
+						.withValue(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID())
 						.build());
 			}
 		}
@@ -122,6 +141,10 @@ public class ScheduleParser {
 
 	}
 
+	/**
+	 * Performs a batch insertion of calendar events
+	 * @param ops
+	 */
 	private static void batchInsertEvents(ArrayList<ContentProviderOperation> ops) {
 		try {
 			if (ops.size() > 0) {
