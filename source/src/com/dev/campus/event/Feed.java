@@ -49,7 +49,7 @@ public enum Feed {
 	// LaBRI news RSS feeds
 	LABRI_NEWS(FeedType.LABRI_FEED, "http://www.labri.fr/rss/rss.php"),
 	
-	// LaBRI HTML-based feeds, use query keywords instead of URL
+	// LaBRI HTML-based feeds, use POST request keywords instead of URL
 	LABRI_COLLOQUES(FeedType.LABRI_FEED_HTML, "colloques"),
 	LABRI_THESES(FeedType.LABRI_FEED_HTML, "theses"),
 	LABRI_GROUPES(FeedType.LABRI_FEED_HTML, "groupes"),

@@ -116,11 +116,13 @@
     <string name="category_student_life">Vie étudiante</string>
     <string name="category_companies">Entreprises</string>
     <string name="category_press">Presse</string>
-    <string name="category_theses">Theses</string>
-    <string name="category_groupes">Groupes</string>
-    <string name="category_colloques">Colloques</string>
-    <string name="category_autres">Autres</string>
     <string name="category_exposition">Expositions</string>
+    <string name="category_manifestions">Manifestations</string>
+    <string name="category_conferences">Conférences</string>
+    <string name="category_theses">Thèses</string>
+    <string name="category_colloques">Colloques</string>
+    <string name="category_groupes">Groupes</string>
+    <string name="category_autres">Autres</string>
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>

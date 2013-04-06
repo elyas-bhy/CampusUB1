@@ -39,11 +39,13 @@ public enum Category {
 	PRESS(R.string.category_press, Feed.UB1_NEWS_PRESS),
 
 	// Events
-	EXPOSITION(R.string.category_exposition, Feed.UB1_EVENTS_EXPOSITIONS),
+	EXPOSITIONS(R.string.category_exposition, Feed.UB1_EVENTS_EXPOSITIONS, Feed.UB1_EVENTS_CONGRESS),
+	MANIFESTIONS(R.string.category_manifestions, Feed.UB1_EVENTS_MANIFESTATION),
+	CONFERENCES(R.string.category_conferences, Feed.UB1_EVENTS_CONFERENCES, Feed.UB1_EVENTS_SALON),
 	THESES(R.string.category_theses, Feed.UB1_EVENTS_THESES, Feed.LABRI_THESES),
 	SEMINARS(R.string.category_colloques, Feed.UB1_EVENTS_SEMINARS, Feed.LABRI_COLLOQUES),
-	GROUPES(R.string.category_groupes, Feed.LABRI_GROUPES),
-	AUTRES(R.string.category_autres, Feed.LABRI_AUTRES);
+	GROUPS(R.string.category_groupes, Feed.LABRI_GROUPES),
+	OTHER(R.string.category_autres, Feed.LABRI_AUTRES);
 	
 	private int mName;
 	private Feed[] mFeeds;
