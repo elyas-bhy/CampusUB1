@@ -24,7 +24,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        android:textColor="#8A8A8A"
+        android:textColor="@color/grey_details"
         android:textSize="13sp" />
 
 </LinearLayout>
