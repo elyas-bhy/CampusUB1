@@ -1,0 +1,152 @@
+\chapter{Analyse des besoins}
+
+Nous allons analyser dans ce chapitre les différents besoins fonctionnels et non-fonctionnels de notre application.\\
+Nous allons donc utiliser un système de points pour évaluer la difficulté des tâches. On se basera sur une séquence de Fibonacci arrondie (1, 2, 3, 5, 8, 13, 20, 40, 60, 100), avec 100 reflétant une tâche d'une grande difficulté.\\
+Les priorités des besoins sont classées sur cette échelle: optionnel, faible, moyen, important, vital.
+\section{Besoins fonctionnels}
+\subsection{Fonctionnalités principales}
+\subsubsection{Choix des établissements}
+Etant donné que l'application présentera des services en commun à plusieurs établissements, l'utilisateur doit pouvoir s'abonner aux établissements de son choix, s'il souhaite accéder à leurs propres informations [Fig.~\ref{fig:01}]. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: vital
+\item Difficulté: 1/100
+\item Risques: mise à jour des liens si les adresses des établissements sont modifiées.
+\item Validation: s'assurer que les sélections et les modifications des abonnements s'effectuent correctement.
+\end{itemize}
+
+\subsubsection{Gestion des actualités}
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités des établissements auxquels il est abonné. Par défaut il aura alors la possibilité de voir les événements propres aux établissements auxquels il s'est abonné. Il pourra à tout moment changer de catégorie grâce au menu des catégories [Fig.~\ref{fig:04}] depuis la même fenêtre. De plus, il peut choisir entre voir la totalité des actualités des établissements auquels il a souscrit, ou voir uniquement les actualités propres aux établissements qu'il a sélectionné dans les filtres.  [Fig.~\ref{fig:03}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:04}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: vital
+\item Difficulté: 40/100
+\item Difficultés techniques: extraction des informations pertinentes.
+\item Risques: changement de structure du contenu à parser (flux RSS et pages HTML).
+\item Validation: assurer l'intégrité des informations extraites.
+\end{itemize}
+
+\subsubsection{Accès à l'annuaire}
+L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:\\
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Rechercher un contact dans l'annuaire par son nom et/ou prénom.
+\item Visualiser les informations d'un contact.
+\item Rajouter un contact à la liste des contacts de l'utilisateur (créer un nouveau contact ou éditer existant).
+\item Envoyer un mail au contact.
+\item Appeler la personne (si un numéro de téléphone est disponible).
+\end{itemize}
+
+\wl La recherche de personnes dans l'annuaire se fera en fonction des établissements auquels l'utilisateur s'est abonné. On pourra donc choisir grâce à un filtre entre rechercher une personne dans l'annuaire propre à un ou plusieurs établissements, ou la rechercher dans tous les annuaires.
+Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de création d'un nouveau contact, dans laquelle les champs pertinents seront pré-remplis, en fonction des informations collectées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: vital
+\item Difficulté: 40/100
+\item Difficultés techniques:
+\begin{itemize}
+\item Avec LDAP: mise en place du protocole.
+\item Sans LDAP: parsage des informations.
+\end{itemize} 
+\item Risques: changement de structure du contenu à parser.
+\item Validation: assurer l'intégrité des informations extraites.
+\end{itemize}
+
+\subsubsection{Mises à jour}
+Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait internet limité, ou encore pour l'utilisation à l'étranger). Nous pourrions également proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
+L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement (durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à Internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: important
+\item Difficulté: 40/100
+\item Risques: mauvaise gestion de la mémoire.
+\item Difficultés techniques: éviter de télécharger de nouveau des informations déja collectées.
+\item Validation: vérifier l'intégration des nouvelles informations.
+\end{itemize}
+
+
+\subsection{Fonctionnalités secondaires}
+Dans un deuxième temps, nous comptons implémenter quelques optionalités supplémentaires, qui ne rentrent pas dans le cadre du projet initial, mais qu'on estime être assez pratiques et utiles, et permettront de compléter l'application.
+
+\subsubsection{Abonnements et filtrage d'informations}
+Après avoir choisi lors du premier démarrage de l'application, les établissements auprès desquels l'utilisateur souhaite s'abonner~[Fig.~\ref{fig:01}], il pourra à tout moment revenir sur son choix à travers le menu des préférences.
+Il pourra également en fonction de ses abonnements actifs visualiser la totalité des informations propres à un, plusieurs ou tous les établissements grâce à un outil de filtrage. Cet outil se présente sous la forme d'un menu quasiment identique à celui du choix des abonnements et sera accessible uniquement depuis l'écran d'accueil. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: optionnel
+\item Difficulté: 60/100
+\item Difficultés techniques: s'assurer que l'abonnement simultané à un grand nombre d'établissements ait un impact mineur sur la stabilité de l'application.
+\item Risques: saturation trop rapide de la mémoire cache.
+\item Validation: affichage cohérent des informations liées aux abonnements actifs en un temps raisonnable (de l'ordre de 3 à 4 secondes par établissement).
+\end{itemize}
+
+\subsubsection{Emploi du temps}
+L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer sa filière, et éventuellement ses cours et ses groupes. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: optionnel
+\item Difficulté: 60/100
+\item Difficultés techniques: extraction des informations en fonction du choix de l'utilisateur.
+\item Risques: changement du format de l'emploi du temps.
+\item Validation: assurer l'intégrité des données extraites.
+\end{itemize}
+
+\subsubsection{Plan du campus}
+L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'utilisateur disposera des pointeurs vers les bâtiments principaux du campus. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: optionnel
+\item Difficulté: 60/100
+\item Difficultés techniques: maîtriser l'API de Google Maps.
+\end{itemize}
+
+
+
+\section{Besoins non fonctionnels}
+\subsection{Besoins de performance}
+L'application CampusUB1 est destinée à toute personne étudiant ou travaillant sur le campus de l'université. Elle devra donc être capable de tourner sur les derniers smartphones, tout en restant compatible avec des smartphones plus anciens et donc moins puissants puisque tout étudiant n'a pas forcément les moyens d'aborder un smartphone récent ayant une forte puissance de calcul et une grande quantité de RAM. CampusUB1 ne sera donc pas gourmande en ressources et pourra exécuter ces services de manière assez rapide même sur les smartphones moins performants.\\
+Nous testerons l'application sur les appareils suivants: LG Optimus 2X (P990), Sony Xperia S, Samsung Galaxy S3.\\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: faible
+\item Difficulté: 40/100
+\item Difficultés techniques: bonne gestion de l'espace mémoire et de l'actualisation.
+\item Risques: implémention complexe et potentiellement longue.
+\item Validation: vérification que l'utilisation reste assez fluide et ne consomme pas beaucoup de ressources (à préciser un seuil de consommation de RAM).
+\end{itemize}  
+
+\subsection{Besoins de fiabilité}
+Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnaissance de textes qui peuvent eux-mêmes être erronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécessite une connection à internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité des données ne se pose pas. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: moyen
+\item Difficulté: 60/100
+\item Difficultés techniques: fiabilité de l'algorithme d'analyse textuelle pour détecter les dates des événements.
+\item Risques: création d'un événement avec des données erronées.
+\item Validation: simulation de l'algorithme d'analyse textuelle sur suffisamment de données pour avoir un taux de réussite acceptable (à déterminer).
+\end{itemize}  
+
+\subsection{Besoins d'intégrité de données}
+CampusUB1 doit accéder à certaines ressources personnelles du client pour pouvoir fonctionner, ce qui pose un problème de protection des données. Le calendrier et le répertoire du client sont les ressources auxquelles l'application est susceptible d'accéder, et on devra s'assurer que toute perte éventuelle de données déjà existantes ne soit pas engendrée par une erreur provenant de l'application. L'erreur humaine étant évidemment toujours possible. Toute modification éventuelle de données privées de l'utilisateur se fera donc impérativement avec son avis. \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Priorité: moyen
+\item Difficulté: 40/100
+\item Risques: perte des informations existantes sur le smartphone.
+\item Validation: monitoring du comportement de l'application.
+\end{itemize} 
+
+
+\subsection{Besoins organisationnels}
+Etant donné que nous travaillerons sur la plateforme Android, le langage Java nous est imposé vu que l'API Android est fournie en Java.
+L'IDE dans lequel nous avons choisi d'implémenter notre application est Eclipse pour de nombreuses questions pratiques. Les développeurs d'Android disposent d'un plugin officiel pour Eclipse, qui facilite le travail du développeur en lui fournissant une panoplie d'outils tels que les différentes perspectives dont celle de débogage qui nous sera très utile. Ce plugin comporte également un émulateur d'appareils Android, ce qui nous permettra de facilement tester l'application sur une multitude d'appareils virtuels. De plus, l'API Android est très documentée et est maintenue fréquemment.
