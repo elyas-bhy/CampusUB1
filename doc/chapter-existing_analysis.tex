@@ -52,8 +52,7 @@ Au cours de l'implémentation de cette application, nous pourrions être amenés
 \wl Les événements inscrits dans les flux RSS du site de Bordeaux 1 possèdent une balise \emph{pubDate}, qui devrait faire référence à la date de publication des articles, mais nous avons remarqué que pour la plupart des articles (notamment pour toutes les soutenances), cette date a été modifiée pour correspondre à la date de la soutenance. Cependant, ce n'est pas toujours le cas pour l'horaire. Certains articles possèdent des horaires qui correspondent à celle de l'événement (comme pour les soutenances, par exemple), mais d'autres ont un horaire qui ne correspond pas avec l'horaire de l'événement. Nous avons donc tiré la conclusion que l'horaire correspond parfois à l'horaire de publication de l'article. \\
 Il sera donc possible de comparer les dates et horaires extraites par analyse textuelle avec les informations contenues dans la balise \emph{pubDate} afin d'augmenter le taux de réussite de la proposition de date au moment de l'ajout dans l'agenda du smartphone. \\
 
-\lstset{language=XML}
-\begin{lstlisting}[frame=single, caption=Extrait d'un flux RSS de Bordeaux1 (29/01/2013), label=xml1]
+\begin{lstlisting}[style=XML, caption=Extrait d'un flux RSS de Bordeaux1 (29/01/2013), label=xml1]
 <item>
   <title>Trophees du sport</title>
   <link>...</link>

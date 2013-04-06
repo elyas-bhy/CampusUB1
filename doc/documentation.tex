@@ -10,7 +10,10 @@
 \usepackage{amsfonts}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{xcolor}
+\usepackage{caption}
 \usepackage{textcomp}
+\usepackage{adjustbox}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -25,25 +28,64 @@
 }
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{lightblue}{rgb}{0.0,0.4,0.9}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
-
-\lstset{
-  basicstyle=\ttfamily,
-  columns=fullflexible,
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{forestgreen}{RGB}{34,139,34}
+\definecolor{orangered}{RGB}{239,134,64}
+ 
+\lstdefinestyle{Java}{
+  language=Java,
+  basicstyle=\footnotesize\ttfamily,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
   showstringspaces=false,
-  commentstyle=\color{gray}\upshape
+  showtabs=false,
+  frame=single,
+  rulecolor=\color{black},
+  tabsize=4,
+  captionpos=t,
+  breaklines=true,
+  breakatwhitespace=false,
+  title=\lstname,
+  keywordstyle=\color{lightblue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  escapeinside={\%*}{*)},
+  keywords=[2]{DATA},
+  keywordstyle=[2]\color{red},
+  morekeywords={R,View,ViewGroup,TextView,ImageView,ViewHolder}
 }
 
-\lstdefinelanguage{XML}
-{
-  morestring=[b]",
-  morestring=[s]{>}{<},
-  morecomment=[s]{<?}{?>},
-  stringstyle=\color{black},
-  identifierstyle=\color{darkblue},
-  keywordstyle=\color{cyan},
-  morekeywords={xmlns,version,type}
+\lstdefinestyle{XML} {
+    language=XML,
+    frame=single, 
+    extendedchars=true, 
+    breaklines=true,
+    breakatwhitespace=true,
+    emph={},
+    emphstyle=\color{red},
+    basicstyle=\small\ttfamily,
+    columns=fullflexible,
+    commentstyle=\color{gray}\upshape,
+    morestring=[b]",
+    morecomment=[s]{<?}{?>},
+    morecomment=[s][\color{forestgreen}]{<!--}{-->},
+    keywordstyle=\color{orangered},
+    stringstyle=\ttfamily\color{black}\normalfont,
+    tagstyle=\color{darkblue}\bf,
+    morekeywords={attribute,xmlns,version,type,release},
 }
+
+\lstset{language=Java,frame=lines}
+\lstset{language=XML,frame=lines}
+
 
 \def\wl{\par \vspace{\baselineskip}}
 \renewcommand{\lstlistingname}{Code}
@@ -64,6 +106,7 @@
 \input{chapter-features_diagrams}
 \input{chapter-tests}
 \input{chapter-architecture}
+\input{chapter-technical_overview}
 \input{chapter-usecases_demo}
 
 \bibliographystyle{unsrt}
