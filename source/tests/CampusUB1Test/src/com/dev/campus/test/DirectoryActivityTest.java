@@ -56,7 +56,7 @@ public class DirectoryActivityTest extends
 	}
 	
 	public void testLabriSearchResult() {
-		final int INITIAL_ITEM_INDEX = 1;	//offest by 1 due to header view being included
+		final int INITIAL_ITEM_INDEX = 1;	//offset by 1 due to header view being included
 		final ListAdapter adapter = mActivity.getListView().getAdapter();
 		
 		mSolo.clickOnView(mSolo.getView(R.id.menu_filters));

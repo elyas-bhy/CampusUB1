@@ -250,9 +250,8 @@ public class MapActivity extends Activity implements LocationListener {
 	 */
 	public void setupMarkers() {
 		mMarkers = new HashMap<PositionType, ArrayList<Marker>>();
-		mMarkers.put(PositionType.BUILDING, new ArrayList<Marker>());
-		mMarkers.put(PositionType.RESTAURANT, new ArrayList<Marker>());
-		mMarkers.put(PositionType.SERVICE, new ArrayList<Marker>());
+		for (PositionType type : PositionType.values())
+			mMarkers.put(type, new ArrayList<Marker>());
 		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()

@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.util.Log;
-
 import com.dev.campus.event.Event;
 import com.dev.campus.util.TimeExtractor;
 
@@ -31,7 +29,7 @@ import junit.framework.TestCase;
 public class TimeExtractorTest extends TestCase {
 	
 	
-	public void testParseTime(){
+	public void testParseTime() {
 		String text = "Il y aura un certain truc lundi prochain à 12h";
 		List<String[]> l = new ArrayList<String[]>();
 		l = TimeExtractor.parseTime(text);	
@@ -52,7 +50,7 @@ public class TimeExtractorTest extends TestCase {
 	}
 	
 	
-	public void testCreateDate(){
+	public void testCreateDate() {
 		String date = "Mon, 2 Jan 2013 12:35:04 +0100";
 		String format = "EEE, d MMM yyyy HH:mm:ss Z";
 		Date d = new Date();
@@ -63,10 +61,9 @@ public class TimeExtractorTest extends TestCase {
 			assertEquals(04, d.getSeconds());
 			assertEquals(2, d.getDate());
 			assertEquals(0, d.getMonth());
-			assertEquals(113, d.getYear()); // 2013-1900
+			assertEquals(113, d.getYear()); // difference between 2013 and 1900
 			assertEquals(-60, d.getTimezoneOffset());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -77,22 +74,20 @@ public class TimeExtractorTest extends TestCase {
 		Event ev = new Event();
 		String detailEv = "Ce machin se déroulera finalement de 12h30 à 14h";
 		ev.setDetails(detailEv);
-		try{
+		try {
 			TimeExtractor.getCorrectDate(date, ev);
 			assertEquals(12, ev.getStartDate().getHours());
 			assertEquals(30, ev.getStartDate().getMinutes());
-			Log.d("Tatiana", String.valueOf(ev.getEndDate().getHours()));
 			assertEquals(14, ev.getEndDate().getHours());
 			assertEquals(00, ev.getEndDate().getMinutes());			
 			
-		} catch (Exception e){
-			// TODO Auto-generated catch block
-						e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	
-	public void testGetDateLabri(){
+	public void testGetDateLabri() {
 		String src = "12:30-13:45";
 		Date start = new Date();
 		Date end = new Date();
