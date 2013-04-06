@@ -18,6 +18,7 @@
 
     <!-- Menus -->
     <string name="menu_settings">Paramètres</string>
+    <string name="menu_establishment_filters">Filtres d\'établissements</string>
     <string name="menu_calendar">Rajouter au calendrier</string>
     <string name="menu_call">Appeler</string>
     <string name="menu_mail">Envoyer un e-mail</string>
@@ -83,7 +84,6 @@
     <string name="website_icon">Site web</string>
     <string name="tel_not_specified">Aucun numéro de téléphone spécifié</string>
     <string name="email_not_specified">Aucune adresse email spécifiée</string>
-    <string name="button_search">Bouton rechercher</string>
 
     <!-- Map strings -->
     <string name="campus_restaurants">Restauration</string>
@@ -95,6 +95,11 @@
     <string name="my_position">Ma position</string>
     <string name="campus_position">Position du campus</string>
 
+    <!-- Content description -->
+    <string name="button_search">Rechercher</string>
+    <string name="star">Favori</string>
+    <string name="icon">Icone</string>
+    
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
     <string name="other_category">Autres</string>

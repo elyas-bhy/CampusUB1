@@ -20,6 +20,7 @@
 
     <!-- Menus -->
     <string name="menu_settings">Settings</string>
+    <string name="menu_establishment_filters">Establishment filters</string>
     <string name="menu_calendar">Add to calendar</string>
     <string name="menu_call">Call</string>
     <string name="menu_mail">Send email</string>
@@ -93,7 +94,6 @@
     <string name="website_icon">Website</string>
     <string name="tel_not_specified">No telephone number specified</string>
     <string name="email_not_specified">No email address specified</string>
-    <string name="button_search">Search button</string>
 
     <!-- Map strings -->
     <string name="campus_restaurants">Restaurants</string>
@@ -120,6 +120,11 @@
     <string name="upcoming_events_title">Range of upcoming events</string>
     <string name="upcoming_events_summary">Set the range of months for which LaBRI events are fetched</string>
 
+    <!-- Content description -->
+    <string name="button_search">Search</string>
+    <string name="star">Star</string>
+    <string name="icon">Icon</string>
+    
     <!-- Event categories -->
     <string name="category_main_events">Main Events</string>
     <string name="category_formation">Formation</string>
