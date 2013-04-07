@@ -75,5 +75,4 @@ public class CampusUB1App extends Application {
 	public void showToast(int resid) {
 		Toast.makeText(this, resid, Toast.LENGTH_LONG).show();
 	}
-
 }
