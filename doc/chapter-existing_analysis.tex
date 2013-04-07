@@ -26,7 +26,7 @@ Cette plateforme de développement est utilisée par la majorité des applicatio
 Ce lecteur de flux RSS~\cite{gReader} offre une interface sobre et pratique pour gérer les abonnements aux flux RSS. Notre développement de l'interface graphique pourra s'inspirer du système des onglets et des toolbars de cette application.
 
 \subsection*{Lecteurs de flux RSS open-source}
-Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\cite{Feedgoal} et Android-RSS~\cite{Android-RSS}. les deux étant sous license GNU GPL (v2 et v3, respectivement). On pourra étudier s'il est rentable de reprendre quelques modules, ou de repartir sur notre propre base.
+Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\cite{Feedgoal} et Android-RSS~\cite{Android-RSS}. les deux étant sous licence GNU GPL (v2 et v3, respectivement). On pourra étudier s'il est rentable de reprendre quelques modules, ou de repartir sur notre propre base.
 
 
 \section{Ressources existantes}
@@ -34,7 +34,7 @@ Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\
 \subsection*{LDAP}
 Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocole conçu uniquement pour les annuaires, et les annuaires du LaBRI et de Bordeaux1 s'avèrent être conformes aux normes LDAP.
 Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBRI.\\
-Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au travers du protocole LDAP; cependant nous avons trouvé une page d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
+Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au travers du protocole LDAP; cependant nous allons uniquement utiliser le protocole LDAP pour Bordeaux1 sachant que le serveur LDAP du LaBRI est inaccessible depuis l'extérieur sans passer par un système d'authentification sécurisée.
 
 \subsection*{HTTP/HTML}
 Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour des balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
@@ -42,7 +42,7 @@ Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changement
 
 
 \subsection*{Analyse textuelle}
-Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
+Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Cela pose plusieurs problèmes:
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
   \item Le texte peut faire référence à un événement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
