@@ -5,7 +5,7 @@ Parmi ces outils, nous nous sommes essentiellement servi de quatre d’entre eux
  
 \section{Systrace}
 L'outil Systrace trace une frise pendant une période donnée de marche de notre application, et nous montre les temps d'exécution de nos différents processus ainsi que des processus du système Android. De plus, il nous indique si l'utilisation du CPU durant l'exécution de ces tâches est plus ou moins intense. Dans notre cas, l'utilisation de cet outil nous a servi à déterminer et comparer les temps d'exécution de nos principaux services qui s'occupent de récupérer des donnés puis de les afficher (récupération et affichage des événements, recherche dans l'annuaire de personnes puis affichage de la liste des personnes trouvées...). En effet, nos temps d'exécution ainsi que d'affichage devaient respecter les temps évoqués dans le cahier des charges fourni aux clients. \\
-Lors de la première capture du chargement des événements grâce à Systrace, nous avons pu constater que les performances de l'application pouvaient être optimisés lors de l'affichage des éléments qui est assez irrégulier.(Voir figure 8.1)
+Lors de la première capture du chargement des événements grâce à Systrace, nous avons pu constater que les performances de l'application pouvaient être optimisés lors de l'affichage des éléments qui est assez irrégulier (voir figure 8.1).
 
 \begin{figure}[h!]
   \label{fig:systrace_non_optim}
@@ -27,10 +27,10 @@ L'élément qui nous a permis d'effectuer cette amélioration se trouve au nivea
   \caption{Récupération et affichage des événements de l'université de Bordeaux 1 après optimisation}
 \end{figure}
 
-Comme on peut le voir sur l'enregistrement précédent, l'affichage des éléments se fait maintenant de manière nettement plus régulière que lors du premier enregistrement. L'optimisation de l'interface graphique a également permis une optimisation globale des performances de l'application puisque le temps d'exécution global(parsing et affichage) diminue automatiquement. 
+Comme on peut le voir sur l'enregistrement précédent, l'affichage des éléments se fait maintenant de manière nettement plus régulière que lors du premier enregistrement. L'optimisation de l'interface graphique a donc permis une amélioration des performances de l'application par la diminution du temps d'affichage.
 
 \section{Method profiling}
-Voici un tableau récapitulatif des temps d’exécution de nos fonctionnalités principales sur différents smartphones. Pour chacune d'elles, nous avons effectué des enregistrements qui montrent les temps d'exécution approximatifs des méthodes qui réalisent ces services. Les temps affichés correspondent donc au temps total d'exécution de nos threads appelés\textit{AsyncTask} qui représentent les tâches lourdes exécutes en arrière plan. Ces résultats sont approximatifs et peuvent varier étant donné que le temps d’exécution des méthodes dépend surtout de la fluidité de la connexion Internet utilisée.\\
+Voici un tableau récapitulatif des temps d’exécution de nos fonctionnalités principales sur différents smartphones. Pour chacune d'elles, nous avons effectué des enregistrements qui montrent les temps d'exécution approximatifs des méthodes qui réalisent ces services. Les temps affichés correspondent donc au temps total d'exécution de nos threads appelés \textit{AsyncTask} qui représentent les tâches lourdes exécutes en arrière plan. Ces résultats sont approximatifs et peuvent varier étant donné que le temps d’exécution des méthodes dépend surtout de la fluidité de la connexion Internet utilisée.\\
 
 \begin{figure}[h!]
   \label{fig:benchmark}
