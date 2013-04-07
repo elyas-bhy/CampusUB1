@@ -29,6 +29,12 @@ import java.util.regex.Pattern;
 
 import com.dev.campus.event.Event;
 
+/**
+ * Utility class for analyzing and extracting information
+ * about timing of events 
+ * @author CampusUB1 Development Team
+ *
+ */
 @SuppressLint("SimpleDateFormat")
 public class TimeExtractor {
 
@@ -37,18 +43,18 @@ public class TimeExtractor {
 		ArrayList<String[]> dates = new ArrayList<String[]>();
 		String hours = "[0-2]?[0-9]";
 		String minutes = "[0-5][0-9]";
-		String intervalle = "de " + hours + "[hH:](" + minutes + ")?" 
+		String range = "de " + hours + "[hH:](" + minutes + ")?" 
 				+ " [àa] " + hours + "[hH:](" + minutes + ")?";
 		String time = hours + "[hH:](" + minutes + ")?";
 
-		Pattern p = Pattern.compile(intervalle);
+		Pattern p = Pattern.compile(range);
 		Pattern p2 = Pattern.compile(time);
 		Matcher m = p.matcher(text);
 		Matcher m2 = p2.matcher(text);
 
 		if (m.find()) {
 			String s = m.group();
-			if(s != null) {
+			if (s != null) {
 				s = s.toLowerCase().replace("de ", "");
 				String[] tabDate = s.split(" à ");
 				for (int i = 0; i < tabDate.length; i++) {
@@ -64,9 +70,9 @@ public class TimeExtractor {
 		} else if (m2.find()) {
 			String s = m2.group();
 			if (s != null) {
-				s.toLowerCase();
+				s = s.toLowerCase();
 				// Split the time into a table to help with the management
-				if(s.contains("h")) {
+				if (s.contains("h")) {
 					String[] ss = s.split("h");
 					dates.add(ss);
 				} else {
@@ -121,6 +127,12 @@ public class TimeExtractor {
 		event.setEndDate(end);
 	}
 
+	/**
+	 * Extracts time from strings following the format HH:MM-HH:MM
+	 * @param date string formatted as HH:MM-HH:MM
+	 * @param start reference to the start date of the corresponding event
+	 * @param end reference to the end date of the corresponding event
+	 */
 	public static void getDateLabri(String date, Date start, Date end) {
 		String[] tabDate = date.split("-");
 		String[] tabDate2 = tabDate[0].split(":");

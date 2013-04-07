@@ -27,6 +27,11 @@ import android.widget.ListView;
 
 import com.dev.campus.R;
 
+/**
+ * Custom implementation of MultiChoiceModeListener used for contextual actions
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventMultiChoiceModeListener implements MultiChoiceModeListener {
 	
 	private ArrayList<Event> mSelectedEvents;

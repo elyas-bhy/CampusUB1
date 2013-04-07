@@ -37,6 +37,11 @@ import com.dev.campus.CampusUB1App;
 import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.TimeExtractor;
 
+/**
+ * Class responsible for parsing RSS and HTML-based feeds
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventParser {
 	
 	// number of seconds in a month (31 days)
@@ -58,14 +63,23 @@ public class EventParser {
 		return mParsedBuildDates;
 	}
 
-	public void parseEvents(Category category, ArrayList<Event> existingEvents) throws IOException, ParseException {
+	/**
+	 * Entry point for parsing all feeds from a specified category
+	 * @param category the category for which feeds will be parsed
+	 * @param existingEvents list containing previously-parsed events
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public void parseEvents(Category category, ArrayList<Event> existingEvents) 
+			throws IOException, ParseException {
 		mParsedEvents = new ArrayList<Event>();
 		mParsedBuildDates = new ArrayList<Date>();
 		for (Feed feed : category.getFeeds()) {
 			if (feed.getType().isSubscribedRSS()) {
 				parseRSS(category, feed, existingEvents);
 			}
-			else if (feed.getType().equals(FeedType.LABRI_FEED_HTML) && CampusUB1App.persistence.isSubscribedLabri()) {
+			else if (feed.getType().equals(FeedType.LABRI_FEED_HTML) 
+					&& CampusUB1App.persistence.isSubscribedLabri()) {
 				parseLabriSection(category, feed, existingEvents);
 			}
 		}
@@ -73,6 +87,14 @@ public class EventParser {
 		mParsedEvents.addAll(existingEvents);
 	}
 
+	/**
+	 * Parses an RSS feed from a specified category
+	 * @param category the containing category of the specified feed
+	 * @param feed the RSS feed to parse
+	 * @param existingEvents list of previously-parsed events
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public void parseRSS(Category category, Feed feed, ArrayList<Event> existingEvents) 
 			throws IOException, ParseException {
 		Event event;
@@ -110,16 +132,25 @@ public class EventParser {
 			event.setCategory(category.toString());
 			event.setSource(feed.getType());
 
-			if (!event.getTitle().equals("")) {
-				if (existingEvents.contains(event)) {
+			if (!event.getTitle().equals("") && !event.getDetails().equals("")
+			 && event.getStartDate().getYear() != 70) { //ignore events having 1970 as date
+				if (existingEvents.contains(event))
 					break;
-				}
 				mParsedEvents.add(event);
 			}
 		}
 	}
 
-	public void parseLabriSection(Category category, Feed feed, ArrayList<Event> existingEvents) throws IOException, ParseException {
+	/**
+	 * Entry point for parsing HTML-based LaBRI events
+	 * @param category the containing category of the feed to parse
+	 * @param feed the HTML feed to parse
+	 * @param existingEvents list of previously-parsed events
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public void parseLabriSection(Category category, Feed feed, ArrayList<Event> existingEvents) 
+			throws IOException, ParseException {
 		int months = CampusUB1App.persistence.getUpcomingEventsRange();
 		int timestamp = MONTH_SECONDS * months;
 		for (int i = 0; i < months; i++) {
@@ -132,15 +163,22 @@ public class EventParser {
 					.referrer("http://www.labri.fr/public/actu/index.php")
 					.method(Method.POST)
 					.execute();
-			parseDoc(res.parse(), category, existingEvents);
+			parseDocument(res.parse(), category, existingEvents);
 			timestamp -= MONTH_SECONDS;
 		}
 		mParsedBuildDates.add(new Date());
 	}
 
+	/**
+	 * Parses a LaBRI HTML document and retrieves found events
+	 * @param doc the HTML document to parse
+	 * @param category the containing category of the feed
+	 * @param existingEvents list of previously-parsed events
+	 * @throws ParseException
+	 */
 	@SuppressLint("SimpleDateFormat")
-	private void parseDoc(Document doc, Category category, ArrayList<Event> existingEvents) throws ParseException {
-		
+	private void parseDocument(Document doc, Category category, ArrayList<Event> existingEvents) 
+			throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
 		Elements tabBase = doc.getElementsByTag("table");
 		tabBase.remove(0);
@@ -173,6 +211,7 @@ public class EventParser {
 						break;
 					case 3:
 						event.setDetails(c.text());
+						event.setDescription(c.text());
 						break;
 					default :
 						break;
@@ -184,16 +223,25 @@ public class EventParser {
 			event.setSource(FeedType.LABRI_FEED_HTML);
 			event.setStartDate(dateStart);
 			event.setEndDate(dateEnd);
-			if (!event.getTitle().equals("") || !event.getDetails().equals(""))
+			if (!event.getTitle().equals("") && !event.getDetails().equals("")
+			 && event.getStartDate().getYear() != 70) { //ignore events having 1970 as date
 				if (existingEvents.contains(event))
 					break;
-			if(event.getStartDate() == null)
-			mParsedEvents.add(event);
-
+				mParsedEvents.add(event);
+			}
 		}
 	}
 
-	public boolean isLatestVersion(Category category, List<Date> dates) throws ParseException, IOException {
+	/**
+	 * Checks if all feeds from a specified category are at their latest version
+	 * @param category the category to check
+	 * @param dates list of last-build-dates of feeds in specified category
+	 * @return true if all feeds are up to date, else false
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	public boolean isLatestVersion(Category category, List<Date> dates) 
+			throws ParseException, IOException {
 		int i = 0;
 		for (Feed feed : category.getFeeds()) {
 			if (feed.getType().isSubscribedRSS()) {

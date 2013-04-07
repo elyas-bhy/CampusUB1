@@ -32,6 +32,11 @@ import android.view.MenuItem;
 
 import com.dev.campus.R;
 
+/**
+ * Activity responsible for displaying detailed views of events
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventViewActivity extends FragmentActivity {
 	
 	private ActionBar mActionBar;
@@ -104,8 +109,12 @@ public class EventViewActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Launches the device's calendar and pre-fills event info
+	 * @param event the event to add to the calendar
+	 */
 	public void addToCalendar(Event event) {
-		//Strip HTML tags and carriage returns from event details
+		//Strip HTML tags and carriage returns for better readability
 		String details = Html.fromHtml(event.getDetails()).toString().replace("\n", " ");
 		Intent calIntent = new Intent(Intent.ACTION_EDIT);
 		calIntent.setType("vnd.android.cursor.item/event");

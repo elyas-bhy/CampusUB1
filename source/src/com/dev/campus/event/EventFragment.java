@@ -28,6 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * Custom implementation of a Fragment holding views of an event's detailed view
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventFragment extends Fragment {
 
 	public static final String ARG_EVENT_KEY = "com.dev.campus.EVENT_KEY";

@@ -25,6 +25,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+/**
+ * Custom ListView adapter responsible for handling home menu items
+ * @author CampusUB1 Development Team
+ *
+ */
 public class HomeAdapter extends ArrayAdapter<HomeItem> {
 
 	private ArrayList<HomeItem> mItems;

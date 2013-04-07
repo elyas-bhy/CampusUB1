@@ -17,11 +17,18 @@
 package com.dev.campus.event;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 import com.dev.campus.event.Feed.FeedType;
 
+/**
+ * Basic holder class for event data
+ * @author CampusUB1 Development Team
+ *
+ */
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 8284757527911114571L;
@@ -119,10 +126,8 @@ public class Event implements Serializable {
 	}
 
 	public String getStringDate() {
-		String d = mStartDate.toString().substring(0,11);
-		if (this.mStartDate.getHours() != 0)
-			d += mStartDate.toString().substring(11, 16) + " ";
-		return d + mStartDate.toString().substring(24);
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE d MMM yyyy, HH:mm", Locale.getDefault());
+		return sdf.format(mStartDate);
 	}
 	
 	@Override
@@ -141,7 +146,8 @@ public class Event implements Serializable {
 	}
 	
 	public String toString() {
-		String s = "[title: " + mTitle + ", startDate:" + mStartDate  + ", endDate: "+ mEndDate + ", location:" + mLocation 
+		String s = "[title: " + mTitle + ", startDate:" + mStartDate  
+				+ ", endDate: "+ mEndDate + ", location:" + mLocation 
 				+ ", details: " + mDetails + ", source: " + mSource + "]";
 		return s;
 	}

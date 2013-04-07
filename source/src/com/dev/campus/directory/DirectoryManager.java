@@ -39,39 +39,63 @@ import com.unboundid.ldap.sdk.SearchResultEntry;
 import com.unboundid.ldap.sdk.SearchScope;
 import com.unboundid.ldap.sdk.controls.SimplePagedResultsControl;
 
+/**
+ * Class responsible for managing contact search queries
+ * @author CampusUB1 Development Team
+ *
+ */
 public class DirectoryManager {
+
+	// LaBRI directory
+	private ArrayList<Contact> mLabriDirectory;
 	
+	// LDAP connection parameters
 	private final int NUM_CONNECTIONS = 10;
 	private final int MAX_PAGE_SIZE = 10;
 	private final int UB1_LDAP_PORT = 389;
-	
 	private final String UB1_BASE_DN = "ou=people,dc=u-bordeaux1,dc=fr";
 	private final String UB1_LDAP_HOST = "carnet.u-bordeaux1.fr";
 	
+	// LDAP search attributes
 	private final String ATTR_MAIL = "mail";
 	private final String ATTR_TEL = "telephoneNumber";
 	private final String ATTR_NAME = "givenName";
 	private final String ATTR_SURNAME = "sn";
 	private final String[] LDAPSearchAttributes = {ATTR_MAIL, ATTR_TEL, ATTR_NAME, ATTR_SURNAME};
 
+	// LDAP connections
 	private LDAPConnection LDAP;
 	private LDAPConnectionPool mConnectionPool;
-
-	private List<Contact> mLabriContacts;
 	
+	/**
+	 * Entry point for searching a contact in subscribed establishments
+	 * @param firstName first name of the contact to search
+	 * @param lastName last name of the contact to search
+	 * @return list of all contacts matching the search query
+	 * @throws LDAPException
+	 * @throws IOException
+	 */
 	public List<Contact> searchContact(String firstName, String lastName) throws LDAPException, IOException {
 		ArrayList<Contact> searchResult = new ArrayList<Contact>();
 		if (CampusUB1App.persistence.isSubscribedUB1()) 
 			searchResult.addAll(searchUB1(firstName, lastName));
 
 		if (CampusUB1App.persistence.isSubscribedLabri()) {
-			if (mLabriContacts == null)
+			if (mLabriDirectory == null || mLabriDirectory.size() == 0) {
 				parseLabriDirectory();
+			}
 			searchResult.addAll(filterLabriResults(firstName, lastName));
 		}
 		return searchResult;
 	}
 
+	/**
+	 * Searches a contact in the LDAP directory of UB1
+	 * @param firstName first name of the contact to search
+	 * @param lastName last name of the contact to search
+	 * @return list of all contacts matching the search query
+	 * @throws LDAPException
+	 */
 	public List<Contact> searchUB1(String firstName, String lastName) throws LDAPException {
 		if (LDAP == null || mConnectionPool == null) {
 			LDAP = new LDAPConnection(UB1_LDAP_HOST, UB1_LDAP_PORT);
@@ -106,6 +130,12 @@ public class DirectoryManager {
 	}
 
 
+	/**
+	 * Looks up a contact in the LaBRI directory
+	 * @param firstName first name of the contact to search
+	 * @param lastName last name of the contact to search
+	 * @return list of all contacts matching the search query
+	 */
 	public List<Contact> filterLabriResults(String firstName, String lastName){
 		ArrayList<Contact> matchingContacts = new ArrayList<Contact>();
 		if (firstName == null)
@@ -115,7 +145,7 @@ public class DirectoryManager {
 		firstName = reformatString(firstName);
 		lastName = reformatString(lastName);
 
-		for (Contact c : mLabriContacts) {
+		for (Contact c : mLabriDirectory) {
 			if (reformatString(c.getFirstName()).contains(firstName)
 			 && reformatString(c.getLastName()).contains(lastName)) {
 				matchingContacts.add(c);
@@ -124,6 +154,10 @@ public class DirectoryManager {
 		return matchingContacts;
 	}
 
+	/**
+	 * Parses the HTML page corresponding to the directory of LaBRI
+	 * @throws IOException
+	 */
 	public void parseLabriDirectory() throws IOException {
 		ArrayList<Contact> allContacts = new ArrayList<Contact>();
 		Document doc;
@@ -133,7 +167,7 @@ public class DirectoryManager {
 		} catch (Exception e) {
 			//Either java.net.SocketTimeoutException or org.jsoup.HttpStatusException
 			CampusUB1App.LogD("Failed to retrieve LaBRI contacts");
-			mLabriContacts = allContacts;
+			mLabriDirectory = allContacts;
 			return;
 		}
 
@@ -184,11 +218,15 @@ public class DirectoryManager {
 			i++;
 		}
 
-		mLabriContacts = allContacts;
+		mLabriDirectory = allContacts;
 	}
 
+	/**
+	 * Strips diacritics from argument string and sets it to lower case
+	 * @param str the string to reformat
+	 * @return 
+	 */
 	public String reformatString(String str) {
-		//strip accents
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
 		return str.toLowerCase();

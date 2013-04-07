@@ -32,7 +32,6 @@ import java.util.Date;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,60 +49,63 @@ import android.widget.Toast;
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
 import com.dev.campus.SettingsActivity;
-import com.dev.campus.event.Feed.FeedType;
 import com.dev.campus.util.FilterDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingListActivity;
 
+/**
+ * Class responsible for the events activity UI and lifecycle,
+ * handles saving, loading and updating events feeds.
+ * 
+ * @author CampusUB1 Development Team
+ *
+ */
 public class EventsActivity extends SlidingListActivity implements OnItemClickListener {
 
+	// Extra keys
 	public static final String EXTRA_EVENTS = "com.dev.campus.EVENTS";
 	public static final String EXTRA_EVENTS_INDEX = "com.dev.campus.EVENTS_POSITION";
 	public static final String EXTRA_EVENTS_RESULT = "com.dev.campus.EXTRA_EVENTS_RESULT";
+	public static final int REQUEST_CODE = 1;
 
+	// Footer action bar filters
 	private boolean mShowUpcomingEvents = false;
+	private boolean mShowStarredEvents = false;
 	private boolean mShowUnreadOnly = false;
 
+	// Current category and related data
+	private Category mCategory;
 	private ArrayList<Event> mEvents;
 	private ArrayList<Event> mSortedEvents;
 	private ArrayList<Date> mBuildDates;
-	private Category mCategory;
 
-	private FilterDialog mFilterDialog;
+	// Utilities
 	private EventAdapter mEventAdapter;
 	private EventParser mEventParser;
-
-	private ActionBar mActionBar;
-	private Resources mResources;
+	private FilterDialog mFilterDialog;
 	private MenuItem mRefreshMenuItem;
 	private SlidingMenu mSlidingMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mResources = getResources();
 		mFilterDialog = new FilterDialog(this);
-		mCategory = Category.MAIN_EVENTS;
-
-
 		mEventParser = new EventParser();
+		mCategory = Category.MAIN_EVENTS; // Initial category
 
 		setupActionBar();
 		setupSlidingMenu();
-
-		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
-		ListView listView = getListView();
-		listView.setOnItemClickListener(this);
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-		listView.setMultiChoiceModeListener(new EventMultiChoiceModeListener(listView));
-		listView.setAdapter(mEventAdapter);
+		setupListAdapter();
 	}
 
+	/**
+	 * Initializes the top custom ActionBar
+	 */
 	private void setupActionBar() {
-		mActionBar = getActionBar();
-		mActionBar.setSplitBackgroundDrawable(new ColorDrawable(mResources.getColor(R.color.holo_dark_black)));
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
-								   | ActionBar.DISPLAY_SHOW_CUSTOM);
+		ActionBar actionBar = getActionBar();
+		actionBar.setSplitBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.holo_dark_black)));
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME
+																 | ActionBar.DISPLAY_SHOW_CUSTOM);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customActionBarView = inflater.inflate(R.layout.custom_actionbar, null);
 		customActionBarView.findViewById(R.id.menu_settings).setOnClickListener(new OnClickListener() {
@@ -120,11 +122,14 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mFilterDialog.showDialog();
 			}
 		});
-		mActionBar.setCustomView(customActionBarView);
+		actionBar.setCustomView(customActionBarView);
 	}
 
+	/**
+	 * Initializes the category sliding menu.
+	 */
 	private void setupSlidingMenu() {
-		//Initialize SlidingMenu parameters
+		// Initialize parameters
 		mSlidingMenu = getSlidingMenu();
 		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
@@ -133,12 +138,12 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mSlidingMenu.setFadeDegree(0.35f);
 		setSlidingActionBarEnabled(false);
 
-		//Create and populate a Category adapter
+		// Create and populate a Category adapter
 		ArrayList<Category> categories = new ArrayList<Category>();
 		categories.addAll(Arrays.asList(Category.values()));
 		ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, R.layout.slidemenu_list_item, categories);
 
-		//Assign adapter to slide_menu list view
+		// Assign adapter to slide_menu list view
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View slideMenu = inflater.inflate(R.layout.slide_menu, null);
 		ListView menuView = (ListView) slideMenu.findViewById(R.id.slide_menu);
@@ -159,6 +164,25 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 		setBehindContentView(menuView);
 	}
+	
+	/**
+	 * Initializes the list adapter in charge of displaying
+	 * and populating event items.
+	 */
+	private void setupListAdapter() {
+		mEventAdapter = new EventAdapter(this, new ArrayList<Event>());
+		ListView listView = getListView();
+		listView.setOnItemClickListener(this);
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setMultiChoiceModeListener(new EventMultiChoiceModeListener(listView));
+		listView.setAdapter(mEventAdapter);
+	}
+
+	@Override
+	public void onPause() {
+		saveEvents();
+		super.onPause();
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -173,6 +197,8 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		getMenuInflater().inflate(R.menu.actionbar_footer, menu);
 		mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
 		mSlidingMenu.showMenu();
+		/* Delayed call to update method until getting a reference
+		to mRefreshMenuItem */
 		update();
 		return true;
 	}
@@ -192,6 +218,21 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			else
 				finish();
 			return true;
+			
+		case R.id.checkbox_show_starred_events:
+			if (item.isChecked()) {
+				item.setIcon(R.drawable.ic_half_star);
+				item.setChecked(false);
+				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
+			} else {
+				item.setIcon(R.drawable.ic_star_highlight);
+				item.setChecked(true);
+				Toast.makeText(this, R.string.showing_starred_events, Toast.LENGTH_SHORT).show();
+			}
+			mShowStarredEvents = item.isChecked();
+			reloadContent();
+			mSlidingMenu.showContent();
+			return true;
 
 		case R.id.checkbox_show_unread_only:
 			if (item.isChecked()) {
@@ -199,7 +240,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				item.setChecked(false);
 				Toast.makeText(this, R.string.showing_all_events, Toast.LENGTH_SHORT).show();
 			} else {
-				item.setIcon(R.drawable.ic_content_unread);
+				item.setIcon(R.drawable.ic_content_unread_highlight);
 				item.setChecked(true);
 				Toast.makeText(this, R.string.showing_unread_events, Toast.LENGTH_SHORT).show();
 			}
@@ -228,15 +269,18 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		}
 	}
 
+	/**
+	 * Sorts the list of displayed events based on current activated filters
+	 */
 	private void sortEvents() {
 		ArrayList<Event> sortedEvents = new ArrayList<Event>();
 		if (mEvents != null) {
 			for (Event event : mEvents) {
-				if (event.getSource().isFiltered()) {
-					if (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis()))
-						if (!mShowUnreadOnly || (mShowUnreadOnly && !event.isRead())) {
-							sortedEvents.add(event);
-						}
+				if (event.getSource().isFiltered() &&
+				   (!mShowUpcomingEvents || (mShowUpcomingEvents && event.getStartDate().getTime() >= System.currentTimeMillis())) &&
+				   (!mShowUnreadOnly 	|| (mShowUnreadOnly && !event.isRead())) &&
+				   (!mShowStarredEvents || (mShowStarredEvents && event.isStarred()))) {
+					sortedEvents.add(event);
 				}
 			}
 		}
@@ -244,11 +288,17 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mSortedEvents = sortedEvents;
 	}
 
+	/**
+	 * Clears all items from the adapter view
+	 */
 	public void clearContent() {
 		mEventAdapter.clear();
 		mEventAdapter.notifyDataSetChanged();
 	}
 	
+	/**
+	 * Updates view of current items
+	 */
 	public void reloadContent() {
 		sortEvents();
 		mEventAdapter.clear();
@@ -256,12 +306,18 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		mEventAdapter.notifyDataSetChanged();
 	}
 
-	public String getHistoryPath() {
+	/**
+	 * Returns a path to a history file based on current subscriptions
+	 */
+	private String getHistoryPath() {
 		int sub1 = CampusUB1App.persistence.isSubscribedUB1()? 1 : 0;
 		int sub2 = CampusUB1App.persistence.isSubscribedLabri()? 1 : 0;
-		return getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + sub1 + sub2 + ".dat";
+		return getFilesDir() + "/history_" + mCategory.hashCode() + sub1 + sub2 + ".dat";
 	}
-
+	
+	/**
+	 * Handles the update procedure based on current connectivity state
+	 */
 	@SuppressWarnings("unchecked")
 	public void update() {
 		SimpleEntry<ArrayList<Date>, ArrayList<Event>> feedsEntry = readEventsHistory();
@@ -291,27 +347,28 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		Intent intent = new Intent(EventsActivity.this, EventViewActivity.class);
 		intent.putExtra(EXTRA_EVENTS, mSortedEvents);
 		intent.putExtra(EXTRA_EVENTS_INDEX, position);
-		startActivityForResult(intent, 1);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 
-	public void toggleStar(View v) {
+	/**
+	 * Toggles the state of an event's star
+	 * @param view reference to the clicked view
+	 */
+	public void toggleStar(View view) {
 		ListView listView = getListView();
-		int position = listView.getPositionForView(v);
-		Event evt = (Event) listView.getItemAtPosition(position);
-
-		if(evt.isStarred())
-			evt.setStarred(false);
-		else
-			evt.setStarred(true);
+		int position = listView.getPositionForView(view);
+		Event event = (Event) listView.getItemAtPosition(position);
+		event.setStarred(!event.isStarred());
 		mEventAdapter.notifyDataSetChanged();
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 1) {
-
+		if (requestCode == REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {      
 				ArrayList<Event> result = (ArrayList<Event>) data.getSerializableExtra(EXTRA_EVENTS_RESULT);
+				// Transfer state changes to mEvents
 				for (Event event : result) {
 					if (event.isRead()) {
 						if (mEvents.contains(event))
@@ -322,14 +379,13 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 			}
 		}
 	}
-
-	@Override
-	public void onPause() {
-		saveEvents();
-		super.onPause();
-	}
-
-
+	
+	/**
+	 * Worker thread responsible for fetching updates of specified category
+	 * and displaying them
+	 * @author CampusUB1 Development Team
+	 *
+	 */
 	private class UpdateFeedsTask extends AsyncTask<SimpleEntry<ArrayList<Date>, ArrayList<Event>>, Void, Boolean> {
 
 		@Override
@@ -340,16 +396,15 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		@Override
 		protected Boolean doInBackground(SimpleEntry<ArrayList<Date>, ArrayList<Event>>... entries) {
 			try {
-				//check if latest version, and update only if needed
-				//otherwise, just load history
 				ArrayList<Event> existingEvents = new ArrayList<Event>(); // so far, no existing events
 
+				//check if latest version, and update only if needed
 				if (entries.length > 0 && entries[0].getKey() != null && entries[0].getValue() != null) {
 					if (entries[0].getKey().size() > 0 && entries[0].getValue().size() > 0) {
 						existingEvents = entries[0].getValue();
 						mEvents = existingEvents;
 						mBuildDates = entries[0].getKey();
-						// Show existing events and continue updating task
+						// Display existing events and continue updating task
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
@@ -366,6 +421,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 				mBuildDates = mEventParser.getParsedBuildDates();
 			} catch (Exception e) {
 				e.printStackTrace();
+				cancel(true);
 			}
 			return true;
 		}
@@ -379,11 +435,17 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 
 		@Override
 		protected void onCancelled() {
+			clearContent();
+			mEvents.clear();
+			mBuildDates.clear();
 			mRefreshMenuItem.setActionView(null);
-			super.onCancelled();
 		}
 	}
 
+	/**
+	 * Reads list of events from device memory
+	 * @return saved data if found, else returns null
+	 */
 	@SuppressWarnings("unchecked")
 	private SimpleEntry<ArrayList<Date>, ArrayList<Event>> readEventsHistory() {
 		File file = new File(getHistoryPath());
@@ -401,6 +463,9 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 		return feedsEntry;
 	}
 
+	/**
+	 * Writes list of events to device memory
+	 */
 	public void saveEvents() {
 		ObjectOutputStream oos = null;
 		try {

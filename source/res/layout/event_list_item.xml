@@ -32,6 +32,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal" >
             
             <LinearLayout
@@ -66,6 +67,7 @@
 
                 <ImageView
                     android:id="@+id/event_star"
+                    android:contentDescription="@string/star"
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
                     android:clickable="true"

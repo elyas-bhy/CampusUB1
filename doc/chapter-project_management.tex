@@ -1,0 +1,16 @@
+\chapter{Gestion du projet}
+
+\section{Outils de développement}
+Dès le début de notre projet, nous avons décidé d’utiliser \emph{git} qui nous a paru être une solution plus complète comparée à \emph{svn}. Au fur et à mesure que nous pensions à une tâche à effectuer, ou que nous détections un bug à corriger, nous ajoutions une \emph{issue} (problème ou tâche à effectuer) à notre projet sur GitHub. L’issue tracker de GitHub est très pratique, il permet de trier les issues par catégories, de les assigner à des membres du projet, ou encore d’ajouter des commentaires. De plus il suffit de préciser le numéro de l’issue que l’on corrige lors d’un commit pour fermer cette tâche automatiquement. Git offre également la possibilité de créer des branches qui permettent d’implémenter des fonctionnalités séparément, puis de fusionner les branches une fois terminée.
+
+\section{Répartition des tâches}
+Dans un premier temps, nous avons segmenté l’implémentation de notre projet en travaillant sur les deux fonctionnalités principales: la récupération des événements, et la recherche dans l’annuaire. \\
+Etant donné que pour chacune de ces deux tâches, il fallait s’occuper séparément de la partie concernant l’Université de Bordeaux 1 et de celle concernant le LaBRI, quatre tâches distinctes étaient à notre disposition ce qui nous a permis de aisément répartir le travail entre les membres de l’équipe. Le fait que certaines de ces tâches ayant été plus simples à implémenter que d’autres, nous a permis d’avoir beaucoup d’interaction entre développeurs et donc beaucoup d’entraide.\\\\
+
+Une fois que nous avons constaté que l’implémentation des fonctionnalités principales évoluait vite et qu’elle était quasiment finalisée , nous avons orienté deux membres de l’équipe pour s’intéresser aux fonctionnalités secondaires de notre application: l’accès aux emplois du temps, et le plan du campus. Là aussi avaient lieu beaucoup d'interactions dans l’équipe afin de pouvoir disposer de l’avis de plusieurs personnes lors de l’implémentation de certaines fonctionnalités.\\
+Une fois les tâches secondaires finies, l’application était à un stade très avancé, tous les besoins fonctionnels  étaient achevés, il ne manquait alors plus que quelques touches de finalisation à apporter au seins des fonctionnalités principales. L’ensemble des membres de l’équipe ont alors pu contribuer à la mise au point finale.\\
+La phase finale de test a alors commencé, au sein de laquelle la répartition des test à effectuer a été faite en fonction des tâches que chacun des membres a effectué.
+
+\section{Tests}
+Les tests unitaires de l’application portent sur les classes. Les classes les plus importantes de l’application sont les \emph{Activity}, car elles s’occupent du fonctionnement de chaque partie de l’application (événements, annuaire, ...). Il a donc fallu tester ces classes en priorité.\\
+//TODO: Robotium

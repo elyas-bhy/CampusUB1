@@ -23,6 +23,11 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Base class for maintaining global application state. 
+ * @author CampusUB1 Development Team
+ *
+ */
 public class CampusUB1App extends Application {
 
 	/**
@@ -32,7 +37,7 @@ public class CampusUB1App extends Application {
 	/**
 	 * Main debug switch, turns on/off debugging for the whole app
 	 */
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static Persistence persistence;
 	private static CampusUB1App instance;

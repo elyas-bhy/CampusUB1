@@ -18,23 +18,22 @@ package com.dev.campus;
 
 import com.dev.campus.util.PrefFragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-
+/**
+ * Activity responsible for managing preference fragments
+ * @author CampusUB1 Development Team
+ *
+ */
 public class SettingsActivity extends Activity {
-	
-	private ActionBar mActionBar;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefFragment()).commit();
-        
-        mActionBar = getActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override

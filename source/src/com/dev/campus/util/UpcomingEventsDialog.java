@@ -27,6 +27,12 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/**
+ * Utility dialog for setting the value of upcoming months for which
+ * the user wants to check for LaBRI events
+ * @author CampusUB1 Development Team
+ *
+ */
 public class UpcomingEventsDialog extends Dialog 
 	implements Button.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
@@ -39,13 +45,12 @@ public class UpcomingEventsDialog extends Dialog
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setTitle(R.string.upcoming_events_title);
 
 		int timeUnit = CampusUB1App.persistence.getUpcomingEventsRange();
 		mMonthsStrings = CampusUB1App.getInstance().getResources().getStringArray(R.array.upcoming_events_strings);
 		mMonthsValues = CampusUB1App.getInstance().getResources().getIntArray(R.array.upcoming_events_array);
 		mSeekBarPos = -1;
-			
+		
 		int value = Persistence.MAX_UPCOMING_MONTHS;
 		while (value != timeUnit && mSeekBarPos < (mMonthsValues.length - 1)) {
 			mSeekBarPos++;
@@ -53,6 +58,8 @@ public class UpcomingEventsDialog extends Dialog
 		}
 		
 		setContentView(R.layout.dialog_layout);
+		setTitle(R.string.upcoming_events_title);
+		((TextView) findViewById(android.R.id.title)).setSingleLine(false);
 		mMinLabel = (TextView) findViewById(R.id.dlg_min_label);
 		mMaxLabel = (TextView) findViewById(R.id.dlg_max_label);
 		mCurrentLabel = (TextView) findViewById(R.id.dlg_timeout_label);

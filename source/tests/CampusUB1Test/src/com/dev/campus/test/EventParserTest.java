@@ -50,7 +50,7 @@ public class EventParserTest extends AndroidTestCase  {
 	}
 
 	public void testIsLatestVersionHtmlFalse() throws ParseException, IOException {
-		assertFalse(mEventParser.isLatestVersion(Category.AUTRES, mDates));
+		assertFalse(mEventParser.isLatestVersion(Category.OTHER, mDates));
 	}
 
 

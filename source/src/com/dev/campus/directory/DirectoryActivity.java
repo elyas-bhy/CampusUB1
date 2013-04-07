@@ -35,7 +35,6 @@ import android.provider.ContactsContract;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -52,23 +51,31 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
-
+/**
+ * Class responsible for the directory activity UI and lifecycle,
+ * handles contextual actions on directory contacts
+ * @author CampusUB1 Development Team
+ *
+ */
 public class DirectoryActivity extends ListActivity implements OnItemClickListener {
 
-	private Resources mResources;
-	private ProgressBar mProgressBar;
-	private FilterDialog mFilterDialog;
-
+	// Current contact and related data
 	private Contact mContact;
 	private List<Contact> mSearchResult;
 	private List<Contact> mSortedContacts;
-	private DirectoryAdapter mDirectoryAdapter;
-	private DirectoryManager mDirectoryManager;
 	
+	// Reference to name text fields
 	private EditText mViewFirstName;
 	private EditText mViewLastName;
+
+	// Utilities
+	private ProgressBar mProgressBar;
+	private FilterDialog mFilterDialog;
+	private DirectoryAdapter mDirectoryAdapter;
+	private DirectoryManager mDirectoryManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +83,12 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		setContentView(R.layout.layout_list);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		mFilterDialog = new FilterDialog(this);
-		mResources = getResources();
+		mDirectoryManager = new DirectoryManager();
+		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 		
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 		mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setIndeterminate(true);
-		
-		mDirectoryManager = new DirectoryManager();
-		mDirectoryAdapter = new DirectoryAdapter(this, new ArrayList<Contact>());
 
 		ListView listview = getListView();
 		View header = (View) getLayoutInflater().inflate(R.layout.directory_list_header, listview, false);
@@ -91,10 +96,13 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		listview.setAdapter(mDirectoryAdapter);
 		listview.setOnItemClickListener(this);
 
-		initSearchButton();
+		setupSearchButtons();
 	}
 
-	private void initSearchButton() {
+	/**
+	 * Setup actions on both view and keyboard search buttons
+	 */
+	private void setupSearchButtons() {
 		OnEditorActionListener onSearchAction = new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -146,10 +154,13 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 			menu.getItem(3).setEnabled(false);
 	}
 
+	/**
+	 * Starts the search task
+	 */
 	public void startSearchTask() {
 		if (mViewFirstName.getText().toString().length() + mViewLastName.getText().length() > 0) {
 			new SearchResultTask().execute();
-			//Hide soft keyboard
+			// Hide soft keyboard
 			if (getCurrentFocus() != null) {
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
@@ -157,19 +168,28 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		}
 	}
 
+	/**
+	 * Launches dialpad with the contact's telephone number pre-filled
+	 */
 	public void callContact() {
 		Intent callIntent = new Intent(Intent.ACTION_DIAL);
 		callIntent.setData(Uri.parse("tel:" + mContact.getTel()));
 		startActivity(callIntent);
 	}
 
+	/**
+	 * Launches email editor with the contact's email address pre-filled
+	 */
 	public void emailContact() {
 		Intent emailIntent = new Intent(Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");  
 		emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {mContact.getEmail()});
-		startActivity(Intent.createChooser(emailIntent, mResources.getString(R.string.menu_complete_action)));
+		startActivity(Intent.createChooser(emailIntent, getResources().getString(R.string.menu_complete_action)));
 	}
 
+	/**
+	 * Launches directory application to add contact, with data pre-filled
+	 */
 	public void addToContacts() {
 		String contactFullName =  mContact.getFirstName() + " " + mContact.getLastName();
 		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT, ContactsContract.Contacts.CONTENT_URI);
@@ -182,11 +202,17 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		startActivity(intent);
 	}
 
+	/**
+	 * Launches a web browser to visit the contact's personal website
+	 */
 	public void visitContactWebsite() {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebsite()));
 		startActivity(browserIntent);
 	}
 	
+	/**
+	 * Sorts the list of displayed contacts based on current activated filters
+	 */
 	public void sortContacts() {
 		ArrayList<Contact> sortedContacts = new ArrayList<Contact>();
 		if (mSearchResult != null) {
@@ -200,11 +226,17 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 		mSortedContacts = sortedContacts;
 	}
 	
+	/**
+	 * Clears all items from the adapter view
+	 */
 	public void clearContent() {
 		mDirectoryAdapter.clear();
 		mDirectoryAdapter.notifyDataSetChanged();
 	}
-
+	
+	/**
+	 * Updates view of current items
+	 */
 	public void reloadContent() {
 		sortContacts();
 		mDirectoryAdapter.clear();
@@ -248,8 +280,13 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-
+	
+	/**
+	 * Worker thread responsible for submitting a search query
+	 * and displaying the result
+	 * @author CampusUB1 Development Team
+	 *
+	 */
 	private class SearchResultTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -268,8 +305,10 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 				searchResult = mDirectoryManager.searchContact(firstName, lastName);
 			} catch (LDAPException e) {
 				e.printStackTrace();
+				cancel(true);
 			} catch (IOException e) {
 				e.printStackTrace();
+				cancel(true);
 			}
 			mSearchResult = searchResult;
 			return null;
@@ -277,13 +316,17 @@ public class DirectoryActivity extends ListActivity implements OnItemClickListen
 
 		@Override
 		protected void onPostExecute(Void result) {
-			reloadContent();
+			if (mSearchResult != null && mSearchResult.size() < 1)
+				Toast.makeText(getBaseContext(), R.string.no_matching_contacts, Toast.LENGTH_SHORT).show();
+			else
+				reloadContent();
 			mProgressBar.setVisibility(View.GONE);
 		}
 
 		@Override
 		protected void onCancelled() {
 			mProgressBar.setVisibility(View.GONE);
+			Toast.makeText(getBaseContext(), R.string.connection_failed, Toast.LENGTH_SHORT).show();
 			super.onCancelled();
 		}
 	}

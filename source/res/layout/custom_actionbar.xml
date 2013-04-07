@@ -34,6 +34,7 @@
     <ImageButton
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
+        android:contentDescription="@string/menu_settings"
         android:src="@drawable/ic_action_overflow"
         android:background="?android:selectableItemBackground"
         android:clickable="true"
@@ -48,6 +49,7 @@
 
     <ImageButton
         android:id="@+id/menu_filters"
+        android:contentDescription="@string/menu_establishment_filters"
         android:src="@drawable/ic_filters"
         android:background="?android:selectableItemBackground"
         android:clickable="true"

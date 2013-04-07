@@ -26,6 +26,11 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Launcher activity responsible for prompting user to subscribe on first launch
+ * @author CampusUB1 Development Team
+ *
+ */
 public class LauncherActivity extends Activity {
 
 	private SubscribeDialog mSubscribeDialog;
@@ -66,5 +71,4 @@ public class LauncherActivity extends Activity {
     	}
     	return false;
     }
-	 
 }

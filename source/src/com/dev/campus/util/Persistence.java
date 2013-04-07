@@ -23,8 +23,15 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.preference.PreferenceManager;
 
+/**
+ * Class responsible for reading/writing persistent user preferences,
+ * as well as reading connectivity states.
+ * @author CampusUB1 Development Team
+ *
+ */
 public class Persistence {
 
+	// Preferences key values
 	public static final String PREF_SCREEN_SUBSCRIBE = "pref_subscriptions_screen";
 	public static final String PREF_SCREEN_FILTERS = "pref_filters_screen";
 	public static final String PREF_SUBSCRIBE_UB1 = "pref_subscribe_ub1";
@@ -34,17 +41,17 @@ public class Persistence {
 	public static final String PREF_UPCOMING_EVENTS = "pref_upcoming_events";
 	public static final String PREF_ABOUT = "pref_about";
 
-	public static final int DEFAULT_UPCOMING_MONTHS = 3;
-	public static final int MAX_UPCOMING_MONTHS = 6;
+	public static final int DEFAULT_UPCOMING_MONTHS = 2;
+	public static final int MAX_UPCOMING_MONTHS = 4;
 
-	private ConnectivityManager conMan;
+	private ConnectivityManager conManager;
 	private SharedPreferences shared_prefs;
 	private SharedPreferences.Editor prefs_editor;
 
 	public Persistence(Context context) {
 		shared_prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		prefs_editor = shared_prefs.edit();
-		conMan = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		conManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 
 	public boolean isSubscribedUB1() {
@@ -92,12 +99,12 @@ public class Persistence {
 	}
 
 	public boolean isMobileConnected() {
-		State state = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
+		State state = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
 		return state == NetworkInfo.State.CONNECTED;
 	}
 
 	public boolean isWifiConnected() {
-		State state = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+		State state = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
 		return state == NetworkInfo.State.CONNECTED;
 	}
 

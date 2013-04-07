@@ -24,6 +24,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Implementation of HomeItem used for menu entries
+ * @author CampusUB1 Development Team
+ *
+ */
 public class HomeEntryItem implements HomeItem {
 	
 	private int mIconResourceId;

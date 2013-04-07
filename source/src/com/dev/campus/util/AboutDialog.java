@@ -24,6 +24,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 
+/**
+ * Utility dialog for the About section
+ * @author CampusUB1 Development Team
+ *
+ */
 public class AboutDialog extends AlertDialog.Builder {
 
 	public AboutDialog(final Context context) {

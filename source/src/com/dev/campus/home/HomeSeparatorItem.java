@@ -22,6 +22,11 @@ import com.dev.campus.home.HomeAdapter.HomeItemType;
 import android.view.LayoutInflater;
 import android.view.View;
 
+/**
+ * Implementation of HomeItem used for menu separators
+ * @author CampusUB1 Development Team
+ *
+ */
 public class HomeSeparatorItem implements HomeItem {
 
 	@Override

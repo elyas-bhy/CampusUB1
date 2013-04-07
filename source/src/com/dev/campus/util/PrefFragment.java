@@ -25,8 +25,13 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
+/**
+ * Fragment responsible for handling preferences changes
+ * @author CampusUB1 Development Team
+ *
+ */
 public class PrefFragment extends PreferenceFragment 
-implements SharedPreferences.OnSharedPreferenceChangeListener {
+	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private SubscribeDialog mSubscribeDialog;
 	private FilterDialog mFilterDialog;

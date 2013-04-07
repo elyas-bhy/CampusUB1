@@ -21,14 +21,21 @@ import com.dev.campus.R;
 
 import android.content.res.Resources;
 
+/**
+ * Enumeration containing all the custom positions used in MapActivity
+ * A Position is defined by its type, name and coordinates
+ * @author CampusUB1 Development Team
+ *
+ */
 public enum Position {
 	
+	// Buildings in zone A
 	BAT_A1(PositionType.BUILDING, R.array.batiment_A1, 44.808673,-0.591814),
 	BAT_A2(PositionType.BUILDING, R.array.batiment_A2, 44.808083,-0.591747),
 	BAT_A3(PositionType.BUILDING, R.array.batiment_A3, 44.807786,-0.592221),
 	BAT_A4(PositionType.BUILDING, R.array.batiment_A4, 44.807885,-0.592836),
 	BAT_A5(PositionType.BUILDING, R.array.batiment_A5, 44.807242,-0.593562),
-	BAT_A6(PositionType.BUILDING,R.array.batiment_A6, 44.807052,-0.594115),
+	BAT_A6(PositionType.BUILDING, R.array.batiment_A6, 44.807052,-0.594115),
 	BAT_A7(PositionType.BUILDING, R.array.batiment_A7, 44.807134,-0.593906),
 	BAT_A8(PositionType.BUILDING, R.array.batiment_A8, 44.806791,-0.594321),
 	BAT_A9(PositionType.BUILDING, R.array.batiment_A9, 44.807731,-0.594043),
@@ -56,6 +63,7 @@ public enum Position {
 	BAT_A38(PositionType.BUILDING, R.array.batiment_A38, 44.810389,-0.592135),
 	BAT_A39(PositionType.BUILDING, R.array.batiment_A39, 44.809244,-0.591806),
 	
+	// Buildings in zone B
 	BAT_B1(PositionType.BUILDING, R.array.batiment_B1, 44.801613,-0.609342),
 	BAT_B2(PositionType.BUILDING, R.array.batiment_B2, 44.802018,-0.608744),
 	BAT_B3(PositionType.BUILDING, R.array.batiment_B3, 44.802157,-0.60972),
@@ -73,9 +81,11 @@ public enum Position {
 	BAT_B18(PositionType.BUILDING, R.array.batiment_B18, 44.805293,-0.606509),
 	BAT_B19(PositionType.BUILDING, R.array.batiment_B19, 44.80576,-0.605922),
 	
+	// Other campus buildings
 	INRIA(PositionType.BUILDING, R.array.INRIA, 44.807992,-0.599852),
 	SCRIME(PositionType.BUILDING, R.array.SCRIME, 44.810199,-0.591985),
 	
+	// Restaurants
 	RU1(PositionType.RESTAURANT, R.array.RU1, 44.806447,-0.603122),
 	RU2(PositionType.RESTAURANT, R.array.RU2, 44.800071,-0.611348),
 	RU3(PositionType.RESTAURANT, R.array.RU3, 44.791803,-0.613818),
@@ -92,6 +102,7 @@ public enum Position {
 	KIOSQUE_A_PIZZA(PositionType.RESTAURANT, R.array.kiosque_pizza, 44.806024,-0.592301),
 	BOITE_A_PIZZA(PositionType.RESTAURANT, R.array.boite_pizza, 44.803342,-0.593326),
 	
+	// Other services
 	BU(PositionType.SERVICE, R.array.BU, 44.80649,-0.602167),
 	CROUS(PositionType.SERVICE, R.array.CROUS, 44.806974,-0.603782),
 	CLINIQUE_BETHANIE(PositionType.SERVICE, R.array.clinique_béthanie, 44.805819,-0.599405),

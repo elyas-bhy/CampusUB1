@@ -18,6 +18,11 @@ package com.dev.campus.directory;
 
 import java.util.Comparator;
 
+/**
+ * Basic holder class for contact data
+ * @author CampusUB1 Development Team
+ *
+ */
 public class Contact {
 
 	private String firstName;

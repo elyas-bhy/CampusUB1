@@ -18,10 +18,11 @@ package com.dev.campus.map;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import com.dev.campus.CampusUB1App;
 import com.dev.campus.R;
+import com.dev.campus.map.Position.PositionType;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,27 +55,37 @@ import android.widget.CheckBox;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+/**
+ * Class responsible for the maps activity UI and lifecycle,
+ * handles map display and animation, map markers and map search queries,
+ * as well as location services.
+ * 
+ * @author CampusUB1 Development Team
+ *
+ */
 public class MapActivity extends Activity implements LocationListener {
 
-	//Used CameraPosition attributes
+	// Google Play Services URL
+	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
+
+	// Utilities
+	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
+	private SearchView mSearchView;
+	private Resources mResources;
+	
+	// Camera position attributes
 	private final int BEARING = 69;
 	private final int DEFAULT_ZOOM = 16;
 	private final int SEARCH_ZOOM = 18;
-	private final int UPDATE_FREQUENCY = 5000; //Update frequency (ms)
+	// Position update frequency (ms)
+	private final int UPDATE_FREQUENCY = 5000;
 	
-	private final LatLng MAP_CENTER = new LatLng(44.80736, -0.596572);
-	private final String PLAY_SERVICES_URL = "http://play.google.com/store/apps/details?id=com.google.android.gms";
-
-	private LocationManager mLocationManager;
-	private Resources mResources;
+	// Map-related objects
 	private GoogleMap mMap;
-	
-	private ArrayList<Marker> mServicesMarkers, mRestaurantsMarkers, mBuildingsMarkers;
-	private CheckBox mServices, mRestauration, mBuildings;
-	
 	private Marker mCurrentLocation;
-	private SearchView mSearchView;
-
+	private LocationManager mLocationManager;
+	private HashMap<PositionType, ArrayList<Marker>> mMarkers;
+	private CheckBox mServices, mRestauration, mBuildings;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,13 +109,15 @@ public class MapActivity extends Activity implements LocationListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		 if (mLocationManager != null)
-			 getNewProviders();
+		// Fresh registration of location listeners after resuming activity
+		if (mLocationManager != null)
+			getNewProviders();
 	}
 	
 	@Override     
 	protected void onPause() {  
 		super.onPause();
+		// Remove location listeners on pause for battery saving
 		if (mLocationManager != null)
 			mLocationManager.removeUpdates(this);		
 	}
@@ -134,20 +147,29 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 	
+	/**
+	 * Handles state changes of filter checkboxes
+	 * @param view reference to the clicked view
+	 */
 	public void onCheckboxClicked(View view) {
 		switch(view.getId()) {
 		case R.id.services_check:
-			populateMap(mServicesMarkers, mServices.isChecked());
+			populateMap(PositionType.SERVICE, mServices.isChecked());
 			break;
 		case R.id.restaurants_check:
-			populateMap(mRestaurantsMarkers, mRestauration.isChecked());
+			populateMap(PositionType.RESTAURANT, mRestauration.isChecked());
 			break;
 		case R.id.buildings_check:
-			populateMap(mBuildingsMarkers, mBuildings.isChecked());
+			populateMap(PositionType.BUILDING, mBuildings.isChecked());
 			break;
 		}
 	}
 	
+	/**
+	 * Checks if Google Play Services is installed on the device.
+	 * If not, launches a dialog to prompt user to install it.
+	 * @return true if Google Play Services is already installed, else false
+	 */
 	public boolean isGooglePlayServicesAvailable() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if (status != ConnectionResult.SUCCESS) {
@@ -180,7 +202,10 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Sets up the main map components, and centers camera to default position
+	 */
 	public void setupMap() {
 		CameraPosition UB1Position = new CameraPosition.Builder()
 		.target(MAP_CENTER)
@@ -194,6 +219,10 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.moveCamera(CameraUpdateFactory.newCameraPosition(UB1Position));
 	}
 
+	/**
+	 * Initializes location services and network providers,
+	 * and calculates last known position
+	 */
 	public void setupLocationServices() {	
 		if(!isGpsEnabled())
 			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
@@ -216,10 +245,13 @@ public class MapActivity extends Activity implements LocationListener {
 			onLocationChanged(location);
 	}
 
+	/**
+	 * Adds all the custom positions defined in Position.java as markers on the map
+	 */
 	public void setupMarkers() {
-		mServicesMarkers = new ArrayList<Marker>();
-		mRestaurantsMarkers = new ArrayList<Marker>();
-		mBuildingsMarkers = new ArrayList<Marker>();
+		mMarkers = new HashMap<PositionType, ArrayList<Marker>>();
+		for (PositionType type : PositionType.values())
+			mMarkers.put(type, new ArrayList<Marker>());
 		
 		for (Position pos : Position.values()) {
 			MarkerOptions options = new MarkerOptions()
@@ -228,25 +260,25 @@ public class MapActivity extends Activity implements LocationListener {
 			.draggable(false)
 			.title(pos.getName());
 			Marker marker = mMap.addMarker(options);
-			
-			switch (pos.getType()) {
-			case BUILDING:
-				mBuildingsMarkers.add(marker);
-				break;
-			case RESTAURANT:
-				mRestaurantsMarkers.add(marker);
-				break;
-			case SERVICE:
-				mServicesMarkers.add(marker);
-			}
+			mMarkers.get(pos.getType()).add(marker);
 		}
 	}
 
-	public void populateMap(List<Marker> markers, boolean isChecked) {
-		for (Marker marker : markers)
+	/**
+	 * Toggles visibility of a collection of markers
+	 * @param markers the collection of markers
+	 * @param isChecked new visibility state
+	 */
+	public void populateMap(PositionType type, boolean isChecked) {
+		for (Marker marker : mMarkers.get(type))
 			marker.setVisible(isChecked);			
 	}
 
+	/**
+	 * Animates camera movement to a specified position
+	 * @param pos destination
+	 * @param zoom zoom level
+	 */
 	public void goToPosition(LatLng pos, int zoom) {
 		CameraPosition position  = new CameraPosition.Builder()
 		.target(pos)
@@ -256,24 +288,21 @@ public class MapActivity extends Activity implements LocationListener {
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
 	}
 	
+	/**
+	 * Looks up for a position that matches one of the database suggestions
+	 * and centers the camera on it if found
+	 * The suggestions list can be found in the "positions.xml" file
+	 * located in the res/values folder of the project
+	 * @param input description of the marker to search
+	 * @return the marker's ID if found, else null
+	 */
 	@SuppressLint("DefaultLocale")
 	public String searchPosition(String input) {
 		for (Position pos : Position.values()) {
 			for (int i = 0; i < pos.getSuggestions().length; i++) {
 				if (reformatString(pos.getSuggestions()[i]).startsWith(reformatString(input))) {
-					ArrayList<Marker> markerType = null;
+					ArrayList<Marker> markerType = mMarkers.get(pos.getType());
 					String markerId = null;
-					switch(pos.getType()) {
-					case BUILDING:
-						markerType = mBuildingsMarkers;
-						break;
-					case RESTAURANT:
-						markerType= mRestaurantsMarkers;
-						break;
-					case SERVICE:
-						markerType = mServicesMarkers;
-						break;
-					}
 					for (Marker marker : markerType) {
 						if (pos.getId().equals(marker.getId())) {
 							markerId = marker.getId();
@@ -290,14 +319,21 @@ public class MapActivity extends Activity implements LocationListener {
 		Toast.makeText(this, R.string.map_not_found, Toast.LENGTH_SHORT).show();
 		return null;
 	}
-
+	
+	/**
+	 * Strips diacritics from argument string and sets it to lower case
+	 * @param str the string to reformat
+	 * @return 
+	 */
 	public String reformatString(String str) {
-		//strip accents
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
 		return str.toLowerCase();
 	}
 	
+	/**
+	 * Search query listener for handling query submissions
+	 */
 	final SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
 		@Override
 		public boolean onQueryTextChange(String text) {
@@ -317,10 +353,17 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	};
 
+	/**
+	 * Checks if GPS is currently enabled on the device
+	 * @return
+	 */
 	public boolean isGpsEnabled() {
 		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 
+	/**
+	 * Registers listeners for location changes on both network providers
+	 */
 	public void getNewProviders() {
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, 0, this);

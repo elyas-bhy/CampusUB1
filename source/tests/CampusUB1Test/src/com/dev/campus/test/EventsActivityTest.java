@@ -79,6 +79,7 @@ ActivityInstrumentationTestCase2<EventsActivity> {
 	}
 
 	public void testMarkEventAsRead() {
+		mSolo.clickInList(1);
 		mSolo.waitForCondition(new Condition() {
 
 			@Override
@@ -91,8 +92,52 @@ ActivityInstrumentationTestCase2<EventsActivity> {
 		mSolo.goBack();
 		mSolo.waitForActivity("EventsActivity");
 
-		// Need to trigger saveEvents() first in UI thread
-		//assertTrue(mEventAdapter.getItem(0).isRead());
+		assertTrue(mEventAdapter.getItem(0).isRead());
+	}
+	
+	public void testSwipeEventsAndShowReadOnly() {
+		mSolo.clickInList(1);
+		mSolo.waitForCondition(new Condition() {
+
+			@Override
+			public boolean isSatisfied() {
+				return mEventAdapter.getCount() > 0;
+			}
+		}, 10000);
+		mSolo.clickInList(1);
+		mSolo.waitForActivity("EventViewActivity");
+		mSolo.scrollToSide(Solo.RIGHT);
+		mSolo.scrollToSide(Solo.RIGHT);
+		mSolo.goBack();
+		mSolo.waitForActivity("EventsActivity");
+
+		// All viewed events should be marked as read
+		assertTrue(mEventAdapter.getItem(0).isRead());
+		assertTrue(mEventAdapter.getItem(1).isRead());
+		assertTrue(mEventAdapter.getItem(2).isRead());
+		
+		// Toggle filter to view unread events only
+		mSolo.clickOnView(mSolo.getView(R.id.checkbox_show_unread_only));
+
+		// Check that adapter now contains only unread events
+		for (int i = 0; i < mEventAdapter.getCount(); i++) {
+			Event event = mEventAdapter.getItem(i);
+			assertFalse(event.isRead());
+		}
+	}
+	
+	public void testStarEvent() {
+		mSolo.clickInList(1);
+		mSolo.waitForCondition(new Condition() {
+
+			@Override
+			public boolean isSatisfied() {
+				return mEventAdapter.getCount() > 0;
+			}
+		}, 10000);
+		// First 3 ImageViews are the icons on the ActionBar
+		mSolo.clickOnView(mSolo.getImage(4));
+		assertTrue(mEventAdapter.getItem(0).isStarred());
 	}
 
 }

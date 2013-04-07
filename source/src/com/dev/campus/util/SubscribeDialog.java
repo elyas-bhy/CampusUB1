@@ -30,7 +30,7 @@ import android.content.Intent;
 
 /**
  * Custom AlertDialog class which handles subscriptions management
- * @author elyas-bhy
+ * @author CampusUB1 Development Team
  *
  */
 public class SubscribeDialog extends AlertDialog {
@@ -69,7 +69,7 @@ public class SubscribeDialog extends AlertDialog {
 
 	/**
 	 * Custom AlertDialog builder class which provides subscriptions management
-	 * @author elyas-bhy
+	 * @author CampusUB1 Development Team
 	 *
 	 */
 	private class SubscribeDialogBuilder extends AlertDialog.Builder {

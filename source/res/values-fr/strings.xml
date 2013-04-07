@@ -18,6 +18,7 @@
 
     <!-- Menus -->
     <string name="menu_settings">Paramètres</string>
+    <string name="menu_establishment_filters">Filtres d\'établissements</string>
     <string name="menu_calendar">Rajouter au calendrier</string>
     <string name="menu_call">Appeler</string>
     <string name="menu_mail">Envoyer un e-mail</string>
@@ -45,9 +46,11 @@
     <string name="updating_events">Mise à jour en cours</string>
     <string name="connection_failed">Echec de connection</string>
     <string name="connection_required">Une connexion Internet active est requise</string>
+    <string name="no_matching_contacts">Aucun contact n\'a été trouvé</string>
     <string name="no_website">Aucun site web disponible pour ce contact</string>
     <string name="no_tel">Aucun numéro disponible pour ce contact</string>
     <string name="no_email">Aucune adresse mail disponible pour ce contact</string>
+    <string name="showing_starred_events">Affichage des événements favoris</string>
     <string name="showing_upcoming_events">Affichage des événements à venir</string>
     <string name="showing_unread_events">Affichage des événements non lus</string>
     <string name="showing_all_events">Affichage de tous les événements</string>
@@ -92,6 +95,11 @@
     <string name="my_position">Ma position</string>
     <string name="campus_position">Position du campus</string>
 
+    <!-- Content description -->
+    <string name="button_search">Rechercher</string>
+    <string name="star">Favori</string>
+    <string name="icon">Icone</string>
+    
     <!-- Preferences -->
     <string name="preferences_category">Préférences</string>
     <string name="other_category">Autres</string>
@@ -113,11 +121,13 @@
     <string name="category_student_life">Vie étudiante</string>
     <string name="category_companies">Entreprises</string>
     <string name="category_press">Presse</string>
-    <string name="category_theses">Theses</string>
-    <string name="category_groupes">Groupes</string>
-    <string name="category_colloques">Colloques</string>
-    <string name="category_autres">Autres</string>
     <string name="category_exposition">Expositions</string>
+    <string name="category_manifestions">Manifestations</string>
+    <string name="category_conferences">Conférences</string>
+    <string name="category_theses">Thèses</string>
+    <string name="category_colloques">Colloques</string>
+    <string name="category_groupes">Groupes</string>
+    <string name="category_autres">Autres</string>
 
     <!-- Schedule Spinner -->
     <string name="schedule_spinner_title">Sélectionnez votre semestre courant</string>
@@ -136,7 +146,5 @@
         <item>2 mois</item>
         <item>3 mois</item>
         <item>4 mois</item>
-        <item>5 mois</item>
-        <item>6 mois</item>
     </string-array>
 </resources>

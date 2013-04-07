@@ -23,6 +23,12 @@ import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
+/**
+ * Background service responsible for importing a specified schedule
+ * to the default calendar of the device.
+ * @author CampusUB1 Development Team
+ *
+ */
 public class ScheduleImportService extends IntentService {
 
 	private Handler mHandler;
@@ -52,5 +58,4 @@ public class ScheduleImportService extends IntentService {
 		}
 		showToast(R.string.schedule_import_complete);
 	}
-
 }
