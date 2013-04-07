@@ -32,7 +32,7 @@
          <Preference
             android:key="pref_upcoming_events"
             android:title="@string/upcoming_events_title"
-            android:summary="@string/upcoming_events_summary" />
+            android:summary="@string/upcoming_events_summary"/>
     </PreferenceCategory>
     
     <PreferenceCategory 
