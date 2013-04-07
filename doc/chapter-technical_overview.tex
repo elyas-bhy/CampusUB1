@@ -1,5 +1,20 @@
 \chapter{Patterns et descriptions techniques}
 
+\section{Librairies externes utilisées}
+
+Afin de pouvoir implémenter une partie de nos fonctionnalités principales et d'optimiser l'expérience utilisateur de l'application, nous avons eu à faire recours à plusieurs bibliothèques externes. Pour cela, il a avant tout fallu se documenter à propos des bibliothèques existantes et avoir des avis sur celles-ci afin de s'assurer qu'elles soient bien stables, à jour, et qu'elles fournissent tous les services qui nous sont nécessaires.\\
+
+L'application utilise cinq bibliothèques externes: \\
+
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item \textbf{UnboundID LDAP SDK}: indispensable pour la connexion aux serveurs utilisant le protocole LDAP étant donné que la SDK de Java ne fournit aucun outil équivalent. On avait également encore le choix avec \textit{JNDI LDAP} et \textit{Spring LDAP} qui sont deux bibliothèques LDAP connues mais beaucoup plus complexes à utiliser et obsolètes. \\
+\item \textbf{Jsoup}: la bibliothèque de référence pour l'analyse textuelle de textes HTML. Elle sert a parser les événements ainsi que l'annuaire du LaBRI. \\
+\item \textbf{Google Play Services lib}: librairie nécessaire pour utiliser les services de Google Maps et donc implémenter les services affectant le plan du campus. \\
+\item \textbf{Sliding menu lib}: sert à améliorer l'esthétique et l'expérience utilisateur au sein du service qui affiche les événements. Permet de rajouter une barre latérale qui sert à basculer entre les différentes catégories d'événements à tout moment en faisant un simple geste de glissement avec le doigt. \\
+\item \textbf{Robotium}: bibliothèque spécifique à la plateforme Android qui nous a été utile durant la phase finale du projet afin d'effectuer des tests en boîte noire pour notre interface graphique. 
+\end{itemize}
+
 \section{Extraction des dates}
 L’extraction des dates se fait a l’aide d’expressions régulières que l’on applique au contenu des événements. Nous détectons les dates “standalone” pour marquer le début des événements, mais aussi les intervalles de dates afin de pouvoir préciser une durée d’événement lorsque l’utilisateur se décide à ajouter l’événement au calendrier de son téléphone.
 
