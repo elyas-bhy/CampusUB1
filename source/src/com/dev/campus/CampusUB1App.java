@@ -37,7 +37,7 @@ public class CampusUB1App extends Application {
 	/**
 	 * Main debug switch, turns on/off debugging for the whole app
 	 */
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static Persistence persistence;
 	private static CampusUB1App instance;
