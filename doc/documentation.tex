@@ -16,6 +16,9 @@
 \usepackage{textcomp}
 \usepackage{adjustbox}
 
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
 \usepackage{hyperref}
 \hypersetup{
   backref=true,
@@ -27,6 +30,7 @@
   linkcolor=black,
   citecolor=black
 }
+\definecolor{gray75}{gray}{0.75}
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{lightblue}{rgb}{0.0,0.4,0.9}
@@ -91,6 +95,7 @@
 \def\wl{\par \vspace{\baselineskip}}
 \renewcommand{\lstlistingname}{Code}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\hsp}{\hspace{20pt}}
 
 \begin {document}
 
