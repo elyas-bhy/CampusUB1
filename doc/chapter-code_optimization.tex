@@ -16,7 +16,7 @@ Lors de la première capture du chargement des événements grâce à Systrace, 
   \caption{Récupération et affichage des événements de l'université de Bordeaux 1 avant optimisation}
 \end{figure}
 
-L'élément qui nous a permis d'effectuer cette amélioration se trouve au niveau du \textit{layout} qui affiche la liste des événements récupérés. Après s'être renseigné au sein de la documentation Android, nous avons appris que la  modification de l'attribut booléen \textit{android:baselineAligned} à \textit{faux} au sein du \textit{layout} permet de gagner en performances en libérant l'application de la charge supplémentaire qu'elle avait à devoir aligner les \textit{baselines} des éléments fils.(Voir figure 8.2)
+L'élément qui nous a permis d'effectuer cette amélioration se trouve au niveau du \textit{layout} qui affiche la liste des événements récupérés. Après s'être renseigné au sein de la documentation Android, nous avons appris que la  modification de l'attribut booléen \textit{android:baselineAligned} à \textit{false} au sein du \textit{layout} permet de gagner en performances en libérant l'application de la charge supplémentaire qu'elle avait à devoir aligner les \textit{baselines} des éléments fils (Voir figure 8.2).
 
 \begin{figure}[h!]
   \label{fig:systrace_optim}
