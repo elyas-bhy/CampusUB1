@@ -312,7 +312,7 @@ public class EventsActivity extends SlidingListActivity implements OnItemClickLi
 	private String getHistoryPath() {
 		int sub1 = CampusUB1App.persistence.isSubscribedUB1()? 1 : 0;
 		int sub2 = CampusUB1App.persistence.isSubscribedLabri()? 1 : 0;
-		return getFilesDir() + "/history_" + mCategory.toString().replace(" ", "") + sub1 + sub2 + ".dat";
+		return getFilesDir() + "/history_" + mCategory.hashCode() + sub1 + sub2 + ".dat";
 	}
 	
 	/**
