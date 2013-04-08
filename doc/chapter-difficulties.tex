@@ -1,19 +1,18 @@
 \chapter{Difficultés rencontrées}
 
 Lors de l’implémentation de l’extraction des dates, nous avons rencontré des problèmes concernant l’inclusion des librairies CUP et JFlex. Les méthodes n’étaient pas reconnues au sein du projet, rendant leur utilisation impossible.
-Nous avons donc opté pour de simples expressions régulières qui reconnaissent des dates. \\
+Nous avons donc opté pour l'utilisation d'expressions régulières qui reconnaissent des dates. \\
 
-Nous avons décide d’implémenter un pager afin de rendre le défilement d’un évènement à un autre plus ergonomique, hors pour cela il a fallu implémenter une nouvelle activité. Ceci a légèrement compliqué le marquage des évènements comme lus depuis cette activité. Nous avons cherché la meilleure méthode de transmettre des données d’une activité à une autre, et sommes arrivés à la sérialisation d’objets au sein des Intent. Cette méthode ne nous convient guère, mais semble être le moyen le plus apte à réaliser le travail nécessaire. \\
+Nous avons décidé d'utiliser un \emph{ViewPager} afin de rendre le défilement d’un événement à un autre plus ergonomique. Or pour cela il a fallu implémenter une nouvelle activité. Ceci a légèrement compliqué l'enregistrement des événements comme lus depuis cette activité. Nous avons cherché la meilleure méthode de transmettre des données d’une activité à une autre, et sommes arrivés à la sérialisation d’objets à l'aide des objets de type \emph{Intent}. Cette méthode ne nous convient guère, mais semble être le moyen le plus apte à réaliser le travail nécessaire. \\
 
-Une des difficultés principales de ce projet tenait de l’apprentissage de l’API Android. L’API Android étant vaste, il n’était pas toujours facile de savoir si nous avions trouvé la solution optimale a un problème.
+Une des difficultés principales de ce projet tenait de l’apprentissage de l’API Android, et de son fonctionnement. L’API Android étant vaste, il n’était pas toujours facile de savoir si nous avions trouvé la solution optimale à un problème donné.
+
+En ce qui concerne les événements, nous avons dû faire comme prévu, deux récupérations d’information différentes, le parsing des flux RSS et le parsing des pages HTML.
+Le parsing des flux et des pages a donné lieu a de nouvelles difficultés, notamment concernant les dates. Puisque beaucoup d'événements avaient la mauvaise date, voire même aucune date, nous avons dû essayer de déterminer la date correcte à partir du texte de l'événement. \\
 
 
-En ce qui concerne les évènements, nous avons du faire comme prévu, deux récupérations d’information différentes, le parsing des flux RSS et le parsing des pages HTML.
-Le parsing des flux et des pages a donné lieu a de nouvelles difficultés, notamment concernant les dates. Puisque beaucoup d'événements avaient la mauvaise date, voire même aucune date, nous avons du essayer de déterminer la date correcte a partir du texte de l'événement. \\
-
-
-Concernant les pages HTML, nous avons du comprendre comment étaient organisées les pages, quels étaient les éléments à entrer dans la requête afin de récupérer les évènements sur une certaine durée. Nous avons utilisé JSoup pour extraire les éléments. Malheureusement nous n’avons organisé le code que pour parser les pages HTML qui sont strictement d’une certaine forme.
-Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les évènements étaient complets. En effet, certains d’eux ne possède pas de titre ou aucun descriptif (voir exemple ci-dessous).
+Concernant les pages HTML, nous avons dû comprendre comment étaient organisées les pages, quels étaient les éléments à entrer dans la requête afin de récupérer les événements sur une certaine durée. Nous avons utilisé \emph{Jsoup} pour extraire les éléments. Ainsi, étant donné que les pages HTML du LaBRI sont agencées d'une certaine forme, il a fallu adapter le code pour parser ces pages.
+Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les événements étaient complets. En effet, certains d’eux ne possèdent pas de titre ou aucun descriptif (voir exemple ci-dessous).
 
 \begin{adjustbox}{minipage=1.14\textwidth,margin=0pt \smallskipamount,center}
 \begin{lstlisting}[style=XML, label=htmlCode]
@@ -29,8 +28,8 @@ Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les é
 \end{lstlisting}
 \end{adjustbox}
 
-Exemple d'évènement HTML sans contenu
+Exemple d'événement HTML sans contenu
 En rouge ce qui est extrait et en commentaire le type de donnée. Ici l’élément ne possède pas de descriptif, nous préférons le supprimer. \\
 
-Nous avons eu des difficultés avec l’utilisation de l’API calendar. En effet, selon les modèles de smartphone, l’utilisation de l’API est différente à cause notamment de la surcouche logicielle ajoutée par les constructeurs. Nous avons finalement décidé d’effectuer l’import de l’emploi du temps dans le calendrier par défaut. D’autres difficultés ont également été rencontrées pour insérer tous les événements en mode “batch insert”. Mais après de multiples recherches et la lecture de nombreux posts sur l’excellent forum StackOverflow, nous sommes parvenu à implémenter cette fonctionnalité.
+Nous avons eu des difficultés avec l’utilisation de \emph{ContentProvider} pour la gestion des événements du calendrier. En effet, selon les modèles de smartphone, l’utilisation de l’API est différente à cause notamment de la surcouche logicielle ajoutée par les constructeurs. Nous avons finalement décidé d’effectuer l’import de l’emploi du temps dans le calendrier par défaut. D’autres difficultés ont également été rencontrées pour insérer tous les événements en une fois (insertion par lots, ou \emph{batch insert}). Mais après de multiples recherches et la lecture de nombreux posts sur l’excellent forum StackOverflow, nous sommes parvenu à implémenter cette fonctionnalité.
 
