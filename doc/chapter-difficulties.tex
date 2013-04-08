@@ -56,7 +56,7 @@ Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les é
 \end{adjustbox}
 
 Exemple d'événement HTML sans contenu
-En rouge ce qui est extrait et en commentaire le type de donnée. Ici l’élément ne possède pas de descriptif, nous préférons le supprimer. \\
+En rouge ce qui est extrait et en commentaire le type de donnée. Dans cet exemple il s'agit du descriptif qui est vide, alors nous ne l'affichons pas, nous avons rencontré plusieurs situations comme celle-ci, comme par exemple une date vide (qui se retraduit par la date epoch), ou encore des titres vides ou presque, voire encore des contenus insensés. Nous avons pris comme décision de ne pas afficher ce genre d'événements afin de ne pas encombrer l'application d'innformations inutilisables. \\
 
 Nous avons eu des difficultés avec l’utilisation de \emph{ContentProvider} pour la gestion des événements du calendrier. En effet, selon les modèles de smartphone, l’utilisation de l’API est différente à cause notamment de la surcouche logicielle ajoutée par les constructeurs. Nous avons finalement décidé d’effectuer l’import de l’emploi du temps dans le calendrier par défaut. D’autres difficultés ont également été rencontrées pour insérer tous les événements en une fois (insertion par lots, ou \emph{batch insert}). Mais après de multiples recherches et la lecture de nombreux posts sur l’excellent forum StackOverflow, nous sommes parvenu à implémenter cette fonctionnalité.
 
