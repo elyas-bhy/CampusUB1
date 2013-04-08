@@ -9,7 +9,7 @@
   \fbox{\includegraphics[width=0.9\textwidth]{resources/architecture.png}}
 \end{figure}
 
-L'application est organisée autour d'un ensemble d'activités Android, qui interagissent avec 4 modules différents. Ces modules sont organisés de la façon suivante: Settings, Directory, Events, et Analyser.
+L'application est organisée en plusieurs packages, chacun définissant des services différents. On distingue les modules les plus importants: Settings, Directory, et Events.
 
 \newpage
 \subsection{Settings}
@@ -51,7 +51,7 @@ Ce module s'occupe de la gestion de l'annuaire. Il est responsable des services 
   \center
   \setlength\fboxsep{5pt}
   \setlength\fboxrule{0.5pt}
-  \fbox{\includegraphics[width=0.95\textwidth]{resources/events_mod.png}}
+  \fbox{\includegraphics[width=1.0\textwidth]{resources/events_mod.png}}
 \end{figure}
 
 Ce module s'occupe de la gestion des événements. Il est responsable des services suivants:
