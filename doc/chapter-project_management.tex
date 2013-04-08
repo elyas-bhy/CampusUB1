@@ -16,3 +16,8 @@ Afin de s'assurer que notre code soit robuste, nous avons effectué des tests un
 
 Pour cela, nous avons utiliser Robotium, un assistant open source pour l'élaboration de tests sous Android. Qui peut notamment simuler des clics sur l'écran, ainsi que tout autre geste nécéssaire pour tester une application Android.
 Cet outil permet également de tester la couverture du code d'une application Android, mais les bibliotheques externes ont empeché Robotium de tester la couverture de notre application.
+
+L'application étant dependante d'un parsage de données téléchargées, dont nous ne controlons pas le contenu, nous devons etre sur que les parseurs fonctionnent au mieux possible, nous avons donc effectué des tests a la fois avec du contenu controlé, que nous avons écrit et qui correspond au normes minimales que nous avons pu identifier sur les flux et les pages téléchargées, et sur du contenu réel, afin de s'assurer que nous avons bien identifié les formes minimales.
+Il était également important de tester la classe \emph{TimeExtractor}, afin d'etre sur que nous avions les dates correctes au cours du parsage et que l'ajout d'un évenement important dans l'agenda du téléphone ne produirait pas une horaire décalée, car il ne serait pas bon qu'un utilisateur soit en retard a un évenement a cause de notre application.
+
+A l'aide l'outil Robotium nous avons pu implémenter des tests sur l'interface, réalisant quelques'uns de nos tests d'utilisation. Ces tests font partie des tests des \emph{Activity} de l'application, ainsi nous pouvons affirmer que certains de nos cas d'utilisation sont correctes, tout en validant nos \emph{Activity}.
