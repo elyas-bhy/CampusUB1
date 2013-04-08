@@ -87,6 +87,26 @@
     morekeywords={attribute,xmlns,version,type,release},
 }
 
+
+\lstdefinestyle{HTML} {
+    language=HTML,
+    frame=single, 
+    extendedchars=true, 
+    breaklines=true,
+    breakatwhitespace=true,
+    emph={},
+    emphstyle=\color{darkblue},
+    basicstyle=\small\ttfamily,
+    columns=fullflexible,
+    commentstyle=\color{gray}\upshape,
+    morestring=[b]",
+    morecomment=[s]{<?}{?>},
+    morecomment=[s][\color{lightgray}]{<!--}{-->},
+    keywordstyle=\color{purple},
+    stringstyle=\ttfamily\color{black}\normalfont,
+    tagstyle=\color{lightblue}\bf,
+}
+
 \lstset{language=Java,frame=lines}
 \lstset{language=XML,frame=lines}
 
