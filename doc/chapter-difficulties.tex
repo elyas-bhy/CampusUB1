@@ -12,7 +12,7 @@ Le parsing des flux et des pages a donné lieu a de nouvelles difficultés, nota
 
 
 Concernant les pages HTML, nous avons dû comprendre comment étaient organisées les pages, quels étaient les éléments à entrer dans la requête afin de récupérer les événements sur une certaine durée. Nous avons utilisé \emph{Jsoup} pour extraire les éléments. Ainsi, étant donné que les pages HTML du LaBRI sont agencées d'une certaine forme, il a fallu adapter le code pour parser ces pages.
-Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les événements étaient complets. En effet, certains d’eux ne possèdent pas de titre ou aucun descriptif (voir exemple ci-dessous).
+Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les événements étaient complets, afin de ne pas encombrer l'application d'informations incompletes, voire inutilisables. En effet, certains d’eux ne possèdent pas de titre ou aucun descriptif, ou encore des informations inutilisables, voire insensées (voir exemple ci-dessous).
 
 \begin{adjustbox}{minipage=1.14\textwidth,margin=0pt \smallskipamount,center}
 \begin{lstlisting}[style=HTML, label=htmlCode]
@@ -56,7 +56,7 @@ Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les é
 \end{adjustbox}
 
 Exemple d'événement HTML sans contenu
-En rouge ce qui est extrait et en commentaire le type de donnée. Dans cet exemple il s'agit du descriptif qui est vide, alors nous ne l'affichons pas, nous avons rencontré plusieurs situations comme celle-ci, comme par exemple une date vide (qui se retraduit par la date epoch), ou encore des titres vides ou presque, voire encore des contenus insensés. Nous avons pris comme décision de ne pas afficher ce genre d'événements afin de ne pas encombrer l'application d'innformations inutilisables. \\
+Dans cet exemple il s'agit du descriptif qui est vide, alors nous ne l'affichons pas. \\
 
 Nous avons eu des difficultés avec l’utilisation de \emph{ContentProvider} pour la gestion des événements du calendrier. En effet, selon les modèles de smartphone, l’utilisation de l’API est différente à cause notamment de la surcouche logicielle ajoutée par les constructeurs. Nous avons finalement décidé d’effectuer l’import de l’emploi du temps dans le calendrier par défaut. D’autres difficultés ont également été rencontrées pour insérer tous les événements en une fois (insertion par lots, ou \emph{batch insert}). Mais après de multiples recherches et la lecture de nombreux posts sur l’excellent forum StackOverflow, nous sommes parvenu à implémenter cette fonctionnalité.
 
