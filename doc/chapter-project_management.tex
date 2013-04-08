@@ -11,6 +11,8 @@ Une fois que nous avons constaté que l’implémentation des fonctionnalités p
 Une fois les tâches secondaires finies, l’application était à un stade très avancé, tous les besoins fonctionnels  étaient achevés, il ne manquait alors plus que quelques touches de finalisation à apporter au sein des fonctionnalités principales. L’ensemble des membres de l’équipe ont alors pu contribuer à la mise au point finale.\\
 La phase finale de test a alors commencé, au sein de laquelle la répartition des tests à effectuer a été faite en fonction des tâches que chacun des membres a effectuées.
 
-\section{Tests}
-Les tests unitaires de l’application portent sur les classes. Les classes les plus importantes de l’application sont les \emph{Activity}, car elles s’occupent du fonctionnement de chaque partie de l’application (événements, annuaire, ...). Il a donc fallu tester ces classes en priorité.\\
-//TODO: Robotium
+\section{Tests Unitaires}
+Afin de s'assurer que notre code soit robuste, nous avons effectué des tests unitaires, visant a s'assurer que toutes les parties de notre code fonctionnent correctement. Nous avons déterminé que les unités les plus petites de notre projet sont les classes; les tests unitaires portent donc sur ces éléments. Les classes les plus importantes de l’application sont les \emph{Activity}, car elles s’occupent du fonctionnement de chaque partie de l’application (événements, annuaire, ...). Il a donc fallu tester ces classes en priorité.\\
+
+Pour cela, nous avons utiliser Robotium, un assistant open source pour l'élaboration de tests sous Android. Qui peut notamment simuler des clics sur l'écran, ainsi que tout autre geste nécéssaire pour tester une application Android.
+Cet outil permet également de tester la couverture du code d'une application Android, mais les bibliotheques externes ont empeché Robotium de tester la couverture de notre application.
