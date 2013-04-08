@@ -17,7 +17,8 @@ Etant donné que l'application présentera des services en commun à plusieurs �
 \end{itemize}
 
 \subsubsection{Gestion des actualités}
-En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités des établissements auxquels il est abonné. Par défaut il aura alors la possibilité de voir les événements propres aux établissements auxquels il s'est abonné. Il pourra à tout moment changer de catégorie grâce au menu des catégories [Fig.~\ref{fig:04}] depuis la même fenêtre. De plus, il peut choisir entre voir la totalité des actualités des établissements auquels il a souscrit, ou voir uniquement les actualités propres aux établissements qu'il a sélectionné dans les filtres.  [Fig.~\ref{fig:03}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:04}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
+En accédant au menu des actualités, l'utilisateur disposera d'une interface à travers laquelle il recevra le flux des actualités des établissements auxquels il est abonné. Par défaut il aura alors la possibilité de voir les événements propres aux établissements auxquels il s'est abonné. Il pourra à tout moment changer de catégorie grâce au menu des catégories [Fig.~\ref{fig:04}] depuis la même fenêtre. De plus, il peut choisir entre voir la totalité des actualités des établissements auxquels il s'est souscrit, ou voir uniquement les actualités propres aux établissements qu'il a sélectionné dans les filtres.  [Fig.~\ref{fig:03}]. L'utilisateur doit pouvoir lire l'annonce de ces événements [Fig.~\ref{fig:04}], et doit pouvoir facilement rajouter cet événement au calendrier de son smartphone (Google Calendar). Cette action redirigera l'utilisateur vers le calendrier, dans lequel l'événement sera créé avec les informations récoltées. L'utilisateur pourra donc modifier, valider ou annuler la procédure. \\
+
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -37,6 +38,7 @@ L'utilisateur doit pouvoir effectuer facilement les tâches suivantes:\\
 \item Rajouter un contact à la liste des contacts de l'utilisateur (créer un nouveau contact ou éditer existant).
 \item Envoyer un mail au contact.
 \item Appeler la personne (si un numéro de téléphone est disponible).
+\item Visiter le site web de la personne (à condition qu'il en existe un).
 \end{itemize}
 
 \wl La recherche de personnes dans l'annuaire se fera en fonction des établissements auxquels l'utilisateur s'est abonné. On pourra donc choisir grâce à un filtre entre rechercher une personne dans l'annuaire propre à un ou plusieurs établissements, ou la rechercher dans tous les annuaires.
@@ -56,8 +58,8 @@ Lors de l'ajout d'un contact, l'utilisateur sera redirigé vers la page de créa
 \end{itemize}
 
 \subsubsection{Mises à jour}
-Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion Internet est disponible. Une autre solution serait de mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait Internet limité, ou encore pour l'utilisation à l'étranger). Nous pourrions également proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais requiert une demande explicite si le réseau est de type 3G. \\
-L'application devra garder en mémoire les derniers éléments téléchargés pendant un mois après la date de l'événement (durée à revoir éventuellement). Ainsi lorsque l'on n'a pas accès à Internet, on pourra accèder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'éxécution, et potentiellement du crédit à l'utilisateur. \\
+Notre application pouvant fonctionner hors connexion, les mises à jour de flux RSS étant de type pull, il est important de proposer les mises à jour sur les flux que nous parsons. Par exemple après une longue période sans connexion nous pourrons sauter sur l'occasion de proposer des mises à jour des flux dès que l'utilisateur ouvre l'application et qu'une connexion Internet est disponible. La solution que nous avons adoptée consiste à mettre à disposition un bouton \emph{refresh} pour que l'utilisateur puisse effectuer une demande de mise à jour (option préférable pour les personnes ayant un forfait Internet limité, ou encore pour l'utilisation à l'étranger). Nous pourrions également proposer une solution intermédiaire, où l'application effectue des mises à jour régulières lorsqu'elle est connectée sur un réseau via le WiFi, mais nous avons estimé que cette fonctionnalité ne serait pas très utile sachant que les établissements en question ne proposent que rarement des mises à jour(quelques unes par semaine). Cela ne justifie donc pas le besoin d'avoir un système de mises à jour automatiques qui au lieu de faciliter l'expérience utilisateur, pourrait juste avoir des impacts sur les performances globales. En effet, faire des mises à jour trop souvent et de manière inutile fait perdre du temps à l'utilisateur et demande plus de travail de la part du CPU et mène donc à une consommation excessive de la batterie du téléphone.
+L'application devra garder en mémoire les derniers éléments téléchargés. Ainsi lorsque l'on n'a pas accès à Internet, on pourra accéder à ceux-ci. De plus, lors des mises à jour, on téléchargera uniquement les nouveaux événements. Ceci permettra à l'application d'économiser du temps d'exécution, et potentiellement du crédit à l'utilisateur. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -75,6 +77,7 @@ Dans un deuxième temps, nous comptons implémenter quelques options supplément
 \subsubsection{Abonnements et filtrage d'informations}
 Après avoir choisi lors du premier démarrage de l'application, les établissements auprès desquels l'utilisateur souhaite s'abonner~[Fig.~\ref{fig:01}], il pourra à tout moment revenir sur son choix à travers le menu des préférences.
 Il pourra également en fonction de ses abonnements actifs visualiser la totalité des informations propres à un, plusieurs ou tous les établissements grâce à un outil de filtrage. Cet outil se présente sous la forme d'un menu quasiment identique à celui du choix des abonnements et sera accessible uniquement depuis l'écran d'accueil. \\
+D'autres filtres concernant les événements seront proposés afin de permettre à l'utilisateur de maintenir une liste d'événements favoris marqués à l'aide d'une étoile qu'il pourra modifier à tout moment. Il pourra également choisir de visualiser uniquement les événements à venir, ou encore les événements non lus. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -86,7 +89,8 @@ Il pourra également en fonction de ses abonnements actifs visualiser la totalit
 \end{itemize}
 
 \subsubsection{Emploi du temps}
-L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il doit pouvoir indiquer sa filière, et éventuellement ses cours et ses groupes. \\
+L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre et l'intégrer à Google Calendar. Il devra simplement sélectionner dans la liste des emplois du temps, celui qui lui correspond. \\
+Deux autres choix lui seront également proposés: il pourra visualiser l'emploi du temps directement en ligne dans un navigateur internet, ou alors télécharger une version au format\textit{PDF} pour le stocker sur son téléphone.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -98,7 +102,9 @@ L'utilisateur étudiant doit pouvoir récupérer son emploi de temps du semestre
 \end{itemize}
 
 \subsubsection{Plan du campus}
-L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. L'utilisateur disposera des pointeurs vers les bâtiments principaux du campus. \\
+L'utilisateur pourra naviguer sur le plan du campus en utilisant Google Maps. Des pointeurs vers les bâtiments principaux du campus ainsi que vers les points de restauration à proximité seront affichés et pourront être filtrés. \\
+Un outil de recherche sera également mis à disposition de l'utilisateur et lui permettra de rapidement trouver un bâtiment, un snack, ou un service proposé aux étudiants. \\
+Le service de localisation intégré aidera également l'utilisateur à se repérer sur le campus en mettant constamment à jour sa position actuelle à l'aide des satellites GPS.
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -124,7 +130,7 @@ Nous testerons l'application sur les appareils suivants: LG Optimus 2X (P990), S
 \end{itemize}  
 
 \subsection{Besoins de fiabilité}
-Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnaissance de textes qui peuvent eux-mêmes être erronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécessite une connection à Internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité des données ne se pose pas. \\
+Etant donné que les différents services mis à disposition par CampusUB1 à ses clients s'avèrent souvent être d'un besoin professionnel, il est essentiel que les données affichées soient cohérentes et en accord avec les données d'origine. Si un chercheur du LaBRI recherche depuis notre application le numéro de la salle où a lieu sa conférence, il a tout intérêt à récupérer une information correcte. CampusUB1 ne peut tout de même pas garantir l'exactitude de toutes les informations données et ne se tient donc pas responsable d'éventuelles erreurs, sachant que l'application se base sur des algorithmes de reconnaissance de textes qui peuvent eux-mêmes être erronés d'origine. Il est évident que certaines questions de sécurité courantes se posent sachant que l'application nécessite une connexion à Internet continue, mais vu que CampusUB1 utilise uniquement des données publiques dans les services qu'elle fournit, la question de confidentialité des données ne se pose pas. \\
 
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
