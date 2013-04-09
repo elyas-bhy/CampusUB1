@@ -1,7 +1,7 @@
 \chapter{Difficultés rencontrées}
 
 Une des difficultés principales de ce projet tenait de l’apprentissage de l’API Android, et de son fonctionnement. L’API Android étant vaste, il n’était pas toujours facile de savoir si nous avions trouvé la solution optimale à un problème donné.\\
-Nous avons décidé d'utiliser un \emph{ViewPager} afin de rendre le défilement d’un événement à un autre plus ergonomique. Or pour cela il a fallu implémenter une nouvelle activité. Ceci a légèrement compliqué l'enregistrement des événements comme lus depuis cette activité. Nous avons cherché la meilleure méthode de transmettre des données d’une activité à une autre, et sommes arrivés à la sérialisation d’objets à l'aide des objets de type \emph{Intent}. Cette méthode ne nous convient guère, mais semble être le moyen le plus apte à réaliser le travail nécessaire. \\
+Nous avons décidé d'utiliser un \emph{ViewPager} afin de rendre le défilement d’un événement à un autre plus ergonomique. Or pour cela il a fallu implémenter une nouvelle activité. Ceci a légèrement compliqué l'enregistrement des événements comme lus depuis cette activité. Nous avons cherché la meilleure méthode de transmettre des données d’une activité à une autre, et sommes arrivés à la sérialisation d’objets à l'aide des objets de type \emph{Intent}. Cette méthode n'est pas forcément la solution idéale, mais semble être le moyen le plus apte à réaliser le travail nécessaire. \\
 
 Lors de l’implémentation de l’extraction des dates, nous avons rencontré des problèmes concernant l’inclusion des librairies CUP et JFlex. Les méthodes n’étaient pas reconnues au sein du projet, rendant leur utilisation impossible.
 Nous avons donc opté pour l'utilisation d'expressions régulières qui reconnaissent des dates. \\
