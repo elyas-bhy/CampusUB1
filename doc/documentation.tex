@@ -16,6 +16,9 @@
 \usepackage{textcomp}
 \usepackage{adjustbox}
 
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
 \usepackage{hyperref}
 \hypersetup{
   backref=true,
@@ -27,6 +30,7 @@
   linkcolor=black,
   citecolor=black
 }
+\definecolor{gray75}{gray}{0.75}
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{lightblue}{rgb}{0.0,0.4,0.9}
@@ -51,7 +55,6 @@
   frame=single,
   rulecolor=\color{black},
   tabsize=4,
-  captionpos=t,
   breaklines=true,
   breakatwhitespace=false,
   title=\lstname,
@@ -84,6 +87,29 @@
     morekeywords={attribute,xmlns,version,type,release},
 }
 
+
+\lstdefinestyle{HTML} {
+    language=HTML,
+    frame=single, 
+    extendedchars=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    emph={},
+    emphstyle=\color{darkblue},
+    basicstyle=\tiny\ttfamily,
+    columns=fullflexible,
+    commentstyle=\color{gray}\upshape,
+    morestring=[b]",
+    morecomment=[s]{<?}{?>},
+    morecomment=[s][\color{dkgreen}]{<!--}{-->},
+    keywordstyle=\color{purple},
+    stringstyle=\ttfamily\color{black}\normalfont,
+    tagstyle=\color{lightblue}\bf,
+}
+
 \lstset{language=Java,frame=lines}
 \lstset{language=XML,frame=lines}
 
@@ -91,6 +117,7 @@
 \def\wl{\par \vspace{\baselineskip}}
 \renewcommand{\lstlistingname}{Code}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\hsp}{\hspace{20pt}}
 
 \begin {document}
 
@@ -111,8 +138,11 @@
 \input{chapter-code_optimization}
 \input{chapter-usecases_demo}
 \input{chapter-project_management}
+\input{chapter-difficulties}
 \input{chapter-extensions}
+\input{chapter-appendix}
 
+\nocite{*}
 \bibliographystyle{unsrt}
 \bibliography{biblio}
 
