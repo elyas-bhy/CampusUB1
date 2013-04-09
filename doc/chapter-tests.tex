@@ -1,6 +1,7 @@
 \chapter{Tests et Validation}
-  
-  \subsection{Test 01: Choix de l'établissement}
+
+ 
+  \subsection*{Test 01: Choix de l'établissement}
     \begin{enumerate}
     \item Démarrer l'application pour la première fois, un menu vous sera proposé pour effectuer le choix de l'établissement~[Fig.~\ref{fig:01}].
     \item Sélectionnez les établissements auxquels vous voulez vous abonner (on peut annuler pour quitter l'application).
@@ -8,14 +9,15 @@
 
     \underline{Résultat attendu}: Vous serez redirigé vers le menu principal de l'application.
 
-  \subsection{Test 02: Maintien du choix des établissements}
+  \subsection*{Test 02: Maintien du choix des établissements}
     \begin{enumerate}
+    \item Effectuer le Test 01.
     \item Quittez l'application, et redémarrez-la.
     \end{enumerate}
 
     \underline{Résultat attendu}: L'application aura sauvegardé vos abonnements, et vous redirigera sur la page d'accueil de l'application.
 
-  \subsection{Test 03: Evénements}
+  \subsection*{Test 03: Evénements}
     \begin{enumerate}
     \item Une fois les abonnements configurés, sélectionner le menu des événements dans le menu principal~[Fig.~\ref{fig:02}].
     \end{enumerate}
@@ -26,17 +28,17 @@
     \item Sinon: Les événements ayant déjà été téléchargés sont affichés.
     \end{itemize}
 
-  \subsection{Test 04: Validité des informations extraites d'un évenement}
+  \subsection*{Test 04: Validité des informations extraites d'un événement}
     \begin{enumerate}
     \item Depuis l'accueil, appuyer sur Evénements.
     \item Naviguer dans la liste des événements.
     \item Appuyer sur un événement afin d'afficher la vue détaillée~[Fig.~\ref{fig:06}].
-    \item Appuyer sur le bouton \emph{Plus}, ou bien \emph{Menu->Ajouter}.
+    \item Appuyer sur le bouton \emph{Ajouter} dans la barre d'action.
     \end{enumerate}
 
     \underline{Résultat attendu}: Redirection vers la page de création d'événements de Google Calendar, avec les informations correspondantes à celles contenues dans l'événement.
 
-  \subsection{Test 05: Ajout d'un événement au smartphone}
+  \subsection*{Test 05: Ajout d'un événement au smartphone}
     \begin{enumerate}
     \item Effectuer le Test 04.
     \item Valider l'ajout de l'événement.
@@ -45,18 +47,14 @@
     \underline{Résultat attendu}: L'événement sera ajouté à l'agenda du téléphone.
 
 
-  \subsection{Test 06: Annuaire}
+  \subsection*{Test 06: Annuaire}
     \begin{enumerate}
     \item Sélectionner \emph{Annuaire} dans le menu d'accueil.
     \end{enumerate}
 
-    \underline{Résultats attendus}:
-    \begin{itemize}
-    \item Si l'application est connectée à Internet: on arrive sur l'écran de la~figure~\ref{fig:07}.
-    \item Sinon : un toast nous prévient qu'on est déconnecté.
-    \end{itemize}
+    \underline{Résultats attendus}: On arrive sur l'écran de la figure~\ref{fig:07}.
 
-  \subsection{Test 07: Rechercher dans l'Annuaire}
+  \subsection*{Test 07: Rechercher dans l'Annuaire}
     \begin{enumerate}
     \item Accéder à l'annuaire à partir du menu principal.
     \item Effectuer une recherche~[Fig.~\ref{fig:08}], cela affichera tous les contacts qui correspondent à la recherche, parmis les établissements auxquels l'application est abonnée.
@@ -64,67 +62,62 @@
 
     \underline{Résultat attendu}: Les résultats se réduisent à ceux qui correspondent à la recherche.
 
-  \subsection{Test 08: Validité des informations extraites}
+  \subsection*{Test 08: Validité des informations extraites}
     \begin{enumerate}
     \item Depuis l'accueil appuyer sur \emph{Annuaire}
     \item Effectuer une recherche de contact.
-    \item Effectuer une touche longue sur un contact.
-    \item Sélectionner \emph{Ajouter un nouveau contact}.
+    \item Sélectionner un contact.
+    \item Sélectionner \emph{Ajouter contact}.
     \end{enumerate}
 
-    \underline{Résultat attendu}: Redirection vers la page de création de contact, pré-remplie avec les informations correspondantes à celles contenues dans le résultat de recherche.
+    \underline{Résultat attendu}: Redirection vers le répertoire du smartphone, avec possibilité d'éditer un contact existant, ou d'en créer un nouveau. 
+    Les champs seront pré-remplis avec les informations correspondantes à celles du résultat de recherche.
 
-  \subsection{Test 09: Ajout d'un contact au téléphone}
+  \subsection*{Test 09: Ajout d'un contact au smartphone}
     \begin{enumerate}
     \item Effectuer le Test 08.
     \item Valider l'ajout/l'édition du contact
     \end{enumerate}
 
-    \underline{Résultat attendu}: Les informations se trouvent dans les contacts du téléphone.
+    \underline{Résultat attendu}: Les informations sont sauvegardées dans les contacts du smartphone.
 
-  \subsection{Test 10: Appeler un contact}
+  \subsection*{Test 10: Appeler un contact}
     \begin{enumerate}
     \item Depuis le menu d'accueil, appuyer sur \emph{Annuaire}.
+    \item Effectuer une recherche de contact.
     \item Sélectionner un contact possédant un numéro de téléphone.
-    \item Effectuer une touche longue sur un contact.
     \item Sélectionner \emph{Appeler}
     \end{enumerate}
 
-    \underline{Résultat attendu}: L'application démarrera un appel vers ce contact.
+    \underline{Résultat attendu}: Redirection vers le dialer, pré-rempli avec le numéro de téléphone du contact sélectionné.
 
-  \subsection{Test 11: Envoyer un mail à un contact}
+  \subsection*{Test 11: Envoyer un mail à un contact}
     \begin{enumerate}
     \item Depuis le menu d'accueil appuyer sur \emph{Annuaire}.
+    \item Effectuer une recherche de contact.
     \item Sélectionner un contact possédant une adresse mail.
-    \item Effectuer une touche longue sur un contact.
     \item Sélectionner \emph{Envoyer un email}
     \end{enumerate}
 
     \underline{Résultat attendu}: L'application ouvre le gestionnaire d'email du smartphone avec le destinataire rempli avec l'adresse email du contact.
 
-  \subsection{Test 12: Exporter un emploi du temps}
+  \subsection*{Test 12: Importer un emploi du temps}
     \begin{enumerate}
-    \item S'abonner à un établissement permettant l'exportation d'emplois du temps (ex: Bordeaux1).
     \item Depuis le menu d'accueil, appuyer sur \emph{Export emploi du temps}.
-    \item Sélectionner un niveau d'études~[Fig.~\ref{fig:09}].
+    \item Sélectionner un semestre d'études~[Fig.~\ref{fig:09}].
     \item Sélectionner une filière et un groupe~[Fig.~\ref{fig:10}].
-    \item Appuyer sur \emph{Exporter}
+    \item Appuyer sur \emph{Importer}
     \end{enumerate}
 
-    \underline{Résultat attendu}:
-    \begin{itemize}
-    \item Si l'application est connectée à Internet: l'emploi du temps choisi est intégré au calendrier du smartphone.
-    \item Sinon: Le test échoue dès la première étape, un toast apparait pour indiquer qu'une connexion est nécessaire.
-    \end{itemize}
+    \underline{Résultat attendu}: L'emploi du temps choisi est intégré au calendrier du smartphone.
 
-  \subsection{Test 13: Afficher le plan du campus de Bordeaux1}
+  \subsection*{Test 13: Afficher le plan du campus de Bordeaux1}
     \begin{enumerate}
-    \item S'abonner à un établissement permettant ayant un plan de campus (ex: Bordeaux1).
     \item Sélectionner \emph{Plan du Campus} dans le menu d'accueil.
     \end{enumerate}
 
     \underline{Résultat attendu}:
     \begin{itemize}
-    \item Si le GPS est activé: ouvre l'application Google Maps centrée sur le campus de Bordeaux1.
-    \item Sinon: Affiche une image du plan du campus de Bordeaux1.
+    \item Si une connexion Internet est active: ouvre l'application Google Maps centrée sur le campus de Bordeaux1.
+    \item Sinon: un message d'erreur s'affiche.
     \end{itemize}

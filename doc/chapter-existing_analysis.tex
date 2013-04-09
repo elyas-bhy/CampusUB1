@@ -2,47 +2,47 @@
 \section{Références}
 
 
-\subsection{Android Application Development}
+\subsection*{Android Application Development}
 L'ouvrage \emph{Android Application Development}~\cite{AndroidBook} est considéré comme l'une des références majeures dans le domaine du développement des applications sur Android.
 Il présente notamment l'architecture du système d'opération Android, ainsi que les différentes phases de développement des applications utilisateurs.
 
-\subsection{Site officiel de la SDK Android}
+\subsection*{Site officiel de la SDK Android}
 Le site officiel de la SDK Android~\cite{AndroidSDK} met à disposition des développeurs une panoplie d'outils et de références.
 Ce site présente ses divers services, notamment les API d'Android et autres services de Google. On y trouve aussi plusieurs domaines d'application utilisés aujourd'hui qu'on peut intégrer dans notre application.
 
-\subsection{Article sur les applications mobiles des universités}
+\subsection*{Article sur les applications mobiles des universités}
 Cet article sur les applications mobiles des universités~\cite{Article} décrit les différentes contraintes liées au développement des applications mobiles d'universités. Etant donné que les étudiants sont de plus en plus équipés de smartphones, il devient intéressant de mettre en place une application mobile qui offre divers services utiles et faciles d'accès.
 
 
 \section{Applications existantes}
 
-\subsection{uMontréal}
+\subsection*{uMontréal}
 Cette application propriétaire de l'université de Montréal~\cite{uMontreal} met à disposition de ses étudiants de nombreux services, tels que des flux d'actualités, un annuaire, un calendrier, et le plan du campus.
 
-\subsection{Plateforme Blackboard}
+\subsection*{Plateforme Blackboard}
 Cette plateforme de développement est utilisée par la majorité des applications campus mobiles aux Etats-Unis~\cite{Blackboard}. On considère par exemple iStandford~\cite{iStanford}, application Android qui présente de nombreux services (internes et externes), dans la même philosophie que l'application uMontréal.
 
-\subsection{gReader, lecteur de flux RSS}
+\subsection*{gReader, lecteur de flux RSS}
 Ce lecteur de flux RSS~\cite{gReader} offre une interface sobre et pratique pour gérer les abonnements aux flux RSS. Notre développement de l'interface graphique pourra s'inspirer du système des onglets et des toolbars de cette application.
 
-\subsection{Lecteurs de flux RSS open-source}
-Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\cite{Feedgoal} et Android-RSS~\cite{Android-RSS}. les deux étant sous license GNU GPL (v2 et v3, respectivement). On pourra étudier s'il est rentable de reprendre quelques modules, ou de repartir sur notre propre base.
+\subsection*{Lecteurs de flux RSS open-source}
+Il existe déjà plusieurs lecteurs de flux RSS open-source, tels que Feedgoal~\cite{Feedgoal} et Android-RSS~\cite{Android-RSS}. les deux étant sous licence GNU GPL (v2 et v3, respectivement). On pourra étudier s'il est rentable de reprendre quelques modules, ou de repartir sur notre propre base.
 
 
 \section{Ressources existantes}
 
-\subsection{LDAP}
+\subsection*{LDAP}
 Le protocole LDAP est une ressource potentiellement importante à la conception de notre application, notamment pour la mise en oeuvre de l'annuaire. LDAP signifie Lightweight Directory Access Protocol; c'est donc un protocole conçu uniquement pour les annuaires, et les annuaires du LaBRI et de Bordeaux1 s'avèrent être conformes aux normes LDAP.
 Ce sera donc une des technologies importantes à explorer afin de réaliser une réponse robuste au parsage de l'annuaire du LaBRI.\\
-Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au travers du protocole LDAP; cependant nous avons trouvé une page d'aide sur un forum du LaBRI\cite{labriForum} qui pourrait donner une solution éventuelle.
+Nous nous sommes posés la question de l'accessibilité de l'annuaire venant de l'extérieur, au travers du protocole LDAP; cependant nous allons uniquement utiliser le protocole LDAP pour Bordeaux1 sachant que le serveur LDAP du LaBRI est inaccessible depuis l'extérieur sans passer par un système d'authentification sécurisée.
 
-\subsection{HTTP/HTML}
+\subsection*{HTTP/HTML}
 Une alternative au protocole LDAP serait d'effectuer des requêtes HTTP, afin de parser des pages HTML. Cette méthode pourrait répondre aux besoins de parser les annuaires dont il en est question, si jamais nous ne pouvons nous reposer sur le LDAP. Le problème posé par cette méthode repose dans la robustesse de la solution. C'est-à-dire qu'un changement de l'implémentation des pages (changement/mise à jour des balises, ou même un changement de forme) pourrait rendre l'application inutilisable. L'utilisation de cette méthode demande énormément de travail de généricité du parsage des pages.
 Ceci pose plusieurs problèmes, notamment sur l'imprévisibilité des changements potentielles dans les pages. Il est impossible de prévoir à 100\% les modifications qui pourraient avoir lieu sur les pages, et donc l'application pourrait rapidement devenir inutilisable. Il sera nécessaire de s'inspirer voire de réutiliser certains codes de web crawlers open source afin d'assurer d'avoir une application aussi robuste qu'elle puisse l'être en parsant des pages HTML.
 
 
-\subsection{Analyse textuelle}
-Au cours de l'implémentation de cette application, nous pourrions être amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc peut-être tenter d'extraire des dates des textes disponibles. Celà pose plusieurs problèmes:
+\subsection*{Analyse textuelle}
+Au cours de l'implémentation de cette application, nous serons amenés à effectuer de l'analyse textuelle sur des textes afin d'en extraire les informations dont nous avons besoin, par exemple si une date n'est pas au sein d'une balise facilement repérable/exploitable. Il faudra donc tenter d'extraire des dates des textes disponibles. Cela pose plusieurs problèmes:
 \begin{itemize}
 \renewcommand{\labelitemi}{$\bullet$}
   \item Le texte peut faire référence à un événement passé, simplement à titre informatif, auquel cas, une date extraite n'aurait pas nécessairement de valeur à l'exploitation avec notre application.
@@ -71,5 +71,5 @@ Il sera donc possible de comparer les dates et horaires extraites par analyse te
 
 \wl Sur cet exemple, l'heure qui apparait dans la balise \emph{pubDate} ne correspond pas à celle de l'événement; il va donc falloir analyser la description pour essayer de trouver l'horaire correspondant (ici 18h). \\
 
-Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda. Il sera donc parfois nécessaire de créer un menu qui s'ouvre automatiquement afin de proposer les dates qui ont été détectées par notre algorithme, et qui donne la possibilité à l'utilisateur de saisir sa propre date (ainsi on réduit de manière conséquente la marge d'erreur sur l'entrée finalisée dans l'agenda).
-\wl Il existe plusieurs outils utiles à l'implémentation d'une solution à ces problèmes, notamment des outils de parsing comme JFlex et CUP qui, d'après un livre d'Android~\cite{ProgAndroid} reste une solution possible. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Ces outils cumulés avec les informations extraites d'un livre d'analyse textuelle~\cite{analyseTextuelle} sur l'extraction d'information pourront nous permettre de mettre en place une solution efficace à ce problème.\\
+Etant donné ces problèmes, nous devrons surement trouver une approximation au problème, car nous ne pourrons proposer la bonne date à chaque fois qu'un utilisateur souhaite ajouter un élément à son agenda.\\
+Il existe plusieurs outils utiles à l'implémentation d'une solution à ces problèmes, notamment des outils de parsing comme JFlex et CUP qui, d'après un livre d'Android~\cite{ProgAndroid} reste une solution possible. Ces outils ressortent pour nous, car leur utilisation nous est déjà familière. Ces outils cumulés avec les informations extraites d'un livre d'analyse textuelle~\cite{analyseTextuelle} sur l'extraction d'information pourront nous permettre de mettre en place une solution efficace à ce problème.\\
