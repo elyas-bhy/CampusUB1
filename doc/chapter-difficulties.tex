@@ -9,7 +9,7 @@ Nous avons donc opté pour l'utilisation d'expressions régulières qui reconnai
 En ce qui concerne les événements, nous avons dû faire comme prévu, deux récupérations d’information différentes, le parsing des flux RSS et le parsing des pages HTML.
 Le parsing des flux et des pages a donné lieu à de nouvelles difficultés, notamment concernant les dates. Puisque beaucoup d'événements avaient la mauvaise date, voire même aucune date, nous avons dû essayer de déterminer la date correcte à partir du texte de l'événement. \\
 
-Concernant les pages HTML, nous avons dû comprendre comment étaient organisées les pages, quels étaient les éléments à entrer dans la requête afin de récupérer les événements sur une certaine durée. Nous avons utilisé \emph{Jsoup} pour extraire les éléments. Ainsi, étant donné que les pages HTML du LaBRI sont agencées d'une certaine forme, il a fallu adapter le code pour parser ces pages.
+Concernant les pages HTML, nous avons dû comprendre comment étaient organisées celles-ci, quels étaient les éléments à entrer dans la requête afin de récupérer les événements sur une certaine durée. Nous avons utilisé \emph{Jsoup} pour extraire les éléments. Ainsi, étant donné que les pages HTML du LaBRI sont agencées d'une certaine forme, il a fallu adapter le code pour parser ces pages.
 Bien que la tâche ne nous fut pas incombée, nous voulions vérifier que les événements étaient complets, afin de ne pas encombrer l'application d'informations incompletes, voire inutilisables. En effet, certains d’eux ne possèdent pas de titre ou de descriptif, ou encore contiennent des informations inutilisables, voire insensées (voir exemple ci-dessous).
 
 \begin{adjustbox}{minipage=1.0\textwidth, margin=0pt \smallskipamount, center}
