@@ -224,7 +224,7 @@ public class MapActivity extends Activity implements LocationListener {
 	 * and calculates last known position
 	 */
 	public void setupLocationServices() {	
-		if(!isGpsEnabled())
+		if (!isGpsEnabled())
 			Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT).show();
 
 		// Register listeners	
@@ -232,9 +232,13 @@ public class MapActivity extends Activity implements LocationListener {
 
 		// Initially use network provider
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		double latitude = location.getLatitude();
-		double longitude = location.getLongitude();
-		LatLng currentPosition = new LatLng(latitude, longitude);
+		
+		LatLng currentPosition;
+		if (location != null) {
+			currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+		} else {
+			currentPosition = MAP_CENTER;
+		}
 
 		mCurrentLocation = mMap.addMarker(new MarkerOptions()
 		.position(currentPosition)
